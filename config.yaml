@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# config.yaml — standardinnstillinger for LLMClient
+#
+# NB: Denne filen styrer IKKE hvilke modeller som deltar i benchmarken.
+# Det gjøres i CONTESTANTS-lista øverst i haakonbench.py.
+# config.yaml brukes bare av llm_client.py direkte (f.eks. python llm_client.py).
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── Standardleverandør ────────────────────────────────────────────────────
+# Hvilken leverandør som brukes når du kaller LLMClient() uten argumenter.
+# Alternativer: anthropic | openai | google | xai
+provider: anthropic
+
+
+# ── Standardmodell ────────────────────────────────────────────────────────
+# Brukes sammen med provider over.
+#
+# Anthropic-modeller:
+#   claude-opus-4-7        — flaggskip, mest kapabel
+#   claude-sonnet-4-6      — anbefalt balanse mellom hastighet og kvalitet
+#   claude-haiku-4-5       — raskest og billigst
+#
+# OpenAI-modeller:
+#   gpt-5.5                — flaggskip, sterk resonnering
+#   gpt-5.4                — forrige flaggskip
+#   gpt-5.4-mini           — rask og billig
+#   gpt-5.4-nano           — billigst, kun API
+#
+# Google-modeller:
+#   gemini-3.5-flash       — anbefalt, rask, GA mai 2026
+#   gemini-3.1-pro-preview — mest kapabel, fortsatt preview
+#
+# xAI-modeller:
+#   grok-4.3               — nåværende flaggskip
+#   grok-4.20              — forrige flaggskip
+model: claude-sonnet-4-6
+
+
+# ── Parallellisering ──────────────────────────────────────────────────────
+# Maks antall samtidige API-kall.
+# Hold lavt for å unngå rate limits. Anbefalt: 3–10.
+workers: 5
+
+
+# ── Genereringsinnstillinger ──────────────────────────────────────────────
+# max_tokens: maks lengde på svaret.
+#   For OpenAI/Grok reasoning-modeller (gpt-5+, grok-4+): sett gjerne 4000+
+#   siden noen tokens brukes til intern resonnering før synlig output.
+# temperature: kreativitet/variasjon. 0 = deterministisk, 1 = maks variasjon.
+max_tokens: 4096
+temperature: 0.7

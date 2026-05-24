@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoW Classic Fishing Strategy — Level 60 Alliance Warrior</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #f0c040;
+      --gold-dim: #b8962e;
+      --gold-glow: #ffd54f;
+      --bg-dark: #0a0e1a;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2332;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --alliance-blue: #3b82f6;
+      --alliance-dark: #1e3a5f;
+      --green: #22c55e;
+      --red: #ef4444;
+      --orange: #f97316;
+      --purple: #a855f7;
+      --cyan: #06b6d4;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Subtle background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(240,192,64,0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    header .faction-badge {
+      display: inline-block;
+      background: var(--alliance-dark);
+      color: var(--alliance-blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(59,130,246,0.3);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(240,192,64,0.15);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+    }
+
+    header .specs {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    header .spec {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    header .spec strong {
+      color: var(--gold-dim);
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 3rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    p, li {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    /* ── Location Cards ── */
+    .location-grid {
+      display: grid;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .location-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .location-card:hover {
+      border-color: var(--gold-dim);
+      background: var(--bg-card-hover);
+    }
+
+    .location-card.recommended {
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 20px rgba(240,192,64,0.07);
+    }
+
+    .location-card .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .location-card .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .location-card .card-title .zone {
+      color: var(--text-dim);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .badge-gold {
+      background: rgba(240,192,64,0.15);
+      color: var(--gold);
+      border: 1px solid rgba(240,192,64,0.3);
+    }
+
+    .badge-green {
+      background: rgba(34,197,94,0.12);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.25);
+    }
+
+    .badge-orange {
+      background: rgba(249,115,22,0.12);
+      color: var(--orange);
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    .badge-blue {
+      background: rgba(59,130,246,0.12);
+      color: var(--alliance-blue);
+      border: 1px solid rgba(59,130,246,0.25);
+    }
+
+    .safety-meter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .safety-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .safety-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .safety-dot.filled-green { background: var(--green); }
+    .safety-dot.filled-orange { background: var(--orange); }
+
+    .fish-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+
+    .fish-tag {
+      background: rgba(6,182,212,0.08);
+      border: 1px solid rgba(6,182,212,0.2);
+      color: var(--cyan);
+      padding: 0.25rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+
+    .gold-estimate {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(240,192,64,0.06);
+      border: 1px solid rgba(240,192,64,0.15);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.25rem 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    thead {
+      background: rgba(240,192,64,0.06);
+    }
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--gold-dim);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    td.action-sell { color: var(--gold); font-weight: 600; }
+    td.action-cook { color: var(--green); font-weight: 600; }
+    td.action-vendor { color: var(--text-dim); }
+
+    /* ── Time Strategy ── */
+    .time-blocks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    @media (max-width: 600px) {
+      .time-blocks { grid-template-columns: 1fr; }
+    }
+
+    .time-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .time-block .time-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .time-block.day .time-label { color: var(--gold); }
+    .time-block.night .time-label { color: var(--purple); }
+
+    .time-block .time-range {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Checklist ── */
+    .checklist {
+      list-style: none;
+      margin: 1rem 0;
+    }
+
+    .checklist li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .checklist li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--gold-dim);
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .checklist li strong { color: #fff; }
+
+    /* ── TLDR Box ── */
+    .tldr {
+      background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(59,130,246,0.06));
+      border: 1px solid var(--gold-dim);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-top: 2.5rem;
+    }
+
+    .tldr h2 {
+      border: none;
+      margin: 0 0 0.75rem;
+      padding: 0;
+      font-size: 1.25rem;
+    }
+
+    .tldr p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .tldr strong { color: #fff; }
+
+    /* ── Season Alert ── */
+    .season-alert {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .season-alert .icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .season-alert .text {
+      font-size: 0.9rem;
+      color: var(--green);
+    }
+
+    .season-alert .text strong { color: #fff; }
+
+    /* ── Summary Table ── */
+    .summary-table td:nth-child(3),
+    .summary-table td:nth-child(4) {
+      white-space: nowrap;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 3rem 0 1rem;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="faction-badge">Alliance — PvP Survival Guide</div>
+    <h1>Fishing for Gold</h1>
+    <p>A level 60 Human Warrior's guide to safe, profitable fishing in WoW Classic</p>
+    <div class="specs">
+      <span class="spec"><strong>300</strong> Fishing</span>
+      <span class="spec"><strong>300</strong> Cooking</span>
+      <span class="spec"><strong>60</strong> Warrior</span>
+      <span class="spec">Human &middot; Alliance</span>
+    </div>
+  </header>
+
+  <!-- Season Alert -->
+  <div class="season-alert">
+    <span class="icon">&#10052;</span>
+    <div class="text">
+      <strong>Winter Squid is in season!</strong> (Sept 23 &ndash; March 20). This is the most profitable fishing season. Capitalize on it now &mdash; Grilled Squid (+10 Agility) sells fast to rogues and hunters.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <h2>Top Fishing Locations</h2>
+  <p>Ranked by the balance of safety and gold per hour. All are coastal/saltwater spots where you can park and cast without moving.</p>
+
+  <div class="location-grid">
+
+    <!-- Location 1 -->
+    <div class="location-card recommended">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Feathermoon Stronghold Docks <span class="zone">&mdash; Feralas</span></div>
+        </div>
+        <span class="badge badge-gold">Recommended</span>
+      </div>
+      <div class="safety-meter">
+        Safety:
+        <span class="safety-dots">
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+        </span>
+        Excellent &mdash; Alliance island town, Horde must take a boat to reach you
+      </div>
+      <p>Your default "AFK-safe" spot. Park on the dock, cast into the ocean, and you're protected by guards and geography. The island location gives you ample warning if Horde approach.</p>
+      <ul class="fish-list">
+        <li class="fish-tag">Stonescale Eel</li>
+        <li class="fish-tag">Winter Squid</li>
+        <li class="fish-tag">Raw Glossy Mightfish</li>
+        <li class="fish-tag">Lightning Eel</li>
+      </ul>
+      <div class="gold-estimate">Estimated: 15 &ndash; 30g / hour</div>
+    </div>
+
+    <!-- Location 2 -->
+    <div class="location-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Theramore Docks <span class="zone">&mdash; Dustwallow Marsh</span></div>
+        </div>
+        <span class="badge badge-blue">Alliance</span>
+      </div>
+      <div class="safety-meter">
+        Safety:
+        <span class="safety-dots">
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot filled-green"></span>
+          <span class="safety-dot"></span>
+        </span>
+        Good &mdash; Alliance town with guards, but mainland-connected
+      </div>
+      <p>Solid backup if Feathermoon is being camped. Same coastal catches. Slightly more exposed since Horde can approach overland, but guards will fight for you.</p>
+      <ul class="fish-list">
+        <li class="fish-tag">Stonescale Eel</li>
+        <li class="fish-tag">Winter Squid</li>
+        <li class="fish-tag">Raw Glossy Mightfish</li>
+        <li class="fish-tag">Lightning Eel</li>
+      </ul>
+      <div class="gold-estimate">Estimated: 15 &ndash; 25g / hour</div>
+    </div>
+
+    <!-- Location 3 -->
+    <div class="location-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Bay of Storms <span class="zone">&mdash; Azshara (NE Coast)</span></div>
+        </div>
+        <span class="badge badge-orange">Contested</span>
+      </div>
+      <div class="safety-meter">
+        Safety:
+        <span class="safety-dots">
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot"></span>
+          <span class="safety-dot"></span>
+        </span>
+        Moderate &mdash; Contested but extremely remote, few players travel here
+      </div>
+      <p>The far northeast coastline is one of the most remote places in the game. No nearby Horde flight path. Slightly better Stonescale Eel catch rates. Best during off-peak hours or on low-pop servers.</p>
+      <ul class="fish-list">
+        <li class="fish-tag">Stonescale Eel</li>
+        <li class="fish-tag">Winter Squid</li>
+        <li class="fish-tag">Raw Glossy Mightfish</li>
+        <li class="fish-tag">Lightning Eel</li>
+      </ul>
+      <div class="gold-estimate">Estimated: 20 &ndash; 35g / hour</div>
+    </div>
+
+    <!-- Location 4 -->
+    <div class="location-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Steamwheedle Port <span class="zone">&mdash; Tanaris</span></div>
+        </div>
+        <span class="badge badge-orange">Neutral</span>
+      </div>
+      <div class="safety-meter">
+        Safety:
+        <span class="safety-dots">
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot filled-orange"></span>
+          <span class="safety-dot"></span>
+          <span class="safety-dot"></span>
+        </span>
+        Moderate &mdash; Goblin guards punish PvP aggressors, but not foolproof
+      </div>
+      <p>Neutral goblin town with guards. Conveniently close to Gadgetzan for quick AH runs. A geared Horde player can still burst you down and eat the guard death, but most won't bother.</p>
+      <ul class="fish-list">
+        <li class="fish-tag">Stonescale Eel</li>
+        <li class="fish-tag">Winter Squid</li>
+        <li class="fish-tag">Raw Glossy Mightfish</li>
+        <li class="fish-tag">Lightning Eel</li>
+      </ul>
+      <div class="gold-estimate">Estimated: 15 &ndash; 25g / hour</div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <h2>What to Sell vs. Cook</h2>
+  <p>Your 300 Cooking skill is key to maximizing profit. Some fish are worth more raw, others gain significant value when cooked.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fish</th>
+          <th>Action</th>
+          <th>Result</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Stonescale Eel</td>
+          <td class="action-sell">Sell RAW</td>
+          <td>&mdash;</td>
+          <td>Alchemists need Stonescale Oil for Flask of the Titans. Raw price beats any cooked value.</td>
+        </tr>
+        <tr>
+          <td>Winter Squid</td>
+          <td class="action-cook">Cook &rarr; Sell</td>
+          <td>Grilled Squid (+10 Agi)</td>
+          <td>Rogues and hunters buy these constantly for raids and PvP. Cooked value significantly higher.</td>
+        </tr>
+        <tr>
+          <td>Raw Glossy Mightfish</td>
+          <td class="action-cook">Cook &rarr; Sell</td>
+          <td>Mightfish Steak (+10 Sta)</td>
+          <td>Tanks want these for raid preparation. Cooking adds solid value.</td>
+        </tr>
+        <tr>
+          <td>Nightfin Snapper</td>
+          <td class="action-cook">Cook &rarr; Sell</td>
+          <td>Nightfin Soup (+8 mp5)</td>
+          <td>Healers and casters love this. Only from freshwater at night.</td>
+        </tr>
+        <tr>
+          <td>Lightning Eel</td>
+          <td class="action-sell">Sell RAW</td>
+          <td>&mdash;</td>
+          <td>Rare alchemy reagent. Sells well as-is.</td>
+        </tr>
+        <tr>
+          <td>Everything else</td>
+          <td class="action-vendor">Vendor</td>
+          <td>&mdash;</td>
+          <td>Not worth the AH listing fees. Vendor for a few silver each.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <h2>Time of Day Strategy</h2>
+  <p>Coastal fish (Stonescale Eel, Winter Squid, Mightfish) are available 24/7 from saltwater. But if you're willing to make <strong>one move</strong> per session, a night rotation can boost profits.</p>
+
+  <div class="time-blocks">
+    <div class="time-block day">
+      <div class="time-label">Daytime &mdash; 06:00 &ndash; 18:00 Server</div>
+      <div class="time-range">Stay coastal at Feathermoon docks</div>
+      <p>Target: Stonescale Eel, Winter Squid, Mightfish. Your full standard rotation.</p>
+    </div>
+    <div class="time-block night">
+      <div class="time-label">Nighttime &mdash; 18:00 &ndash; 06:00 Server</div>
+      <div class="time-range">Option: move to Feralas inland lake</div>
+      <p>Target: Nightfin Snapper (cook into Nightfin Soup). Popular with healers. Only spawns from freshwater at night.</p>
+    </div>
+  </div>
+  <p>If you refuse to move at all, <strong>stay coastal full-time</strong>. The gold/hour is solid around the clock.</p>
+
+  <!-- ════════════════════════════════════════ -->
+  <h2>Gold/Hour Summary</h2>
+
+  <div class="table-wrap">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Zone</th>
+          <th>Safety</th>
+          <th>Est. Gold/Hour</th>
+          <th>Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Feathermoon Stronghold</strong></td>
+          <td>Feralas</td>
+          <td style="color: var(--green)">Excellent</td>
+          <td style="color: var(--gold)">15 &ndash; 30g</td>
+          <td>AFK safety, consistent income</td>
+        </tr>
+        <tr>
+          <td><strong>Theramore</strong></td>
+          <td>Dustwallow</td>
+          <td style="color: var(--green)">Good</td>
+          <td style="color: var(--gold)">15 &ndash; 25g</td>
+          <td>Backup if Feathermoon is camped</td>
+        </tr>
+        <tr>
+          <td><strong>Bay of Storms</strong></td>
+          <td>Azshara</td>
+          <td style="color: var(--orange)">Moderate</td>
+          <td style="color: var(--gold)">20 &ndash; 35g</td>
+          <td>Off-peak hours, low-pop servers</td>
+        </tr>
+        <tr>
+          <td><strong>Steamwheedle Port</strong></td>
+          <td>Tanaris</td>
+          <td style="color: var(--orange)">Moderate</td>
+          <td style="color: var(--gold)">15 &ndash; 25g</td>
+          <td>Near Gadgetzan AH</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem;">
+    Estimates assume open-water fishing (stationary, no pool-hopping), Winter Squid season, and a mid-population server. Stonescale Eel prices spike during progression phases when guilds are buying flasks.
+  </p>
+
+  <!-- ════════════════════════════════════════ -->
+  <h2>Gear &amp; Consumables Checklist</h2>
+
+  <ul class="checklist">
+    <li><strong>Fishing Pole:</strong> Big Iron Fishing Pole (+100) or Arcanite Fishing Rod (+35). With 300 base, you won't miss casts, but higher skill slightly boosts rare catch rates.</li>
+    <li><strong>Lure:</strong> Aquadynamic Fish Attractor (+100 for 5 min). Buy stacks from engineering suppliers.</li>
+    <li><strong>Cooking Supplies:</strong> Carry plenty of Simple Wood and Flint &amp; Tinder to cook on the spot.</li>
+    <li><strong>AH Strategy:</strong> List fish in stacks of 5 and 20 for maximum sales. Raid nights (Tues/Wed) see highest demand.</li>
+    <li><strong>Bag Space:</strong> Bring empty bags. Fishing generates a lot of items per hour.</li>
+  </ul>
+
+  <!-- ════════════════════════════════════════ -->
+  <div class="tldr">
+    <h2>Quick Start</h2>
+    <p>
+      Go to <strong>Feathermoon Stronghold in Feralas</strong> right now. Stand on the dock. Fish into the ocean.
+      Cook Winter Squid into <strong>Grilled Squid</strong> and Mightfish into <strong>Mightfish Steak</strong>.
+      Sell <strong>Stonescale Eel raw</strong> on the AH. List everything in stacks of 5 and 20.
+      Winter Squid season ends around <strong>March 20</strong> &mdash; you have a few weeks of peak profit left.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  WoW Classic Fishing Strategy &mdash; Human Warrior, Alliance
+</footer>
+
+</body>
+</html>
