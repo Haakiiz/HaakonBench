@@ -1,0 +1,359 @@
+# wow_reference.yaml — Verifisert WoW Classic (patch 1.12) fishing-fakta
+#
+# Brukes av graderen som ground truth for faktasjekk.
+# Fyll inn det du vet er korrekt. Ufullstendige oppføringer er OK —
+# graderen merker ukjente påstander som 'unverifiable' i stedet for å kalle dem feil.
+#
+# Format:
+#   ingredients: liste over "Nx Item Name"
+#   buff: tekst beskrivelse av buffet (vær presis)
+#   buff_duration: varighet i minutter
+#   skill_required: minimum Cooking skill for å lage retten
+#   recipe_source: "Vendor: Navn, Sted" | "Drop: beskrivelse" | "Quest: navn"
+
+cooking_recipes:
+
+  - name: "Nightfin Soup"
+    ingredients:
+      - "1x Raw Nightfin Snapper"
+      - "1x Refreshing Spring Water"
+    buff: "+8 Mana per 5 seconds"
+    buff_duration: "10 min"
+    skill_required: 250
+    recipe_source: "Vendor: Gikkix, Steamwheedle Port, Tanaris"
+
+  - name: "Mightfish Steak"
+    ingredients:
+      - "1x Large Raw Mightfish"
+      - "1x Hot Spices"
+    buff: "+10 Stamina, +10 Spirit"
+    buff_duration: "10 min"
+    skill_required: 175
+    recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
+
+  - name: "Grilled Squid"
+    ingredients:
+      - "1x Winter Squid"
+      - "1x Mild Spices"
+    buff: "+10 Agility"
+    buff_duration: "10 min"
+    skill_required: 240
+    recipe_source: "Vendor: Gikkix, Steamwheedle Port, Tanaris"
+
+  - name: "Savory Deviate Delight"
+    ingredients:
+      - "1x Deviate Fish"
+      - "1x Mild Spices"
+    buff: "Random: pirate or ninja costume transformation"
+    buff_duration: "60 min"
+    skill_required: 85
+    recipe_source: "World drop (rare, mainly Barrens)"
+    notes: "Highly valuable on AH due to novelty. Not a stat food."
+
+  - name: "Baked Salmon"
+    ingredients:
+      - "1x Raw Whitescale Salmon"
+      - "1x Soothing Spices"
+    buff: "+12 Stamina, +12 Spirit"
+    buff_duration: "15 min"
+    skill_required: 275
+    recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
+
+  - name: "Filet of Redgill"
+    ingredients:
+      - "1x Raw Redgill"
+      - "1x Mild Spices"
+    buff: "+10 Stamina"
+    buff_duration: "10 min"
+    skill_required: 175
+    recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
+    notes: "IS a real Classic recipe — often claimed not to exist."
+
+  - name: "Hot Wolf Ribs"
+    ingredients:
+      - "1x Lean Wolf Flank"
+      - "1x Hot Spices"
+    buff: "+12 Spirit"
+    buff_duration: "10 min"
+    skill_required: 175
+    recipe_source: "Vendor"
+
+  - name: "Undermine Clam Chowder"
+    ingredients:
+      - "1x Zesty Clam Meat"
+    buff: "+8 Stamina, +8 Spirit"
+    buff_duration: "10 min"
+    skill_required: 175
+    recipe_source: "Vendor: Kelsey Yance, Booty Bay"
+    notes: "Zesty Clam Meat from clams found via fishing (e.g. Tanaris, STV)"
+
+  # --- FYLL INN FLERE HER ---
+  # Eksempel:
+  # - name: "..."
+  #   ingredients:
+  #     - "1x ..."
+  #   buff: "..."
+  #   buff_duration: "10 min"
+  #   skill_required: 0
+  #   recipe_source: "..."
+
+
+fish:
+
+  - name: "Raw Nightfin Snapper"
+    time_restriction: "Night only — 6:00 PM to 6:00 AM server time"
+    zones:
+      - "Moonglade (Lake Elune'ara)"
+      - "Azshara"
+      - "Feralas (Jademir Lake, Sardor Isle)"
+      - "Felwood"
+      - "Un'Goro Crater"
+      - "Winterspring"
+      - "Western Plaguelands"
+      - "Eastern Plaguelands"
+    fishing_skill_required: 205
+    notes: "Paired with Refreshing Spring Water for Nightfin Soup."
+
+  - name: "Raw Sunscale Salmon"
+    time_restriction: "Day only — 6:00 AM to 6:00 PM server time"
+    zones:
+      - "Moonglade"
+      - "Feralas"
+      - "Azshara"
+    fishing_skill_required: 205
+    notes: "Day equivalent of Nightfin Snapper. Less demand."
+
+  - name: "Winter Squid"
+    time_restriction: "Seasonal — September 23 to March 19 (real-world calendar)"
+    zones:
+      - "Azshara (Bay of Storms)"
+      - "Tanaris"
+      - "Feralas"
+    fishing_skill_required: 330
+    notes: "Season-only. Companion to Grilled Squid (+10 Agi). Very valuable during raid season."
+
+  - name: "Stonescale Eel"
+    time_restriction: "Night only — best in coastal zones at night"
+    zones:
+      - "Azshara"
+      - "Tanaris"
+      - "Stranglethorn Vale (coast)"
+      - "Feathermoon Stronghold area (Feralas)"
+    fishing_skill_required: 305
+    notes: "Used in Flask of the Titans and Greater Stoneshield Potion. Alchemist demand."
+
+  - name: "Large Raw Mightfish"
+    zones:
+      - "Azshara"
+      - "Tanaris"
+      - "Feralas"
+    fishing_skill_required: 305
+
+  - name: "Deviate Fish"
+    zones:
+      - "Wailing Caverns (instance — fishable inside)"
+      - "The Barrens (Oasis lakes: Lushwater Oasis, The Forgotten Pools, Stagnant Oasis)"
+    fishing_skill_required: 1
+    notes: "Very valuable for Savory Deviate Delight recipe. Instance farming is safe."
+
+  - name: "Oily Blackmouth"
+    zones:
+      - "Most coastal/lake zones level 10–40"
+      - "Darkshore, Westfall, Redridge, Wetlands"
+    fishing_skill_required: 1
+    notes: "NOT the same as Blackmouth Oil. Oil is the alchemy product FROM this fish."
+
+  - name: "Firefin Snapper"
+    zones:
+      - "Hillsbrad Foothills"
+      - "Wetlands"
+      - "Stranglethorn Vale"
+    fishing_skill_required: 1
+    notes: "Used for Fire Oil (alchemy). Moderate value."
+
+  - name: "Raw Whitescale Salmon"
+    zones:
+      - "Azshara"
+      - "Felwood"
+      - "Silithus"
+    fishing_skill_required: 300
+
+  # --- FYLL INN FLERE HER ---
+
+
+zones:
+
+  - name: "Moonglade"
+    faction_safety: "Sanctuary — safe for both factions (guards attack hostiles)"
+    pvp_risk: "None"
+    notable_fish:
+      - "Raw Nightfin Snapper (night)"
+      - "Raw Sunscale Salmon (day)"
+    notable_spots:
+      - "Lake Elune'ara — dock near Nighthaven village"
+    fishing_skill_effective: "~300 recommended"
+    access_notes: "Accessible via Teleport: Moonglade (Druid) or flight path. Warriors cannot teleport — need to fly or walk through Felwood."
+
+  - name: "Azshara"
+    faction_safety: "Contested"
+    pvp_risk: "Medium (sparse population, but flagged PvP)"
+    notable_fish:
+      - "Stonescale Eel (night)"
+      - "Winter Squid (Bay of Storms)"
+      - "Large Raw Mightfish"
+      - "Raw Nightfin Snapper (night)"
+    notable_spots:
+      - "Bay of Storms — large bay in southeast Azshara, ruins in water"
+      - "Ruins of Eldarath (northern coast)"
+    fishing_skill_effective: "300+ required, 425 effective to avoid escapees"
+
+  - name: "Feralas"
+    faction_safety: "Contested (Alliance-leaning — Feathermoon Stronghold nearby)"
+    pvp_risk: "Low (remote area)"
+    notable_fish:
+      - "Raw Nightfin Snapper (night)"
+      - "Stonescale Eel"
+      - "Large Raw Mightfish"
+    notable_spots:
+      - "Jademir Lake — inland lake, real location"
+      - "Feathermoon Stronghold docks (Isle of Dread)"
+      - "Sardor Isle coast"
+    fishing_skill_effective: "300+"
+
+  - name: "Moonglade (Felwood route)"
+    faction_safety: "Safe once in Moonglade"
+    notes: "Warriors access Moonglade by traveling through Felwood (hostile mobs, manageable at 60)"
+
+  - name: "Wailing Caverns"
+    faction_safety: "Instance — completely safe"
+    pvp_risk: "None"
+    notable_fish:
+      - "Deviate Fish (very high concentration)"
+    notes: "Fishing inside the instance is a legitimate Classic tactic. No competition, no PvP."
+
+  - name: "Stranglethorn Vale"
+    faction_safety: "Contested"
+    pvp_risk: "High (famous for ganking)"
+    notable_spots:
+      - "Booty Bay docks (relatively safe near guards)"
+      - "Eastern coast"
+
+
+
+known_fake_locations:
+  - "Lake Shire (Ashenvale) — does not exist"
+  - "Blackwood Lake (Ashenvale) — does not exist as a named fishable location"
+  - "Charred Vale Lake (Stonetalon) — Charred Vale is a burned area, no fishing lake"
+  - "Crystalvale (anywhere) — does not exist in Classic"
+
+
+vendors:
+
+  - name: "Gikkix"
+    location: "Steamwheedle Port, Tanaris (39, 27 approx)"
+    sells:
+      - "Recipe: Nightfin Soup (skill 250)"
+      - "Recipe: Grilled Squid (skill 240)"
+      - "Recipe: Hot Smoked Bass"
+    notes: "Goblin vendor, friendly to both factions."
+
+  - name: "Kelsey Yance"
+    location: "Booty Bay, Stranglethorn Vale (inside the inn area)"
+    sells:
+      - "Recipe: Mightfish Steak (skill 175)"
+      - "Recipe: Baked Salmon (skill 275)"
+      - "Recipe: Filet of Redgill (skill 175)"
+      - "Recipe: Undermine Clam Chowder"
+
+  # --- FYLL INN FLERE HER ---
+
+
+items_and_clarifications:
+
+  - name: "Blackmouth Oil"
+    type: "Alchemy reagent / crafted item"
+    notes: >
+      Blackmouth Oil is NOT a fish. It is crafted by alchemists from Oily Blackmouth (the fish).
+      Common LLM error: calling 'Blackmouth Oil' a fish species.
+
+  - name: "Oily Blackmouth"
+    type: "Fish"
+    notes: "The actual fish. Oily Blackmouth → Blackmouth Oil (alchemy)."
+
+  - name: "Aquadynamic Fish Attractor"
+    type: "Fishing lure (consumable)"
+    bonus: "+100 Fishing skill"
+    duration: "5 minutes"
+    notes: "Duration is 5 minutes, NOT 10 minutes."
+
+  - name: "Bright Baubles"
+    type: "Fishing lure (consumable)"
+    bonus: "+75 Fishing skill"
+    duration: "10 minutes"
+
+  - name: "둥근 Big Iron Fishing Pole"
+    type: "Fishing pole"
+    bonus: "+20 Fishing skill"
+    source: "Looted from Shellfish Traps in Desolace"
+
+  - name: "Nat Pagle's Extreme Angler FC-5000"
+    type: "Fishing pole"
+    bonus: "+25 Fishing skill"
+    source: "Reward from Nat Pagle, Angler Extreme (quest)"
+
+
+gold_estimates:
+  # Realistic gold/hour ranges on a typical Classic server (2019–2026 era)
+  # These are approximate and vary with server economy/population
+  notes: >
+    WoW Classic gold economy is tight. Be skeptical of claims above 100g/hr for fishing.
+    Most top-tier fishing spots yield 30–80g/hr after cooking conversion.
+    Claims of 400–1500g/hr are ~10–20x the realistic values and should be flagged.
+
+  nightfin_moonglade:
+    description: "Nightfin Snapper → Nightfin Soup in Moonglade (night)"
+    realistic_range: "50–80 gold/hour"
+
+  stonescale_azshara:
+    description: "Stonescale Eel in Azshara (night)"
+    realistic_range: "30–60 gold/hour"
+
+  deviate_fish:
+    description: "Deviate Fish in Wailing Caverns or Barrens oases"
+    realistic_range: "20–50 gold/hour (highly variable by server economy)"
+
+  winter_squid_seasonal:
+    description: "Winter Squid (seasonal) → Grilled Squid"
+    realistic_range: "40–80 gold/hour (when in season)"
+
+
+common_hallucinations:
+  # Kjente feil LLM-er gjør om WoW Classic fishing.
+  # Hjelper graderen avvise falske "rettelser".
+
+  - wrong_claim: "Nightfin Soup requires Soothing Spices"
+    correct: "Nightfin Soup requires Refreshing Spring Water (not Soothing Spices)"
+
+  - wrong_claim: "Mightfish Steak gives +35 Stamina and Spirit"
+    correct: "Mightfish Steak gives +10 Stamina and +10 Spirit"
+
+  - wrong_claim: "Mightfish Steak gives +35 Stamina"
+    correct: "Mightfish Steak gives +10 Stamina and +10 Spirit"
+
+  - wrong_claim: "Filet of Redgill is not a real Classic recipe"
+    correct: "Filet of Redgill IS a real Classic recipe (sold by Kelsey Yance in Booty Bay)"
+
+  - wrong_claim: "Blackmouth Oil is a type of fish"
+    correct: "Blackmouth Oil is an alchemy product. The fish is called Oily Blackmouth."
+
+  - wrong_claim: "Catfish Steaks is a WoW Classic recipe"
+    correct: "Catfish Steaks does not exist in WoW Classic."
+
+  - wrong_claim: "Firefin Snapper can be cooked into Grilled Squid"
+    correct: "Grilled Squid uses Winter Squid, not Firefin Snapper."
+
+  - wrong_claim: "Gikkix sells Nightfin Soup recipe"
+    correct: "Gikkix sells Nightfin Soup recipe — this IS correct."
+
+  - wrong_claim: "Aquadynamic Fish Attractor lasts 10 minutes"
+    correct: "Aquadynamic Fish Attractor lasts 5 minutes, not 10."

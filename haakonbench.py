@@ -28,6 +28,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+import yaml
 from llm_client import LLMClient
 
 # ── Contestants ────────────────────────────────────────────────────────────
@@ -167,13 +168,107 @@ def load_successful_results(run_dir: Path) -> list[tuple[str, str]]:
 
 # ── Grading ────────────────────────────────────────────────────────────────
 
-GRADER_SYSTEM = (
+GRADER_SYSTEM_TEMPLATE = (
     "You are an expert evaluator for LLM benchmarks. You grade responses blind — "
     "the identities of the models are hidden behind letters (A, B, C, ...). Be "
     "rigorous, specific, and honest. Reward accuracy, depth, creativity, structure, "
     "and usefulness. Penalize hallucinations (especially WoW Classic facts that look "
-    "made up), generic filler, and prompt-ignoring."
+    "made up), generic filler, and prompt-ignoring.\n\n"
+    "CRITICAL RULE FOR ACCURACY SCORING: When checking WoW Classic facts, use ONLY "
+    "the Verified Reference Data section below as your source of truth. Do NOT rely "
+    "on your own knowledge for recipes, buff stats, ingredients, or vendor locations — "
+    "it may be wrong. If a claim cannot be verified against the reference data, mark "
+    "it as 'unverifiable' rather than calling it incorrect. Pay special attention to "
+    "the 'Common LLM Hallucinations' list — these are known errors that look plausible "
+    "but are wrong.\n\n"
+    "{reference_data}"
 )
+
+
+def _format_reference_data(data: dict) -> str:
+    lines = ["## Verified WoW Classic Fishing Reference Data (ground truth)", ""]
+
+    if data.get("cooking_recipes"):
+        lines.append("### Cooking Recipes")
+        for r in data["cooking_recipes"]:
+            lines.append(f"- **{r['name']}**: ingredients: {', '.join(r['ingredients'])} | "
+                         f"buff: {r['buff']} ({r.get('buff_duration', '?')}) | "
+                         f"source: {r.get('recipe_source', '?')}")
+            if r.get("notes"):
+                lines.append(f"  - Note: {r['notes']}")
+        lines.append("")
+
+    if data.get("fish"):
+        lines.append("### Fish")
+        for f in data["fish"]:
+            parts = [f"**{f['name']}**"]
+            if f.get("time_restriction"):
+                parts.append(f"time: {f['time_restriction']}")
+            if f.get("notes"):
+                parts.append(f"note: {f['notes']}")
+            lines.append("- " + " | ".join(parts))
+        lines.append("")
+
+    if data.get("zones"):
+        lines.append("### Zones")
+        for z in data["zones"]:
+            if not isinstance(z, dict):
+                continue
+            lines.append(f"- **{z['name']}**: {z.get('faction_safety', '')} | PvP: {z.get('pvp_risk', '?')}")
+            if z.get("notes"):
+                lines.append(f"  - {z['notes']}")
+        lines.append("")
+
+    if data.get("known_fake_locations"):
+        lines.append("### Known Fake Locations (do NOT exist in WoW Classic)")
+        for fake in data["known_fake_locations"]:
+            lines.append(f"- {fake}")
+        lines.append("")
+
+    if data.get("vendors"):
+        lines.append("### Vendors")
+        for v in data["vendors"]:
+            sells = ", ".join(v.get("sells", []))
+            lines.append(f"- **{v['name']}** ({v['location']}): {sells}")
+        lines.append("")
+
+    if data.get("items_and_clarifications"):
+        lines.append("### Item Clarifications")
+        for item in data["items_and_clarifications"]:
+            lines.append(f"- **{item['name']}** ({item.get('type', '')}): {item.get('notes', '')}")
+            if item.get("bonus"):
+                lines.append(f"  - Bonus: {item['bonus']} for {item.get('duration', '?')}")
+        lines.append("")
+
+    if data.get("gold_estimates"):
+        ge = data["gold_estimates"]
+        lines.append("### Realistic Gold/Hour Estimates")
+        if ge.get("notes"):
+            lines.append(f"- {ge['notes']}")
+        for k, v in ge.items():
+            if isinstance(v, dict) and v.get("realistic_range"):
+                lines.append(f"- {v.get('description', k)}: {v['realistic_range']}")
+        lines.append("")
+
+    if data.get("common_hallucinations"):
+        lines.append("### Common LLM Hallucinations — These Claims Are WRONG")
+        for h in data["common_hallucinations"]:
+            lines.append(f"- WRONG: \"{h['wrong_claim']}\" → CORRECT: {h['correct']}")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+def load_reference_data() -> str:
+    """Load wow_reference.yaml and format it for the grader system prompt.
+    Returns empty string (gracefully degraded) if file is missing."""
+    ref_path = Path("wow_reference.yaml")
+    if not ref_path.exists():
+        print("  WARNING: wow_reference.yaml not found — grader will use its own knowledge.",
+              file=sys.stderr)
+        return ""
+    data = yaml.safe_load(ref_path.read_text(encoding="utf-8"))
+    return _format_reference_data(data)
 
 GRADER_RUBRIC = """You will judge multiple LLM responses to the SAME user prompt.
 
@@ -200,7 +295,7 @@ Then:
 Be opinionated. No participation trophies."""
 
 
-async def grade_run(run_dir: Path) -> str:
+async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grader_model: str = GRADER_MODEL) -> str:
     entries = load_successful_results(run_dir)
     if not entries:
         raise RuntimeError(f"No successful result files in {run_dir} — nothing to grade.")
@@ -211,10 +306,13 @@ async def grade_run(run_dir: Path) -> str:
 
     grader_prompt = GRADER_RUBRIC.format(prompt=PROMPT, responses_block=responses_block)
 
-    print(f"Grading {len(entries)} response(s) with {GRADER_PROVIDER}/{GRADER_MODEL}...")
-    grader = LLMClient(provider=GRADER_PROVIDER, model=GRADER_MODEL)
+    ref_data = load_reference_data()
+    grader_system = GRADER_SYSTEM_TEMPLATE.format(reference_data=ref_data)
+
+    print(f"Grading {len(entries)} response(s) with {grader_provider}/{grader_model}...")
+    grader = LLMClient(provider=grader_provider, model=grader_model)
     grader.max_tokens = 8000
-    verdict = await grader.call(grader_prompt, system=GRADER_SYSTEM)
+    verdict = await grader.call(grader_prompt, system=grader_system)
 
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]
     for letter, (label, _body) in zip(letters, entries):
@@ -242,11 +340,14 @@ async def main():
         description="HåkonBench — multi-model prompt benchmark + blind grader.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("--only",    help="Run only these contestants (comma-separated provider/model).")
-    parser.add_argument("--run",     help="Target a specific run folder name (e.g. 2026-05-24_143022). Defaults to latest.")
-    parser.add_argument("--regrade", action="store_true", help="Skip API calls. Re-grade what's on disk in the target run folder.")
-    parser.add_argument("--no-grade",action="store_true", help="Run models but skip grading.")
-    parser.add_argument("--list",    action="store_true", help="List all run folders and exit.")
+    parser.add_argument("--only",         help="Run only these contestants (comma-separated provider/model).")
+    parser.add_argument("--run",          help="Target a specific run folder name (e.g. 2026-05-24_143022). Defaults to latest.")
+    parser.add_argument("--regrade",      action="store_true", help="Skip API calls. Re-grade what's on disk in the target run folder.")
+    parser.add_argument("--no-grade",     action="store_true", help="Run models but skip grading.")
+    parser.add_argument("--list",         action="store_true", help="List all run folders and exit.")
+    parser.add_argument("--grader-model", default=None,
+                        help="Override grader model as provider/model (e.g. anthropic/claude-opus-4-7). "
+                             f"Default: {GRADER_PROVIDER}/{GRADER_MODEL}")
     args = parser.parse_args()
 
     if args.list:
@@ -281,7 +382,13 @@ async def main():
         print(f"\n--no-grade set; skipping grading. Results in: {run_dir}")
         return
 
-    verdict    = await grade_run(run_dir)
+    g_provider, g_model = GRADER_PROVIDER, GRADER_MODEL
+    if args.grader_model:
+        if "/" not in args.grader_model:
+            raise SystemExit(f"--grader-model expects provider/model, got '{args.grader_model}'")
+        g_provider, g_model = args.grader_model.split("/", 1)
+
+    verdict    = await grade_run(run_dir, grader_provider=g_provider, grader_model=g_model)
     grade_path = run_dir / "_grades.md"
     grade_path.write_text(verdict, encoding="utf-8")
     print(f"\nGrades written to {grade_path}")
