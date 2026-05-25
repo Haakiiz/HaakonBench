@@ -100,7 +100,7 @@ class LLMClient:
             response = await self._client.messages.create(**kwargs)
             return response.content[0].text
 
-        elif self.provider in ("openai", "xai"):
+        elif self.provider == "openai":
             messages = []
             if system:
                 messages.append({"role": "system", "content": system})
@@ -116,6 +116,18 @@ class LLMClient:
 
             response = await self._client.chat.completions.create(**kwargs)
             return response.choices[0].message.content
+
+        elif self.provider == "xai":
+            input_msgs = []
+            if system:
+                input_msgs.append({"role": "system", "content": system})
+            input_msgs.append({"role": "user", "content": prompt})
+
+            response = await self._client.responses.create(
+                model=self.model,
+                input=input_msgs,
+            )
+            return response.output_text
 
         elif self.provider == "google":
             from google.genai import types
