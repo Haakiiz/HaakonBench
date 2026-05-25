@@ -1,8 +1,7 @@
 """
 grok.py — Simple xAI Grok chat.
 
-Uses the cheapest model (grok-4.1-fast) via the Responses API
-(xAI deprecated chat/completions — that was the bug in llm_client.py).
+Uses grok-4.3 via the Responses API.
 
 Usage:
     python grok.py                          # uses XAI_API_KEY from .env
@@ -45,8 +44,8 @@ def main():
     parser = argparse.ArgumentParser(description="Simple xAI Grok chat")
     parser.add_argument("message", nargs="?", default=None, help="One-shot message")
     parser.add_argument("--key", help="xAI API key (overrides XAI_API_KEY)")
-    parser.add_argument("--model", default="grok-4.1-fast",
-                        help="Model (default: grok-4.1-fast, cheapest)")
+    parser.add_argument("--model", default="grok-4.3",
+                        help="Model (default: grok-4.3)")
     args = parser.parse_args()
 
     api_key = get_api_key(args.key)
