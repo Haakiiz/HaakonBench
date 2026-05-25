@@ -118,16 +118,17 @@ class LLMClient:
             return response.choices[0].message.content
 
         elif self.provider == "xai":
-            input_msgs = []
+            messages = []
             if system:
-                input_msgs.append({"role": "system", "content": system})
-            input_msgs.append({"role": "user", "content": prompt})
+                messages.append({"role": "system", "content": system})
+            messages.append({"role": "user", "content": prompt})
 
-            response = await self._client.responses.create(
+            response = await self._client.chat.completions.create(
                 model=self.model,
-                input=input_msgs,
+                messages=messages,
+                max_tokens=self.max_tokens,
             )
-            return response.output_text
+            return response.choices[0].message.content
 
         elif self.provider == "google":
             from google.genai import types
