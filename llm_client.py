@@ -14,7 +14,7 @@ import yaml
 from dotenv import load_dotenv
 from tqdm.asyncio import tqdm
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 def load_config(path: str = "config.yaml") -> dict:
@@ -101,21 +101,30 @@ class LLMClient:
             return response.content[0].text
 
         elif self.provider == "openai":
-            messages = []
-            if system:
-                messages.append({"role": "system", "content": system})
-            messages.append({"role": "user", "content": prompt})
+            is_reasoning = self.model.startswith(("gpt-5", "o1", "o3", "o4"))
 
-            kwargs = {
-                "model": self.model,
-                "messages": messages,
-                "max_completion_tokens": self.max_tokens,
-            }
-            if not self.model.startswith(("gpt-5", "o1", "o3", "o4")):
-                kwargs["temperature"] = self.temperature
-
-            response = await self._client.chat.completions.create(**kwargs)
-            return response.choices[0].message.content
+            if is_reasoning:
+                kwargs = {
+                    "model": self.model,
+                    "input": [{"role": "user", "content": prompt}],
+                    "max_output_tokens": self.max_tokens,
+                }
+                if system:
+                    kwargs["instructions"] = system
+                response = await self._client.responses.create(**kwargs)
+                return response.output_text
+            else:
+                messages = []
+                if system:
+                    messages.append({"role": "system", "content": system})
+                messages.append({"role": "user", "content": prompt})
+                response = await self._client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    max_completion_tokens=self.max_tokens,
+                    temperature=self.temperature,
+                )
+                return response.choices[0].message.content
 
         elif self.provider == "xai":
             messages = []

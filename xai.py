@@ -22,7 +22,7 @@ import urllib.error
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 def get_key(override: str | None = None) -> str:
