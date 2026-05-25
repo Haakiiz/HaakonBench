@@ -171,7 +171,13 @@ async def evaluate_claim(client: LLMClient, system_prompt: str, claim: dict) -> 
 
 
 async def run_all(client: LLMClient, system_prompt: str, claims: list[dict], verbose: bool) -> list[dict]:
-    tasks = [evaluate_claim(client, system_prompt, c) for c in claims]
+    semaphore = asyncio.Semaphore(3)
+
+    async def _limited(claim: dict) -> dict:
+        async with semaphore:
+            return await evaluate_claim(client, system_prompt, claim)
+
+    tasks = [_limited(c) for c in claims]
     results = []
     for coro in asyncio.as_completed(tasks):
         result = await coro
