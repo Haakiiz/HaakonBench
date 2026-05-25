@@ -1,0 +1,230 @@
+# test_claims.yaml — Testpåstander for grader-nøyaktighet
+#
+# Brukes av test_grader.py for å validere at graderen evaluerer
+# WoW Classic fishing-fakta korrekt med referansedata.
+#
+# Mål: >= 95% korrekt
+#
+# Legg gjerne til flere claims! Spesielt:
+#   - Oppskrifter du kjenner godt
+#   - Steder som er kjent for å forvirre LLM-er
+#   - Buff-stats du kan verifisere
+#
+# Format:
+#   text:     påstanden som skal evalueres
+#   expected: true (korrekt påstand) | false (feil påstand)
+#   category: hjelper diagnose hvis testen feiler
+
+claims:
+
+  # ── Oppskrift-ingredienser ──────────────────────────────────────────────
+
+  - text: "Nightfin Soup requires 1x Raw Nightfin Snapper and 1x Refreshing Spring Water"
+    expected: true
+    category: recipe_ingredients
+
+  - text: "Nightfin Soup requires Soothing Spices"
+    expected: false
+    category: recipe_ingredients
+
+  - text: "Nightfin Soup requires Soothing Spices instead of Refreshing Spring Water"
+    expected: false
+    category: recipe_ingredients
+
+  - text: "Grilled Squid is made from Winter Squid and Mild Spices"
+    expected: true
+    category: recipe_ingredients
+
+  - text: "Grilled Squid is made from Firefin Snapper"
+    expected: false
+    category: recipe_ingredients
+
+  - text: "Mightfish Steak requires Large Raw Mightfish and Hot Spices"
+    expected: true
+    category: recipe_ingredients
+
+  - text: "Savory Deviate Delight is made from Deviate Fish and Mild Spices"
+    expected: true
+    category: recipe_ingredients
+
+  - text: "Baked Salmon requires Raw Whitescale Salmon and Soothing Spices"
+    expected: true
+    category: recipe_ingredients
+
+  # ── Buff-stats ─────────────────────────────────────────────────────────
+
+  - text: "Mightfish Steak gives +10 Stamina"
+    expected: true
+    category: buff_stats
+
+  - text: "Mightfish Steak gives +10 Stamina and +10 Spirit"
+    expected: true
+    category: buff_stats
+
+  - text: "Mightfish Steak gives +35 Stamina and Spirit"
+    expected: false
+    category: buff_stats
+
+  - text: "Mightfish Steak gives +35 Stamina"
+    expected: false
+    category: buff_stats
+
+  - text: "Nightfin Soup gives +8 Mana per 5 seconds"
+    expected: true
+    category: buff_stats
+
+  - text: "Grilled Squid gives +10 Agility"
+    expected: true
+    category: buff_stats
+
+  - text: "Savory Deviate Delight transforms you into a pirate or ninja"
+    expected: true
+    category: buff_stats
+
+  - text: "Baked Salmon gives +12 Stamina and +12 Spirit"
+    expected: true
+    category: buff_stats
+
+  # ── Fiskeplasser og tid ────────────────────────────────────────────────
+
+  - text: "Raw Nightfin Snapper can only be caught at night (6 PM to 6 AM server time)"
+    expected: true
+    category: fish_time
+
+  - text: "Raw Nightfin Snapper can be caught during the day"
+    expected: false
+    category: fish_time
+
+  - text: "Winter Squid can only be caught between September 23 and March 19"
+    expected: true
+    category: fish_time
+
+  - text: "Winter Squid can be caught year-round in Azshara"
+    expected: false
+    category: fish_time
+
+  - text: "Raw Sunscale Salmon is the daytime equivalent of Nightfin Snapper"
+    expected: true
+    category: fish_time
+
+  - text: "Deviate Fish can be caught inside the Wailing Caverns instance"
+    expected: true
+    category: fish_location
+
+  - text: "Deviate Fish can only be fished in the Barrens oases"
+    expected: false
+    category: fish_location
+
+  - text: "Stonescale Eel is a coastal fish used in alchemy"
+    expected: true
+    category: fish_location
+
+  # ── Soner og sikkerhet ─────────────────────────────────────────────────
+
+  - text: "Moonglade is a sanctuary zone where guards protect both factions"
+    expected: true
+    category: zone_safety
+
+  - text: "Moonglade is a hostile Horde zone"
+    expected: false
+    category: zone_safety
+
+  - text: "Azshara is a contested zone"
+    expected: true
+    category: zone_safety
+
+  - text: "Feralas is relatively safe for Alliance players due to Feathermoon Stronghold"
+    expected: true
+    category: zone_safety
+
+  - text: "Stranglethorn Vale is known for heavy PvP and ganking"
+    expected: true
+    category: zone_safety
+
+  # ── Fiktive steder (skal avvises) ──────────────────────────────────────
+
+  - text: "Lake Shire in Ashenvale is a great fishing spot"
+    expected: false
+    category: fake_location
+
+  - text: "Blackwood Lake in Ashenvale has excellent fishing"
+    expected: false
+    category: fake_location
+
+  - text: "Charred Vale Lake in Stonetalon Mountains is a top fishing location"
+    expected: false
+    category: fake_location
+
+  # ── Fiktive oppskrifter (skal avvises) ─────────────────────────────────
+
+  - text: "Catfish Steaks is a real WoW Classic cooking recipe"
+    expected: false
+    category: fake_recipe
+
+  - text: "Filet of Redgill is not a real WoW Classic recipe"
+    expected: false
+    category: fake_recipe
+
+  - text: "Filet of Redgill is a real WoW Classic recipe sold by Kelsey Yance"
+    expected: true
+    category: fake_recipe
+
+  # ── Gjenstander og feilidentifisering ──────────────────────────────────
+
+  - text: "Blackmouth Oil is a type of fish you can catch"
+    expected: false
+    category: item_type
+
+  - text: "Oily Blackmouth is the fish, and Blackmouth Oil is the alchemy product made from it"
+    expected: true
+    category: item_type
+
+  - text: "Aquadynamic Fish Attractor gives +100 Fishing for 5 minutes"
+    expected: true
+    category: item_stats
+
+  - text: "Aquadynamic Fish Attractor gives +100 Fishing for 10 minutes"
+    expected: false
+    category: item_stats
+
+  # ── Vendorer ───────────────────────────────────────────────────────────
+
+  - text: "Gikkix in Steamwheedle Port, Tanaris sells the Nightfin Soup recipe"
+    expected: true
+    category: vendor
+
+  - text: "Gikkix in Steamwheedle Port, Tanaris sells the Grilled Squid recipe"
+    expected: true
+    category: vendor
+
+  - text: "Kelsey Yance in Booty Bay sells the Mightfish Steak recipe"
+    expected: true
+    category: vendor
+
+  # ── Gull-estimater (rimelighetssjekk) ──────────────────────────────────
+
+  - text: "Fishing Nightfin Snapper in Moonglade can earn approximately 50-80 gold per hour"
+    expected: true
+    category: gold_estimate
+
+  - text: "Fishing in Azshara can earn 400-1500 gold per hour"
+    expected: false
+    category: gold_estimate
+
+  - text: "A skilled fisher in Moonglade can earn 300-500 gold per hour with cooking"
+    expected: false
+    category: gold_estimate
+
+  # ── Generell spillkunnskap ─────────────────────────────────────────────
+
+  - text: "Warriors cannot use the Teleport: Moonglade druid spell to reach Moonglade"
+    expected: true
+    category: game_mechanics
+
+  - text: "Fishing skill 300 is the maximum character fishing skill in Classic"
+    expected: true
+    category: game_mechanics
+
+  - text: "You need effective fishing skill 425 to never get fish escaping in Azshara"
+    expected: true
+    category: game_mechanics
