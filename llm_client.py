@@ -14,7 +14,7 @@ import yaml
 from dotenv import load_dotenv
 from tqdm.asyncio import tqdm
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 def load_config(path: str = "config.yaml") -> dict:
@@ -101,33 +101,43 @@ class LLMClient:
             return response.content[0].text
 
         elif self.provider == "openai":
+            is_reasoning = self.model.startswith(("gpt-5", "o1", "o3", "o4"))
+
+            if is_reasoning:
+                kwargs = {
+                    "model": self.model,
+                    "input": [{"role": "user", "content": prompt}],
+                    "max_output_tokens": self.max_tokens,
+                }
+                if system:
+                    kwargs["instructions"] = system
+                response = await self._client.responses.create(**kwargs)
+                return response.output_text
+            else:
+                messages = []
+                if system:
+                    messages.append({"role": "system", "content": system})
+                messages.append({"role": "user", "content": prompt})
+                response = await self._client.chat.completions.create(
+                    model=self.model,
+                    messages=messages,
+                    max_completion_tokens=self.max_tokens,
+                    temperature=self.temperature,
+                )
+                return response.choices[0].message.content
+
+        elif self.provider == "xai":
             messages = []
             if system:
                 messages.append({"role": "system", "content": system})
             messages.append({"role": "user", "content": prompt})
 
-            kwargs = {
-                "model": self.model,
-                "messages": messages,
-                "max_completion_tokens": self.max_tokens,
-            }
-            if not self.model.startswith(("gpt-5", "o1", "o3", "o4")):
-                kwargs["temperature"] = self.temperature
-
-            response = await self._client.chat.completions.create(**kwargs)
-            return response.choices[0].message.content
-
-        elif self.provider == "xai":
-            input_msgs = []
-            if system:
-                input_msgs.append({"role": "system", "content": system})
-            input_msgs.append({"role": "user", "content": prompt})
-
-            response = await self._client.responses.create(
+            response = await self._client.chat.completions.create(
                 model=self.model,
-                input=input_msgs,
+                messages=messages,
+                max_tokens=self.max_tokens,
             )
-            return response.output_text
+            return response.choices[0].message.content
 
         elif self.provider == "google":
             from google.genai import types
