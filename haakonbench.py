@@ -33,6 +33,7 @@ from llm_client import LLMClient
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
+    ("anthropic", "claude-opus-4-8"),
     ("anthropic", "claude-opus-4-7"),
     ("anthropic", "claude-sonnet-4-6"),
     ("anthropic", "claude-haiku-4-5"),

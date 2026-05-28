@@ -104,15 +104,38 @@ class LLMClient:
             is_reasoning = self.model.startswith(("gpt-5", "o1", "o3", "o4"))
 
             if is_reasoning:
+                # Responses API: max_output_tokens is a SHARED budget for
+                # reasoning tokens + visible output. To leave ~8k for the
+                # answer after medium-effort reasoning, floor at 20k.
+                # See CLAUDE.md "Reasoning models and token budgets".
+                total_token_budget = max(self.max_tokens, 20000)
                 kwargs = {
                     "model": self.model,
                     "input": [{"role": "user", "content": prompt}],
-                    "max_output_tokens": self.max_tokens,
+                    "max_output_tokens": total_token_budget,
                 }
                 if system:
                     kwargs["instructions"] = system
                 response = await self._client.responses.create(**kwargs)
-                return response.output_text
+                if getattr(response, "status", None) == "incomplete":
+                    reason = getattr(
+                        getattr(response, "incomplete_details", None),
+                        "reason",
+                        "unknown",
+                    )
+                    raise RuntimeError(
+                        f"Responses API returned incomplete (reason={reason}). "
+                        f"Reasoning consumed the full {total_token_budget}-token "
+                        f"budget. Raise max_tokens or pass reasoning={{'effort': 'low'}}."
+                    )
+                text = response.output_text
+                if not text:
+                    raise RuntimeError(
+                        f"Responses API returned no visible output "
+                        f"(status={getattr(response, 'status', '?')}). "
+                        f"Output items: {[getattr(i, 'type', '?') for i in getattr(response, 'output', [])]}"
+                    )
+                return text
             else:
                 messages = []
                 if system:
@@ -141,8 +164,13 @@ class LLMClient:
 
         elif self.provider == "google":
             from google.genai import types
+            # Gemini 2.5+/3.x: max_output_tokens is a SHARED budget for
+            # thinking tokens + visible output (thinking is on by default).
+            # Floor at 20k for parity with OpenAI reasoning models.
+            # See CLAUDE.md "Reasoning models and token budgets".
+            total_token_budget = max(self.max_tokens, 20000)
             config = types.GenerateContentConfig(
-                max_output_tokens=self.max_tokens,
+                max_output_tokens=total_token_budget,
                 temperature=self.temperature,
                 system_instruction=system if system else None,
             )

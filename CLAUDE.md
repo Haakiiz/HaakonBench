@@ -77,6 +77,21 @@ The grader is backed by `wow_reference.yaml` — a curated file of verified WoW 
 
 Unified async wrapper for Anthropic, OpenAI (and xAI via OpenAI-compatible endpoint), and Google Gemini. Provider/model are passed at construction time, so `haakonbench.py` can drive many models concurrently. `config.yaml` sets defaults only when `LLMClient` is called directly (not used by the benchmark runner).
 
+### Reasoning models and token budgets
+
+Different providers count reasoning/thinking tokens differently. If you set `max_tokens=8000` naively, reasoning models can burn the whole budget internally and return an empty visible response. gpt-5.5 hit exactly this — the file ended up empty.
+
+| Provider | What `max_tokens` covers | Reasoning behavior |
+|---|---|---|
+| Anthropic (Claude) | Visible output only | Extended thinking is a **separate** `thinking.budget_tokens` parameter. Not currently enabled in our client. |
+| OpenAI (gpt-5.x, o1/o3/o4) | **Reasoning + output (shared)** via Responses API `max_output_tokens` | Always on. Effort defaults to `medium`, can consume 5–15k tokens before any visible output. |
+| xAI (grok-4.x) | Visible output only | Reasoning happens server-side, not counted against `max_tokens` in chat.completions. |
+| Google (Gemini 2.5+/3.x) | **Thinking + output (shared)** via `max_output_tokens` | Thinking on by default. |
+
+**Rule for shared-budget providers (OpenAI Responses API, Gemini 2.5+):** floor the budget at **20 000 tokens** so the model has room to reason *and* produce a meaningful answer (~8k visible after ~8–12k reasoning). Enforced in `llm_client.py` via `total_token_budget = max(self.max_tokens, 20000)` in both the OpenAI reasoning branch and the Google branch. Also detect `response.status == "incomplete"` (OpenAI) so silent empties surface as real errors.
+
+**When adding a new reasoning model:** check the provider's docs — does the output-token cap include reasoning tokens? If yes, route through the shared-budget pattern above. If no (like Claude/Grok), normal `max_tokens` is fine.
+
 ### Key constants in `haakonbench.py`
 
 | Name | Purpose |

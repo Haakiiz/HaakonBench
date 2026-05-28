@@ -1,82 +1,87 @@
-I'll evaluate each response systematically against the verified reference data and the prompt requirements.
+## Scoring Analysis
 
----
-
-## Pre-Scoring Notes on Accuracy Issues Found
+### Pre-scoring fact-check notes (using only the Verified Reference Data):
 
 **Response A:**
-- "Stonescale Delicacy" — doesn't exist as a cooking recipe
-- "Winterfall Saury," "World Tuna," "Frozen Runes lake" — fake fish/locations
-- "Spotted Dreamfish," "Dream Halibut Supreme," "Rosy Lichen" — don't exist
-- "Crystalvale," implied fake cooking conversions throughout
-- Gold/hour estimates (150-300g/hr, 250-300g/hr sustained) — wildly inflated (10-20x realistic)
-- Essentially fabricated most of its content. Severely hallucinated.
+- "Stonescale Delicacy" — not a real recipe in verified data (hallucination)
+- "Winterfall Saury," "World Tuna," "Frozen Runes lake" — none of these exist in verified data (hallucinations)
+- "Spotted Dreamfish," "Dream Halibut Supreme" — not in verified data (hallucinations)
+- Gold estimates 150-300g/hour — far exceeds realistic 30-80g/hr range per reference data
+- "Rosy Lichen" — not a fish (hallucination)
+- Massive fabrication throughout
 
 **Response B:**
-- "Nightfin Snapper" in Darkshore near Bashal'Aran — plausible zone (Alliance), timing correct (night only) ✓
-- "Grilled Squid is +10 Agility for 30 minutes" — WRONG, it's 10 minutes
-- "Filet of Redgill... Large Raw Mightfish → Filet of Redgill" — WRONG, Mightfish Steak uses Large Raw Mightfish, not Filet of Redgill
-- "recipe is from a fisherman in Desolace" for Grilled Squid — WRONG, Gikkix in Tanaris sells it
-- Grilled Squid correctly identified as using Winter Squid ✓
-- Stonescale Eel gold estimates (50-100g/hr) — above realistic range
-- Reasonably good on zone safety
+- "Nightfin Schools spawn at night" in Darkshore — plausible but reference data specifies 6 PM to 6 AM
+- "Grilled Squid +10 Agility for 30 minutes" — WRONG, it's 10 minutes per reference data
+- "Recipe from fisherman in Desolace" for Grilled Squid — WRONG, Gikkix in Steamwheedle Port per reference data
+- "Large Raw Mightfish → Filet of Redgill" — WRONG, these are different fish/recipes (confused)
+- "Spotted Yellowtail" cooking → "Grilled Squid" — not verified in reference data
+- Filet of Redgill not mentioned correctly
+- Gold estimates mostly within realistic range
+- Mentions Nat Pagle quest with wrong quest name details
 
 **Response C:**
-- "Grilled Squid... actually this uses Spotted Yellowtail" — WRONG. Grilled Squid uses Winter Squid, not Spotted Yellowtail
-- "Filet of Mightfish gives +8 Strength" — Mightfish Steak gives +10 Stamina, +10 Spirit per reference data (not +8 Str)
-- "Raw Redgill → Baked Salmon" — WRONG. Baked Salmon uses Raw Whitescale Salmon; Redgill makes Filet of Redgill
-- "Poached Sunscale Salmon (+9 Spirit)" — unverifiable recipe name
-- Gold/hour estimates (2-5g/hr) seem low but are actually the most realistic of all responses
-- Jaguero Isle spot — creative and plausible
-- Response cuts off mid-table (incomplete)
-- Aquadynamic Fish Attractor described as "+75 fishing for 10 min" — WRONG, it's +100 for 5 min (confusing it with Bright Baubles)
+- "Grilled Squid → +10 Agility for 10 min" — correct
+- "Nightfin Soup = 8 mana/5 seconds" — correct (reference says +8 Mana per 5 seconds)
+- "Spotted Yellowtail → Grilled Squid" — reference data says Grilled Squid uses Winter Squid, not Spotted Yellowtail (potential hallucination, though C tries to note confusion)
+- "Raw Redgill → Baked Salmon" — WRONG, Baked Salmon uses Raw Whitescale Salmon per reference data
+- "Filet of Mightfish (+8 Strength)" — not verifiable from reference data (Mightfish Steak gives +10 Stamina, +10 Spirit per reference)
+- "Baked Salmon = +20 Stam" — WRONG, reference says +12 Stamina, +12 Spirit
+- "Poached Sunscale Salmon" — not in reference data (unverifiable)
+- Gold estimates relatively conservative, mostly plausible
+- Response cuts off mid-sentence
 
 **Response D:**
-- Wailing Caverns fishing inside instance — verified as real Classic tactic ✓
-- Nightfin timing (night only) ✓
-- Stonescale Eels sell raw for alchemy ✓
-- "DO NOT COOK THESE" for Stonescale Eels ✓
-- "Stonescale Eels... nighttime/higher catch rates" — confirmed ✓
-- Savory Deviate Delight described correctly as cosmetic ✓
-- "Arcanite Fishing Pole (+35)" — reference data says +40 for Arcanite pole, unverifiable exact bonus
-- Nightfin requires "Refreshing Spring Water" not mentioned but no wrong claim made
-- Gold estimates (20-65g/hr) — within realistic range ✓
-- "Big Iron Fishing Pole (+20)" ✓
-- Relatively clean on hallucinations
+- Wailing Caverns fishing — confirmed as legitimate per reference data ✓
+- "Savory Deviate Delight" from Deviate Fish — correct ✓
+- Nightfin Snapper night only — correct ✓
+- Stonescale Eel not cooking — correct ✓
+- "Nightfin Snapper 12:00 AM – 06:00 AM" — reference says 6 PM to 6 AM, so this is partially wrong (D says midnight-6am is prime time, but reference says 6 PM-6 AM)
+- "Stonescale Eels have drastically higher catch rates" at night — plausible/consistent with reference
+- Gold estimates 20-65g/hr — within realistic range ✓
+- Generally good accuracy, concise, fewer hallucinations
 
 **Response E:**
-- "Mightfish Steak... +10 Stamina. Great for tanks" — reference says +10 Stamina AND +10 Spirit ✓ (partially correct)
-- "Recipe: Mightfish Steak... Sold by Sheendra Tallgrass in Feralas" — WRONG per reference data, sold by Kelsey Yance in Booty Bay
-- "Aquadynamic Fish Attractor (+100 Fishing for 10 mins)" — WRONG, it's 5 minutes not 10
-- "Bright Baubles (+75 Fishing for 10 mins)" ✓ correct
-- "Raw Nightfin Snapper" correctly night-only ✓
-- "Raw Redgill Cherry" — doesn't exist (fake fish name)
-- Moonglade access for warriors described as possible via Felwood ✓
-- Gold estimates (35-65g/hr) — at high end but not completely absurd
-- "Nat Pagle's Extreme Angler FC-5000... obtained from the Alliance quest 'Too Many Wildkin' in The Hinterlands" — WRONG quest name/location
-- Stonescale Eel sell raw advice ✓
+- "Nat Pagle's Extreme Angler FC-5000 from Alliance quest 'Too Many Wildkin' in The Hinterlands" — unverifiable/likely wrong (it's from Dustwallow Marsh quest)
+- "Aquadynamic Fish Attractor +100 Fishing for 10 mins" — WRONG, reference says 5 minutes not 10
+- "Bright Baubles +75 Fishing for 10 mins" — correct ✓
+- "Mightfish Steak provides +10 Stamina" — correct ✓ (reference: +10 Stamina, +10 Spirit)
+- "Nightfin Soup +8 Mana per 5 seconds" — correct ✓
+- "Recipe: Grilled Squid sold by Gikkix in Steamwheedle Port" — correct ✓
+- "Recipe: Mightfish Steak sold by Sheendra Tallgrass in Feralas" — reference says Kelsey Yance in Booty Bay (WRONG vendor)
+- Gold estimates 40-65g/hr — within realistic range ✓
+- "Raw Redgill Cherry" — doesn't exist (hallucination)
+- Moonglade access for warriors described correctly
 
 **Response F:**
-- Very vague throughout — intentionally non-specific
-- No hallucinated fake fish/recipes (because it barely names specific ones)
-- Gold estimates (5-30g/hr) — actually the most realistic/conservative
-- Mentions Deviate Fish as "Horde-side" which is somewhat misleading (Wailing Caverns is accessible)
-- Offers to give more details at end — somewhat of a cop-out
-- Very generic, under-delivers on the prompt
-- Stonescale Eel for alchemy ✓
-- No serious factual errors found but also very thin on verifiable claims
+- Very vague throughout — avoids specific claims
+- No specific recipes named (avoids hallucinations by being generic)
+- Gold estimates 5-30g/hr — very conservative, within range
+- "Deviate Fish usually more famous on Horde-side" — plausible
+- Doesn't really use cooking depth
+- Very generic, not much concrete info
+- Low hallucination risk due to vagueness, but also low value
 
 **Response G:**
-- Empty/no content provided
+- Stonescale Eel sell raw — correct ✓
+- Winter Squid seasonal (late September to late March) — correct ✓
+- Nightfin 00:00-06:00 — partially correct (reference says 6 PM to 6 AM, so G's window is too narrow)
+- "Nightfin Soup" ingredients — mentions "Refreshing Spring Water" in supplies section ✓ (a nice catch)
+- "Spotted Yellowtail → Spotted Yellowtail" cooked — listed but not verified in reference data
+- "Raw Glossy Mightfish → Cooked Glossy Mightfish" — unverifiable
+- "Sunscale Salmon better during daylight" — reference says Raw Sunscale Salmon is day only ✓
+- Gold estimates 10-30g/hr — within range ✓
+- Generally cautious and accurate
 
 **Response H:**
-- "Southshore river → Nightfin Soup" and rates it at 90-120g/hr — Southshore fishing for Nightfin is not verified as a top spot; Nightfin Snapper is known for coastal/lake zones at night. Plausible but unverifiable exact spot
-- "Menethil Harbor... Stonescale Eel (rare)" — Stonescale Eel in Menethil is questionable; it's primarily a coastal/Azshara fish
-- "Filet of Redgill" listed as product of "Raw Rockscale Cod" — WRONG. Filet of Redgill comes from Raw Redgill
-- "Blackmouth Oil + Fire Oil" listed as cooked products — Blackmouth Oil is an alchemy product, not a cooking recipe. This is the known hallucination.
-- Gold/hour estimates (65-120g/hr) — somewhat above realistic range
-- "300-400g in one sitting" over 4 hours = 75-100g/hr — borderline but high
-- Creative structure, well-organized
+- "Oily Blackmouth → Blackmouth Oil" — note: reference says Blackmouth Oil is NOT a fish but an alchemy product FROM fish. H says to cook them into "Blackmouth Oil + Fire Oil" — this is incorrect since you can't cook Oily Blackmouth into Blackmouth Oil (that's alchemy, not cooking). This is a notable error.
+- "Filet of Redgill" mentioned — reference confirms this IS real ✓
+- "Nightfin Snapper only bites 00:00–06:00" — WRONG, reference says 6 PM to 6 AM (H has it half right)
+- Southshore 90-120g/hr — exceeds realistic range
+- "Stonescale Eel weeks can push 100+ g/hr at Menethil" — exceeds realistic range
+- "Normal day 50-70g/hr average" — slightly high but plausible range edge
+- "Redridge Lake — fish Large Mightfish and deviate fish" — unverifiable/likely hallucination (no reference to this)
+- Gold estimates somewhat inflated but not as badly as A
 
 ---
 
@@ -84,61 +89,70 @@ I'll evaluate each response systematically against the verified reference data a
 
 | Letter | Accuracy | Strategy | Creativity | Structure | Fidelity | Total | One-line verdict |
 |--------|----------|----------|------------|-----------|----------|-------|-----------------|
-| A | 1 | 3 | 7 | 8 | 5 | 24 | Wildly hallucinated fish, zones, recipes, and gold numbers — essentially creative fiction dressed as a guide |
-| B | 4 | 6 | 7 | 8 | 7 | 32 | Good atmosphere and real strategy bones, but multiple recipe/vendor errors and inflated gold numbers undermine it |
-| C | 4 | 6 | 6 | 8 | 7 | 31 | Grilled Squid/Yellowtail confusion and incomplete response drag down otherwise solid structure |
-| D | 7 | 7 | 7 | 7 | 9 | 37 | Best accuracy-to-content ratio — hits verified spots (WC instance, Feralas, Azshara), correct sell advice, realistic gold |
-| E | 4 | 6 | 5 | 8 | 8 | 31 | Clean format and good fidelity, but wrong vendor for Mightfish Steak, fake Aquadynamic duration, fake fish name |
-| F | 6 | 3 | 3 | 6 | 7 | 25 | Deliberately vague to avoid errors — safe but deeply unhelpful as an actual guide |
-| G | N/A | N/A | N/A | N/A | N/A | 0 | Empty response |
-| H | 4 | 6 | 6 | 8 | 8 | 32 | Nice format and warrior flavor, but Filet of Redgill/Rockscale Cod error and Blackmouth Oil as cooking product are real mistakes |
+| A | 1 | 4 | 8 | 9 | 6 | 28 | Beautifully structured fantasy guide built almost entirely on hallucinated fish, recipes, and wildly inflated gold numbers |
+| B | 4 | 6 | 7 | 8 | 7 | 32 | Good personality and solid structure, but contains several concrete factual errors (wrong buff duration, wrong vendor) |
+| C | 4 | 6 | 7 | 7 | 7 | 31 | Solid effort with good raider-demand framing, but response is incomplete and contains wrong recipe ingredients |
+| D | 7 | 7 | 7 | 8 | 9 | 38 | Concise, largely accurate, great use of WC instance trick and real cooking advice — best accuracy-to-length ratio |
+| E | 5 | 6 | 7 | 9 | 8 | 35 | Clean and professional layout with good cooking recipe info, but Aquadynamic lure duration is wrong and vendor attribution is incorrect |
+| F | 6 | 2 | 3 | 6 | 6 | 23 | Safe from hallucinations only because it says almost nothing specific — vague non-guide that dodges all useful detail |
+| G | 7 | 7 | 5 | 8 | 8 | 35 | Methodical and accurate with honest gold ranges, but dry and mechanical — the Nightfin window is slightly wrong |
+| H | 5 | 6 | 6 | 8 | 7 | 32 | Well-presented with a crisp summary table, but confuses cooking with alchemy for Blackmouth Oil and inflates gold numbers |
 
 ---
 
 ## Ranking (Best to Worst)
 
-1. **D** (37)
-2. **B** (32) / **H** (32) — tied
-4. **C** (31) / **E** (31) — tied
-6. **F** (25)
-7. **A** (24)
-8. **G** (0)
+1. **D** — 38pts
+2. **E** — 35pts (tie)
+2. **G** — 35pts (tie)
+4. **B** — 32pts (tie)
+4. **H** — 32pts (tie)
+6. **C** — 31pts
+7. **A** — 28pts
+8. **F** — 23pts
 
 ---
 
 ## Winner: Response D
 
-**Response D wins because it is the most accurate guide that still delivers real strategic value.** It correctly identifies Wailing Caverns instance fishing as 100% PvP-safe (a verified Classic tactic), correctly advises selling Stonescale Eels raw for alchemy demand, correctly identifies the night timing for Nightfin and Stonescale, and correctly describes Savory Deviate Delight as a cosmetic transformation item. Its gold estimates (20-65g/hr) are within or close to the realistic reference range, unlike most competitors who inflated figures 3-10x. The three-spot rotation (WC daytime → Feralas winter → Azshara night) is genuinely clever and addresses the warrior-specific safety concerns. The Campfire Trick for cooking mid-session without moving is a practical, correct tip. It does less but gets it right — which is far more valuable than a spectacular guide built on fabricated fish.
+Response D wins because it achieves the best balance of **accuracy, strategy, and fidelity to the prompt** without padding the guide with invented content. Its core recommendations are grounded in verifiable Classic mechanics: the Wailing Caverns instance trick (confirmed safe, no PvP), Feralas Camp Feathermoon (correct Alliance safety), and Azshara Stonescale Eels with the correct advice to sell raw. The cooking section correctly distinguishes what to cook vs. sell raw, and the gold estimates (20-65g/hr) sit within or near the realistic range given in the reference data. The "don't cook Stonescale Eels" advice is exactly correct and often missed. The three-spot rotation with a clear daily decision tree (night = eels, winter day = squid, summer day = WC) is elegant, practical, and safe. It's shorter than some competitors but earns every word.
 
 ---
 
-## Specific Hallucinations/Errors Called Out
+## Specific Hallucinations & Factual Errors by Letter
 
-**Response A — Most Hallucinated:**
-- Invented fish: "Winterfall Saury," "World Tuna," "Spotted Dreamfish," "Rosy Lichen"
-- Invented recipes: "Stonescale Delicacy," "Saury Seaweed Soup," "Dream Halibut Supreme"
-- Invented location: "Frozen Runes lake" in Winterspring
-- Gold claims of 250-300g/hr sustained are ~5-10x realistic values
+**Response A (severe):**
+- "Winterfall Saury," "World Tuna," "Frozen Runes lake" (Winterspring) — completely fabricated fish and location
+- "Spotted Dreamfish," "Dream Halibut Supreme," "Stonescale Delicacy" — do not exist
+- "Rosy Lichen" listed as a fish — not a fish
+- Gold estimates of 150-300g/hr — 3-6x the realistic maximum per reference data
+- Weekly earnings of 4,500-6,000g — deeply unrealistic
 
 **Response B:**
-- Grilled Squid duration stated as 30 minutes — it's 10 minutes
-- "Recipe from a fisherman in Desolace" for Grilled Squid — it's from Gikkix in Tanaris
-- Mightfish → Filet of Redgill conversion is wrong (Mightfish makes Mightfish Steak)
+- "Grilled Squid +10 Agility for **30 minutes**" — WRONG, it's 10 minutes
+- "Recipe from a fisherman in Desolace" for Grilled Squid — WRONG, sold by Gikkix in Steamwheedle Port, Tanaris
+- "Large Raw Mightfish → Filet of Redgill" — WRONG, these are completely separate fish and recipes
 
 **Response C:**
-- Critically wrong: "Grilled Squid actually uses Spotted Yellowtail" — Grilled Squid uses Winter Squid
-- Aquadynamic Fish Attractor stated as "+75 for 10 min" — it's +100 for 5 min (confusing it with Bright Baubles)
-- "Raw Redgill → Baked Salmon" — wrong, Baked Salmon uses Raw Whitescale Salmon
+- "Raw Redgill → Baked Salmon" — WRONG, Baked Salmon uses Raw Whitescale Salmon
+- "Baked Salmon = +20 Stamina" — WRONG, it's +12 Stamina and +12 Spirit
+- "Filet of Mightfish (+8 Strength)" — not supported by reference data; Mightfish Steak gives +10 Stamina/+10 Spirit, not Strength
+- Response cuts off mid-sentence (incomplete)
 
 **Response E:**
-- "Mightfish Steak sold by Sheendra Tallgrass in Feralas" — sold by Kelsey Yance in Booty Bay
-- "Aquadynamic Fish Attractor +100 for 10 minutes" — it's 5 minutes, not 10
-- "Raw Redgill Cherry" — fake fish name
-- Wrong quest/location for Nat Pagle's pole
+- "Aquadynamic Fish Attractor +100 Fishing for **10 mins**" — WRONG, it lasts 5 minutes per reference data
+- "Recipe: Mightfish Steak sold by Sheendra Tallgrass in Feralas" — WRONG, sold by Kelsey Yance in Booty Bay per reference data
+- "Raw Redgill Cherry" — this fish does not exist
+- "Nat Pagle quest 'Too Many Wildkin' in The Hinterlands" — unverifiable/likely wrong location
 
 **Response H:**
-- "Filet of Redgill" listed as product of "Raw Rockscale Cod" — Filet of Redgill comes from Raw Redgill
-- "Blackmouth Oil" listed as a cooked product — it's an alchemy product, not cooking (a known LLM hallucination per reference data)
+- "Cook Oily Blackmouth into Blackmouth Oil" — WRONG, Blackmouth Oil is an alchemy product, not a cooked food. You cannot cook fish into alchemy reagents.
+- "Nightfin Snapper only bites 00:00–06:00" — WRONG, the window is 6 PM to 6 AM (18:00–06:00)
+- "Southshore Nightfin 90–120g/hr" — exceeds the realistic ceiling of 50-80g/hr from reference data
+- "Redridge Lake — Large Mightfish and deviate fish" — unverifiable, likely hallucinated
+
+**Response G:**
+- Nightfin window stated as "00:00–06:00" — WRONG, should be 18:00–06:00 (6 PM to 6 AM). G consistently truncates this to just midnight-6am, losing half the farming window.
 
 ---
 
