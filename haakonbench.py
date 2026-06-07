@@ -160,7 +160,7 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
 
 
 async def run_contestant(
-    provider: str, model: str, effort: str,
+    provider: str, model: str, effort: str, timeout: float | None = None,
 ) -> tuple[str, str, float, str | None, dict | None]:
     label = slug(provider, model)
     t0 = time.perf_counter()
@@ -169,8 +169,13 @@ async def run_contestant(
         client = LLMClient(provider=provider, model=model)
         client.max_tokens = max_tokens
         client.reasoning_effort = knob        # named level (or None for provider default)
-        response = await client.call(PROMPT)
+        if timeout:
+            response = await asyncio.wait_for(client.call(PROMPT), timeout=timeout)
+        else:
+            response = await client.call(PROMPT)
         return label, response, time.perf_counter() - t0, None, client.last_usage
+    except asyncio.TimeoutError:
+        return label, "", time.perf_counter() - t0, f"TimeoutError: no response within {timeout:.0f}s", None
     except Exception as e:
         return label, "", time.perf_counter() - t0, f"{type(e).__name__}: {e}", None
 
@@ -194,22 +199,23 @@ def _meta_block(secs: float, effort: str, usage: dict | None) -> str:
 def save_result(
     run_dir: Path, label: str, response: str, secs: float,
     err: str | None, usage: dict | None = None, effort: str = DEFAULT_EFFORT,
-) -> None:
+) -> str:
+    """Write the result file and return a one-line status string for the caller
+    to print (so the run loop can stream feedback as each model finishes)."""
     path = run_dir / f"{label}.md"
     if err:
         path.write_text(
             f"# {label}\n\n**FAILED after {secs:.1f}s**\n\n```\n{err}\n```\n",
             encoding="utf-8",
         )
-        print(f"  ✗ {label}  ({secs:.1f}s)  — {err}")
-    else:
-        meta = _meta_block(secs, effort, usage)
-        path.write_text(
-            f"# {label}\n\n_Generated in {secs:.1f}s_\n\n{meta}\n{BODY_SEP}\n{response}\n",
-            encoding="utf-8",
-        )
-        tok = usage.get("total_tokens", 0) if usage else 0
-        print(f"  ✓ {label}  ({secs:.1f}s, {len(response):,} chars, {tok:,} tok)")
+        return f"  ✗ {label}  ({secs:.1f}s)  — {err}"
+    meta = _meta_block(secs, effort, usage)
+    path.write_text(
+        f"# {label}\n\n_Generated in {secs:.1f}s_\n\n{meta}\n{BODY_SEP}\n{response}\n",
+        encoding="utf-8",
+    )
+    tok = usage.get("total_tokens", 0) if usage else 0
+    return f"  ✓ {label}  ({secs:.1f}s, {len(response):,} chars, {tok:,} tok)"
 
 
 # ── Loading from disk ──────────────────────────────────────────────────────
@@ -514,6 +520,9 @@ async def main():
                              "named effort level (Claude output_config.effort + adaptive thinking, "
                              "OpenAI reasoning.effort, Gemini thinking_level, Grok reasoning_effort). "
                              f"See PROVIDER_EFFORT. Default: {DEFAULT_EFFORT}.")
+    parser.add_argument("--timeout", type=float, default=None, metavar="SECONDS",
+                        help="Per-model wall-clock limit. A model that doesn't answer in time is "
+                             "marked FAILED and the run continues + grades the rest. Default: no limit.")
     args = parser.parse_args()
 
     if args.list:
@@ -538,12 +547,33 @@ async def main():
         for provider, model in to_run:
             _, knob = resolve_effort(provider, model, args.effort)
             print(f"  • {provider:10s} {model:32s} → {knob}")
-        print()
+        if args.timeout:
+            print(f"  (per-model timeout: {args.timeout:.0f}s)")
+        print(f"\nRunning {len(to_run)} model(s) in parallel — saving each as it finishes:\n")
 
-        tasks   = [run_contestant(p, m, args.effort) for p, m in to_run]
-        results = await asyncio.gather(*tasks)
-        for label, response, secs, err, usage in results:
-            save_result(run_dir, label, response, secs, err, usage, effort=args.effort)
+        # Stream results: save + print the moment each model returns, so partial
+        # results survive a failure/Ctrl-C, and a heartbeat shows what's still
+        # running (so a long --effort max run is visibly alive, not hung).
+        tasks = {
+            asyncio.create_task(run_contestant(p, m, args.effort, args.timeout)): slug(p, m)
+            for p, m in to_run
+        }
+        t0 = time.perf_counter()
+        heartbeat = 20.0
+        done_count = 0
+        pending = set(tasks)
+        while pending:
+            done, pending = await asyncio.wait(
+                pending, timeout=heartbeat, return_when=asyncio.FIRST_COMPLETED
+            )
+            for task in done:
+                label, response, secs, err, usage = task.result()
+                msg = save_result(run_dir, label, response, secs, err, usage, effort=args.effort)
+                done_count += 1
+                print(f"[{done_count}/{len(tasks)}]{msg}")
+            if pending and not done:
+                still = ", ".join(sorted(tasks[t] for t in pending))
+                print(f"  … {len(pending)} still running after {time.perf_counter() - t0:.0f}s: {still}")
 
     if args.no_grade:
         print(f"\n--no-grade set; skipping grading. Results in: {run_dir}")

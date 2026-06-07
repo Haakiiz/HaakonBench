@@ -121,6 +121,15 @@ skriver ut hvilket nivå hver modell faktisk får (`provider model → nivå`).
 For OpenAI/Gemini gulvsettes budsjettet uansett til minst 20 000 (i `llm_client.py`)
 så modellen har rom til å tenke *og* svare.
 
+På høye nivåer (`high`/`max`) kan enkeltmodeller bruke flere minutter. Hvert svar
+lagres **i det øyeblikket modellen er ferdig** (`[3/8] ✓ ...`), og en heartbeat hvert
+20. sekund viser hvilke som fortsatt kjører — så du ser at den lever, ikke henger.
+Delresultater overlever altså om noen modeller feiler eller du avbryter.
+
+```bash
+python haakonbench.py --effort max --timeout 600   # marker modeller > 600s som FAILED og gradér resten
+```
+
 ---
 
 ## Resultater
