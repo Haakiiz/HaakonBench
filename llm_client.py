@@ -130,8 +130,12 @@ class LLMClient:
                 # Opus 4.7/4.8 & Sonnet 4.6: depth is a NAMED effort level in
                 # output_config, paired with adaptive thinking. The old numeric
                 # thinking.budget_tokens is removed on these models (400s).
-                kwargs["output_config"] = {"effort": self.reasoning_effort}
-                kwargs["thinking"] = {"type": "adaptive"}
+                # Sent via extra_body so the SDK forwards them verbatim regardless
+                # of its version (older SDKs reject `output_config` as a kwarg).
+                kwargs["extra_body"] = {
+                    "output_config": {"effort": self.reasoning_effort},
+                    "thinking": {"type": "adaptive"},
+                }
             response = await self._client.messages.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
