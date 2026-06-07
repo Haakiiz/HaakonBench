@@ -77,13 +77,13 @@ One abstract CLI knob, **translated per provider** because providers disagree on
 
 | Tier | max_tokens | Anthropic Opus (effort) | OpenAI (reasoning.effort) | Gemini 3 (thinking_level) | xAI grok-4.3 (reasoning_effort) |
 |------|-----------|-------------------------|---------------------------|---------------------------|---------------------------------|
-| low | 4000 | low | low | low | low |
-| medium | 8000 | medium | medium | medium | medium |
-| high | 16000 | high | high | high | high |
-| max | 32000 | **max** | **xhigh** | high | high |
+| low | 8000 | low | low | low | low |
+| medium | 16000 | medium | medium | medium | medium |
+| high | 32000 | high | high | high | high |
+| max | 64000 | **max** | **xhigh** | high | high |
 
 Key per-provider facts (verified against provider docs):
-- **Anthropic** Opus 4.7/4.8 use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}`. The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. `max` is Opus-tier only; **Sonnet 4.6** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k; the `max` tier is 32k).
+- **Anthropic** Opus 4.7/4.8 use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. `max` is Opus-tier only; **Sonnet 4.6** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k; the `max` tier is 64k).
 - **OpenAI** gpt-5.5 supports `low/medium/high/xhigh` (also `minimal`/`none`); `max` tier uses `xhigh`.
 - **Gemini 3** uses a named `thinking_level` (low/medium/high), **not** the old numeric `thinking_budget` — passing a budget to a Gemini 3 model is a hard error. Set via `ThinkingConfig(thinking_level=...)` (case-insensitive).
 - **xAI** grok-4.3 **does** accept `reasoning_effort` (none/low/medium/high), sent via `extra_body`. (Older grok-4 rejects it.)
@@ -106,7 +106,7 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 
 | Provider | What `max_tokens` covers | Reasoning behavior |
 |---|---|---|
-| Anthropic (Claude) | Visible output only | Depth is the named `output_config.effort` level + `thinking: {type: "adaptive"}` (Opus 4.7/4.8, Sonnet 4.6). Numeric `budget_tokens` is **removed** (400s). Set via `LLMClient.reasoning_effort`. The client passes an explicit `timeout` so the non-streaming guard doesn't reject the 32k `max` tier. |
+| Anthropic (Claude) | **Thinking + visible output (shared)** — thinking tokens count toward `max_tokens` | Depth is the named `output_config.effort` level + `thinking: {type: "adaptive"}` (Opus 4.7/4.8, Sonnet 4.6). Numeric `budget_tokens` is **removed** (400s). Set via `LLMClient.reasoning_effort`. The client passes an explicit `timeout` so the non-streaming guard doesn't reject the 64k `max` tier. |
 | OpenAI (gpt-5.x, o1/o3/o4) | **Reasoning + output (shared)** via Responses API `max_output_tokens` | Always on. Effort defaults to `medium`, can consume 5–15k tokens before any visible output. |
 | xAI (grok-4.x) | Visible output only | Reasoning happens server-side, not counted against `max_tokens`. grok-4.3 accepts `reasoning_effort` (sent via `extra_body`); older grok-4 rejects it. |
 | Google (Gemini 2.5+/3.x) | **Thinking + output (shared)** via `max_output_tokens` | Thinking on by default. Gemini 3 controls depth with named `thinking_level` (low/medium/high), not numeric `thinking_budget`. |

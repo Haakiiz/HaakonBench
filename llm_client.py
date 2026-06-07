@@ -121,8 +121,8 @@ class LLMClient:
                 "max_tokens": self.max_tokens,
                 "messages": [{"role": "user", "content": prompt}],
                 # Explicit timeout suppresses the SDK's non-streaming guard, which
-                # otherwise raises for max_tokens > ~21k (our 'max' tier is 32k).
-                "timeout": 900.0,
+                # otherwise raises for max_tokens > ~21k (our 'max' tier is 64k).
+                "timeout": 1800.0,
             }
             if system:
                 kwargs["system"] = system

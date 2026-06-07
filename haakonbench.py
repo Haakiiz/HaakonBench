@@ -79,7 +79,7 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
-TIER_MAX_TOKENS = {"low": 4000, "medium": 8000, "high": 16000, "max": 32000}
+TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
