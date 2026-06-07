@@ -34,7 +34,7 @@ from llm_client import LLMClient
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
     ("anthropic", "claude-opus-4-8"),
-    ("anthropic", "claude-opus-4-7"),
+    #("anthropic", "claude-opus-4-7"),
     ("anthropic", "claude-sonnet-4-6"),
     ("anthropic", "claude-haiku-4-5"),
     ("openai",    "gpt-5.5"),
@@ -45,8 +45,8 @@ CONTESTANTS: list[tuple[str, str]] = [
 ]
 
 # ── Grader ─────────────────────────────────────────────────────────────────
-GRADER_PROVIDER = "anthropic"
-GRADER_MODEL    = "claude-sonnet-4-6"
+GRADER_PROVIDER = "google"
+GRADER_MODEL    = "gemini-3.5-flash"
 
 # ── The prompt ─────────────────────────────────────────────────────────────
 PROMPT = """I want you to create me a fishing strategy, as a level 60 human warrior on World of Warcraft Classic servers. I must be able to fish for an extended period of time where i am not killed and do not have to move. That is alliance zones, or maybe very hidden areas in contested zones. I have level 300 fishing and level 300 cooking, so please utilize both for maximum gold/hour. Tell me where to fish, when, what, etc. Give an estimated gold / hour for the different zones and areas and fish.
