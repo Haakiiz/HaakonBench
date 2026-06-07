@@ -45,6 +45,10 @@ python haakonbench.py --regrade --grader-model anthropic/claude-opus-4-7
 # Run models without grading (cheap connectivity check)
 python haakonbench.py --no-grade
 
+# Crank reasoning/thinking + token budget to the high or max tier
+python haakonbench.py --effort high
+python haakonbench.py --effort max --only anthropic/claude-opus-4-8
+
 # List all run folders
 python haakonbench.py --list
 
@@ -64,8 +68,21 @@ python test_grader.py --model claude-opus-4-7
 
 ### Benchmark flow (`haakonbench.py`)
 
-1. **Run phase** — `CONTESTANTS` list drives parallel async API calls via `LLMClient`. Each response is written to `results/{timestamp}/{provider}__{model}.md`.
-2. **Grade phase** — all successful responses are loaded, anonymised as letters (A, B, C…), and sent to the judge model in a single call. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Results go to `results/{timestamp}/_grades.md` with the letter→model key appended at the end.
+1. **Run phase** — `CONTESTANTS` list drives parallel async API calls via `LLMClient`. Each response is written to `results/{timestamp}/{provider}__{model}.md`. The file header carries an `<!-- HB_META ... -->` block recording wall-clock time, the effort tier, and token usage (input/output/reasoning/total) so it survives `--regrade`.
+2. **Grade phase** — all successful responses are loaded, anonymised as letters (A, B, C…), and sent to the judge model in a single call. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Results go to `results/{timestamp}/_grades.md` with the letter→model key appended, followed by an **Efficiency — raw data** table joining each model's Total score against its time and token counts (sorted by score). The score column is parsed best-effort from the judge's table; if parsing fails it shows `—` but the token/time columns still populate.
+
+### Effort tiers (`--effort {low,medium,high,max}`)
+
+One CLI knob maps to the right reasoning parameter per provider, defined in `EFFORT_TIERS` in `haakonbench.py`. Default is `medium` (matches the old hardcoded behavior).
+
+| Tier | max_tokens | Claude/Gemini thinking budget | OpenAI reasoning effort |
+|------|-----------|-------------------------------|-------------------------|
+| low | 4000 | off | low |
+| medium | 8000 | off | medium |
+| high | 16000 | 12000 | high |
+| max | 32000 | 24000 | high |
+
+`LLMClient` exposes `thinking_budget` (Anthropic extended thinking + Gemini thinking budget) and `reasoning_effort` (OpenAI). Grok reasoning is server-side and unaffected. After every `call()`, `client.last_usage` holds the normalized `{input,output,reasoning,total}_tokens` dict (parsed from each provider's usage object).
 
 ### Grader accuracy
 
@@ -83,7 +100,7 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 
 | Provider | What `max_tokens` covers | Reasoning behavior |
 |---|---|---|
-| Anthropic (Claude) | Visible output only | Extended thinking is a **separate** `thinking.budget_tokens` parameter. Not currently enabled in our client. |
+| Anthropic (Claude) | Visible output only | Extended thinking is a **separate** `thinking.budget_tokens` parameter. Enabled via `LLMClient.thinking_budget` (set by `--effort high`/`max`). Thinking tokens count toward `max_tokens`, so the client auto-bumps `max_tokens` above the budget. |
 | OpenAI (gpt-5.x, o1/o3/o4) | **Reasoning + output (shared)** via Responses API `max_output_tokens` | Always on. Effort defaults to `medium`, can consume 5–15k tokens before any visible output. |
 | xAI (grok-4.x) | Visible output only | Reasoning happens server-side, not counted against `max_tokens` in chat.completions. |
 | Google (Gemini 2.5+/3.x) | **Thinking + output (shared)** via `max_output_tokens` | Thinking on by default. |

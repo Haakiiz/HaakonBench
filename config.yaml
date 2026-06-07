@@ -50,3 +50,16 @@ workers: 5
 # temperature: kreativitet/variasjon. 0 = deterministisk, 1 = maks variasjon.
 max_tokens: 4096
 temperature: 0.7
+
+
+# ── Reasoning / tenking (valgfritt) ───────────────────────────────────────
+# Disse styrer reasoning-budsjett når du kaller LLMClient direkte. Benchmarken
+# (haakonbench.py) overstyrer dem via --effort {low,medium,high,max}.
+#   thinking_budget:  antall tokens til intern tenking.
+#       0 = av (provider-default). Brukes av Anthropic (extended thinking) og
+#       Gemini (thinking budget). For Claude må max_tokens være større enn
+#       dette — klienten bumper den automatisk hvis ikke.
+#   reasoning_effort: OpenAI Responses API ("low" | "medium" | "high").
+#       Tom = provider-default (medium). Ignoreres av andre leverandører.
+thinking_budget: 0
+reasoning_effort:
