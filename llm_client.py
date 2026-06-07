@@ -49,8 +49,10 @@ class LLMClient:
         self.temperature = self.config.get("temperature", 0.7)
         self.workers = self.config.get("workers", 5)
         # Reasoning/thinking knobs. 0 / None = provider default (off).
-        #   thinking_budget   → Anthropic extended thinking + Gemini thinking budget
-        #   reasoning_effort  → OpenAI Responses API ("low" | "medium" | "high")
+        #   thinking_budget   → Anthropic extended thinking budget_tokens (numeric)
+        #   reasoning_effort  → named level for the providers that use one:
+        #                       OpenAI reasoning.effort, Gemini 3 thinking_level,
+        #                       xAI reasoning_effort (e.g. "low"/"medium"/"high"/"xhigh")
         self.thinking_budget = self.config.get("thinking_budget", 0)
         self.reasoning_effort = self.config.get("reasoning_effort", None)
         # Populated after each call() so callers can read token usage.
@@ -215,11 +217,17 @@ class LLMClient:
                 messages.append({"role": "system", "content": system})
             messages.append({"role": "user", "content": prompt})
 
-            response = await self._client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                max_tokens=self.max_tokens,
-            )
+            kwargs = {
+                "model": self.model,
+                "messages": messages,
+                "max_tokens": self.max_tokens,
+            }
+            # grok-4.3 accepts reasoning_effort (low/medium/high); older grok-4
+            # rejects it. Sent via extra_body so the OpenAI SDK forwards it
+            # verbatim to the xAI endpoint without client-side enum validation.
+            if self.reasoning_effort:
+                kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
+            response = await self._client.chat.completions.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
                 details = getattr(u, "completion_tokens_details", None)
@@ -244,9 +252,12 @@ class LLMClient:
                 temperature=self.temperature,
                 system_instruction=system if system else None,
             )
-            if self.thinking_budget and self.thinking_budget > 0:
+            # Gemini 3 uses a named thinking_level (low/medium/high), NOT the old
+            # numeric thinking_budget — passing a budget to a Gemini 3 model is a
+            # hard error. reasoning_effort carries the level (case-insensitive).
+            if self.reasoning_effort:
                 config_kwargs["thinking_config"] = types.ThinkingConfig(
-                    thinking_budget=self.thinking_budget
+                    thinking_level=self.reasoning_effort
                 )
             config = types.GenerateContentConfig(**config_kwargs)
             response = await self._client.aio.models.generate_content(

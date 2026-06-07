@@ -54,12 +54,14 @@ temperature: 0.7
 
 # ── Reasoning / tenking (valgfritt) ───────────────────────────────────────
 # Disse styrer reasoning-budsjett når du kaller LLMClient direkte. Benchmarken
-# (haakonbench.py) overstyrer dem via --effort {low,medium,high,max}.
-#   thinking_budget:  antall tokens til intern tenking.
-#       0 = av (provider-default). Brukes av Anthropic (extended thinking) og
-#       Gemini (thinking budget). For Claude må max_tokens være større enn
-#       dette — klienten bumper den automatisk hvis ikke.
-#   reasoning_effort: OpenAI Responses API ("low" | "medium" | "high").
-#       Tom = provider-default (medium). Ignoreres av andre leverandører.
+# (haakonbench.py) overstyrer dem via --effort {low,medium,high,max}, som
+# oversettes per leverandør (se PROVIDER_EFFORT i haakonbench.py).
+#   thinking_budget:  KUN Anthropic — antall tokens til extended thinking.
+#       0 = av. For Claude må max_tokens være større enn dette — klienten
+#       bumper den automatisk hvis ikke.
+#   reasoning_effort: navngitt nivå for leverandørene som bruker det:
+#       OpenAI (reasoning.effort: low/medium/high/xhigh), Gemini 3
+#       (thinking_level: low/medium/high), xAI grok-4.3 (reasoning_effort).
+#       Tom = provider-default. Ignoreres av Anthropic.
 thinking_budget: 0
 reasoning_effort:

@@ -59,19 +59,30 @@ BODY_SEP            = "\n<!-- BEGIN RESPONSE -->\n"
 META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 
 # ── Effort tiers ───────────────────────────────────────────────────────────
-# One knob (--effort) that maps to the right parameter per provider:
-#   max_tokens       — visible-output target (also the shared budget floor for
-#                      OpenAI/Gemini, see llm_client.py)
-#   thinking_budget  — Anthropic extended thinking + Gemini thinking budget
-#   reasoning_effort — OpenAI Responses API effort level
-# Grok reasoning is server-side and can't be tuned from here.
-EFFORT_TIERS: dict[str, dict] = {
-    "low":    dict(max_tokens=4000,  thinking_budget=0,     reasoning_effort="low"),
-    "medium": dict(max_tokens=8000,  thinking_budget=0,     reasoning_effort="medium"),
-    "high":   dict(max_tokens=16000, thinking_budget=12000, reasoning_effort="high"),
-    "max":    dict(max_tokens=32000, thinking_budget=24000, reasoning_effort="high"),
-}
+# One user-facing knob (--effort low|medium|high|max). Each tier sets a
+# universal output-token budget, then is TRANSLATED per provider — because the
+# providers disagree on both the kind of knob and the level names:
+#
+#   anthropic → thinking.budget_tokens   (numeric; 0 = off)
+#   openai    → reasoning.effort          (low/medium/high/xhigh)
+#   google    → thinking_level            (low/medium/high; Gemini 3 rejects
+#                                           the old numeric thinking_budget)
+#   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
+#
+# PROVIDER_EFFORT below is the SINGLE place to edit when a provider adds or
+# renames a level. None = leave the provider default. An unsupported value just
+# makes that one call fail loudly (saved as FAILED), never a silent empty.
+TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
+
+TIER_MAX_TOKENS = {"low": 4000, "medium": 8000, "high": 16000, "max": 32000}
+
+PROVIDER_EFFORT: dict[str, dict[str, object]] = {
+    "anthropic": {"low": 0,     "medium": 0,        "high": 12000,  "max": 24000},   # budget_tokens
+    "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning.effort
+    "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
+    "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # reasoning_effort
+}
 
 
 # ── Folder helpers ─────────────────────────────────────────────────────────
@@ -130,16 +141,26 @@ def slug(provider: str, model: str) -> str:
     return f"{provider}__{re.sub(r'[^A-Za-z0-9._-]+', '-', model)}"
 
 
+def resolve_effort(provider: str, effort: str) -> tuple[int, object]:
+    """Translate an abstract tier into (max_tokens, provider-specific knob).
+    For Anthropic the knob is a numeric thinking budget; for everyone else it's
+    a named reasoning/thinking level string (or None for provider default)."""
+    return TIER_MAX_TOKENS[effort], PROVIDER_EFFORT.get(provider, {}).get(effort)
+
+
 async def run_contestant(
-    provider: str, model: str, tier: dict,
+    provider: str, model: str, effort: str,
 ) -> tuple[str, str, float, str | None, dict | None]:
     label = slug(provider, model)
     t0 = time.perf_counter()
     try:
+        max_tokens, knob = resolve_effort(provider, effort)
         client = LLMClient(provider=provider, model=model)
-        client.max_tokens = tier["max_tokens"]
-        client.thinking_budget = tier["thinking_budget"]
-        client.reasoning_effort = tier["reasoning_effort"]
+        client.max_tokens = max_tokens
+        if provider == "anthropic":
+            client.thinking_budget = int(knob or 0)   # numeric budget_tokens
+        else:
+            client.reasoning_effort = knob             # named level (or None)
         response = await client.call(PROMPT)
         return label, response, time.perf_counter() - t0, None, client.last_usage
     except Exception as e:
@@ -480,10 +501,10 @@ async def main():
     parser.add_argument("--grader-model", default=None,
                         help="Override grader model as provider/model (e.g. anthropic/claude-opus-4-7). "
                              f"Default: {GRADER_PROVIDER}/{GRADER_MODEL}")
-    parser.add_argument("--effort", choices=list(EFFORT_TIERS), default=DEFAULT_EFFORT,
-                        help="Reasoning/thinking + token budget tier. "
-                             "low/medium/high/max maps to per-provider params "
-                             "(Claude thinking budget, OpenAI reasoning effort, Gemini thinking budget). "
+    parser.add_argument("--effort", choices=TIERS, default=DEFAULT_EFFORT,
+                        help="Reasoning/thinking + token budget tier, translated per provider "
+                             "(Claude thinking budget, OpenAI reasoning effort, Gemini thinking_level, "
+                             "Grok reasoning_effort). See PROVIDER_EFFORT. "
                              f"Default: {DEFAULT_EFFORT}.")
     args = parser.parse_args()
 
@@ -504,14 +525,14 @@ async def main():
         print(f"Re-grading run: {run_dir.name}\n")
     else:
         to_run = parse_only(args.only) if args.only else CONTESTANTS
-        tier   = EFFORT_TIERS[args.effort]
         verb   = "Adding to" if args.only else "Starting new run in"
         print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort})\n")
         for provider, model in to_run:
-            print(f"  • {provider:10s} {model}")
+            _, knob = resolve_effort(provider, args.effort)
+            print(f"  • {provider:10s} {model:32s} → {knob}")
         print()
 
-        tasks   = [run_contestant(p, m, tier) for p, m in to_run]
+        tasks   = [run_contestant(p, m, args.effort) for p, m in to_run]
         results = await asyncio.gather(*tasks)
         for label, response, secs, err, usage in results:
             save_result(run_dir, label, response, secs, err, usage, effort=args.effort)
