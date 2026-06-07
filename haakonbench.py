@@ -60,25 +60,29 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 
 # ── Effort tiers ───────────────────────────────────────────────────────────
 # One user-facing knob (--effort low|medium|high|max). Each tier sets a
-# universal output-token budget, then is TRANSLATED per provider — because the
-# providers disagree on both the kind of knob and the level names:
+# universal output-token budget, then is TRANSLATED per provider. Every provider
+# that exposes a knob now uses a NAMED effort level — but the names and ceilings
+# differ, and some are Opus-only:
 #
-#   anthropic → thinking.budget_tokens   (numeric; 0 = off)
+#   anthropic → output_config.effort + adaptive thinking
+#               (low/medium/high/xhigh/max; 'max' is Opus-only; Haiku 4.5
+#                supports neither effort nor adaptive thinking → no knob)
 #   openai    → reasoning.effort          (low/medium/high/xhigh)
 #   google    → thinking_level            (low/medium/high; Gemini 3 rejects
 #                                           the old numeric thinking_budget)
 #   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
 #
-# PROVIDER_EFFORT below is the SINGLE place to edit when a provider adds or
-# renames a level. None = leave the provider default. An unsupported value just
-# makes that one call fail loudly (saved as FAILED), never a silent empty.
+# PROVIDER_EFFORT is the SINGLE place to edit when a provider adds or renames a
+# level; resolve_effort() applies the per-model Anthropic caps. None = leave the
+# provider default. An unsupported value just makes that one call fail loudly
+# (saved as FAILED), never a silent empty.
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
 TIER_MAX_TOKENS = {"low": 4000, "medium": 8000, "high": 16000, "max": 32000}
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
-    "anthropic": {"low": 0,     "medium": 0,        "high": 12000,  "max": 24000},   # budget_tokens
+    "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
     "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning.effort
     "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
     "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # reasoning_effort
@@ -141,11 +145,18 @@ def slug(provider: str, model: str) -> str:
     return f"{provider}__{re.sub(r'[^A-Za-z0-9._-]+', '-', model)}"
 
 
-def resolve_effort(provider: str, effort: str) -> tuple[int, object]:
-    """Translate an abstract tier into (max_tokens, provider-specific knob).
-    For Anthropic the knob is a numeric thinking budget; for everyone else it's
-    a named reasoning/thinking level string (or None for provider default)."""
-    return TIER_MAX_TOKENS[effort], PROVIDER_EFFORT.get(provider, {}).get(effort)
+def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]:
+    """Translate an abstract tier into (max_tokens, provider-specific effort level).
+    Returns a named level string, or None to leave the provider default. Applies
+    the per-model Anthropic caps (Haiku has no knob; max/xhigh are Opus-only)."""
+    knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
+    if provider == "anthropic":
+        m = model.lower()
+        if "haiku" in m:
+            knob = None                       # Haiku 4.5: no effort, no adaptive thinking
+        elif "sonnet" in m and knob in ("xhigh", "max"):
+            knob = "high"                     # 'max'/'xhigh' are Opus-tier only
+    return TIER_MAX_TOKENS[effort], knob
 
 
 async def run_contestant(
@@ -154,13 +165,10 @@ async def run_contestant(
     label = slug(provider, model)
     t0 = time.perf_counter()
     try:
-        max_tokens, knob = resolve_effort(provider, effort)
+        max_tokens, knob = resolve_effort(provider, model, effort)
         client = LLMClient(provider=provider, model=model)
         client.max_tokens = max_tokens
-        if provider == "anthropic":
-            client.thinking_budget = int(knob or 0)   # numeric budget_tokens
-        else:
-            client.reasoning_effort = knob             # named level (or None)
+        client.reasoning_effort = knob        # named level (or None for provider default)
         response = await client.call(PROMPT)
         return label, response, time.perf_counter() - t0, None, client.last_usage
     except Exception as e:
@@ -502,10 +510,10 @@ async def main():
                         help="Override grader model as provider/model (e.g. anthropic/claude-opus-4-7). "
                              f"Default: {GRADER_PROVIDER}/{GRADER_MODEL}")
     parser.add_argument("--effort", choices=TIERS, default=DEFAULT_EFFORT,
-                        help="Reasoning/thinking + token budget tier, translated per provider "
-                             "(Claude thinking budget, OpenAI reasoning effort, Gemini thinking_level, "
-                             "Grok reasoning_effort). See PROVIDER_EFFORT. "
-                             f"Default: {DEFAULT_EFFORT}.")
+                        help="Reasoning/thinking + token budget tier, translated to each provider's "
+                             "named effort level (Claude output_config.effort + adaptive thinking, "
+                             "OpenAI reasoning.effort, Gemini thinking_level, Grok reasoning_effort). "
+                             f"See PROVIDER_EFFORT. Default: {DEFAULT_EFFORT}.")
     args = parser.parse_args()
 
     if args.list:
@@ -528,7 +536,7 @@ async def main():
         verb   = "Adding to" if args.only else "Starting new run in"
         print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort})\n")
         for provider, model in to_run:
-            _, knob = resolve_effort(provider, args.effort)
+            _, knob = resolve_effort(provider, model, args.effort)
             print(f"  • {provider:10s} {model:32s} → {knob}")
         print()
 

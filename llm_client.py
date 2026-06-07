@@ -48,12 +48,14 @@ class LLMClient:
         self.max_tokens = self.config.get("max_tokens", 1024)
         self.temperature = self.config.get("temperature", 0.7)
         self.workers = self.config.get("workers", 5)
-        # Reasoning/thinking knobs. 0 / None = provider default (off).
-        #   thinking_budget   → Anthropic extended thinking budget_tokens (numeric)
-        #   reasoning_effort  → named level for the providers that use one:
-        #                       OpenAI reasoning.effort, Gemini 3 thinking_level,
-        #                       xAI reasoning_effort (e.g. "low"/"medium"/"high"/"xhigh")
-        self.thinking_budget = self.config.get("thinking_budget", 0)
+        # Reasoning/thinking knob. None = provider default. Every provider that
+        # exposes a knob now uses a NAMED effort level (not a numeric budget):
+        #   Anthropic Opus/Sonnet → output_config.effort + adaptive thinking
+        #                           (low/medium/high/xhigh/max; budget_tokens is
+        #                            removed on Opus 4.7/4.8 and 400s)
+        #   OpenAI                → reasoning.effort (low/medium/high/xhigh)
+        #   Gemini 3              → thinking_level (low/medium/high)
+        #   xAI grok-4.3          → reasoning_effort (low/medium/high)
         self.reasoning_effort = self.config.get("reasoning_effort", None)
         # Populated after each call() so callers can read token usage.
         self.last_usage: Optional[dict] = None
@@ -118,15 +120,18 @@ class LLMClient:
                 "model": self.model,
                 "max_tokens": self.max_tokens,
                 "messages": [{"role": "user", "content": prompt}],
+                # Explicit timeout suppresses the SDK's non-streaming guard, which
+                # otherwise raises for max_tokens > ~21k (our 'max' tier is 32k).
+                "timeout": 900.0,
             }
             if system:
                 kwargs["system"] = system
-            if self.thinking_budget and self.thinking_budget > 0:
-                # Extended thinking. Thinking tokens count toward max_tokens, so
-                # max_tokens MUST exceed the budget — bump it if the caller didn't.
-                kwargs["thinking"] = {"type": "enabled", "budget_tokens": self.thinking_budget}
-                if self.max_tokens <= self.thinking_budget:
-                    kwargs["max_tokens"] = self.thinking_budget + 4000
+            if self.reasoning_effort:
+                # Opus 4.7/4.8 & Sonnet 4.6: depth is a NAMED effort level in
+                # output_config, paired with adaptive thinking. The old numeric
+                # thinking.budget_tokens is removed on these models (400s).
+                kwargs["output_config"] = {"effort": self.reasoning_effort}
+                kwargs["thinking"] = {"type": "adaptive"}
             response = await self._client.messages.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
