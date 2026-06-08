@@ -280,11 +280,23 @@ GRADER_SYSTEM_TEMPLATE = (
 def _format_reference_data(data: dict) -> str:
     lines = ["## Verified WoW Classic Fishing Reference Data (ground truth)", ""]
 
+    # Hide machine-extracted entries that have not yet passed fact-checking
+    # (verified: false). Hand-curated entries carry no `verified` key and are
+    # always trusted; verified-true entries are included. This keeps unverified
+    # (possibly hallucinated) extractions out of the grader's ground truth.
+    # See extract_statements.py / factcheck_reference.py.
+    def _trusted(entry) -> bool:
+        return not (isinstance(entry, dict) and entry.get("verified") is False)
+    data = {
+        k: ([e for e in v if _trusted(e)] if isinstance(v, list) else v)
+        for k, v in (data or {}).items()
+    }
+
     if data.get("cooking_recipes"):
         lines.append("### Cooking Recipes")
         for r in data["cooking_recipes"]:
-            lines.append(f"- **{r['name']}**: ingredients: {', '.join(r['ingredients'])} | "
-                         f"buff: {r['buff']} ({r.get('buff_duration', '?')}) | "
+            lines.append(f"- **{r.get('name', '?')}**: ingredients: {', '.join(r.get('ingredients', []))} | "
+                         f"buff: {r.get('buff', '?')} ({r.get('buff_duration', '?')}) | "
                          f"source: {r.get('recipe_source', '?')}")
             if r.get("notes"):
                 lines.append(f"  - Note: {r['notes']}")
@@ -293,7 +305,7 @@ def _format_reference_data(data: dict) -> str:
     if data.get("fish"):
         lines.append("### Fish")
         for f in data["fish"]:
-            parts = [f"**{f['name']}**"]
+            parts = [f"**{f.get('name', '?')}**"]
             if f.get("time_restriction"):
                 parts.append(f"time: {f['time_restriction']}")
             if f.get("notes"):
@@ -306,7 +318,7 @@ def _format_reference_data(data: dict) -> str:
         for z in data["zones"]:
             if not isinstance(z, dict):
                 continue
-            lines.append(f"- **{z['name']}**: {z.get('faction_safety', '')} | PvP: {z.get('pvp_risk', '?')}")
+            lines.append(f"- **{z.get('name', '?')}**: {z.get('faction_safety', '')} | PvP: {z.get('pvp_risk', '?')}")
             if z.get("notes"):
                 lines.append(f"  - {z['notes']}")
         lines.append("")
@@ -321,13 +333,13 @@ def _format_reference_data(data: dict) -> str:
         lines.append("### Vendors")
         for v in data["vendors"]:
             sells = ", ".join(v.get("sells", []))
-            lines.append(f"- **{v['name']}** ({v['location']}): {sells}")
+            lines.append(f"- **{v.get('name', '?')}** ({v.get('location', '?')}): {sells}")
         lines.append("")
 
     if data.get("items_and_clarifications"):
         lines.append("### Item Clarifications")
         for item in data["items_and_clarifications"]:
-            lines.append(f"- **{item['name']}** ({item.get('type', '')}): {item.get('notes', '')}")
+            lines.append(f"- **{item.get('name', '?')}** ({item.get('type', '')}): {item.get('notes', '')}")
             if item.get("bonus"):
                 lines.append(f"  - Bonus: {item['bonus']} for {item.get('duration', '?')}")
         lines.append("")
