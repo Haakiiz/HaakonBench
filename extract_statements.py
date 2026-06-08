@@ -90,13 +90,48 @@ def parse_json_obj(text: str) -> dict | None:
         return None
 
 
-def gather_response_files(results_dir: Path, limit: int | None) -> list[Path]:
-    files = sorted(
-        p for p in results_dir.glob("*/*.md") if not p.name.startswith("_")
-    )
+MANIFEST_PATH = Path(".extracted_files.json")
+
+
+def load_manifest(path: Path = MANIFEST_PATH) -> set[str]:
+    """Set of result-file keys already extracted in a previous run. Committed to
+    git so the skip-state survives the ephemeral container being reclaimed."""
+    if path.exists():
+        try:
+            return set(json.loads(path.read_text(encoding="utf-8")))
+        except (json.JSONDecodeError, ValueError):
+            print(f"  WARNING: {path} is unreadable — treating as empty.", file=sys.stderr)
+    return set()
+
+
+def save_manifest(processed: set[str], path: Path = MANIFEST_PATH) -> None:
+    path.write_text(json.dumps(sorted(processed), indent=2) + "\n", encoding="utf-8")
+
+
+def file_key(results_dir: Path, path: Path) -> str:
+    """Stable manifest key, e.g. '2026-05-28_190443/openai__gpt-5.5.md'."""
+    return str(path.relative_to(results_dir))
+
+
+def select_files(results_dir: Path, manifest: set[str], runs: list[str] | None,
+                 scan_all: bool, limit: int | None) -> tuple[list[Path], int]:
+    """Pick which response files to extract this run. Returns (files, n_skipped).
+
+    Default: every file not already in the manifest. --run targets specific run
+    folders (ignoring the manifest); --all forces a full re-scan.
+    """
+    all_files = sorted(p for p in results_dir.glob("*/*.md") if not p.name.startswith("_"))
+    if runs:
+        wanted = set(runs)
+        selected = [p for p in all_files if p.parent.name in wanted]
+    elif scan_all:
+        selected = all_files
+    else:
+        selected = [p for p in all_files if file_key(results_dir, p) not in manifest]
+    skipped = len(all_files) - len(selected)
     if limit:
-        files = files[:limit]
-    return files
+        selected = selected[:limit]
+    return selected, skipped
 
 
 def read_body(path: Path) -> str | None:
@@ -188,7 +223,10 @@ async def main() -> int:
     ap = argparse.ArgumentParser(description="Extract WoW Classic facts from benchmark responses.")
     ap.add_argument("--results-dir", default="results", type=Path)
     ap.add_argument("--limit", type=int, default=None, help="only process the first N response files")
-    ap.add_argument("--dry-run", action="store_true", help="print what would be added, write nothing")
+    ap.add_argument("--dry-run", action="store_true", help="print what would be added, write nothing (manifest untouched)")
+    ap.add_argument("--all", action="store_true", help="re-scan every file, ignoring the manifest")
+    ap.add_argument("--run", action="append", metavar="FOLDER",
+                    help="only this run folder (repeatable), ignoring the manifest")
     ap.add_argument("--provider", default="openai")
     ap.add_argument("--model", default="gpt-5.4-mini")
     ap.add_argument("--effort", default="low", help="reasoning effort for the extractor")
@@ -197,10 +235,14 @@ async def main() -> int:
 
     load_dotenv()
 
-    files = gather_response_files(args.results_dir, args.limit)
+    manifest = load_manifest()
+    files, skipped = select_files(args.results_dir, manifest, args.run, args.all, args.limit)
+    if skipped and not args.run:
+        print(f"Skipping {skipped} already-extracted file(s) (use --all to re-scan).")
     if not files:
-        print(f"No response files found under {args.results_dir}/*/*.md", file=sys.stderr)
-        return 1
+        print("No new files to extract." if manifest else
+              f"No response files found under {args.results_dir}/*/*.md", file=sys.stderr)
+        return 0 if manifest else 1
 
     pairs = [(p, body) for p in files if (body := read_body(p))]
     print(f"Extracting from {len(pairs)} response file(s) with {args.provider}/{args.model} "
@@ -238,16 +280,27 @@ async def main() -> int:
         for path, err in failures:
             print(f"    - {path.parent.name}/{path.name}: {err}")
 
-    if total_added == 0:
-        print("\nNothing new to add.")
-        return 0
+    # Mark only successfully-extracted files; files that errored stay off the
+    # manifest so the next run retries them (transient API failures self-heal).
+    processed_now = {file_key(args.results_dir, p) for p, extracted, err in results
+                     if not (err or extracted is None)}
+
     if args.dry_run:
-        print("\n--dry-run: wow_reference.yaml NOT modified.")
+        print(f"\n--dry-run: nothing written ({len(processed_now)} file(s) would be "
+              f"marked extracted).")
         return 0
 
-    save_reference(data)
-    print(f"\nWrote {total_added} new (verified: false) entries to wow_reference.yaml.")
-    print("Next: run `python factcheck_reference.py` to verify them against the web.")
+    if total_added:
+        save_reference(data)
+        print(f"\nWrote {total_added} new (verified: false) entries to wow_reference.yaml.")
+        print("Next: run `python factcheck_reference.py` to verify them against the web.")
+    else:
+        print("\nNo new entries for wow_reference.yaml (all duplicates/filtered).")
+
+    if processed_now:
+        save_manifest(manifest | processed_now)
+        print(f"Manifest: +{len(processed_now)} file(s) marked extracted "
+              f"({len(manifest | processed_now)} total). Commit {MANIFEST_PATH} to persist.")
     return 0
 
 
