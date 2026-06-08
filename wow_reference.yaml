@@ -2,6 +2,7 @@
 # Used by the grader as ground truth for fact-checking.
 
 cooking_recipes:
+
 - name: Nightfin Soup
   ingredients:
   - 1x Raw Nightfin Snapper
@@ -14,6 +15,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELa3A4s3XM_Bg2-K3B5GkCXZ7E0x6cw0LLUau2KRS8I9Ov89QJGayKTL50Py3hKnpKzfj3nL0qi-SnaH4NUed8ju-Xb3qQ7vf_djT2HNB74WUG4RMftWWNnGTClT98S6Udooinnc_TnCFIHs9b3l5F4A=="
   notes: Feeds casters and healers.
+
 - name: Mightfish Steak
   ingredients:
   - 1x Large Raw Mightfish
@@ -27,6 +29,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF65Oyi-fAGoWJh7KyQfY2utwZZWBpMtMhWdwwEckst8gDpWilTkOkArszvMf74M80oQOt71s4YhuWpB3Exhm3Zwu0L8ZQQn-P52387pgJejY56Tc0LotVxTvQ3rouCzzj52RkbuU6KAxTH_Pa-rfr1PNIhgDIct7o0RozdOmBlaMPf9HZupQ=="
   notes: Uses Large Raw Mightfish.
+
 - name: Grilled Squid
   ingredients:
   - 1x Winter Squid and 1x Soothing Spices
@@ -38,6 +41,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQMsCKRaiKDZIMSo-vQpldypQ6QWvxjZmrwsody5LscRQ53XxZ4R8g4iphPlcV4L5igh-CCTVX0Rh0yXFPL3kkdkNHDiNf_OvWbcj3xuBhHZzA94QpTw=="
   notes: Feeds rogues, hunters, and warriors.
+
 - name: Savory Deviate Delight
   ingredients:
   - 1x Deviate Fish
@@ -50,6 +54,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxFpWm2sfmjpM-WCs9kyB4XoHb5wOCNweP5MlvFtNFiWI-SdEauSaK6TDTZBdxuQjq69gOdppjwY_18MLv31y_fVX1E75bCtBn3hmV4w7f7UKz45FiGEbn66JL99eVzt5crCb3SdSsc5OXkxYh"
+
 - name: Baked Salmon
   ingredients:
   - 1x Raw Whitescale Salmon
@@ -61,6 +66,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-WDUuwCJvniwvJ-vUiO-XLo6QzubA4dVcN49FGc6__vtV2q8syjT57VKbFDKYdismUXkPGCxdD_bWtRrNEr3G2crnlUMLNAcGLnzdIevIg6E-BNGrbBkLKtrFXttx-XxQcvWKStLbdt-nEhigOAilBvLiz14F349-cEsxWYWE7Q5XrsdpOUpYGiVGeGtEkl4fHVIJ3sgE4set2g=="
+
 - name: Filet of Redgill
   ingredients:
   - 1x Raw Redgill
@@ -72,6 +78,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYoBKhciQCtGU-lW_mIxyPJAl4IaWTx932Cj04EmK_Q5eRZOjZdjYEoGHiTv79felVhExnLlpxQTkqDE_ATB0YLE0hJHMChwnhMvemnfTCJq9yC_Eu6lyx3Ermp9GhLdcojR3Aeg8Huj46duvwsAmJBVZEAMMxXTnjJZ43Fp8-UW-D5HM="
+
 - name: Hot Wolf Ribs
   ingredients:
   - 1x Lean Wolf Flank
@@ -83,6 +90,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP14k4ik5k1-orLErHvLuehzZFAtA9LGzou1rxXFqDEGeLQiXf0EJA8GrfohxP1LkFuUf3qYpMHWl8VKvOIJL7Yz2kMMyGj6Q5GvrlxVa6sY0gs_u4EZ2CgqvB8zk5qWIeSPYtt5VGhAwky24xcQReYLdv6G-V68ZjlngfE7L91i1Z30EaovUsJ0xzdEKWOE6hCczOk5gnP0-FVw=="
+
 - name: Undermine Clam Chowder
   ingredients:
   - 2x Zesty Clam Meat
@@ -96,6 +104,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9cEWLctkLfUWAGj1eMihnsyPDcY3eRxlA3hnQ0AQUeO7grIsJXV4FYi3C2ltTn5bQIGQicmthaliqr6xXxQsnGBvptK07kEaIomEsAg1eRu2QS0k9VuRqSb_88mAZZD2k7lpI2-NnHJ8T"
+
 - name: Bristle Whisker Catfish
   ingredients:
   - 1x Raw Bristle Whisker Catfish
@@ -105,6 +114,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR_h5bXkAl_wWQkz_r258MUUI8WmnECt-bKTOvpYm33qJ-sGFTnwrndln6GfBBVqa8IG4k9w_e-kDTFjJrbqm4SQ88vMy7bAc2N1_jHrAob2F9Nknd"
   buff: None' (restores health only)
+
 - name: Tender Wolf Steak
   ingredients:
   - 1x Tender Wolf Meat and 1x Soothing Spices
@@ -113,6 +123,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNrUp7CsqhK7pamKw8o3oOHF2NNZku0pKZPMIzdEIKcxo9X847viGuwnkEYt_XhdMKyLB_qnABV5ZMgv9zZg_a_gtjXTCq__lemtdWttkQN412hqEtDjViWg0K3iQI6Bgh5rGL2mHwPRFSUXgvBtCkyG5YG8wS_jSTWn_EZ2E="
+
 - name: Mithril Head Trout
   ingredients:
   - 1 Raw Mithril Head Trout
@@ -121,6 +132,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3QtqQwf_fOi1h2ekKPvYBvGnM3V0wG-UpOXTlMv0Qf9Vt94sp7w7IHAJl9naQkxivgX2RFzvg78eBDuD_EaajNXKySlZ2hl8y32ugKCFu92yIFdQiYxYb97hymwGD9UQWT5Td6KF9A_XFMmlYFRlGhTD2EMvbbOszKLC8xE6wM6HtvmuRp0YVt8bxEKlhTS-7Gsy7lju2-RBGmA=="
+
 - name: Hot Smoked Bass
   ingredients:
   - 1 Raw Summer Bass and 2 Hot Spices
@@ -129,6 +141,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAiWwFfBne75tdo_fPT-rCNmQm7VrM4rjyAmIX7abPqiBKGhewAk06zGbtoLcdAkZpTk-FPIuqtFlxLikYtZ9EHnVxe90hQapDZ96qNoc8aXP9E_t_Kz2SCwmaXBZiQ-wd8lM3CDlcFY3T-ZleSiRX9vDZDejt4xKZzIr50Ez6Jj-__J9QXiwhI4Luo7E2iZlTJJude87EA8XiFg=="
+
 - name: Lobster Stew
   ingredients:
   - 1x Darkclaw Lobster, 1x Refreshing Spring Water
@@ -138,6 +151,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg9i3PdzSUNd6jXJtMgS73vPGM--ARgDBXwd5YhU89B_mU46uR9qIWZO29ApIBecPYHYyHUw_HdRJNcXEKH46PK5OJMTR7mMa_C7srAZayRhkqI_WVM9gjNCF2Q9-oztWtq0cswyWPd-Gij0LS6LofE74AvOyzp2GIlrnUfVz1MIL-aNjF1eGdHRHrbUrpE9UHiqDAF9c9NSCpwg=="
+
 - name: Spotted Yellowtail
   ingredients:
   - 1 Raw Spotted Yellowtail
@@ -147,6 +161,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   recipe_source: Gikkix in Steamwheedle Port, Tanaris
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhvKSNXzQYxTPUGqpX_0esoXuOWJDw8fbGi9ZzSn2EUrWFSqlHpgzNXKjcbgq9SHYmChMvk8mStmESx2QPLwnzmu6LcgAcdCDdnAQhtSyDW6wIMAyxKSSZ6OcpBgpGO576rxOsni5Jpo23ikSCWPdbQFtVbHkOkI0="
+
 - name: Clam Chowder
   ingredients:
   - Clam Meat
@@ -155,6 +170,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS_i407Jk_idwbDOjCRX6SXqsxcCvYe-yru-sh_o8zoBm_V2vbZZm9NuZM6JkVoiW8XexJGYy1qhllFqK05Pqmmc-fhR3COvZN-I0E_dl1fqY1W5BZvD_7brpukMrQ1KVulJ4fa5Fbqe64615jPnCOBE8="
+
 - name: Cooked Glossy Mightfish
   ingredients:
   - Raw Glossy Mightfish
@@ -165,6 +181,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHr1eKFUr-mRkFBIoE0_EioL4iRNZPeSBqAC96xHWSF0lbc3KSKQcQtn9ZGY3fFmNM4z3vNv9vZ_7kXTsCFAWC-tr8z_8JqbYkzG__05QxtTk9KyPB"
+
 - name: "Recipe: Poached Sunscale Salmon"
   ingredients:
   - Sunscale Salmon
@@ -175,11 +192,13 @@ cooking_recipes:
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqqmH6_4eKQdLW-cBjKXgyWh-QPGqbsTMTk9lvK5TrvDZSvhKPkbkeOfDwVycn1b1qOlDxrkBI-9PmgtKDJABW4-ExsYSZYruvVlxkhREq7LGnDnE1KbmdgI_7U062Tx3T5YyHcXtbK1rffBTf7V26nAxmHRc="
   buff_duration: 10 minutes
   skill_required: '250'
+
 - name: Sagefish Delight
   recipe_source: "Purchased from specific vendors (e.g., Shandrina in Ashenvale or Gikkix in Tanaris)"
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLAEY01jRTZtLhc57G_3Bz8iyNA5L_hHo3SDyL-9J5y09CC_opOFZlFu9KenPUiVap3h4M3vOSUrCDDgCcf8xN9j2IeRi67ap_etryXPWEFllkRmVEWreT92LjFAdkP4yccDSZxYHTe-EsKroV6A=="
+
 - name: Clam Cocktail
   ingredients:
   - 1x Clam Meat
@@ -187,6 +206,7 @@ cooking_recipes:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwT8cLXgd6xZGJtzJCvd_wFa-4oaONl7oq7GL1B6da8i0Luxvjkuj8OEJ11jy7Tp6ecOJUvwFP7O6ylkgRdwWVxuP8lOeDrF4t-TxyisKQfg10Xlo00XLeGp1weU0HO-amjQzKHOeyjwY8udBm71hWBfu-TIndtAZmS_USLzSiWIllWz23bfcR4NByCTBij62GPcAgfAnYEY8="
+
 - name: Grilled Firefin
   ingredients:
   - 1x Firefin Snapper
@@ -194,6 +214,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwcuLacCmJH7r_s9TZ10kE7Fwen2Ysr37k4H-xIjTGTbYinmD7F1UT6jfMRa9qeVeGw3ozNzSd4N6W-D5D-B5xAGXbx4sUFBvoeOl21ZqKRXjGLFZgRvKtkWfuhF_EAzStti95-w=="
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Yellowfin Grouper
   ingredients:
   - 1x Striped Yellowtail
@@ -201,6 +222,7 @@ cooking_recipes:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4xw62QHiV_6KWappy9SIODt4l9tkuvD9GzWthmagi9SzTzl23hU46rF_YVZCj_BP4rK65SMO8NKoirYq2ILy57k4Njik35K5l8EQ2FpYAW6i7Mus="
 fish:
+
 - name: Raw Nightfin Snapper
   time_restriction: "Night only — 6:00 PM to 6:00 AM server time"
   zones:
@@ -220,6 +242,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs_8arKmwIrhvi9XhDmZiuNiUCpSSBMM6vz2Hn4VAJZO9u_hecLp21SU1I3D-4jJqBuYv69NQbThzYyit-yarSyJS2wGCAYtfo4EhU78vqGLuEHzS7cTBjmOMdXQ-yufzgNl3Q2jgHp8ggEQppTBPdjg=="
+
 - name: Raw Sunscale Salmon
   time_restriction: "Available at all times, but with a reduced drop rate from 12:00 AM to 6:00 AM server time"
   zones:
@@ -232,6 +255,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5-m3BVL5-gR9CSJ4MP8F-F3neeoiaHJp8yzp6Xd1LEX16RChoAzihIJ-t4TwZJr9E6JHjusFWcUAr0m69vgrMrwQBC28vCLEOV01-Jm5HGzTdK-QUNwSmVQzXu99nnwog9JT7z3yu62SfM3LG8AXeVGg="
+
 - name: Raw Winter Squid
   time_restriction: September 23–March 20
   zones:
@@ -245,6 +269,7 @@ fish:
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe21BGA3HlPgWyZlBGx3l95glcWAdqgZKHPeWWWZXPXXarrrQWroS2RlE7JDkrW4_sb1zTQBq96KmNjBo8_a9npzROOs5q0GoRPbKzG8lbJXPCI_tmRC2CxhNkP-0kBGH-mRP66IFXnTjEf-uPofayWORPNPyFRevUd7e01sYu-VWvEaU81Saa-yTQ6A7D-OTeJrw99Q=="
   fishing_skill_required: 330
   notes: "Season-only. Companion to Grilled Squid (+10 Agi). Very valuable during raid season."
+
 - name: Stonescale Eel
   time_restriction: Higher catch rate from 12 AM to 12 PM
   zones:
@@ -257,6 +282,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoa00tNNiLu2RGudmSRWw2xsQ83sPXaBdzW39DRB9BcL6Hwk03k5HBqt2ndfbulBHPhzVtRUktgJG0HMYSJOMOb0hdn8-uKVQKpt_Q2k2IcNiY9LA5H3fNon6dsvc980XUdZRHAbcc9LTVRf66KLt7vckiDFKHp3l8WaxUH2P3KqZwJ6RLxJ74ZyFUgONr2rnne6HOsDTD5l0="
+
 - name: Large Raw Mightfish
   zones:
   - Azshara
@@ -266,6 +292,7 @@ fish:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHf9oF4JKvn_9b3vb-57ts8BKLhi-Q44Ck-E2QjkG6ThhAuVtSfVbAWuCh2FTeAnCWu70Nav6QOkNsuRB5-y8_d3c9UsoIBkj8A00gWj8L4eUPE1xZW8jk38lAuceoGh5XvbQ2xtTO-GdyCK79cg-p82rmH6sl14DU5qmVfQ186xmSRTaI1w=="
   notes: The guide says it is targeted from schools on the eastern coast.
+
 - name: Deviate Fish
   zones:
   - Wailing Caverns (instance — fishable inside)
@@ -275,6 +302,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSd6_x_5X988TA-1u9r9PnEGthazgCfuZVrtQ8HA7ynSU2212pJGnQtPwClbPIRFJnAg-vZ45eX5n7nBHOIRemlYNP8crqkCkDFPxwjvfBPu_8a7pJBPLPnJjnjX83CbqeSNLv08C_RXK-"
+
 - name: Oily Blackmouth
   zones:
   - Most coastal/lake zones level 10–40
@@ -284,6 +312,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbhvI2KKaj099oqxRLJoSyWXNZIwh5pcrTQYt1XWhIBMP_jxwwZLoN5gXdvHAUeFC2OXRXbU6d5BSctOodfQGx3Ss0YyHn-G7eU8cf8JTTiHy9FGmrVqBg14Kltygg2NxcC5yGf60r1nSgzRhF"
+
 - name: Firefin Snapper
   zones:
   - Hillsbrad Foothills
@@ -294,6 +323,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdYE1MO59FdzZS4yXhzoBOCE5zOYKFcsU7iycxs3PD6Xp3zBfPzjd0MWxFJtodhEXGkMcqEK6uOoWBz94Wgc21kjeF16_63XEb5GmWkuJEoNfDhk-88wDbgyS-Fdj3xyK_I5WsA9w="
+
 - name: Raw Whitescale Salmon
   zones:
   - Azshara
@@ -303,6 +333,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCLNdTkdMbOQ2tdqxMcXoppi1jivQ_D5U9Sj-mhbD8NkozWZTPTg1c3UG5L7QkCmJqyfnCeZuXi-26bv4aQsCtO1eRjgJ2d2-6i0pvR1AO7Bk7o_xrxYkJf47cQrYmG2dMG7YtqPwi8BnW2k69mGIZ4GR5"
+
 - name: Roach
   zones:
   - Lake Shire
@@ -310,6 +341,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEHSOzEdqUvGxzyBjQDiVJfYXemj4NARHyLgaXG1vp3De__3PFGqHkh_a1IzQhi3FkQuKhjnQKHjpFcQ9F_fN651jRnEcmIbZQ1avo6fXq1dLay_IxRUy0QTFk"
+
 - name: Smallmouth Bass
   zones:
   - Lake Shire
@@ -318,6 +350,7 @@ fish:
   notes: "Described as cooking ingredient or vendor trash depending on location. Does not exist in WoW Classic (1.12)"
   verified: true
   verified_date: '2026-06-08'
+
 - name: Raw Bristle Whisker Catfish
   notes: Mentioned as a mid-tier cooking fish with potentially good demand.
   verified: true
@@ -329,6 +362,7 @@ fish:
   - Blackwood Lake
   - Charred Vale Lake
   - Loch Modan
+
 - name: Clam
   zones:
   - Menethil Harbor
@@ -336,6 +370,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGroZFsbbgjCl52ugO_xP-CKjgNSh_ML-I0oI47lxQiWD6WtbhVDXdDyw0bX3khCOPP2vofaEfk43IwIGg4bvvAd_sKaIntmNRh6fQL04fFQ8hMkg2FNCTsHe5C"
+
 - name: Bluegill
   zones:
   - Menethil Harbor
@@ -343,6 +378,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHl9JOXQhe94SMuL9rllF5Px0FNC0mPIrrhg9QWdbiJ9-6VlvJwCxyx1OUybyn7xcoJku7lyWWWIgtErMhtRWE047tvws5H2SGHYbbe47YsFm9I4IVMOT0Hc2IsyuoeQxabAv3zf7NT8B4PRq7RsHzpQwQuEc1eV07EbCYDSRh_4DrRTQ=="
+
 - name: Raw Spotted Yellowtail
   zones:
   - additional zones like Tanaris
@@ -358,6 +394,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDrULCTMGF9w1brutY1ddCNmYhGV97Ae3a5AQkeTTko_PnOMKhqsdVUfnYpzNshBR90feAt_js3sjB9W6hucj_jGM4FJR__3XtDlMA1oXArhzsrKgsa-QpsMRWeiT_vPJtDxclVDcni19GTEvu9-H3o2sKuw=="
+
 - name: Raw Mithril Head Trout
   zones:
   - zones like Stranglethorn Vale
@@ -368,6 +405,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF21sq-RbtvYhm2qssKX6C0s2VOGkU8FJ7sKJLP9-92uFvmoS-12GlRmOzmcC366uw75tqT6TVjNIe5j3J2xYHY_w9v-fxsSEqQZRcZXLD6FdPEf48PrQd-x3SExE6tDXnPW1pDq97UtQ0h2W8YFDr6NdOP-g=="
+
 - name: Raw Glossy Mightfish
   zones:
   - Azshara
@@ -380,6 +418,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDKwGfADOuD9iVImBXaHZkYqrJVRLEzqRm_K_O9qK2RLW31iP6JpcLRvVdBzm3HjB_4uUo4f0A-6lPK2L_5JdymwGkeTQtfPBcJqZo8WQBzNRQzCSpxTjKwCwpjccATzDfbSdcOnOWSWWpLUHQmxTp_-0="
+
 - name: Raw Redgill
   zones:
   - multiple high-level zones like Feralas
@@ -395,6 +434,7 @@ fish:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFB2vKDDvupmGP5ID5Owv7rRJ_0AppXlVREtP-w7h0FBZbZIEHTH0JxTgnrUeHW31OhBjSEmlzwR2mjoK8jS3L-bMscgYupb7G-y3jtUvHfZt3S_jmoYzhPGsxFROe3Abwk9A4IxOlc60M="
   notes: Mentioned as the fish for Filet of Redgill.
+
 - name: Raw Greater Sagefish
   zones:
   - zones like Stranglethorn Vale
@@ -406,6 +446,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGJ-WuZfPXxyB9knT-fWP2FxC71XpIDOBzip6ds1cJQU7HMVpUsNPSJLxf6J6PwDZ-CDlfSUudOC7XfavxgWeqw_TpGaj2mQEIRzIWTeb11zRuj9k_snVFn7MPb2D1HUo1Kyx-ozU0vRwH8gLJezA56_o="
+
 - name: Speckled Tastyfish
   zones:
   - Stranglethorn Vale
@@ -413,6 +454,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPYvuYfdxmW3RY3M8feowDtrq3BHSEWq2tziEL3cNn3hdTA5DAJ92dXOXFxh6pfzRQ5bWdZi_IQ1SRuQGvgpG5oo1Zepp9BXb5cht5OL6V9dLhw8eg-w=="
+
 - name: Darkclaw Lobster
   zones:
   - Azshara
@@ -422,12 +464,14 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkPCxjo8tky4x5BL1W6dt4qlbCrGnCH6hG8YlvWDO5EWL2eQ6sNZG_sHYrZEqZu4qzsbTzFuurOe-RMGfmWk5t7lGMOFhnRz2EEqSVwFFYfYWH11oTt-bh7OjJA8ZQLMe4nY-74m50D6OMi4qX"
+
 - name: Mithril Bass
   zones:
   - The Hinterlands
   notes: Described as vendor trash. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
+
 - name: Raw Longjaw Mud Snapper
   zones:
   - Ironforge
@@ -447,6 +491,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENmwp_Mzv0OYURWiZhC3Az37x2hPIYXTCcWZzBe1xHvOqPpN2tO0nZgcyIKXVpz7ypcMsz4e5X9ogGX-8gH7YSBpO-tMh_0q8SELuMZ3lcljrFUQfLfNNVbMzWeSYYIzOQJkp1vCc8QybEp4IUpQ=="
+
 - name: Winterfall E'ko
   zones:
   - Winterspring
@@ -454,6 +499,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElV4LLDQj95Q554VlpdV81I9yhqOrp_jWlCAQtr9bujBZvyrfcZDlq3OBnbK5HmkzK_ScMDrc-2OZ6eldkOniFoz9fmmn7EENWw21Xmzr0GcK0Q7YttG6KxPDmY1BDe5fiq3Ptfbq0Hg=="
+
 - name: Mountain Trout
   zones:
   - Winterspring
@@ -461,6 +507,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLqQLmNevYyQfdex6PbL8L6JfiFe50EFK8e_I7h8NcOseLyz3MJfVRZeFpqSbWJQRD2Rtu_AEKXDaFUs4qNYSDAaaHrkfA-jChGLDFPEjkb3O-7wTafA8LL02aRcdWnpYCdbhRkxaHJM7pFtXMEGbIWPR-mUNA1dHxGK0hDM7PG6xRfpTXrNMX5X2TcRMukeMr4e-OHmRn0eK7C_hldMzAF-Xj-YtWPNGYZMk="
+
 - name: Blackmouth Oil
   zones:
   - removed or replaced with coastal zones where Oily Blackmouth is fished (e.g.
@@ -473,6 +520,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe24YU9m74vhNUbuKtVxvKAcCC1DldDH0E7D-Qnbr1sgpaAreEitBm-ZVfxF_DTbbXvmzOWLUOVk4UlSerlarWKS6qPv6bP3ClqKVaxAA8M25m5mHK_oOZ0twJnVttXoOj-91tzFJswiG30b8="
+
 - name: Raw Brilliant Smallfish
   zones:
   - Starting zones and capital cities
@@ -487,12 +535,14 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-HfInIEzxFfvCP3pWM357DVs67_D8iooAF75RnIHO6GDJXauod7G6iQwj2YISo2Yj8RanqvA_ki-mJpofqQgqB5UM8GTnDfK9TmR2sPjbsgrhEC4NZhnRPYbCK6dFrGqCjcc0b9OCfeY="
+
 - name: Azuregill Snapper
   zones:
   - Azshara - Azuredale Bay
   notes: Listed as a fish type in Azshara. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
+
 - name: Spotted Sunfish
   zones:
   - Redridge Mountains
@@ -500,6 +550,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUZU3ol-8mBbw097M8u0mNutXJxJJofMYmyoQh17SJvi7Alyf-2NwHpyDrBoSN0eD71nb3CR1oA9Yun1fz941dxiqZyUmmf7RE654TydwykRDg27gMLv_Nqryuop070LnhPf0Dng=="
+
 - name: Glassfin Minnow
   zones:
   - Azshara - Azuredale Bay
@@ -507,6 +558,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGItclCFJZpiBMjiPT3zfx0_kfddq5eeIA9QiODmPWxaFKRnFSKLTFAQ_fzbZyscDkipgSAyAS-THoGmAvPMcze3BmAlkaKBl35ABMvjj3AOY6mtzNsRFBfY5cxeYbzixGhaiqI1wQ5Bik7lZU="
+
 - name: Blacktip Shark
   zones:
   - Winterspring - Mazthoril
@@ -514,6 +566,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzQq0mtZsA6vW4ucka29Fn_yvC6P1BWB8cNHi7VjKE37KCu2Tz5L2O0MoPnoauBc4RNLNqiczsczpCfa06x9ScnB6P0z0D_8I_djF_l3iEA2ziw3m61zJPR5po57dS3sdAVcg0MDGs-APk_ijbCnEZDjm6o4NIGS-aW_swvJ77oQ-mjfS3auDcFebwzATj"
+
 - name: Largemouth Bass
   zones:
   - Feralas - Feathermoon Stronghold
@@ -521,6 +574,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG19vllWhO-M-mf-1zqFnsCSo0fjYAmT3ZhLL9lUkBQGH4_MsbRJe3puTZBd4jRAPWGOzo5F5TIuAb4vLlp3t7Ibg0KVDlgKOWUmuKdJKLkL0UqH20p_SnV0QasLpJ3MUfVoCPTPY8DphruGzScANqItpw5zco="
+
 - name: Misty Fin Snapper
   zones:
   - Dustwallow Marsh - Theramore Isle
@@ -529,6 +583,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDfj3UJzmQDtiv3e2PvsSd9McdWO7rT0euw3FICxgdVuiF4T5eknCroOBeiT_sERXMx3L3EqkjvCx08v3yB5Bu3TCYenKORaIUsgpCN74DWu9oYGAPqLYhduQVSpbvnYcbZk9MDZc88JHXHTA="
+
 - name: Firecracker Salmon
   zones:
   - Dustwallow Marsh - Theramore Isle
@@ -536,6 +591,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBVpRwFNafLeo6sK5idwUiR_2mi_--pH44IIsjqMJtd27sCmBvlqsNTuR3MFpk2M9v6d5NvDl319l94a4YQWBVGicPe89CbxKR0SP9w-9VXXe_2H4_3WeQ7qeKghO6em0pyRRItYHnhD8="
+
 - name: Rockfin Grouper
   zones:
   - Dustwallow Marsh - Theramore Isle
@@ -543,6 +599,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2ZD42grO2jQDqvzv0I0WHJRCS6bEvRye_bI7EQh9vjoQe8eorycVPky6LUomgiD07e98ogCSpCuxdlYkRH9fqlpmUfDgxCbb-QV6mPDzFTY7foBBFp_V6O7GZJeWvEQknlaoibg=="
+
 - name: Bright Baubles
   zones:
   - The Hinterlands - Beastsfall River
@@ -550,6 +607,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFknJmXG-ToIt0iAMAUXpe67GbGi-RM1FywrozL0Al1i4uji9dsy-1yYZ3XHRmNSp-__NtDaL8WqhX8UiEaM7UwpkOltg6M0AW_3lHHlqbnhsaF0wE"
+
 - name: Zesty Clam Meat
   zones:
   - The Hinterlands - Beastsfall River
@@ -557,6 +615,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1Ph8Dure0X3J0ewMxY94nqLP0Zk4DgNaC6-lkya_QBpsI-C3wzxxUIfvsNTwwH9RWHkA1nDQqCu85KrGw7pF2Gw-hq11MkFD7368cHBEJ3i_ao611Mnf1ldAg1NK7QTj4y5CwRI8="
+
 - name: Sagefish
   zones:
   - Feralas
@@ -565,6 +624,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExG9Dr55M4a5jAnn-femhA73UFODch2mZA--GiMSTFy6k0hI80nf4w4SIhyKuW9YK6YqrLrprxBp2k4QrifupIJGiuRsC40MehpUfbrIwzKCIKtfihlXhT03aLu_mgQEEdtmY7PD48wDJM"
+
 - name: Sickly Fish
   zones:
   - Worldwide
@@ -572,6 +632,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTnCIN6psxi3zgxAJ6NVZJ20MW74Ul7rhL3XXqdC2cDI178J466hge2k1g8_I2bv1lYuqhwpdNeJtWwpi_D1NBuaGIoGNsGvxSpco9yOSzMaSOqYMwiNSw4GpPfVPbclwHkt3UtyHeWLU="
+
 - name: Patch of Elemental Water
   zones:
   - Bay of Storms, Azshara
@@ -579,6 +640,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFDcYtbblEYLlJ16NjONRDztUiLf-gyJSjx2fVJNwN8EOLZNdtIqkfMSw3LUyNupO4Rvh5cJ2SjekxlXHm2dJqrvjCWQNRoU04XI7y-MOQaI-VUyqRWMBalZO2t8WfzoxUemtqd0akXWx4aelGRQ=="
+
 - name: Rockscale Cod
   zones:
   - Theramore Isle, Dustwallow Marsh
@@ -591,6 +653,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwvL8QnO5qxogM7H1qiwPHNhUleeyFETbmAWbl89xZPHw_bez08sDRO7K7WRAKt7dPXNDDgTiD6nlwmoV0_AEGJUSVp3U1ZDLtkJdu-bPeH9iI9uCgByLetFP3SpHQGmpx7SV7lBkqBdelAQ=="
+
 - name: Raw Rainbow Fin Albacore
   zones:
   - Darkshore
@@ -598,24 +661,28 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIw0aMJb1Em5Fi5UaGCHmsrS1yvOLl_Lwl3IcX-_CQuCDb5E_NJR-HFPcSOVoIhtWseHO4wD0kPhQ36vcAo4n_m44seBQaBXDrq1fMI14sjPG0-Dg="
+
 - name: Rosy Lichen
   zones:
   - Azshara
   notes: "Caught in Azshara; described as vendor junk. Does not exist in WoW Classic (1.12)"
   verified: true
   verified_date: '2026-06-08'
+
 - name: Winterfall Saury
   zones:
   - Winterspring
   notes: Found in the Frozen Runes lake. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
+
 - name: World Tuna
   zones:
   - Winterspring
   notes: Found in Winterspring. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
+
 - name: Spotted Dreamfish
   zones:
   - Feralas
@@ -623,18 +690,21 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_L92hRnE3ioroMCnY6gadoKCuT2xp22latdyaaETacz5-hHzcdG8UNKgnU3OOipr76YgIgDKAFk3jEOhhJRLBgsYsy7VK6FsWErZscyVeFLtq5AaRatVJMIKTGx7G4Jkg8sxydcxSzRPwkhEprfIZ6_2Pkg=="
+
 - name: Bristly Smallfish
   zones:
   - Thousand Needles
   notes: Found in Thousand Needles.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Sar'theris Striker
   zones:
   - Desolace
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR4fJCtnuZqtywhzxCjdpJu2xVPBuut1d-lro6Slq8RXa4vfnmx4nmAbu3ttDsgfZotl5rn3soSh0xHHNif11zuPCae9C7i2pSz2yy_qg247bWxHRoAnQ2cjQZNOB0KFcv17EaFvwbh9wg-zaqf93mlA=="
+
 - name: Plated Armorfish
   zones:
   - Feralas
@@ -643,6 +713,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoeH7d6bViSbdaJS8zxDNO3Te-rEBLamC5PItGfnohXHLVU7ixftsL29SOSu0hxzdV2U1dp3lsqenOTLUCPz1q_6ar15kHyBeYi0kp4dfuLB7MHTbMk8St933MIft81V7FLH_5mVss"
+
 - name: Raw Summer Bass
   zones:
   - other coastal zones like Tanaris
@@ -654,18 +725,21 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPZCzE70g6P1d_17v7BGl-Pi5qcN6KFKTBRrA6DRm-v8HvpbOinoDLmRppEXCKpm9jnSHficI9EUE7OU05Yty-SDGE2YcyObi8OKw03504sm0lNEIIf8Qd3bCFfeWkNFplefouqbcvO-AnDJYJDDVbjOcVjfGEYiVaG_RIMvBAYntK1orWzag7Oagl_tcDVkbSQ-UlSng="
+
 - name: Darkshore Grouper
   zones:
   - Darkshore
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHViV0mQE-8vTIJzpDT61XsiF1XSi_GsT6LWHN1x15-3l3Lho5TQ4CW7uMp2_VdAZW0O5WvBJwKqT6aFuUT4KOnZd_z4UI1V1bdSgqJ1vy5NH9sq_0EKxCxWw7qvQ6zNQN01RCGNrmuQzhE6m6EpQE="
+
 - name: Turtle
   zones:
   - Wetlands
   notes: Occasional.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Stranglekelp
   zones:
   - Ashenvale
@@ -673,6 +747,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-ZxgL39l5VePYkyfqdc2AOWrNkZcFSuAlnvBML48fhde3-407kS2o9Q5V6GwdFsd9Bpas9t8VY2fs9UWNKIj3_6Uhmmr7BOov4oAgVNlJQ-DAxHsmaOxOugAUtxyutEkmUvixVtqp5qZGnE59sQ=="
+
 - name: Lockjaw
   zones:
   - Ashenvale
@@ -680,6 +755,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCPYLri262Za8GmtPUtgD3AiIk5U6AJRvKicfG8SsjSD8JKI_QhG1PoMkS6v6TfZxFm8I4jP2wC0XEDISY597uVS_b7-xKmhaHkwl2KCmt1yD8X0QIasP5GLle-2wqwzY="
+
 - name: Silverscale Fish
   zones:
   - Loch Modan
@@ -687,6 +763,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbNBoGWB4c8OZToUHU01VosYwRMD5sW1v4E3C6lC2DFgClctmCUII62z6aO1oti_Kn8SfdRpLY5sjwTeLpWduemz7Vc_AhTTpMlycYk5ab6nY6NSgW4aHWahrtyLMI3VCVR8C-dnm4mDVVejSuSyrSc5U6GnGw3Vn26FC-tzshzEocdOhCcJ1MQ1NfTTZ1dwHI9Q=="
+
 - name: Festival Fish
   time_restriction: Seasonal/event fish
   zones:
@@ -696,6 +773,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRLLot4ohC0d0QWZz4Z1v01e0pNaUpeuuQ0nfYvoFWru3a30f1Sh2fdmCke90q6_t2SCvb-I_viibUHIkauysTwaz0zJVDhQGA06UQh3hNhJnrlMMUTLUD-3yfZQa-THcTv5rxuYfnOlOlhVblCriaiPaT2Bl-afP4NnNM37_iX9uiyHkvK7rBGNlxBh60JHpYdOHiQitDUsQNElI_rW0IKoqxDhY="
+
 - name: Tender Meat
   zones:
   - Tanaris
@@ -703,6 +781,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESVDLTOAMIkVd-R1PEZQQ4dp6A5TxtpT64xfkNp-zR7XaCM2YPfMlQWzMrNXs0UmzlMxlhXof3AIM7a6WAHS48lUEi64SslrM_evFmV5zVu5aCYH56Z13NKY-d-ULkUepN"
+
 - name: Silithid Husks
   zones:
   - Desolace
@@ -710,6 +789,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzy87ie9iBaTG7B6uD7yP5BnNIDtRqLStMB0_dAj-X37FgNJ_22IbINq5krR4TQsS774FHnuFwjM3m1NaiV_SBI8-5rqXm9M5fcUcUbtX9a0REDDFsNw-DlgBMIXRv7n0BCQeixCR_vU_efWSVSLjvsYddnNNk155QUdjrDbBTynYD0S2MbC0="
+
 - name: Clam Meat
   zones:
   - multiple coastal zones (e.g.
@@ -720,6 +800,7 @@ fish:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRmxm8ddB4B3r-qGcPPcy2NuRTPDbFzgMJ3ol0BmB9AAjJjYG_wB5PnfbMT_S6TAaV4asy8k5WU9kIZEGV6IDYQOxqty3bBjRc4Rw9HG8y0K9sY1YLVWx-tfg96-VgNNQ="
+
 - name: Lightning Eel
   zones:
   - areas like Western Plaguelands
@@ -732,6 +813,7 @@ fish:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMMpoN70uxf3vPdOcxwarrne2FwVuGPD6AtyQyHnN1XZc8FoqmhLCkBmtcUTTaNhE_378jopyXVD4nzq-Cao5D1yOgbO8ZN5A1Ync-LwGU0xPkMmdrZg1VqkrXVT04Vl0tyFGY"
 zones:
+
 - name: Moonglade
   faction_safety: Sanctuary — safe for both factions (guards attack hostiles)
   pvp_risk: None
@@ -746,6 +828,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR2QtN_bsJYi-Y-THIL_cmZtm0NLgObMf_WqtiTfK65o2HsfrxcWf_phz5OgTsWkylc-uXUY13TbCnB_Ua2enTgFYpsriasOC9lh1gI81jkT2wlizs2Dek_RXuyzI3Gpr5fHLQDhGa5ClCh3v7vIbPpdKbuIGsvg_NY-j_RQ=="
+
 - name: Azshara
   faction_safety: Contested
   pvp_risk: Medium (sparse population, but flagged PvP)
@@ -761,6 +844,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQLz3H5O9BOHtkTA_RBajdEsxYgLfxBxOToLLN46fizp5QVe3RLPZSec9pXSAuhHIwmhfvbvXlL3BUb_4ANMdyrRAoD0ep9_u37izxYan_EIKk1NplkBDxIOZuGzrFSTloIE8EdthKCQ=="
+
 - name: Feralas
   faction_safety: Contested (Alliance-leaning — Feathermoon Stronghold nearby)
   pvp_risk: Low (remote area)
@@ -776,12 +860,14 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_Fy75QmbITkbUlxAVNaLXylhyLfVs7dJSXUAtmOXBKC5tftd6jjtECrbSZRbVdMfc3NNFbo9z26suESJIr1ui6oBYbG1P2twIl7xlmecNrs2H8HoVK5DU9cNesXL9XExaVmZ14lHXN5Js-91pIEpkWBnupzQ0bis="
+
 - name: Moonglade (Felwood route)
   faction_safety: Safe once in Moonglade
   notes: "Warriors access Moonglade by traveling through Felwood (hostile mobs, manageable at 60)"
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXj078ozaaBUHgAbsWd9MY_-gC6Bx8707yuQ3UGYlXvQkD9HoBtQlAhPv9jtpRjYIPDh4uKkJO_4ITv47-0_mb1o5GGPwD3C6YY3OJtgeEvR6TPmJUiphQwOZ78cfxk86fm25nsIiI45DfNaHAVUXRbMZxdg=="
+
 - name: Wailing Caverns
   faction_safety: Instance — safe only while inside
   pvp_risk: High (during travel on PvP servers)
@@ -792,6 +878,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkUch0jBZWHrlrGCxBvqqjHFxbmPLX-bu9zI-MzJ_fM48zFCHApnTZCPk3_ka5i_wJTjmTDktxNMzVQOGK73xvuTYbYKCdj7532ou5GOpN4V01fhRoQ37KM3bDMGfqx75awdwMimJTO1-jXVLY4a0g"
   access_notes: updated to reflect that the cave entrance is in a contested zone and is
+
 - name: Stranglethorn Vale
   faction_safety: Contested
   pvp_risk: High (famous for ganking)
@@ -801,6 +888,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGd4YbQhsyiYvlYYBdztqwvpb9WSKyEg5ky-oETkSkggcPqJ3Gx-pD2PSztTqZl0NDKkigjUbla8k8yEgCAVfftd8UD154oWlGUtKW5bdCMIYsOj8SryDShx00gG8XNCQpsXN8tnhgd1NqXEg7jJWfTDskJjQ=="
+
 - name: Lakeshire
   faction_safety: Low-level Alliance
   pvp_risk: medium' or 'high' (Redridge Mountains is a contested zone)
@@ -812,6 +900,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLUM5r8WxI794Mhjqb-JbDd7mrVv22wr_ZMiMKh0EVVU60hUKcUftc_-ewtkR9cNrCGIJAZGLvEUPVDLLkxY1f96YroSVt3hN5WlG2-6EINhfWDKhWVR5vzENQgO9VrRYPnhrQmtGr34YB"
+
 - name: Menethil Harbor
   faction_safety: Alliance (controlled town in a contested zone)
   pvp_risk: High (frequent ganking/camping hub)
@@ -822,6 +911,7 @@ zones:
   access_notes: Described as a completely isolated corner of Wetlands and a dead zone for PvP.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Blackwood Lake
   faction_safety: Contested
   pvp_risk: High
@@ -834,6 +924,7 @@ zones:
   access_notes: "Described as far from flight paths or quest hubs; the guide says to swim to the deepest part for safety."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Charred Vale Lake
   faction_safety: Alliance territory
   pvp_risk: Low
@@ -846,6 +937,7 @@ zones:
   access_notes: Described as a high-level zone that casual players do not visit often.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Camp Mojache Area
   faction_safety: Contested territory
   pvp_risk: High
@@ -856,6 +948,7 @@ zones:
   access_notes: "Guide says there is a small lake away from the camp that can be positioned around safely."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Stonetalon Mountains
   faction_safety: Contested territory
   pvp_risk: High (Contested)
@@ -869,6 +962,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHspx2_UEVfRqkcphsuzmESQifx7afslQTDq8W3jvlukJYiQNSWK8p2RHxnxTg6H5zwDgcrQqX5jI39OREHXYGOPOjGLLijylSE5ZeZ0ZWag83f8hflcnyWjBjDlfm7HQ37_NCz1pqD5hc6ylelwXBlZQ9WoM7r7zNUyaUjRXs="
+
 - name: Ashenvale
   faction_safety: Contested territory
   pvp_risk: High
@@ -882,6 +976,7 @@ zones:
   access_notes: "Guide says Blackwood Lake is reached by riding north from the flight point toward the Felwood border."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Hillsbrad Foothills coastline
   faction_safety: Contested
   pvp_risk: High
@@ -890,6 +985,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw-mXIkjyO7hv14zNYzs0uDRNCigI0RL7LHKGeFa9sOF-q0jf-g_sNeoKDXX6vfO7rxozGh5Wx2MTaGAsoN59Tos7iaVuadOwEeOAMUNTNbZBLRdwyUXHBdPJL3_q98AzFhyHyYteAHk1btzMPtwiFstxFNg=="
+
 - name: Eastern Plaguelands
   faction_safety: Contested
   pvp_risk: High
@@ -899,6 +995,7 @@ zones:
   - Light's Hope Chapel coast
   verified: true
   verified_date: '2026-06-08'
+
 - name: Tanaris
   faction_safety: Contested
   pvp_risk: High' or 'Contested
@@ -910,6 +1007,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmlUGfJ-_5v2CDrpxK0UlKGVTkV4h9_Z8fTDaGd_7zW0Qtsw9XYnRvWPXhWBvxiMhFqiUght8NaA-sS0gNcsHrDQDEYxTOYSQLjJCE1IsfEQm8d7iMiEMqnvcJgYU="
   access_notes: Steamwheedle Port is described as a goblin town where PvP is disabled.
+
 - name: Theramore Isle
   faction_safety: Alliance
   pvp_risk: High (on PvP realms) or Hostile (for Horde players)
@@ -923,6 +1021,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmE8O2tw2VWd4ctwGT736qHvNyZ5abYUSpqgzt750HR9IwZv0ISz4MUqaqkrVl_OCaYFq1gwxAUZGpEwoYC5gre43wfKHzUWBY0c7TdSSQUXpN5RNJYnF1EpZFUT7z43XS9S1qJpkrKiJF6nRQVR2_TwlRZDK53mfZ1iKkbNzvJkVPLUAsy7aL1lvTX-rb3JN1r9SriA=="
+
 - name: Feathermoon Stronghold
   faction_safety: Alliance-safe
   pvp_risk: Low
@@ -933,6 +1032,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzceyE9HxLMk05NwZj_JzLl__Us4oQZeF_IAqZNN4ViZPtsz_GwmQPMbAQPDBm4kt27NkJqvF0JXj7Jjq-r02xPwxz0g56_9HqQi-PiVrOob50g_yeFergBTY2ToY9JRRW7FfoYxeAnd4LpKMl"
+
 - name: Loch Modan
   faction_safety: Alliance-controlled zone
   pvp_risk: very low
@@ -945,6 +1045,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpv9HiG1lhFPm4XVMn5_JpzFdnxNoP6S4dnsayxzdhbUVoEwWtuYpYLwMYROO0T5tWYqo9DxrjAtXDfVuZkaEFnWZ1PVgmbA1JdVJ9ZvlALqKYaaOKZDGHMsIIYpbnQH3IBahnd_K_dQ7nbQ=="
+
 - name: Winterspring
   faction_safety: Contested
   pvp_risk: High
@@ -960,6 +1061,7 @@ zones:
   - Southwest small unnamed island
   verified: true
   verified_date: '2026-06-08'
+
 - name: Dustwallow Marsh
   faction_safety: Contested Territory
   pvp_risk: Moderate
@@ -968,6 +1070,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqtsSK2XGxxLB66IOKCl_4GxBFU-LqCXW5gdABleDTaUcso-0QZIYt3HP6S8DSqzruE_xz_6awwIcV3TTDk-ULdPz4NpZHJF9B1gB4-fza6-PLagBhGH2qDGhKHWJO8RnhS4N7e2B2zh-l"
+
 - name: The Barrens
   faction_safety: Horde territory
   pvp_risk: Moderate
@@ -980,6 +1083,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGv2O-ulWO8s7BlusQuTaCAVhkzbwE4x9Ph1HfdcA0iyMaoaXUOxZ_6OwfiObivP91TLhNI05Ou1-WHhE_2yiwjVFxA1W467y_RsptPqyx1Oe48KR_wbASyuPhGwNQRZkrV"
   access_notes: "The guide says this is a contested specialty farm area and mentions Wailing Caverns waters/pools."
+
 - name: Alterac Mountains
   faction_safety: Contested territory
   pvp_risk: High
@@ -995,6 +1099,7 @@ zones:
     \ mobs."
   verified: true
   verified_date: '2026-06-08'
+
 - name: The Hinterlands
   faction_safety: Contested
   pvp_risk: "Moderate' or 'High' as it is a contested zone with active quest hubs for both factions."
@@ -1011,6 +1116,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHByuk5ICYqQEekVevwVp18_j3HXKjOC8xMnVejuy_HneohViJNsHw56oSyqL1-zGY4LYH6WFCx3jhtCBKbKcNehkWzvAQup7b3O6UkuiUpmzh4casxqE_59Jr_-unO6rC4yCB5gcad6XP--AIvOy9AIN1VCXGq3oOCGLmOd35SWyTR5h0z3T2_GQ=="
+
 - name: Thousand Needles
   faction_safety: Contested
   pvp_risk: Medium
@@ -1020,6 +1126,7 @@ zones:
   access_notes: The guide says the southern coast connects toward Tanaris.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Western Plaguelands
   faction_safety: Contested
   pvp_risk: High
@@ -1031,6 +1138,7 @@ zones:
   access_notes: High traffic
   verified: true
   verified_date: '2026-06-08'
+
 - name: Talrendis Point
   faction_safety: Alliance outpost
   pvp_risk: Protected by sentinels per guide
@@ -1041,6 +1149,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6FkW-lKvo3VwafXZVsyvRGFCNSPycLDcnGEBOFbpvJiHT9EzjJlbz2Y1oEyZz7o-SDKLyTqAIg1v2Ufzat0aeQasI4JvID5URCJ_OmRohLQZ9dnRUBbYSoCG2mU3mHZyun24bzz_dZw0="
+
 - name: Wetlands
   faction_safety: contested
   pvp_risk: high' or 'moderate
@@ -1050,6 +1159,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2uOjV9loM6IdcR1hyB1GEguDktJkPeQN3PwczMrBIeMv-yfBCYmTs27xinUBOMhf8KIufEDB2PsYZbnZ9QzKiAPSUnWpGRWIK7uEv8Ubw1eG0Aa0OlbH0XafCVKnwGhKZ_vF9KBZkPmQB"
+
 - name: Hillsbrad Foothills
   faction_safety: Contested Territory
   pvp_risk: High' (it is a notoriously contested PvP zone)
@@ -1057,6 +1167,7 @@ zones:
   - Nightfin Snapper
   verified: true
   verified_date: '2026-06-08'
+
 - name: Bay of Storms
   faction_safety: Contested
   pvp_risk: High
@@ -1072,6 +1183,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOXLnHslFjk2qCw2WOdsL5faJZs4CnKTs1NKciLHohEC15EcP5YpJ90BlfGcpi2XhZCUg3MYnuAdn02rfOWj8x3rv-1bXQqePAl6wrLVR72zOXsHX0kYFWE4-C6LYexpsiShE="
   access_notes: The guide recommends finding a quiet rock or island with no nearby mob patrols.
+
 - name: Jademir Lake
   faction_safety: Contested
   pvp_risk: High' (due to elite mobs and contested status)
@@ -1084,6 +1196,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-3F8OvbjOZas9Dtb4O-2qNQ9IjgGb_r7iuTkoA1BExAFav7m2y042qiCEK7d_xxA4k-856oOJzE0t_N8owI8Z-QfyPD54n65dlXAd2Sp4_KvfO-ShLVBGAQ1aU_aprJqfKzQ="
+
 - name: Felwood
   faction_safety: Contested' rather than 'generally safe
   pvp_risk: high' due to it being a major endgame farming and questing zone
@@ -1098,6 +1211,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkB-lKDt6DrkvUj7Dg1PrqdR3Q6k-q2ivFeao8l4HYy3Sd962AK_axd0YfRzKDihUywxLzMC9j3lYByhKYldlrKXqIRmoyWkU-jTFVYO619lKWczYpcDm8dptoyIlB9u5nRg1hKyLPqOc="
+
 - name: Stormwind canals
   faction_safety: very high
   pvp_risk: low
@@ -1105,6 +1219,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbhMmDAH-uyM7lNunCPzG7W3is88_Kxrousr4uM3jYn3-G38VGitYLIR4of6aties0UIugq4gZjbPNhOmjMC21Pm8UewBwuCzWTMpkY6RJ5DzgAO4CaXyr5kSzPu2gerUojzD5bDZWX4LvilG-"
+
 - name: Duskwood
   faction_safety: contested
   pvp_risk: high' or 'contested
@@ -1112,6 +1227,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFV51gP5j5Kqzv2LwdugBwn3onnx3Zi52EQ-zgTQVyIcIaixziWmnQz_B4ZFippj9iXvfqaGcM8HE2eD1uMsKaD9SRKuqplbGodI_2NjZWF2lyvPRhQvNP2krraHgY_5wt3fxyHjpZF5lKbLZOB8D7sqfdV5Hflrc6PQkzclhI="
+
 - name: Azshara - Azuredale Bay
   faction_safety: Remote location; essentially safe
   pvp_risk: Zero foot traffic; essentially 0 PvP risk on most servers
@@ -1124,6 +1240,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoMuuQF3X896CTAJWhnh6ukAPxkp68oqbAAv6GbyYyGXAwS5W4wI_ffZfbJVYiXxMoUa1xhTxYcbtjPyZ_TP1UH8i_pNhbEU3eKi7bX6kqp5G6sgiXYwEW3jjJRFmSym2F"
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Winterspring - Mazthoril
   faction_safety: Dangerous' or 'Hostile' (it is an elite dragon cave)
   pvp_risk: High' (it is a contested zone/cave)
@@ -1134,6 +1251,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpmlTGkpF3uE2XMYmsfCAxv4T3ae9C3EgNjIIlJGoPkK_i_vhRq_4LcEYoICiGJrvx3mVNRblAVf7wTz-XcZH0EpJ2iKVtzEz8UBSvgGIJlafGQUw9yD8iXeYmCmuWLA=="
+
 - name: Feralas - Feathermoon Stronghold
   faction_safety: Contested territory
   pvp_risk: High on PvP realms; potential for flagging on PvE realms
@@ -1145,6 +1263,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGckk8V5lctdYB_-rdPvMHCSYVcbpKf1wU8t7iUE3tUX1G3KBApi1n5IpeMg3mUAivE3kpCMO-1Tjbov53o4HkFUEDfGlDRs9b12ASV2i_M1Z_TFeAn5JCDG0ZzODgkETGDKZaklaC98UwE5Q=="
+
 - name: Dustwallow Marsh - Theramore Isle
   faction_safety: Alliance-controlled area
   pvp_risk: Contested
@@ -1157,6 +1276,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2wm0h-l8uuL-wiUbybLnY0aV5pB7Ta0hpxThwqvnFVRAtz6i0MvdIAJthcLpw4gnR6akMTMKRE6OcFMJ64SelR1D3wAstEgPvMVFPZFwrT3kZkHWHPUxCDRsR39ESXoCPGZpz"
   notes: Does not exist in WoW Classic (1.12)
+
 - name: The Hinterlands - Beastsfall River
   faction_safety: Low foot traffic
   pvp_risk: Moderate PvP risk
@@ -1168,12 +1288,14 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyvcEED6yvAnn-IrPoowsweFqVC-mME232Iiy45lLiWUU31J2Q7qHXyzpAbhNmfrCCT6IDWbBHNrmpvmjsaCvvJwBwKkN5AoH5XS7rwO-TxiThJJVB"
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Un'Goro Crater
   faction_safety: Contested Territory
   pvp_risk: High' (as it is a Contested Territory)
   access_notes: updated to reflect that it is a popular, high-level questing and farming zone
   verified: true
   verified_date: '2026-06-08'
+
 - name: Swamp of Sorrows
   faction_safety: Contested
   pvp_risk: Contested' (or 'High' on PvP servers)
@@ -1182,6 +1304,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyd0zY0LYCc_veEiPN76uHt56B4pMUpvuiJzcnQ_dm5XtvcZusAMYVjGsqQnkwbvfL2ySA593HB0PTt26HobuzTqyTAUKmbbTAboZGqc-Xk6wZ1nAqRaxDgunpFBeQprFJCgkx_16flhua3JDL7FCGQA=="
+
 - name: Ironforge
   faction_safety: Capital city
   pvp_risk: None
@@ -1193,6 +1316,7 @@ zones:
   - Mystic Ward Pond
   verified: true
   verified_date: '2026-06-08'
+
 - name: Stormwind Canal
   faction_safety: Alliance-safe
   pvp_risk: very low
@@ -1202,6 +1326,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERH7GNeB_BzfTNMXUeG73HUtrptsy46owKJx28yZMEe2Lw3dqTaNmiRlTsKtZHDm-rfN_GANb_Blgnr_bfM5tnLY-vblblQplydrLeG_XTmQTADhRcXRy_GFVXpo0qQveqRUWSuQAle44urbxOTA=="
+
 - name: Stormwind Docks
   faction_safety: Alliance-safe
   pvp_risk: very low
@@ -1210,6 +1335,7 @@ zones:
   access_notes: Included with the Stormwind Canal / Docks area.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Desolace
   faction_safety: contested
   pvp_risk: medium
@@ -1221,6 +1347,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGAUxeZWBYZUpkPFU1ZOUcx0nwwciGygFWxn-dvcRfVCCijR0fBdxW35a-S1w_ZwQ7Wn1Nrc17R4mKK7EGU3CQ7wjVOHwbfu_n7TY-diT9zjso3iCIEDHe"
+
 - name: Menethil Harbor Docks
   faction_safety: Alliance-controlled
   pvp_risk: near-zero
@@ -1233,6 +1360,7 @@ zones:
   access_notes: Patrolled by guards.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Southshore Lake
   faction_safety: Alliance-controlled
   pvp_risk: very low
@@ -1246,6 +1374,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8BdbypW2BnjChOIyj3MyoPaq_xdj0X80kMSIgdvFk8M44qlP_byfHst_kqSVaMal4uHOxWVeY1aAjpr125cqGZ9sq9FmxdjBWvmrG-A4tVHvqbGA1GxTz_PeXc9n_cEuj8tmJKjS6vv9ox1cw3KNmKi94fUzYrSmYpps8Cg=="
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Feathermoon Stronghold Pier
   faction_safety: Contested Territory' (Alliance-controlled town)
   pvp_risk: high' or 'moderate' (Contested Territory)
@@ -1258,6 +1387,7 @@ zones:
   access_notes: Guide says sentries will aggro hostile players; daytime fishing only.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Auberdine Harbor
   faction_safety: Alliance-controlled
   pvp_risk: Contested' (on PvP servers, players are flagged for combat)
@@ -1269,6 +1399,7 @@ zones:
   access_notes: Guide says to fish at night.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Feathermoon Stronghold Dock
   faction_safety: Alliance-safe
   pvp_risk: Low
@@ -1283,6 +1414,7 @@ zones:
   access_notes: Alliance guards are described as being 50 yards away.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Phantom Cove
   faction_safety: Contested
   pvp_risk: Moderate
@@ -1300,6 +1432,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqh0Op80-sPOHpYfxQI6iA49Z59WxrnwAtiCAnUWp46fjlUxI1TRasssTJziEEEf9T9Yj08A5ROaP4zxn21OcSam5TUbeUxLCrNL0AeCPC5JBg_M_B-vroeu0-Fbv_yqMZ"
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Fenris Isle
   faction_safety: Horde/Contested' depending on the specific shore
   pvp_risk: High' for Alliance players
@@ -1311,6 +1444,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEijh3x-DMLDuoo3zmxwSG4ONmrQFIL3kv2Bidsk9HaHTUi_OSW0e_uzDl4NE9OU001nS7RPf_Vi39ILuJ5M7F27t4Mqgi_u12eVF8iOr7sWFmPXRHZ_ubG3CJiuUTvl6NO-ehd-yQWjSThhA=="
+
 - name: Aerie Peak
   faction_safety: Alliance' (it is an Alliance town)
   pvp_risk: low
@@ -1321,6 +1455,7 @@ zones:
   access_notes: very quiet
   verified: true
   verified_date: '2026-06-08'
+
 - name: Refuge Pointe
   faction_safety: Alliance
   pvp_risk: high/contested
@@ -1331,6 +1466,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEROYCl9Js14DMPx2wRk0eQz2A9S6ibiTmM9F-QBaqCSjf08QSFEkAPmdBwal2wq2RBcAob-H3hjDh-1sZhBOJJJoKd-yIDS_iyjoawZr_Gv4BdQfzJppkH21K3N-qEKW2u"
   continent: Eastern Kingdoms
+
 - name: Southshore
   faction_safety: Alliance
   pvp_risk: high
@@ -1340,6 +1476,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtMBLe7wG4yjPAWTpO58AyoMZNVOvZo_f-_bCxRqGQiI-rOEz_5PYL-PsqUDyp_GA_y-T5tcGszc_4D_vo4cwHKq5pn1dDkdMglzpDvEyDI-wDp-Vm9fRC9wWno-Nq"
+
 - name: Darkshore
   faction_safety: Contested
   pvp_risk: Moderate' or 'Contested
@@ -1351,6 +1488,7 @@ zones:
   - "The guide says this is only fishable during the in-game night cycle, roughly 9 PM to 6 AM server time."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Camp Feathermoon
   faction_safety: Contested Territory
   pvp_risk: high
@@ -1363,6 +1501,7 @@ zones:
   access_notes: "The guide says to fly to Feathermoon and fish at the docks or on the mainland side of the channel."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Steamwheedle Port
   faction_safety: Neutral
   pvp_risk: contested
@@ -1377,6 +1516,7 @@ zones:
   access_notes: Protected by neutral goblin Bruisers.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Booty Bay
   faction_safety: "Moderate' or 'Low' (not 'High'), as it is a common location for world PvP and ganking despite the presence\
     \ of guards"
@@ -1387,6 +1527,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLSvoDgdAySsy_VZbWccLpkG5vsaI5PQpaEJZdPs_PKFLkCP8nB3hs-WCeoCghXyXZUIJcQ0c-AJMBxXvZohJFnSDbXmR13z32lecJcYa6z4WDGdYJ84mOTsoixd8gN8BN"
+
 - name: Ratchet
   faction_safety: High
   pvp_risk: "High' or 'Moderate' (it is a notorious hotspot for world PvP/ganking on PvP realms)."
@@ -1396,6 +1537,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5zZ9sCnmF3CtVS_54gqSKt3QIH5O8ylH6ypVhSSflxNsz565pQMYRG8JWuetrHz8774N2PpelHA1KrkDJDmD6r3fFAW6JAsdLjOX4TPo_cFT7FwPGiIYrtZ2v2Th3"
+
 - name: Gadgetzan
   faction_safety: High
   pvp_risk: High' or 'Variable' (it is a notorious world PvP hotspot on PvP servers)
@@ -1405,6 +1547,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEjc8K5MOE2eRpusu54p8NkbkXqYU36Y7u9cCEiy47WwpiOzubnHp6LK1dDRiq6kzXPRQaznx11N8geKVzQ_7N4gM9nuMPClBjtFc5m7nyeSN9E5LYFHS3AKfI8YwBP9pr4cXh8oTOV_lQS"
+
 - name: Auberdine
   faction_safety: Alliance town
   notable_fish:
@@ -1415,6 +1558,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvY3cvO-Ak2wfZQnIqvOQq_G_4eSX9Q7gstGLlyA4Wzf-FVtusMV6hYXNU0F5QQffQHaW04pOd96n-B5enqofk4-fdEUoOHmoYupmXfadW5KWRxta8DDidft7L-Iqos1I="
+
 - name: Lake Everstill
   faction_safety: Contested Territory
   notable_fish:
@@ -1426,6 +1570,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_yxKgvMm7EEOgUrm7guDnBTvwRg0pGvVXmLZWwPFdfa-XUbpA3_Runr10GPRsSqK8DM8KS91dMaGdHM-Avbv6i_YVMVu-Jv9jVwM2ZuNaaVqySSfmQNP1lMvCy3iQ3sYiddTWkoY4jHwV7saDaCGAsrU3TuciidRo6DySmbmIORDUUfz4ydU="
+
 - name: Wailing Caverns area
   faction_safety: contested
   pvp_risk: medium
@@ -1436,6 +1581,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHURFDpHDN4wjKARrXex2oj65jJ3LFIDkdBMlUOT_YPb67kEobinQiVXaAhXu4HiJYNp8ypwTAtQhXdGNnN6wGV-yawlGuabz4y8ZY1gG7iQNm90OkQzlrP7uGZsnqoJ5rJ4HJV-yM="
+
 - name: Moonglade, Lake Elune'ara
   faction_safety: Extremely safe
   pvp_risk: Very low
@@ -1449,6 +1595,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcsMfvU2Slo8sXqpUa5Y6DhFk-dv_fyJBLNalBO_PQ-2gJh1Cs1IYXPQR619gV_N1C5oUIg7FCKn2RtxCQ2OqxTSs5OaEGV9EoEnch069mC3dKM_TSarYv-N9KPYwd6Z0="
+
 - name: Feathermoon Stronghold, Feralas
   faction_safety: Very safe for Alliance, guarded
   pvp_risk: Low to moderate
@@ -1464,6 +1611,7 @@ zones:
   access_notes: Fish into ocean water while staying close to guards.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Steamwheedle Port, Tanaris
   faction_safety: Guarded by neutral goblins
   pvp_risk: Moderate
@@ -1479,6 +1627,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrPDi2cQskLozXkdPkjT9piIK59ZQeraliNp2Luf4wnikErRuA09S-NzdSdv-wDI9zgL8AqK09Zy8bDKYynNiWItDP8kttPerHiB9ErJyf0nUMccfmhUnijHdXEp8QSSdeRvlZF2x4tg=="
+
 - name: Theramore Isle, Dustwallow Marsh
   faction_safety: Alliance-guarded
   pvp_risk: High' (as it is a contested zone) or 'Contested
@@ -1490,6 +1639,7 @@ zones:
   - Near guards
   verified: true
   verified_date: '2026-06-08'
+
 - name: Menethil Harbor, Wetlands
   faction_safety: Contested territory
   pvp_risk: High
@@ -1500,6 +1650,7 @@ zones:
   - The docks near guards
   verified: true
   verified_date: '2026-06-08'
+
 - name: Auberdine, Darkshore
   faction_safety: Very safe Alliance docks
   pvp_risk: None' (Alliance territory)
@@ -1511,6 +1662,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe3Nkh7yY2VdFpBrugfKFAUE1fZPF3yJNXbGM9XZ4-_84tfdbky4TzOEA2ZPRVW3azapZuUJU-7Anxmo_2hopVWZu2W0Rr5IeODCtquv_8VX_WLIBk3ldWUF6FovVw2g8gy7nLygH4FjmoZQC5NW7qLW8uyLY3mnBDuvcwENc="
+
 - name: Southshore River
   faction_safety: Alliance guard patrol range
   pvp_risk: high
@@ -1524,6 +1676,7 @@ zones:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6cfFtECQJUaoM9N8VbLalHrV19Vh1RLvpKMcn5DyZfUKxjgq4u_rPf5lrI35L3eqkRbfeykIlRG_Ql0HAp4alXeiF-_tNAVJeyOoLLVKZsu9mr4i0PJ0qNVVGVOCuWhFgu5yrldnrM5fH6bVs7qHke_SdAw=="
+
 - name: Menethil Harbor Hidden Jetty
   faction_safety: Alliance guards nearby
   pvp_risk: low
@@ -1538,6 +1691,7 @@ zones:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENHAtbDz-0bOZXvRx-MV9OIoFCR04nTFQL6sn557BtXA0XbPV7tBPxqey4A8FCmIx6O0z1OV7luK7z49_VXov0163m5r8UvvwSdZIRbVtqt80VDP9X6iKvLILW65lol3QrhbGeFak="
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Darkshire Duskwood River
   faction_safety: town guards have line of sight
   pvp_risk: low
@@ -1556,6 +1710,7 @@ known_fake_locations:
 - Charred Vale Lake (Stonetalon) — Charred Vale is a burned area, no fishing lake
 - Crystalvale (anywhere) — does not exist in Classic
 vendors:
+
 - name: Gikkix
   location: Steamwheedle Port, Tanaris (66, 22 approx)
   sells:
@@ -1566,6 +1721,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3YscpbxH-4fyRm4Ny-brhCwB5kuDFxilap9UtmBYYoBLqFmMnlrNmVr4PYhaA8lV9OqvrSGI9kFgTbErdvj3VwfNq5yq4s_vUkytRRqh23tRpU11YSy_Tjc2OaA=="
+
 - name: Kelsey Yance
   location: Booty Bay, Stranglethorn Vale (inside the inn area)
   sells:
@@ -1575,6 +1731,7 @@ vendors:
   - "Recipe: Undermine Clam Chowder"
   verified: true
   verified_date: '2026-06-08'
+
 - name: Innkeeper
   location: Ironforge
   sells:
@@ -1583,6 +1740,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5domlQhQ2oQqCfEjqIv3o3on6zB65Tp2IlL57vzsjmOB5e7z2Db8paLlqZLdcx6ioqXm_9uZnFzt24qgGjrCf4MUVbna-W-C29oEMQvMecnYpnbqztvNFszX0306oJ14kaotXLHlLgFU="
+
 - name: Nat Pagle
   location: Dustwallow
   sells:
@@ -1591,6 +1749,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLeXC87dFEWHnAM9p-DjaR-mUUrt9y2Vg2uG7UrYx3CmAPBQQediAuKbOPcjDjL7pvvw_ePY-RHqFIodVaZGCpuBslNu3VfKVSLKtVw67hVJdLsHiFmkyZY3V6OokoXLiC"
+
 - name: Vendor
   location: Unspecified
   sells:
@@ -1599,6 +1758,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErZ3fOntULd21RnaPGux7xVt63LTJoTwWsOrep4ZhcDk9cum_BluriBphS88KCFezU7cEfnn37d5kj7RJ7zkII6W_0jjYaPH9dI2Rhfc5eOlXMckx-2mFIJKNerNSZxCW1SUvg_ZMAzETmLb3Nix8="
+
 - name: "Recipe: Mightfish Steak vendor"
   location: Feathermoon Stronghold, Feralas
   sells:
@@ -1609,6 +1769,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnRAXlqJrslduRzaJTjvGE3UrCJwQwZ0hqA0ExgX69A55dWohacz1vJfigqh36BQzeeMgwBc_cROOnE_9ewTjuvdQrF2j56lKBx5s-pSoztNgrfeH8pq5F3UwkoEWBUsGYx_odnQXhd-xEjvHdgFn4C_zyJio="
+
 - name: "Recipe: Grilled Squid vendor"
   location: Steamwheedle Port, Tanaris
   sells:
@@ -1617,6 +1778,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe1rN53-LUowv4jzGguKO4SYaCfjuA7xjjMk8xG9CDrhWcyZbMuv4aFSwA9l82-d06imLGMZtr-PMIWm-naGxQKjnvYBLpV5NmjbdpS-_skM-YwfvYktOobEWmh5o="
+
 - name: Recipe vendors
   location: Feathermoon Stronghold, Feralas
   sells:
@@ -1627,6 +1789,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNkP2RH59o5YexC6OWTY_vtOoTHoU_tqS0rpN2uJRiGUmMcO3y-BFxzuYaGskwH4gyQAR6P_kWgr0RzvM6KlhRBN1jroUJJFFAtSEce2NqnowP9RbxkWTfNzr9W8nFa8Et6Ly78M0="
+
 - name: Recipe vendor
   location: Steamwheedle Port, Tanaris
   sells:
@@ -1634,6 +1797,7 @@ vendors:
   notes: Described as neutral.
   verified: true
   verified_date: '2026-06-08'
+
 - name: identified as Vivianna
   location: Feathermoon Stronghold, Feralas
   sells:
@@ -1645,6 +1809,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHV0NxGqhPlQIRwKepWd4I7-tl0PDTpuaSU5o8oeMMgPgilXJ5hA3AxAXzr5jf14hGK-Pn_du5Od86YqD6sQvu2CISo9_km4VQlf19G43sbQNAej2tvASbXO2L7KJVTD9vUtsQ_sC56FJ-1hf2EAMAsRLin7E9oMj6DxOJ5ufjjsJ4="
+
 - name: Shadowprey Village vendor
   location: Shadowprey Village
   sells:
@@ -1653,6 +1818,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFK3QyYyKGCnZecs5LLQVU3nCHxVkE54FpVwcfnWihPl83Ny_YdiV7MopeuZpmm-4o4jO0B6nQ5_fC7AKWAqOnY8hVQKf3C7PckxfKaP9S7Ri6D6YpigQf2CUOmATq_6oUvdiiPiD96rd6p-x-_WYfk2wo06C_zokXAjDV8M9c4vLBo8qVQG1Cbc6R3YCUM"
+
 - name: Strong Fishing Pole vendor
   location: Booty Bay
   sells:
@@ -1661,6 +1827,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw_6Dzj9NADjoIJEhcbh4MvhD830z0g5T8YmuJmkmT-i-47-oI2lsl-lywtqSgrn8zXcC-r-HGf5q_jsGQB_U9RcCKyrQj4lJX2FAXJlqvLgVWI9dEoQyye4fui71zD87xiHbrWw=="
+
 - name: Fishing and Trade Goods vendors
   location: Various
   sells:
@@ -1670,6 +1837,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF_oEM6BzlTvToMe3YBr3YVK-HhqXZkD_1upUdHJHxlr14FKbPLNddApqAwJ-EzighkA3e_tG67jJUlVndi-W6Terq3fKNAmAPUQSve9QCfCMrAVrqNHU-vWYT0JD-JPGv2EQdow=="
+
 - name: Sheendra Tallgrass
   location: Feralas
   sells:
@@ -1677,6 +1845,7 @@ vendors:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZ5fHjeNH0oFdLEA_b3Yx9JIA-CPI6yVozZfRhUZjsAW6Tk7N8ApFgbfAJwkL9xBOfWWPMbNV3pcnWvTBiBhYz7v1OlHKT-sK3lmWxI0Cnrt78dH-NEhODElM4QtiVNpap6QB4jHk5MFA="
+
 - name: Vivianna
   location: Feathermoon Stronghold
   sells:
@@ -1686,6 +1855,7 @@ vendors:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETCtnCEjqk8P9pyqiHIwwWIpE7ftSb56F341LssJiy7wTIxgOsCwj2dAz33hDBmLT65GDdGJ0zM2W5VqwoSkdExkcQpmygmTxamuIjmnqnBz5-yr1EHiDAu06F0xOX"
 items_and_clarifications:
+
 - name: Blackmouth Oil
   type: Alchemy reagent / crafted item
   notes: |
@@ -1693,12 +1863,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9JliZRYCRPydlMIvsGOOokBSOBcUnFztzuMoEysWbg4wW71Fz1bY-vcb-vGljL8zAwtJPYLFExdo17R_rUDBNHgMWJTtpDnuQzwojiMSZFRxj7SnW9lb40U1aRr6IHilO9FDq7Q=="
+
 - name: Oily Blackmouth
   type: Fish
   notes: The actual fish. Oily Blackmouth → Blackmouth Oil (alchemy).
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR0U3-wlNneC0hqLh8H30iGUdE00km4VDOmJP5f4YW0nMT9B3IlCiDOE9xjxDy4VKRkiVsl8gqhXefvi0XhIE37dHjTmqmNs_c_gX41QJk9WUNtiPmcDds3KD5nrMRTIlN3Ayhm9c="
+
 - name: Aquadynamic Fish Attractor
   type: Fishing lure (consumable)
   bonus: +100 Fishing skill
@@ -1708,6 +1880,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoxopYoFzk8kolnUgTe7LzNB2nh54d6Ews1qqlfmFvBm2tBiXSquTPBuulea_64ljglXfQOEIRgAuw1dh-B5apgitxmP26JYjz8hjl-VT6wiUtnP8="
   source: Auction House or Engineering
+
 - name: Bright Baubles
   type: Fishing lure (consumable)
   bonus: +75 Fishing skill
@@ -1715,6 +1888,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ5m0r4PbiRssvGPLJBLH1z_Hc5A-Bv9fuKSPa9ti_xZHHuSM131jO6A9X641CkBjRd4jEhDep-OJ84rDetgljVfomlWIuUnX2gCvPwKDf-PQ64uwM2WZUSpty7iCfjUHTtyqYXJfmng=="
+
 - name: Big Iron Fishing Pole
   type: Fishing pole
   bonus: +20 Fishing skill
@@ -1722,6 +1896,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGefD6ZshYcdKDk8AFyYQcRGjklTF-Kbe29iz_U3r_oJI-AG2_3A2VdsY6BWbXNJLRHFn166syHX7geqhgihvuoJrwdv5lxCieVi42uGkQ1o1zpslI0zPcMZ3a2nEyhN-jqXIDBrS1FTvWlBM="
+
 - name: Nat Pagle's Extreme Angler FC-5000
   type: Fishing pole
   bonus: +25 Fishing skill
@@ -1729,6 +1904,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRWDyTvMZThoDbxXkZJeJaFtFrco8PVIw3-3rMTh87MsRFvF4oVfktxrLstu7yJ79BIOnRGLyxcyM8pEZ7YQS3EalQ1EGBPmx7eSNedZ_ByTDXh1_BCNceS3PftvuLh1-J_tnzo8gc4lh4"
+
 - name: Simple Flour
   type: ingredient
   source: vendor
@@ -1736,12 +1912,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaoOuXht_NMXGCblsZBFjeE4FrwrecyA_hDyXZb-A-VTtj2LO_o9jJWVZtAw-qH7JBzZXpA7HL6Idak0ZUTzLDJbxOC5ja-Hoc0JQEtg1g5cYvoF8asE1BEywwf_vACpVniofFbXtnvj7c"
+
 - name: Tomato
   type: ingredient
   source: vendor
   notes: Guide says it is vendor-purchased. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
+
 - name: Tender Wolf Meat
   type: ingredient
   source: mob drops or vendor
@@ -1749,18 +1927,21 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaDbJOqxkpU47ME6VoMfYNTLOrWTAWxRyZ32l5VDpadIJYZLRtZvQ_qGUGLvGMftUygLj5UK4sruZEXX11znzhPBwRqghCCs54pbLVhQ7XrPpmcIwHIJPQWv426etuOYy0LCAl0BPW5YIYOTUUQY_ElA=="
+
 - name: Cooking Kit
   type: crafting tool
   notes: Guide says it can be bought from any vendor and used infinitely.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKMHoVGsuJHt9hYclMYqz9k09zGQjSXr2RZN-4mLkcbUNEKSVkxjfdoq4PgqpY8Er16DCfdalkJtHIxVtSPymqW4qzEDGHWKB4IN4J5vR5lJhCzQc8NfVhzwymrUw0TRoLdJe1lOxlNlKY5ztTGCthMQyvua__gn7x"
+
 - name: Fishing Rod
   type: tool
   notes: Guide says any fishing rod is sufficient at 300 fishing.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuEQK_WVHjA1LuKbPRQqkd9IBuED1nvbWv1_4don_-jihL_TGlozNVGOeydwxeCtPh8FU7fvT-ISf5Cq8IlVAhcjRo5YD-UZQ7UTnfz8NBWMbkJUv02xEOX6Xg-ktYKPmV4K8="
+
 - name: Nat Pagle's Extreme Anglin' Boots
   type: Boots
   bonus: +5 Fishing
@@ -1768,6 +1949,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMAwIoxnDtOhphftuPZNsSvTgADRmv04WJJdkJP4G2YHxCCWMtdd0RJx61eGcNl3PVhyUBstD3ywlndnlAQ0ZIOQ6zxk27fMoq34RntJ1RCACLkGKTelZpL8Sc9ejAdXlCR95d9yc_2qo8Yz5wFd_FZ0z1_Z28j0MIHjGa"
+
 - name: Lucky Fishing Hat
   type: Head
   bonus: +5 Fishing
@@ -1776,6 +1958,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNoFeAgS5kfhcajWkA7u4Kh9yQDhf0kcHIqAwSMmeak0--KL1yfZIeNcuYWH4u1XOVAjlPVZ_Jzz0edn96CX1Lk3jqWzpAiIfSgQw0OzNGXhUQQ8rE7A=="
   notes: Not necessary at 300 skill.
+
 - name: Shiny Bauble
   type: Fishing lure
   bonus: +25 Fishing
@@ -1783,6 +1966,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSvZYuCA6sAqkirrakfIRP_hJsdfNOEts87XjArYtFh71ZuTba_l52HvtAo8iU8DmbfrAGwDC1npIVzD3t2fKHwtLir71vihQARX7srYJNXHsrP2hDFPrdYOOHCrlr_2ncE7tFsPsXLxfs4TtQu05iEhLonW3daMRnFqCXQXMT1XRu55A="
+
 - name: Strong Trout Lure
   type: Fishing lure
   bonus: +75 Fishing
@@ -1791,6 +1975,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECZM3axbNG_vRlATeq2CwZwgtvxOoiwvFSizgNXNOr8QTIuSYEYPPzesYBacAGXiUXvLn4yHWDetFpRkWVD8liNABmXBnL1FdeRJ75PpEAUBl1Wi8WDFeGe3shmhbZk1ad3ROVuEkHSQ=="
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Soothing Spices
   type: Cooking reagent
   source: Vendor
@@ -1798,6 +1983,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHL40dLN50Rl0VDiju48kD3feZOw0D6DKObOIHfgDCarYPCMLL0BobDlATgPYo6JJMW2vLdD4VZoRtb9TytbhhSlQGhYXm4VlRzz453eDQoi66Ou59DcODvm9Fw7i5esdlJPPYJf0="
+
 - name: Speckled Tastyfish
   type: Fish
   source: Stranglethorn Fishing Extravaganza
@@ -1805,12 +1991,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8IwoKF9c3rNGnt0qOMExSDhM1amlZB3_S-I19Lu2dAz2QHLiOw0dABz3DYE4hoVT_-GDZuBnf9i7QNSKNlXah914eF8bdwq_Aihu7YhdgcqkoGbwd"
+
 - name: Hook of the Master Angler
   type: Fishing trinket
   source: Stranglethorn Fishing Extravaganza
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENgL1e9uRVWD6S9wIEwTSxm36VAdSqfFKbEYOplk3v_uO1hGT7qBcZHRAYTsKqxG-hCvvieUkKoQj6vIjiv797VPmRgOs5sj14IsaXUs_8IlW5oWPp"
+
 - name: Small Lustrous Pearl
   type: Pearl
   source: Big-mouth Clam
@@ -1818,6 +2006,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPK13MWp3ztJ6WaNURbY1hKHKHI7xhz7lM1ctVsyLwHnhPuHbmtfjin9VyP8y7sIrj7PIweS_9oLwHxliotouqgSEzb-vz4vDMLcPiplaWWd5C59clkwnDq6Es"
+
 - name: Black Pearl
   type: Trade Goods
   source: Big-mouth Clam
@@ -1825,6 +2014,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-x1PjQU7uaz5IIb8yC5NTvB5hz9yfSKQcp4S9BQBdVUoorL7IpsHLvwknDU_PPUXkfaCEla0NomN94VtYmdE20EjOxG8svwYuelvw3vB7yvZzy2GRxgYcMlIvxqzs"
+
 - name: Flask of the Titans
   type: alchemy flask
   bonus: +1200 HP
@@ -1833,18 +2023,21 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj00ojCFvuYrYZHL_Xlj8Q94emFJWBF2qheobh1fRzJ2HobuiWH16jctLE8DHzLgztyUufEsd6l6H0NMvSb9o2R86hHSmkn5OirzufO7vczg1_rsg4xHPbDqDb2ZW8yndkGWnswrs_"
+
 - name: Free Action Potion
   type: alchemy potion
   source: Uses Blackmouth Oil as a reagent
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaQOdO2JiPgkoEVLCRC-qoq4fYA0GJnE2g2GkBGR0nrbsJi0pIEeX84T2bGSXlbK2T0orXcxdwzmPJKOvHxCXsWYonSmCj2XCJ_SQbjNf5m81hPHRYCC3Y2sA2"
+
 - name: Fire Protection Potion
   type: alchemy potion
   source: Uses Small Flame Sac, Fire Oil, and Crystal Vial as reagents
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHr9sKOG0xwSKz9fVLnkeqeznPWxcfbyv27QMj592QRSOgVjMEtHvDWe3JS0bUv5nwQVYo257aRRwqiiDvbv7_mERpMEwu4VFOKZbkeReYLBF4c7y0lJZuDdl1czrvjWqG2fS0LQLhV8vP7AEmassQF-mFdEMs="
+
 - name: Nightfin Soup
   type: cooked food
   bonus: +8 MP/5' (not 'while sitting')
@@ -1852,6 +2045,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvMhR0nkF-GxtSQgqeTCdQAkhDZkoVNq-_oFENV9euPNvPfB2MqM9Ne43UjGOeH1P3MgjyzGZXQ6A5OW26YQx-e-HgEpDKACDoYT8_1WsvPE2LR3DnimwpYEtJfCrMBkbqhfTtG0YiHTlRKQ=="
+
 - name: Mightfish Steak
   type: cooked food
   bonus: +10 Stamina
@@ -1859,6 +2053,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfTKbBqqhcM6xxJDOs2v62HRhEjD1LO-AkiAT5M46Jd4yaN4tTOj2i7UV051PZFijUTb0kGrJOBP2n3z-_jivP2PdBePeipw-G8e72f01TfIetFdoXFwzt9_bR7G27elWlgp7yLI0olA=="
+
 - name: Grilled Squid
   type: cooked food
   bonus: +10 Agility
@@ -1866,6 +2061,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-Iw3EmE59XuIG05XDJstHfpFJw2KNdKiYzTDdfnPKgT1Ra1Ed-mMYRSMyPf6qQoRBsK_Y9fbh9XrshsUir-Qan1UHGu3DcS2w59hkQKh1DaMQ313XVxf87Q=="
+
 - name: Baked Salmon
   type: cooked food
   bonus: Restores health over 30 sec
@@ -1873,36 +2069,42 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbEaPBvQrLMZRFGh1v7Ag5cCT3JfMlwvZaLXk1l3tDIrCdL1RR10fRE_pEQjboclfMnLgsmLU7L-6Vjyi_Vw-TppxQP5iOYVzEaU6pG8Kv7Tvmc7Uj3T11dYKkIL9sTynnkCY="
+
 - name: Spotted Yellowtail
   type: cooked food
   source: Cooked from Raw Spotted Yellowtail
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHscZU9yOiVuILGgVTImHp9GNW7wJnHh9mwJZn33nfjBf89Vqp7BFj2sS4GtV1b2FbMcU2_eLWDbliFOFyexvpK0N3QlmoOqkzxn2C6YkwsoOq64rQ="
+
 - name: Lobster Stew
   type: cooked food
   bonus: None' (restores health over time)
   source: Purchased from vendors (Sheendra Tallgrass/Vivianna) in Feralas
   verified: true
   verified_date: '2026-06-08'
+
 - name: Basic Campfire (spell)
   type: Spell' or 'Ability
   source: "Learned from Cooking trainer', requiring 'Flint and Tinder' (tool) and 'Simple Wood' (reagent)"
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaXz7sC1oktDPxhAbg1JBN4cCbSkY0pGTr-xVKH4yLTqnJuxLGQOWREJTml3JKMISQncxEORL2lyZAH820vCYfFVCHjUfHtupC3ZESR2YrUmyx7PUnF7y_tf_YkHUP4j13ZH8eJ6Q28iR00Q=="
+
 - name: Waterlogged Chest
   type: quest object
   source: static object in the Wetlands
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4ky3sj5zYFTrPm7DQJcMcyR9O9baLf84s1d9zf2M8yIohbv8dxZRPOxnNJm9AMC-iCn2FkwOPFaC8yeFH81EzUyXLqVQcwlotKTxj11jmBLwGZEq0"
+
 - name: Truesilver Lockbox
   type: locked box
   source: Open water fishing
   verified: true
   verified_date: '2026-06-08'
   notes: Does not exist in WoW Classic (1.12)
+
 - name: Stonescale Oil
   type: Alchemy product
   notes: Mentioned as a product made from Stonescale Eels.
@@ -1910,6 +2112,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlOEa6F8fgua_mgYu_ffYcmaT5H1y0z8VVAUxYEWtjDB_KJsrp8QK7zkT0r9rjwUeExstNVfIJhrb9duWByYcRtufIysf7997PkDxlRd_zhGbNAPHkWQSEQ3HEeP9xzE3zoZnq5uwi7ahvnJY="
   source: Crafted by Alchemy (250) using Stonescale Eel
+
 - name: Greater Stoneshield Potion
   type: Potion
   notes: Mentioned as a recipe using Stonescale Eel Oil.
@@ -1917,6 +2120,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEva5ii1glTKCjkrkK93d0a6Q7EKG11uV71JT6ZY2OLu0ty9to0_sX2cEG2Mz4tmfXSmX6rh0EyO_9umXOl5P1HnuNFFDEoF-Kmcb3k8XqyguFX8QquMA=="
   source: Mentioned as using Stonescale Eels
+
 - name: Mithril Head Trout
   type: Food
   bonus: None' (restores health only)
@@ -1924,6 +2128,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFguDOWkqWhxkQLXe0xUZpSeQQ9BhXX-ZJ8-qDc0FH9CIYKtLAepWndkME83Iz-aJBxivBcvpoiq6mkYS5tlME9bODFELgIUfWc6jG7Q0w6uiUgqV-XiDatwvbII7hk6VDcY9JgRKV4Nz-4Q9qXBtd-kg=="
+
 - name: Winter Squid
   type: Fish
   notes: "Cooked into Grilled Squid; seasonal (available roughly September to March) and primarily caught during the day (12:00-00:00\
@@ -1931,53 +2136,62 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSola3ZIgbdhazZDvVYwoB386hhKvqQk5BdzZhcCMA-eU7akrqFNTx-KEgYekf9zNaiEKCmA6aTN6focItrLdpPntsowJ1e5KPogwFCmF6SfSv9MzSXHTX8Iu8Ran5TBdkhpmrECy-w2yrfH7YP8cH2oqYCihtYGSMejVMJCcrGsO0ULKv9jcwq8nuqpQo5KRQy25_NB3jXl0Ohw=="
+
 - name: Old Boot
   type: junk item
   notes: Described as vendor trash.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjM-BSweN5td-yYDkJMvHLnGlnuj1FY-j3pCaS8lzrvfv06KgHZR3jDN_gXPvFNeSGWHY_7i-oH7RJkp3k2ktiY8C5TYwp6KtAuomykrvGSjrOBbZELogC8q-xypPHr76eyqBkkb-Zj0Pqug=="
+
 - name: Empty Bottle
   type: quest item' if referring to the common quest object
   notes: Described as vendor trash.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFS55kWwnDRRUytt1K01iqJyhfnTmFlhv4WE8qfI0k1yVl-KWLyBf4wk-7e4aPokMWvm273gBT96G-kgqdLoWQ154oaenRpX9fMSnq0BNT0Qp8rwgCoHQ=="
+
 - name: Bent Fishing Hook
   type: junk item
   notes: Listed as junk to vendor.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7tZqIefPBln0p3vxd-GedCJUanA_GDTUI9Es9Lemb-CIh6PVS0DndiA4ZTbREl-MpK8qBn6aqSw_9Uvwvj-ap_GqLDlEapHe1h4QoQ5FadH7l2D3WMocicjeYxxer5Hdm-e2V"
+
 - name: Deviate Fish
   type: fish
   notes: "Described as having small vendor value if you do not have Recipe: Savory Deviate Delight."
   verified: true
   verified_date: '2026-06-08'
+
 - name: Flint and Tinder
   type: fire-making reagent
   source: used with Simple Wood to make a Campfire
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8QvwP8kbv8JeigdEvkvJRD2_dAJbvexAT2XtOMCbLIIvcdj33zc4vSnaksi7EDX09ApGgOQzYdVYE3ySUbSlDlMc1_Dc851wVTtcS-7G7iuARpOuur7clrfENISMF9EJzSMNGLLhgYJanyNd4cZcpmJw="
+
 - name: Simple Wood
   type: Trade Good' or 'Crafting Reagent
   source: used with Flint and Tinder to make a Campfire
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEn4StjoX0kKfiou0u_D7PcBkulx9N49BPZMFPEunTTD5yyA2_IYXVkpCNAwptmWEX7UXOPcrpjIdiax90u9r8bHHdkQwZYmEQB7XAy7KFo-rAlolhlRnaJUwDFLnrngeiT"
+
 - name: Big-mouth Clam
   type: Trade Goods' (or 'Consumable')
   notes: Sometimes contains pearls.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9fgAc5-9zt2IY3ahj2O9cEXQOs3VRn5uHT8EN2HuzXIDLcBlWCrBlIZBVynvLvoSSfHR59wKg1sDx1gKiTQwubPgJLhi_orXGzOjNPp9TEUnxIjEIZVubzdiM9Gm5GnIbguU4hg=="
+
 - name: Smoking Heart of the Mountain
   type: Trinket
   notes: Mentioned as using Black Pearls.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKbMim4VYFHal5K0biZ1JmQaPalrN-cLzJncTFIDOUyimm55iUKxyIcXFY77zBTEyChHn98-XffvQnDBDD9WNO67dhVS4gySWF7s9jxt2a-fYCooPAbA=="
+
 - name: Arcanite Fishing Pole
   type: Fishing pole
   bonus: +35 fishing
@@ -1985,6 +2199,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkPUlnTwdh5CVETVmAxo5uZOHwaGRmTPw-RD9DiHA1rgnfpTbelPm1X4jgPgFb7Swi2ZYod3d9uRoQAKvo61uZNp7_RqHKJpgV8hfLsYRAl4ovO4mvXfsHUJsv3M4rnw4Xw02eIPR3I9Uw"
+
 - name: Enchant Gloves - Fishing
   type: Enchant
   bonus: +2 fishing
@@ -1992,6 +2207,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHiwnRMwPFL7nPmYajGKGZ3b0ZNRo9BVv_FYzSQKuRpMwzqtbeTrRAOetG89NYs7RH0cwNj_bIAMVngr8fMEWzMXnoH_56YBB4zp4b8_s-12cAdHtcKA=="
+
 - name: Stonescale Eel
   type: Fish
   source: Feathermoon Stronghold; Azshara; Bay of Storms
@@ -1999,6 +2215,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi2mcQuFqMlFBzjP1yGF2VkyxAoAbiFy3wMakZtpMjNeNM6tV3LS2fCstpMQ1EGAF84XHTVXcUas3bFPDWO_00wjDShy9hzcYSewepIuxv5HDCiRSxEJ8YxA=="
+
 - name: Aquadynamic Fish Lens
   type: Fishing lure
   bonus: '+50'
@@ -2006,6 +2223,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIdI48s9dngFznqxvNJkun9UnUpiuGijTn6mkD7XuY7So9TrmYPcLIYaP2XObzx0luKaez-wW9Mt9jk7ZubWzx3vXevTzJqarpv418IB5fV9YqNPACIQ=="
+
 - name: Sturdy Obsidian Fishing Pole
   type: fishing rod
   source: Auction House
@@ -2013,6 +2231,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPdN8yK2eT7pcZR1KomSodzDDrGM8_LoViIcJtxvgISp95RIFdsKitpGTgcjtcqOkKfuENCFPoKRqo_cfrdeXviWR3ncB70a2Gdt-BQHaTdV9t6kzMUwl_XQO9wogwlc2cGhW8EvZvlO08oQFINwcH"
+
 - name: Fishing Lures
   type: consumable
   bonus: +25 to +100
@@ -2020,18 +2239,21 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2R79QIRnOG8bmtYkabmbyyth9yIYq-p0_MlDlPbml4FuYYzA8R58DzqgJNr9x-3N9oJWiR5uh8dZGK18ekPMU9XU3L-ty8FK2g7lKFq08Fo7NYt2zo_aZQXt292oxCFwrW6gW_jvGSGzS"
+
 - name: Water Walking Enchant
   type: enchant
   notes: "Allows fishing from otherwise inaccessible spots. Does not exist in WoW Classic (1.12)"
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQonaNiTFpY0xy0AyAdSiVvFgDUvTM15wB-0Q1gAmsMeIk2NRJKQjjoRDnsHhtyT7XmsSAP2j3PPDPVYUa8qP8XWgZKgQrUXcOgkiN0AtK9gCdv1zv7SkE_Anr1mlib9mNhBOlLjP2FSOgRNy3MQrTtluQOpLvaXUzW4f5bTA-TxtKfPB0NdPckg=="
+
 - name: Flying Fish Boots
   type: junk gear
   notes: Vendor sells for 30s. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFR8Tzp27oj4ZbOaoQ0NXjE6w720R7Rvu7RJBWLtIxWXgmPJgRovPi7w4m5t5zZ2XIYeCKGWTmN3nTOXRoUMIHrNnO0y-MV5GKl8WqEzpO1H8D65T5cQLansdnqA4QKcAnQMOed_QhI_LbYmKM2AZ6CAr-mEMb5eE5Fqcnu30n1baEXqDLnCpw="
+
 - name: Nightcrawlers
   type: consumable
   bonus: +50 fishing
@@ -2039,6 +2261,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGtQ3jHKtMZmJnnYJ2bvEwUv-0hU8fi7OuJnwVfBe3qLeHdJHyGE8u1xgch27YL7mUKrxoIrTLL-n9nNhMrsDybca84v1fXo5psP3TBKGFZ-rmEcs0SzOgdwAEZSYcWiuksJBul8nNC6c="
+
 - name: Fire Oil
   type: alchemy ingredient
   source: Crafted by Alchemy
@@ -2046,21 +2269,25 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEndrR7LVO5-g4chaWhAUBT6-aW7yuMUJTbTd1PTHhmVC6F_chAbXicfVuKgOf8lEJXGuPVK7JjVmAtxGOi7GaGhRk13JCraPOFVlSpOVlV5kXVv8wdNzQ_44lPsnLz_FmmLi3uwg=="
+
 - name: Mithril Bound Trunk
   type: container
   notes: The guide says it can contain 6+ slot bags.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESBLerAK5onIIJRChUmEpZTRAbL_Vy-ZNVNNZvRG4-OwH7dRYvz_4iiIQUlGi_3Fax3xsdA803LMgFdBFeijofpcBEebSfLxGiiwmWn12FJzwyLDfqQo5dfiFkNqVt5ouQj_8xTbWv_UKq"
+
 - name: Sealed Wooden Crate
   type: container
   verified: true
   verified_date: '2026-06-08'
+
 - name: Iron-Bound Trunk
   type: container
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNwV0pcgDGYyhdy6xs0xmaKnB0xCad83YCadgtgliSdV0o2H_CQC0FJXayDnW_60qmLep_6R_vztv7juiWpjCUHfou7TuMuKnvJZisqN5ZtahtbzZID4xGfn1rCbUC-ZlErhn6FKWB-4Q="
+
 - name: Strong Fishing Pole
   type: Fishing pole
   bonus: +5 Fishing
@@ -2068,6 +2295,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8oEJYRk_jBNIGhVjoZiexnd9GkQ4L42pn57FZNyuRh31haremMwa_8-AUvr57p6ymiyKmz7-sKHLV9vs7uELOrUhONYNwEg2DwUFAaFwKiLG8uP2rkLeb3ptKdN9bVA_AWxkShMRzTgf3"
+
 - name: Flesh Eating Worm
   type: Lure
   bonus: +75 Fishing
@@ -2076,6 +2304,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtb6-sibN8hCKNmiBXV2UpX8_C1gC6TnjkfamWYEOiJNAfTDmZjSm4fz9xG_dan9zzOH80-p5RFHxpGGv8QwY4XWoDXy148lcn5ppFtDVXsn9n_jD1rrCKOkiM442pqZwlAQkswfSElJS5"
+
 - name: Heat-Treated Spinning Lure
   type: Lure
   bonus: +75 Fishing
@@ -2085,6 +2314,7 @@ items_and_clarifications:
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE65yCLPt3FXQxngLmOk9RgzR6uF9whBuZjfsR13BjYPZK3F6wLFXqeAv242OMzgPF9q2hZOjiHbq3YMl6wttJ0mRNAgi7ZFs_LafOhvFH9vQhgSIvnAaxW-4U0yKiYDojxDQU="
   notes: Does not exist in WoW Classic (1.12)
+
 - name: High Test Eternium Fishing Line
   type: Fishing line
   bonus: +5 Fishing
@@ -2092,12 +2322,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGqbCFSL3jrFwnPCxz_WfP95wNlTMFlIW41o7ucrpln0TY27JdWt08YfKnMTdFxtDmXH78-DCuGohoatkxCmRCWAWPy-YBOfUlkDxQpDpYD6p_38PtOJS57ac_uglF95C3iYTCrg8x96KuufAQiFdjOqu9VVM="
+
 - name: Diplomacy
   type: Racial passive
   notes: Human passive that increases reputation gains faster
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZUr6Wmp0mBBs5GbXIKuR9u9Y8tuiQpxK3_uwvbli6x4KSHDikYV4WF-0cuVHvjAZfbzJyxpPIzqGv16DHx2wmj8jvBfDK29g7llrL9PpigB1jMXwgqNp3VbfqPLxsbA=="
+
 - name: Elixir of Water Walking
   type: consumable
   source: "Alchemy (Crafted)' or 'World Drop/Vendor' (not stated in the guide is technically true but incomplete), and specifically"
@@ -2105,42 +2337,49 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHspRdMFcYaPKuEPi_amnhmCGEdngJjo0BpCLIwp2VgHks1pNoM574uZaJTo52F7i1scznB4ppnvVLljhYoWt5AxxLmvjx_ZKKvsiYfgHij9860IJGhXrOnN8TTEdhMlp_tMOo1i1CocwSTj-WH"
+
 - name: Elixir of Greater Firepower
   type: Elixir' (or 'Battle Elixir')
   source: Mentioned as a use for Firefin Snapper
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHzVfvrYtuNK73YWDCR9nm0lkZSAfdY31NqVzxToPc7ZTYcJ5W_5lmB6Vnv8srL1MLt60egg66iLHoLHCj_zkU8Hx3U-t9ENjg97w9rLJ2w77PruP_Zk4jBP-dRw1WIF8sF9KrmnUENsnpPKoeN8atWG0="
+
 - name: Swiftness Potion
   type: consumable
   notes: Mentioned as a survival tool while fishing.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhBGGYYRZGcgi93oYMjSRo4ftMUvJNLeH3ZgONzv8GMqOcOxno8z0BhQugRX8Gu81PGlOGFEvvrWKXLDPsGweAwNbiOo1X3wXjUTVko99EJ2OPS9Q="
+
 - name: Roast Raptor
   type: food
   notes: Mentioned as a bag item for self-heals if a rare gank happens.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG40ebTQuBO-fF8npi0_ixP8PChwOYs2BDROP7JyHqGx8HKYR1zlbv-UnSLPKs2Yc9pzcQMIrVjIVh8OQkk7LNvYGXXr0nganz6I2GZRbtKVSMjVkN5"
+
 - name: Sagefish Delight
   type: Food
   notes: Provides a mana regeneration (MP5) buff when consumed
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhbo2dDmKO4BLO4gaTYGBNWJLrvoIDUh9R_Aplo2A9nIXsRLI1GJnYM5jIe-mK0tzdHGNtm-zP1_sFkzr1jMrnBpGvjv5dBVsuowKI42g9TfmkLJtw4Z0="
+
 - name: Fishing Pole
   type: fishing gear
   notes: Any 300-capable pole works.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG41Y-nxD7c18N7xOrqxmyekgnNleBTQYeU4lNUpO1cQwDLqpDpYhGuweq169kUL1SgyZjO8EvnOMj7H9tIz-dsIyzR-Vo-CrFP3w44NaofLbIHvvQ="
+
 - name: FishingBuddy
   type: addon
   notes: Described as tracking fish caught and managing fishing gear
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWdN8reDauniuI88ijE2qeeuqh5VQ4PqnT7WpDw4LjfqScrLQJ3YrweHcekwiwwboEDQqK4ybJwglf5GtlBNHXblmkuB3IaYql5pASTMiaabSjbF3BKQsuuVkei81BUH71"
+
 - name: TradeSkillMaster
   type: addon
   notes: "Requires manual Auction House scans to update price data, as WoW Classic lacks a real-time API.' instead of 'Described\
@@ -2148,18 +2387,21 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOAfp1XGsvZbHwNJYvouKQVBiBH61LMJwhTYqJORWdPzAF3FTcuZ1jzivHqEIk_m1yBmqQSu1p3xIm7-60Z6PumBS_Dtj6nUopQeZbH6kBc7VnFFj7-4IMBoXKe_C8d7OvDpFhZj59ASJJa39UnRlZwCKTSNg7rUjXqQ=="
+
 - name: Atlas
   type: addon
   notes: Described as marking fishing hotspots on the map.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE65VUcVLNiAL3zdZdfLXu-2zE6F8ghYqx2kihMJOCA1Xfl8ZqCTVSQ0v8_A6siTYVU3l6uF_fmay2pci0A34aP4Z8sCXzkqXA0zN3QkyF5wSDnC_BJQ6Rx6X-aqUy7b7Jz"
+
 - name: AutoProfit
   type: addon
   notes: "Automatically sells gray (poor quality) items to vendors when interacting with them"
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElGDhGS9FQznYC-Jx1d0BdQ7x-rdQqbGym1Y6h_N1EHmOvzpsEme8fBSaM81wQqB3d8Hs7MGXvu9y16WWZoDh8TbWjqh4RzFWw0yjonzrgtODwDzO-9Tj_FVhGl5fPc9r-imUAu0LQqRFvumy8tVSxhfLb5GJb9LkTBTzD3vUVKDgsGvmqTTq-xilHtf7cbbZKoetz8DRxGM9SOBnHNKxvOMny85Gc92VwgpNqewtDSObggLEBnkI5DaikvtrEJVIuKo4EyMRKLpLAz9HT"
+
 - name: Rumsey Rum Black Label
   type: Consumable
   bonus: +15 Stamina
@@ -2168,22 +2410,26 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRzEIJnbMwNRzQYJfW9ehpiTb54M5LKTt_O47jmpwdg0U-a-4dUN3q8pDqeSt9nuEiyho2iDDXs1pz3ii7Ainy4QA9Mg2diXbx5sTmeRTPuWuA9ZmYuA=="
+
 - name: Seth's Graphite Fishing Pole
   type: fishing rod
   notes: The guide says it is Horde-only. Does not exist in WoW Classic (1.12)
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0dytNk6ymmMfxuMWv-BS8whUkw3VwXC_9c6o6m_AgmEwt0VEV9PXqbbAhHO_La5EBPQMktWFqsOG1b-5H8osHqx007e192BD_Yy2HUtx6DursWFi_RKs8eVcuzZtnbMcS"
+
 - name: Heavy Runecloth Bandages
   type: bandage
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN0SSKg2IxaWapRpa8y10FGa6Ka3M62GKvRc3Wm05cDTOfIAa1tFB8NXoXUIwkkSIqsFDZA7fiycFrwOXqOb9AOfoaUTsaG7ROW1A_w7sLZPlTENffQXSWEP3vONClwIxo0tIejINhoCdybRKGOv2vuGtvdg=="
+
 - name: Empty Vials
   type: Trade Goods
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfK3dyB0tCY7JP_SQbdf3UGJIkQ3qtEIGXLAMXHTGPX60H49M6eEwsbR_yjufUU5b0_rBncKG70Ot3-1FX1g84SHXt8sQLlrwew9gx1B7aqSXO3JDeHEUHJ3IhiAgp86CL"
+
 - name: Basic Campfire
   type: spell' or 'ability
   bonus: +4 Spirit
@@ -2191,12 +2437,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG40zAn9zge4BP77rDtXigHz8hg8Lmxe937g3OxFMD6PmJA-EVTSeoNDMrZcaWT5o0UqA98ZzxU-h5CxuWuMrRHNCXd__kotifqUWGSbqKe6QzGWCa7"
+
 - name: 300 Fishing
   type: fishing skill requirement
   notes: The guide states the character has 300 Fishing.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoP9A367MVPOupYv-mlISAcxr-yni6p1YFzdptaQuWBYL8tbYXL2dzf0on4z7drLFt-gZa5J_gK5Bd5uSw1h_XTvZREDPOkz3fWcpeRiezhBnyTklOm6X2pO2xdP9DP4Jj"
+
 - name: Fishing pole with +skill
   type: item bonus
   bonus: +fishing skill
@@ -2204,6 +2452,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpEIgQDhXBTjmwR1IrQz3K3rj-APJif10bOxXwxf6pG5MkXzKjeXMiDf2KIk3j7L7yKOmZWyEhwcMb9ioRo5iUuzH0bRHmEhNKyZ0PGM2nWB7U4MPkFhZlShEC3EwywyWbSAc94OG7vbTQKRmwd5KeEP5OLI5OlS5fQ2yLvMQAvV08GQpngpjMNOAOalIXR3ZL7Nr2ceNeKbgs-pw="
+
 - name: Gear with fishing bonuses
   type: equipment and consumables
   bonus: permanent or temporary fishing skill increase
@@ -2211,17 +2460,20 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5rECmNaDgBdhXh4OZGkpcZ10x5gC_Wp_LZQY9UqX689vh9CVIRGRBcDNaPJGQUO-A92FR8-DjQNzkZI4G7mjNXRRtKxNcYepKEsSiBFMUctrBkdrY-1UgRdbKMfAQML7fnvSiTmSTyTh30323EQUbf86n4X4="
+
 - name: Bait/lures
   type: item bonus
   notes: The guide says bait/lures can reduce resist or failed catches.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Refreshing Spring Water
   type: Consumable
   notes: Guide says to bring it if the Nightfin Soup recipe requires it.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgJf72sgSkQ20siXUuvqARTgHpQYMVmiMDeDKURJlJWbjUMbdSAb3wI3tXLG_UOwr0_GMdLCK6kKGGQGLg7oEmz1tZpgZnCXbM-0llKYfnDc8eGTe-DxLBqOxo9alzsgcflI7o-fndYoWIH3rnpykHVJl32Q=="
+
 - name: Nightfin Snapper
   type: fish
   duration: "18:00–06:00 server time"
@@ -2229,12 +2481,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbYGnWlXbS2Nf4w1Mf4_csNigpsuBNQKbT-FqtWmHWmdIM2Y2ciq2vuEH5cCHcE-syAW4g9A5jRBrzHqszUJcrPhdD3QG2W97xVEPBw8TXdGyVkYlDhSMQu2u1d-ClQaendtkVrgN4QZO2R1pN"
+
 - name: Perception
   type: racial ability
   notes: Human racial mentioned as useful against stealthed rogues.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnoAgjLix0fpxq22mu9iIfZ7-yMumFMgPunZaeNYCq06fuSXZNzG_ZCLOhP3piC9-zp76AcdN8T4aYsrsTtFvshTlnOrnqM-8GwB3GwAFRuhXPgbseISqdxByIK4Kf_UAw8thPceeJHbv6lHxRMoQM"
+
 - name: Masterwork Angelfish Rod
   type: Fishing rod
   bonus: +10 fishing
@@ -2242,23 +2496,27 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4JVpvH3dr9HXKqbjLatWuAiVv4GpOBqOXJ2PtEGUKlf8OehR48QxzwxgIMpZv48nLAvL78OW61TNUMjhe9GtLYM5XSI3SweHOULsaBnVhR6TUFGY9WjSragwvraag5CHhVB9ol9tpJQg="
+
 - name: Tackle Box
   type: Container
   notes: Guide says to keep it in your bags to save room.
   verified: true
   verified_date: '2026-06-08'
+
 - name: Elixir of Water Breathing
   type: Consumable
   notes: Recommended for underwater spots.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnAUvESJKEMq6DaRCcBXmhsHKjLx5YfbXL22BmK2H8OjpV2Jp2vuUTGRS_fSGa9_Q26NXigRbNAJsO8Mvf8gvWYuRiM6DvV09UArosBsNs22QVtkM="
+
 - name: Battle Shout
   type: Warrior ability
   notes: Mentioned as providing slight DPS help.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrB67yuFDihHPqPLeBlD7ImkbxF0mrAHY8kviTZhD9SsVCAjHNMxvEbZBNnscC3sDJ-rAEYe-bm_jqc-HnAF89o-d2RMre2j_9TXMyLBYBPFw8iDM8CQ=="
+
 - name: Intercept
   type: "Warrior ability' (correct), but the notes are factually incorrect as Intercept requires a hostile target and cannot\
     \ be used as an escape tool."
@@ -2266,12 +2524,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1y0OO0fsGL3smlW8HGJn8o0HxwnYQfWraqx6ZqmNpZ5C-0fVWGuUv0Qt1b9_5lblPB_R0CHAnU6dIsn5WHDO3YWkX8j_fsi6lVjaKPbk3rRMymXVsvK92Spkgc5LyzZgzuqNfefIrAOcv"
+
 - name: Shield Wall
   type: Warrior ability
   notes: Mentioned as emergency damage mitigation.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9I5Qd7-m0APmyeHhxdVP3bSTWJqsq3TtohccAYz8kKADjcPv8mGldOLAP_L7-mQrfi6FnaleQLK2LUFOEWM3wk3sUtnp2hgHCxBLVPyxdqtPcpx0hUiyH_ScOuhmDfynp"
+
 - name: Darkwood Fishing Pole
   type: Fishing pole
   bonus: +15 Fishing
@@ -2279,12 +2539,14 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuvIP1S5Ob2bk3ILL4nStFO5ifmn0wFnS8w1vVa1Zz3BTHbebWrV35Q_g3Y7CDbaF4CjVV94U5gWtcPXPiQLmNrufWviYGiEmetHH3QBbU7Reiz4XiWRlDFovOdWre4ACPv3MPRD0qL33a9lUPwnaj3KSFi9_wk4u12KEFU0862QqZLLoOWBP4bio69eYFgN7hSwj47nI="
+
 - name: FishingAce
   type: Addon
   notes: Mentioned as tracking school locations, cast successes, and in-game time.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAp_HS5Oq4p8smQDMJFGJwWZOX_ssk7bsNlwQDjWQOuGr7n8tIi2Hm7SIBOJyMHjelK3Yi5amP9bOxTx5wJYuns7L-ejCrNtuGSgQHgGIlTPRHrhd3BtATXbVVv_5VCG2j1G3pM9N5B67h0NpUuPNtTdcRs1N0vA2i30xzcyrAqFgfYyG8Sa_10Mag"
+
 - name: Nat Pagle’s Extreme Angler FC-5000
   type: Fishing pole
   source: Horde-only quest "Snapjaws, Mon!" in the Hinterlands
@@ -2292,6 +2554,7 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFb_UXscxEz_CnRscwHWRBzeYbI69E-DQf9BpqF18T08iGTOHy-cuUsmRdefo7PTbG3Ceo6aRm1iFu82wmHfPm2zJNavJaHaMdY23kDCo7WYCdY8kDOQg=="
+
 - name: Spun Truesilver Fishing Line
   type: Line enchant
   bonus: +3 Fishing
@@ -2299,30 +2562,35 @@ items_and_clarifications:
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8MF00tc73o7Tp5N865C6BLaG6mMMu4cT7Fw3UFGuH6JpLs-7h0vVRqSB-7PdV6ah_4uZzQyhGEtoKsOG9fO5ClLYJVCozXanPMpbXzK7z1jTFd7iiCvI9ryQWBW0M0GEgrWphyz6IlzruWXu25_BEeEnZznJ3nDgQHQ=="
+
 - name: Noggenfogger Elixir
   type: Consumable
   notes: The guide says it is used for Slow Fall to reach the Azshara ledges.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqT5prmaNTF1z9-LKgfghw81207iKfSAkv3HSfRH-ngKGl1ggfD1wAoxYoyCj-Y4UXb6CVrzVV5sIq0jDvYDN2B-S3XD6Eh1x-HQ1zfOM8n89UkiDSldqbKylY1bFe9os="
+
 - name: Sound in Background
   type: Game audio setting
   notes: "The guide says enabling it allows hearing the bobber splash while the game is minimized."
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJJAXKZkP_pSvuAtoeItDakzGwKEl12wNqjEM6pGVmOOB07zqB9_6XNkza3ePGzrQmWGptM2kWeBaqlqp8yYwyI4Y5o6Zt0uC95wsj7RaGlPRQFiKCuO41VbLqrB3JiUnVKdwBEhf-WIM30BYXUHYfIhpKvsl0pLR7GKnc2USqcd7WUvCTQCRd7Oxiezcr8Ts="
+
 - name: Mild Spices
   type: Reagent
   notes: Used for Savory Deviate Delight.
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGWA8kJq58kQmeFJXemEC9R0M66vav0a3kNdi_OpYQ5TMcLPnzS01wy8rmK4rf7Lr1f7_w_z7QxZeLPnQZ9dMU1dGR81InGeOQFe6apv-NvGGWPSs="
+
 - name: Swim Speed Potion
   type: Alchemy consumable
   source: Mentioned as using Blackmouth Oil
   verified: true
   verified_date: '2026-06-08'
   source_url: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFT1LNBmZ1Bdzxz1A6l_abEQKDuPobvm5uS7PZCMFt5FEKql_yVSGr5B4wAcSdf8IZNaHSoglVIyITN5EM1zoJkzbOy5fyjuu6u7ZzAJWZAKX8oH2VQEcmICuS0aqDLvYQsTkNP"
+
 - name: Well Fed
   type: buff
   bonus: flat stat increases (e.g., +Stamina/Spirit)
