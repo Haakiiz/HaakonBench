@@ -34,7 +34,7 @@ from llm_client import LLMClient
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
     ("anthropic", "claude-opus-4-8"),
-    ("anthropic", "claude-opus-4-7"),
+    #("anthropic", "claude-opus-4-7"),
     ("anthropic", "claude-sonnet-4-6"),
     ("anthropic", "claude-haiku-4-5"),
     ("openai",    "gpt-5.5"),
@@ -45,8 +45,8 @@ CONTESTANTS: list[tuple[str, str]] = [
 ]
 
 # ── Grader ─────────────────────────────────────────────────────────────────
-GRADER_PROVIDER = "anthropic"
-GRADER_MODEL    = "claude-sonnet-4-6"
+GRADER_PROVIDER = "google"
+GRADER_MODEL    = "gemini-3.5-flash"
 
 # ── The prompt ─────────────────────────────────────────────────────────────
 PROMPT = """I want you to create me a fishing strategy, as a level 60 human warrior on World of Warcraft Classic servers. I must be able to fish for an extended period of time where i am not killed and do not have to move. That is alliance zones, or maybe very hidden areas in contested zones. I have level 300 fishing and level 300 cooking, so please utilize both for maximum gold/hour. Tell me where to fish, when, what, etc. Give an estimated gold / hour for the different zones and areas and fish.
@@ -56,6 +56,37 @@ Be creative in giving me a great guide, you can add 'features'/chapters/stuff as
 MAX_TOKENS_PER_CALL = 8000
 BASE_RESULTS_DIR    = Path("results")
 BODY_SEP            = "\n<!-- BEGIN RESPONSE -->\n"
+META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
+
+# ── Effort tiers ───────────────────────────────────────────────────────────
+# One user-facing knob (--effort low|medium|high|max). Each tier sets a
+# universal output-token budget, then is TRANSLATED per provider. Every provider
+# that exposes a knob now uses a NAMED effort level — but the names and ceilings
+# differ, and some are Opus-only:
+#
+#   anthropic → output_config.effort + adaptive thinking
+#               (low/medium/high/xhigh/max; 'max' is Opus-only; Haiku 4.5
+#                supports neither effort nor adaptive thinking → no knob)
+#   openai    → reasoning.effort          (low/medium/high/xhigh)
+#   google    → thinking_level            (low/medium/high; Gemini 3 rejects
+#                                           the old numeric thinking_budget)
+#   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
+#
+# PROVIDER_EFFORT is the SINGLE place to edit when a provider adds or renames a
+# level; resolve_effort() applies the per-model Anthropic caps. None = leave the
+# provider default. An unsupported value just makes that one call fail loudly
+# (saved as FAILED), never a silent empty.
+TIERS = ["low", "medium", "high", "max"]
+DEFAULT_EFFORT = "medium"
+
+TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
+
+PROVIDER_EFFORT: dict[str, dict[str, object]] = {
+    "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
+    "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning.effort
+    "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
+    "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # reasoning_effort
+}
 
 
 # ── Folder helpers ─────────────────────────────────────────────────────────
@@ -114,32 +145,77 @@ def slug(provider: str, model: str) -> str:
     return f"{provider}__{re.sub(r'[^A-Za-z0-9._-]+', '-', model)}"
 
 
-async def run_contestant(provider: str, model: str) -> tuple[str, str, float, str | None]:
+def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]:
+    """Translate an abstract tier into (max_tokens, provider-specific effort level).
+    Returns a named level string, or None to leave the provider default. Applies
+    the per-model Anthropic caps (Haiku has no knob; max/xhigh are Opus-only)."""
+    knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
+    if provider == "anthropic":
+        m = model.lower()
+        if "haiku" in m:
+            knob = None                       # Haiku 4.5: no effort, no adaptive thinking
+        elif "sonnet" in m and knob in ("xhigh", "max"):
+            knob = "high"                     # 'max'/'xhigh' are Opus-tier only
+    return TIER_MAX_TOKENS[effort], knob
+
+
+async def run_contestant(
+    provider: str, model: str, effort: str, timeout: float | None = None,
+) -> tuple[str, str, float, str | None, dict | None]:
     label = slug(provider, model)
     t0 = time.perf_counter()
     try:
+        max_tokens, knob = resolve_effort(provider, model, effort)
         client = LLMClient(provider=provider, model=model)
-        client.max_tokens = MAX_TOKENS_PER_CALL
-        response = await client.call(PROMPT)
-        return label, response, time.perf_counter() - t0, None
+        client.max_tokens = max_tokens
+        client.reasoning_effort = knob        # named level (or None for provider default)
+        if timeout:
+            response = await asyncio.wait_for(client.call(PROMPT), timeout=timeout)
+        else:
+            response = await client.call(PROMPT)
+        return label, response, time.perf_counter() - t0, None, client.last_usage
+    except asyncio.TimeoutError:
+        return label, "", time.perf_counter() - t0, f"TimeoutError: no response within {timeout:.0f}s", None
     except Exception as e:
-        return label, "", time.perf_counter() - t0, f"{type(e).__name__}: {e}"
+        return label, "", time.perf_counter() - t0, f"{type(e).__name__}: {e}", None
 
 
-def save_result(run_dir: Path, label: str, response: str, secs: float, err: str | None) -> None:
+def _meta_block(secs: float, effort: str, usage: dict | None) -> str:
+    """A machine-parseable comment so --regrade can recover tokens/time later."""
+    usage = usage or {}
+    lines = [
+        "<!-- HB_META",
+        f"seconds: {secs:.1f}",
+        f"effort: {effort}",
+        f"input_tokens: {usage.get('input_tokens', 0)}",
+        f"output_tokens: {usage.get('output_tokens', 0)}",
+        f"reasoning_tokens: {usage.get('reasoning_tokens', 0)}",
+        f"total_tokens: {usage.get('total_tokens', 0)}",
+        "-->",
+    ]
+    return "\n".join(lines)
+
+
+def save_result(
+    run_dir: Path, label: str, response: str, secs: float,
+    err: str | None, usage: dict | None = None, effort: str = DEFAULT_EFFORT,
+) -> str:
+    """Write the result file and return a one-line status string for the caller
+    to print (so the run loop can stream feedback as each model finishes)."""
     path = run_dir / f"{label}.md"
     if err:
         path.write_text(
             f"# {label}\n\n**FAILED after {secs:.1f}s**\n\n```\n{err}\n```\n",
             encoding="utf-8",
         )
-        print(f"  ✗ {label}  ({secs:.1f}s)  — {err}")
-    else:
-        path.write_text(
-            f"# {label}\n\n_Generated in {secs:.1f}s_\n{BODY_SEP}\n{response}\n",
-            encoding="utf-8",
-        )
-        print(f"  ✓ {label}  ({secs:.1f}s, {len(response):,} chars)")
+        return f"  ✗ {label}  ({secs:.1f}s)  — {err}"
+    meta = _meta_block(secs, effort, usage)
+    path.write_text(
+        f"# {label}\n\n_Generated in {secs:.1f}s_\n\n{meta}\n{BODY_SEP}\n{response}\n",
+        encoding="utf-8",
+    )
+    tok = usage.get("total_tokens", 0) if usage else 0
+    return f"  ✓ {label}  ({secs:.1f}s, {len(response):,} chars, {tok:,} tok)"
 
 
 # ── Loading from disk ──────────────────────────────────────────────────────
@@ -165,6 +241,21 @@ def load_successful_results(run_dir: Path) -> list[tuple[str, str]]:
             continue
         out.append((path.stem, body))
     return out
+
+
+def load_result_meta(run_dir: Path, label: str) -> dict:
+    """Recover the HB_META block (tokens/time/effort) for a result file.
+    Returns {} if the file is missing or has no metadata (e.g. older runs)."""
+    path = run_dir / f"{label}.md"
+    if not path.exists():
+        return {}
+    m = META_RE.search(path.read_text(encoding="utf-8"))
+    if not m:
+        return {}
+    try:
+        return yaml.safe_load(m.group(1)) or {}
+    except yaml.YAMLError:
+        return {}
 
 
 # ── Grading ────────────────────────────────────────────────────────────────
@@ -296,6 +387,78 @@ Then:
 Be opinionated. No participation trophies."""
 
 
+def parse_grade_totals(verdict: str) -> dict[str, float]:
+    """Best-effort extraction of the per-letter Total score from the judge's
+    markdown table. Returns {letter: total}. Degrades to {} if it can't parse."""
+    totals: dict[str, float] = {}
+    total_idx: int | None = None
+    for line in verdict.splitlines():
+        line = line.strip()
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if total_idx is None:
+            lower = [c.lower() for c in cells]
+            if "total" in lower:
+                total_idx = lower.index("total")
+            continue
+        if cells and re.fullmatch(r"[A-Z]", cells[0]) and total_idx < len(cells):
+            m = re.search(r"\d+(?:\.\d+)?", cells[total_idx])
+            if m:
+                totals[cells[0]] = float(m.group())
+    return totals
+
+
+def build_efficiency_table(
+    run_dir: Path,
+    letters: list[str],
+    entries: list[tuple[str, str]],
+    totals: dict[str, float],
+) -> str:
+    """Raw-data table: score alongside time and token counts, no ratios."""
+    rows = []
+    for letter, (label, _body) in zip(letters, entries):
+        meta = load_result_meta(run_dir, label)
+        score = totals.get(letter)
+        rows.append({
+            "label": label,
+            "score": score,
+            "seconds": meta.get("seconds"),
+            "output": meta.get("output_tokens"),
+            "reasoning": meta.get("reasoning_tokens"),
+            "total": meta.get("total_tokens"),
+        })
+
+    # Sort by score (desc) when we have it, otherwise keep label order.
+    rows.sort(key=lambda r: (r["score"] is not None, r["score"] or 0), reverse=True)
+
+    def cell(v) -> str:
+        if v is None:
+            return "—"
+        if isinstance(v, float):
+            return f"{v:g}"
+        return f"{v:,}" if isinstance(v, int) else str(v)
+
+    lines = [
+        "",
+        "---",
+        "",
+        "## Efficiency — raw data",
+        "",
+        "_Same score with fewer tokens or less time = more efficient. "
+        "Reasoning tokens are internal thinking; '—' means the provider didn't report it._",
+        "",
+        "| Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        lines.append(
+            f"| `{r['label']}` | {cell(r['score'])} | {cell(r['seconds'])} | "
+            f"{cell(r['output'])} | {cell(r['reasoning'])} | {cell(r['total'])} |"
+        )
+    return "\n".join(lines)
+
+
 async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grader_model: str = GRADER_MODEL) -> str:
     entries = load_successful_results(run_dir)
     if not entries:
@@ -318,7 +481,10 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]
     for letter, (label, _body) in zip(letters, entries):
         key_lines.append(f"- **{letter}** → `{label}`")
-    return verdict + "\n" + "\n".join(key_lines)
+
+    totals = parse_grade_totals(verdict)
+    efficiency = build_efficiency_table(run_dir, letters, entries, totals)
+    return verdict + "\n" + "\n".join(key_lines) + "\n" + efficiency
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────
@@ -349,6 +515,14 @@ async def main():
     parser.add_argument("--grader-model", default=None,
                         help="Override grader model as provider/model (e.g. anthropic/claude-opus-4-7). "
                              f"Default: {GRADER_PROVIDER}/{GRADER_MODEL}")
+    parser.add_argument("--effort", choices=TIERS, default=DEFAULT_EFFORT,
+                        help="Reasoning/thinking + token budget tier, translated to each provider's "
+                             "named effort level (Claude output_config.effort + adaptive thinking, "
+                             "OpenAI reasoning.effort, Gemini thinking_level, Grok reasoning_effort). "
+                             f"See PROVIDER_EFFORT. Default: {DEFAULT_EFFORT}.")
+    parser.add_argument("--timeout", type=float, default=None, metavar="SECONDS",
+                        help="Per-model wall-clock limit. A model that doesn't answer in time is "
+                             "marked FAILED and the run continues + grades the rest. Default: no limit.")
     args = parser.parse_args()
 
     if args.list:
@@ -369,15 +543,37 @@ async def main():
     else:
         to_run = parse_only(args.only) if args.only else CONTESTANTS
         verb   = "Adding to" if args.only else "Starting new run in"
-        print(f"HåkonBench — {verb} {run_dir.name}\n")
+        print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort})\n")
         for provider, model in to_run:
-            print(f"  • {provider:10s} {model}")
-        print()
+            _, knob = resolve_effort(provider, model, args.effort)
+            print(f"  • {provider:10s} {model:32s} → {knob}")
+        if args.timeout:
+            print(f"  (per-model timeout: {args.timeout:.0f}s)")
+        print(f"\nRunning {len(to_run)} model(s) in parallel — saving each as it finishes:\n")
 
-        tasks   = [run_contestant(p, m) for p, m in to_run]
-        results = await asyncio.gather(*tasks)
-        for label, response, secs, err in results:
-            save_result(run_dir, label, response, secs, err)
+        # Stream results: save + print the moment each model returns, so partial
+        # results survive a failure/Ctrl-C, and a heartbeat shows what's still
+        # running (so a long --effort max run is visibly alive, not hung).
+        tasks = {
+            asyncio.create_task(run_contestant(p, m, args.effort, args.timeout)): slug(p, m)
+            for p, m in to_run
+        }
+        t0 = time.perf_counter()
+        heartbeat = 20.0
+        done_count = 0
+        pending = set(tasks)
+        while pending:
+            done, pending = await asyncio.wait(
+                pending, timeout=heartbeat, return_when=asyncio.FIRST_COMPLETED
+            )
+            for task in done:
+                label, response, secs, err, usage = task.result()
+                msg = save_result(run_dir, label, response, secs, err, usage, effort=args.effort)
+                done_count += 1
+                print(f"[{done_count}/{len(tasks)}]{msg}")
+            if pending and not done:
+                still = ", ".join(sorted(tasks[t] for t in pending))
+                print(f"  … {len(pending)} still running after {time.perf_counter() - t0:.0f}s: {still}")
 
     if args.no_grade:
         print(f"\n--no-grade set; skipping grading. Results in: {run_dir}")

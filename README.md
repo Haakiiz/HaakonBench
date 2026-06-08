@@ -88,6 +88,50 @@ Viser alle mapper under `results/` med antall filer og om de er gradert.
 
 ---
 
+### Skru opp reasoning/tenking med `--effort`
+```bash
+python haakonbench.py --effort high
+python haakonbench.py --effort max --only anthropic/claude-opus-4-8
+```
+Én bryter (`low | medium | high | max`, default `medium`) som setter et felles
+output-token-budsjett **og** oversettes til hver leverandørs navngitte reasoning-nivå.
+Leverandørene er uenige om navn og tak, så oversettelsen ligger i `PROVIDER_EFFORT`
+i `haakonbench.py`:
+
+| Tier | max_tokens | Anthropic Opus | OpenAI | Gemini 3 | xAI grok-4.3 |
+|------|-----------|----------------|--------|----------|--------------|
+| low | 8000 | low | low | low | low |
+| medium | 16000 | medium | medium | medium | medium |
+| high | 32000 | high | high | high | high |
+| max | 64000 | **max** | **xhigh** | high | high |
+
+Per-modell-tak for Anthropic: `max` er kun Opus (Sonnet 4.6 kappes til `high`), og
+Haiku 4.5 får ingen knapp (støtter verken effort eller adaptive thinking). Kjøringen
+skriver ut hvilket nivå hver modell faktisk får (`provider model → nivå`).
+
+**Hva ligger inni `max_tokens`?** Avhenger av leverandør:
+
+| Leverandør | Hva `max_tokens` dekker |
+|---|---|
+| OpenAI (gpt-5.x) | reasoning **+** synlig svar (delt budsjett) |
+| Google Gemini | tenking **+** synlig svar (delt budsjett) |
+| Anthropic Claude | tenking **+** synlig svar — tenke-tokens teller mot `max_tokens`; dybden styres av `effort` |
+| xAI Grok | **kun** synlig svar — reasoning skjer server-side og teller ikke mot budsjettet |
+
+For OpenAI/Gemini gulvsettes budsjettet uansett til minst 20 000 (i `llm_client.py`)
+så modellen har rom til å tenke *og* svare.
+
+På høye nivåer (`high`/`max`) kan enkeltmodeller bruke flere minutter. Hvert svar
+lagres **i det øyeblikket modellen er ferdig** (`[3/8] ✓ ...`), og en heartbeat hvert
+20. sekund viser hvilke som fortsatt kjører — så du ser at den lever, ikke henger.
+Delresultater overlever altså om noen modeller feiler eller du avbryter.
+
+```bash
+python haakonbench.py --effort max --timeout 600   # marker modeller > 600s som FAILED og gradér resten
+```
+
+---
+
 ## Resultater
 
 ```
@@ -102,9 +146,15 @@ results/
     ...
 ```
 
-Hver modell-fil har hele svaret. `_grades.md` har en blindtest-tabell (A/B/C…) med
-poengsummer på Accuracy, Strategy, Creativity, Structure og Fidelity – og en nøkkel
-på slutten som avslører hvilken modell som er hvilken.
+Hver modell-fil har hele svaret, med en `<!-- HB_META ... -->`-blokk i toppen som
+lagrer tid, effort-nivå og token-bruk (input/output/reasoning/total) – så tallene
+overlever `--regrade`.
+
+`_grades.md` har en blindtest-tabell (A/B/C…) med poengsummer på Accuracy, Strategy,
+Creativity, Structure og Fidelity, en nøkkel som avslører hvilken modell som er hvilken,
+og til slutt en **Efficiency — raw data**-tabell som setter hver modells totalscore ved
+siden av tid og token-tall (sortert på score). Da ser du f.eks. om to modeller fikk samme
+karakter, men den ene brukte halvparten av tokens eller tiden.
 
 ---
 

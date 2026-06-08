@@ -45,6 +45,10 @@ python haakonbench.py --regrade --grader-model anthropic/claude-opus-4-7
 # Run models without grading (cheap connectivity check)
 python haakonbench.py --no-grade
 
+# Crank reasoning/thinking + token budget to the high or max tier
+python haakonbench.py --effort high
+python haakonbench.py --effort max --only anthropic/claude-opus-4-8
+
 # List all run folders
 python haakonbench.py --list
 
@@ -64,8 +68,27 @@ python test_grader.py --model claude-opus-4-7
 
 ### Benchmark flow (`haakonbench.py`)
 
-1. **Run phase** — `CONTESTANTS` list drives parallel async API calls via `LLMClient`. Each response is written to `results/{timestamp}/{provider}__{model}.md`.
-2. **Grade phase** — all successful responses are loaded, anonymised as letters (A, B, C…), and sent to the judge model in a single call. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Results go to `results/{timestamp}/_grades.md` with the letter→model key appended at the end.
+1. **Run phase** — `CONTESTANTS` list drives parallel async API calls via `LLMClient`. Each response is written to `results/{timestamp}/{provider}__{model}.md`. The file header carries an `<!-- HB_META ... -->` block recording wall-clock time, the effort tier, and token usage (input/output/reasoning/total) so it survives `--regrade`.
+2. **Grade phase** — all successful responses are loaded, anonymised as letters (A, B, C…), and sent to the judge model in a single call. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Results go to `results/{timestamp}/_grades.md` with the letter→model key appended, followed by an **Efficiency — raw data** table joining each model's Total score against its time and token counts (sorted by score). The score column is parsed best-effort from the judge's table; if parsing fails it shows `—` but the token/time columns still populate.
+
+### Effort tiers (`--effort {low,medium,high,max}`)
+
+One abstract CLI knob, **translated per provider** because providers disagree on the level names and ceilings. Every provider that has a knob now uses a **named effort level** (no provider uses a numeric token budget anymore). `TIER_MAX_TOKENS` sets a universal output budget; `PROVIDER_EFFORT` in `haakonbench.py` is the single source of truth, and `resolve_effort()` applies the per-model Anthropic caps. Default is `medium`.
+
+| Tier | max_tokens | Anthropic Opus (effort) | OpenAI (reasoning.effort) | Gemini 3 (thinking_level) | xAI grok-4.3 (reasoning_effort) |
+|------|-----------|-------------------------|---------------------------|---------------------------|---------------------------------|
+| low | 8000 | low | low | low | low |
+| medium | 16000 | medium | medium | medium | medium |
+| high | 32000 | high | high | high | high |
+| max | 64000 | **max** | **xhigh** | high | high |
+
+Key per-provider facts (verified against provider docs):
+- **Anthropic** Opus 4.7/4.8 use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. `max` is Opus-tier only; **Sonnet 4.6** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k; the `max` tier is 64k).
+- **OpenAI** gpt-5.5 supports `low/medium/high/xhigh` (also `minimal`/`none`); `max` tier uses `xhigh`.
+- **Gemini 3** uses a named `thinking_level` (low/medium/high), **not** the old numeric `thinking_budget` — passing a budget to a Gemini 3 model is a hard error. Set via `ThinkingConfig(thinking_level=...)` (case-insensitive).
+- **xAI** grok-4.3 **does** accept `reasoning_effort` (none/low/medium/high), sent via `extra_body`. (Older grok-4 rejects it.)
+
+`LLMClient` exposes a single `reasoning_effort` (the named level for every provider; Anthropic also auto-enables adaptive thinking). An unsupported level just makes that one call fail loudly (saved as `FAILED`), never a silent empty. After every `call()`, `client.last_usage` holds the normalized `{input,output,reasoning,total}_tokens` dict (parsed from each provider's usage object).
 
 ### Grader accuracy
 
@@ -83,10 +106,10 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 
 | Provider | What `max_tokens` covers | Reasoning behavior |
 |---|---|---|
-| Anthropic (Claude) | Visible output only | Extended thinking is a **separate** `thinking.budget_tokens` parameter. Not currently enabled in our client. |
+| Anthropic (Claude) | **Thinking + visible output (shared)** — thinking tokens count toward `max_tokens` | Depth is the named `output_config.effort` level + `thinking: {type: "adaptive"}` (Opus 4.7/4.8, Sonnet 4.6). Numeric `budget_tokens` is **removed** (400s). Set via `LLMClient.reasoning_effort`. The client passes an explicit `timeout` so the non-streaming guard doesn't reject the 64k `max` tier. |
 | OpenAI (gpt-5.x, o1/o3/o4) | **Reasoning + output (shared)** via Responses API `max_output_tokens` | Always on. Effort defaults to `medium`, can consume 5–15k tokens before any visible output. |
-| xAI (grok-4.x) | Visible output only | Reasoning happens server-side, not counted against `max_tokens` in chat.completions. |
-| Google (Gemini 2.5+/3.x) | **Thinking + output (shared)** via `max_output_tokens` | Thinking on by default. |
+| xAI (grok-4.x) | Visible output only | Reasoning happens server-side, not counted against `max_tokens`. grok-4.3 accepts `reasoning_effort` (sent via `extra_body`); older grok-4 rejects it. |
+| Google (Gemini 2.5+/3.x) | **Thinking + output (shared)** via `max_output_tokens` | Thinking on by default. Gemini 3 controls depth with named `thinking_level` (low/medium/high), not numeric `thinking_budget`. |
 
 **Rule for shared-budget providers (OpenAI Responses API, Gemini 2.5+):** floor the budget at **20 000 tokens** so the model has room to reason *and* produce a meaningful answer (~8k visible after ~8–12k reasoning). Enforced in `llm_client.py` via `total_token_budget = max(self.max_tokens, 20000)` in both the OpenAI reasoning branch and the Google branch. Also detect `response.status == "incomplete"` (OpenAI) so silent empties surface as real errors.
 
