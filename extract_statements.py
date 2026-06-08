@@ -122,8 +122,28 @@ async def extract_one(client: LLMClient, sem: asyncio.Semaphore, path: Path, bod
     return path, parse_json_obj(reply), None
 
 
-def merge_entries(data, extracted: dict, stats: dict) -> int:
-    """Merge one file's extraction into `data`. Returns count of new entries added."""
+def known_fake_names(data) -> set[str]:
+    """Normalized place names from known_fake_locations, so we never re-add a
+    hallucinated location the reference file already disowns. Entries look like
+    'Lake Shire (Ashenvale) — does not exist' → we key on 'lake shire'."""
+    names: set[str] = set()
+    for raw in data.get("known_fake_locations") or []:
+        head = re.split(r"[(—]|\s-\s", str(raw), 1)[0]
+        if head.strip():
+            names.add(normalize_name(head))
+    return names
+
+
+def merge_entries(data, extracted: dict, stats: dict, fake_names: set[str]) -> int:
+    """Merge one file's extraction into `data`. Returns count of new entries added.
+
+    Cheap guards drop the obvious garbage a small extractor model produces, so the
+    fact-checker isn't paid to verify it:
+    - locations the reference already lists as fake (known_fake_locations)
+    - placeholder/garbage vendor names ('Vendor', 'Recipe: X vendor', ...)
+    - cooked dishes mis-filed into items_and_clarifications (they belong in, and
+      usually duplicate, cooking_recipes)
+    """
     added = 0
     for section in LIST_SECTIONS:
         items = extracted.get(section)
@@ -132,10 +152,24 @@ def merge_entries(data, extracted: dict, stats: dict) -> int:
         if data.get(section) is None:
             data[section] = []
         seen = existing_names(data, section)
+        recipe_names = existing_names(data, "cooking_recipes")
         for entry in items:
             if not isinstance(entry, dict) or not entry.get("name"):
                 continue
             key = normalize_name(entry["name"])
+
+            if key in fake_names:
+                stats["skipped_fake"] += 1
+                continue
+            if section == "vendors" and (key in {"vendor", "unspecified", ""}
+                                         or key.startswith("recipe:")):
+                stats["skipped_junk"] += 1
+                continue
+            if section == "items_and_clarifications" and (
+                "cook" in normalize_name(entry.get("type", "")) or key in recipe_names):
+                stats["skipped_food_dupe"] += 1
+                continue
+
             if key in seen:
                 stats["duplicates"] += 1
                 continue
@@ -179,19 +213,24 @@ async def main() -> int:
     results = await tqdm_async.gather(*tasks, desc="Extracting")
 
     data = load_reference()
-    stats = {"duplicates": 0, "by_section": {}}
+    fake_names = known_fake_names(data)
+    stats = {"duplicates": 0, "skipped_fake": 0, "skipped_junk": 0,
+             "skipped_food_dupe": 0, "by_section": {}}
     failures = []
     for path, extracted, err in results:
         if err or extracted is None:
             failures.append((path, err or "unparseable JSON"))
             continue
-        merge_entries(data, extracted, stats)
+        merge_entries(data, extracted, stats, fake_names)
 
     total_added = sum(stats["by_section"].values())
     print("\n=== Extraction summary ===")
     for section, n in sorted(stats["by_section"].items()):
         print(f"  {section:24s} +{n}")
-    print(f"  {'(duplicates skipped)':24s} {stats['duplicates']}")
+    print(f"  {'(duplicate names)':24s} {stats['duplicates']}")
+    print(f"  {'(known fake locations)':24s} {stats['skipped_fake']}")
+    print(f"  {'(junk vendor names)':24s} {stats['skipped_junk']}")
+    print(f"  {'(cooked-food dupes)':24s} {stats['skipped_food_dupe']}")
     print(f"  {'TOTAL new entries':24s} {total_added}")
     if failures:
         print(f"\n  {len(failures)} file(s) failed to extract:")
