@@ -30,6 +30,7 @@ from pathlib import Path
 
 import yaml
 from llm_client import LLMClient
+from reference_io import LIST_SECTIONS
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
@@ -295,16 +296,21 @@ def _format_reference_data(data: dict) -> str:
         # verified: false AND verified: null are both excluded — `is True` catches
         # the former and the `not in entry` guard catches hand-curated entries.
         return v is True or "verified" not in entry
+
+    def _keep(section, entry) -> bool:
+        # Named-entry sections (LIST_SECTIONS) must be dicts; drop any stray
+        # scalars here so the formatting loops below can assume a dict shape.
+        if section in LIST_SECTIONS and not isinstance(entry, dict):
+            return False
+        return _trusted(entry)
     data = {
-        k: ([e for e in v if _trusted(e)] if isinstance(v, list) else v)
+        k: ([e for e in v if _keep(k, e)] if isinstance(v, list) else v)
         for k, v in (data or {}).items()
     }
 
     if data.get("cooking_recipes"):
         lines.append("### Cooking Recipes")
         for r in data["cooking_recipes"]:
-            if not isinstance(r, dict):
-                continue
             lines.append(f"- **{r.get('name', '?')}**: ingredients: {', '.join(str(i) for i in r.get('ingredients', []))} | "
                          f"buff: {r.get('buff', '?')} ({r.get('buff_duration', '?')}) | "
                          f"source: {r.get('recipe_source', '?')}")
@@ -315,8 +321,6 @@ def _format_reference_data(data: dict) -> str:
     if data.get("fish"):
         lines.append("### Fish")
         for f in data["fish"]:
-            if not isinstance(f, dict):
-                continue
             parts = [f"**{f.get('name', '?')}**"]
             if f.get("time_restriction"):
                 parts.append(f"time: {f['time_restriction']}")
@@ -328,8 +332,6 @@ def _format_reference_data(data: dict) -> str:
     if data.get("zones"):
         lines.append("### Zones")
         for z in data["zones"]:
-            if not isinstance(z, dict):
-                continue
             lines.append(f"- **{z.get('name', '?')}**: {z.get('faction_safety', '')} | PvP: {z.get('pvp_risk', '?')}")
             if z.get("notes"):
                 lines.append(f"  - {z['notes']}")
@@ -344,8 +346,6 @@ def _format_reference_data(data: dict) -> str:
     if data.get("vendors"):
         lines.append("### Vendors")
         for v in data["vendors"]:
-            if not isinstance(v, dict):
-                continue
             sells = ", ".join(str(i) for i in v.get("sells", []))
             lines.append(f"- **{v.get('name', '?')}** ({v.get('location', '?')}): {sells}")
         lines.append("")
@@ -353,8 +353,6 @@ def _format_reference_data(data: dict) -> str:
     if data.get("items_and_clarifications"):
         lines.append("### Item Clarifications")
         for item in data["items_and_clarifications"]:
-            if not isinstance(item, dict):
-                continue
             lines.append(f"- **{item.get('name', '?')}** ({item.get('type', '')}): {item.get('notes', '')}")
             if item.get("bonus"):
                 lines.append(f"  - Bonus: {item['bonus']} for {item.get('duration', '?')}")
