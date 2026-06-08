@@ -286,7 +286,15 @@ def _format_reference_data(data: dict) -> str:
     # (possibly hallucinated) extractions out of the grader's ground truth.
     # See extract_statements.py / factcheck_reference.py.
     def _trusted(entry) -> bool:
-        return not (isinstance(entry, dict) and entry.get("verified") is False)
+        # Non-dict entries (e.g. plain strings in known_fake_locations) are always
+        # passed through; they are not part of the verified/unverified pipeline.
+        if not isinstance(entry, dict):
+            return True
+        v = entry.get("verified")
+        # Only entries with no `verified` key (hand-curated) or verified: true pass.
+        # verified: false AND verified: null are both excluded — `is True` catches
+        # the former and the `not in entry` guard catches hand-curated entries.
+        return v is True or "verified" not in entry
     data = {
         k: ([e for e in v if _trusted(e)] if isinstance(v, list) else v)
         for k, v in (data or {}).items()
@@ -295,7 +303,9 @@ def _format_reference_data(data: dict) -> str:
     if data.get("cooking_recipes"):
         lines.append("### Cooking Recipes")
         for r in data["cooking_recipes"]:
-            lines.append(f"- **{r.get('name', '?')}**: ingredients: {', '.join(r.get('ingredients', []))} | "
+            if not isinstance(r, dict):
+                continue
+            lines.append(f"- **{r.get('name', '?')}**: ingredients: {', '.join(str(i) for i in r.get('ingredients', []))} | "
                          f"buff: {r.get('buff', '?')} ({r.get('buff_duration', '?')}) | "
                          f"source: {r.get('recipe_source', '?')}")
             if r.get("notes"):
@@ -305,6 +315,8 @@ def _format_reference_data(data: dict) -> str:
     if data.get("fish"):
         lines.append("### Fish")
         for f in data["fish"]:
+            if not isinstance(f, dict):
+                continue
             parts = [f"**{f.get('name', '?')}**"]
             if f.get("time_restriction"):
                 parts.append(f"time: {f['time_restriction']}")
@@ -332,13 +344,17 @@ def _format_reference_data(data: dict) -> str:
     if data.get("vendors"):
         lines.append("### Vendors")
         for v in data["vendors"]:
-            sells = ", ".join(v.get("sells", []))
+            if not isinstance(v, dict):
+                continue
+            sells = ", ".join(str(i) for i in v.get("sells", []))
             lines.append(f"- **{v.get('name', '?')}** ({v.get('location', '?')}): {sells}")
         lines.append("")
 
     if data.get("items_and_clarifications"):
         lines.append("### Item Clarifications")
         for item in data["items_and_clarifications"]:
+            if not isinstance(item, dict):
+                continue
             lines.append(f"- **{item.get('name', '?')}** ({item.get('type', '')}): {item.get('notes', '')}")
             if item.get("bonus"):
                 lines.append(f"  - Bonus: {item['bonus']} for {item.get('duration', '?')}")
