@@ -39,6 +39,7 @@ from reference_io import (
     load_reference,
     normalize_name,
     save_reference,
+    to_quoted,
 )
 
 BODY_SEP = "\n<!-- BEGIN RESPONSE -->\n"
@@ -173,7 +174,7 @@ def merge_entries(data, extracted: dict, stats: dict, fake_names: set[str]) -> i
             if key in seen:
                 stats["duplicates"] += 1
                 continue
-            new_entry = {k: v for k, v in entry.items() if v not in (None, "", [])}
+            new_entry = to_quoted({k: v for k, v in entry.items() if v not in (None, "", [])})
             new_entry["verified"] = False  # pending fact-check; hidden from grader
             data[section].append(new_entry)
             seen.add(key)
