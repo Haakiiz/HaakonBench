@@ -21,6 +21,10 @@ cooking_recipes:
     buff_duration: "10 min"
     skill_required: 250
     recipe_source: "Vendor: Gikkix, Steamwheedle Port, Tanaris"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELa3A4s3XM_Bg2-K3B5GkCXZ7E0x6cw0LLUau2KRS8I9Ov89QJGayKTL50Py3hKnpKzfj3nL0qi-SnaH4NUed8ju-Xb3qQ7vf_djT2HNB74WUG4RMftWWNnGTClT98S6Udooinnc_TnCFIHs9b3l5F4A==
+    corrections:
 
   - name: "Mightfish Steak"
     ingredients:
@@ -30,6 +34,12 @@ cooking_recipes:
     buff_duration: "10 min"
     skill_required: 175
     recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF65Oyi-fAGoWJh7KyQfY2utwZZWBpMtMhWdwwEckst8gDpWilTkOkArszvMf74M80oQOt71s4YhuWpB3Exhm3Zwu0L8ZQQn-P52387pgJejY56Tc0LotVxTvQ3rouCzzj52RkbuU6KAxTH_Pa-rfr1PNIhgDIct7o0RozdOmBlaMPf9HZupQ==
+    corrections:
+      - 'ingredients: should be 1x Large Raw Mightfish, 1x Hot Spices, 1x Soothing Spices, not 1x Large Raw Mightfish, 1x Hot Spices'
+      - 'recipe_source: should be Vendor: Vivianna (Feathermoon Stronghold, Feralas) or Sheendra Tallgrass (Camp Mojache, Feralas), not Kelsey Yance, Booty Bay, Stranglethorn Vale'
 
   - name: "Grilled Squid"
     ingredients:
@@ -39,6 +49,11 @@ cooking_recipes:
     buff_duration: "10 min"
     skill_required: 240
     recipe_source: "Vendor: Gikkix, Steamwheedle Port, Tanaris"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQMsCKRaiKDZIMSo-vQpldypQ6QWvxjZmrwsody5LscRQ53XxZ4R8g4iphPlcV4L5igh-CCTVX0Rh0yXFPL3kkdkNHDiNf_OvWbcj3xuBhHZzA94QpTw==
+    corrections:
+      - 'ingredients: should be 1x Winter Squid and 1x Soothing Spices, not 1x Mild Spices'
 
   - name: "Savory Deviate Delight"
     ingredients:
@@ -49,6 +64,10 @@ cooking_recipes:
     skill_required: 85
     recipe_source: "World drop (rare, mainly Barrens)"
     notes: "Highly valuable on AH due to novelty. Not a stat food."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxFpWm2sfmjpM-WCs9kyB4XoHb5wOCNweP5MlvFtNFiWI-SdEauSaK6TDTZBdxuQjq69gOdppjwY_18MLv31y_fVX1E75bCtBn3hmV4w7f7UKz45FiGEbn66JL99eVzt5crCb3SdSsc5OXkxYh
+    corrections:
 
   - name: "Baked Salmon"
     ingredients:
@@ -58,6 +77,11 @@ cooking_recipes:
     buff_duration: "15 min"
     skill_required: 275
     recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-WDUuwCJvniwvJ-vUiO-XLo6QzubA4dVcN49FGc6__vtV2q8syjT57VKbFDKYdismUXkPGCxdD_bWtRrNEr3G2crnlUMLNAcGLnzdIevIg6E-BNGrbBkLKtrFXttx-XxQcvWKStLbdt-nEhigOAilBvLiz14F349-cEsxWYWE7Q5XrsdpOUpYGiVGeGtEkl4fHVIJ3sgE4set2g==
+    corrections:
+      - "recipe_source: should be 'Vendor: Sheendra Tallgrass (Horde) in Feralas or Vivianna (Alliance) in Feralas', not 'Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale'"
 
   - name: "Filet of Redgill"
     ingredients:
@@ -68,6 +92,13 @@ cooking_recipes:
     skill_required: 175
     recipe_source: "Vendor: Kelsey Yance, Booty Bay, Stranglethorn Vale"
     notes: "IS a real Classic recipe — often claimed not to exist."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYoBKhciQCtGU-lW_mIxyPJAl4IaWTx932Cj04EmK_Q5eRZOjZdjYEoGHiTv79felVhExnLlpxQTkqDE_ATB0YLE0hJHMChwnhMvemnfTCJq9yC_Eu6lyx3Ermp9GhLdcojR3Aeg8Huj46duvwsAmJBVZEAMMxXTnjJZ43Fp8-UW-D5HM=
+    corrections:
+      - 'ingredients: should be ["1x Raw Redgill"], not ["1x Raw Redgill", "1x Mild Spices"]'
+      - 'buff: should be null (it is a restorative food, not a buff food)'
+      - 'buff_duration: should be null'
 
   - name: "Hot Wolf Ribs"
     ingredients:
@@ -77,6 +108,12 @@ cooking_recipes:
     buff_duration: "10 min"
     skill_required: 175
     recipe_source: "Vendor"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP14k4ik5k1-orLErHvLuehzZFAtA9LGzou1rxXFqDEGeLQiXf0EJA8GrfohxP1LkFuUf3qYpMHWl8VKvOIJL7Yz2kMMyGj6Q5GvrlxVa6sY0gs_u4EZ2CgqvB8zk5qWIeSPYtt5VGhAwky24xcQReYLdv6G-V68ZjlngfE7L91i1Z30EaovUsJ0xzdEKWOE6hCczOk5gnP0-FVw==
+    corrections:
+      - 'buff: should be +8 Stamina and +8 Spirit, not +12 Spirit'
+      - 'buff_duration: should be 15 min, not 10 min'
 
   - name: "Undermine Clam Chowder"
     ingredients:
@@ -97,7 +134,285 @@ cooking_recipes:
   #   skill_required: 0
   #   recipe_source: "..."
 
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9cEWLctkLfUWAGj1eMihnsyPDcY3eRxlA3hnQ0AQUeO7grIsJXV4FYi3C2ltTn5bQIGQicmthaliqr6xXxQsnGBvptK07kEaIomEsAg1eRu2QS0k9VuRqSb_88mAZZD2k7lpI2-NnHJ8T
+    corrections:
+      - 'ingredients: should be 2x Zesty Clam Meat, 1x Ice Cold Milk, 1x Hot Spices, not 1x Zesty Clam Meat'
+      - 'skill_required: should be 225, not 175'
+      - 'recipe_source: should be Jabbey (Tanaris), "Chef" Overheat (Badlands), or Mrs. Gant (Booty Bay), not Kelsey Yance'
 
+  - name: Catfish Steak
+    ingredients:
+      - 1x Catfish
+      - 1x Simple Flour
+    skill_required: 300
+    notes: Guide claims this is cooked from Catfish and Simple Flour.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR_h5bXkAl_wWQkz_r258MUUI8WmnECt-bKTOvpYm33qJ-sGFTnwrndln6GfBBVqa8IG4k9w_e-kDTFjJrbqm4SQ88vMy7bAc2N1_jHrAob2F9Nknd
+    corrections:
+      - "name: should be 'Bristle Whisker Catfish', not 'Catfish Steak'"
+      - "ingredients: should be '1x Raw Bristle Whisker Catfish', not '1x Catfish' and '1x Simple Flour'"
+      - 'skill_required: should be 100, not 300'
+
+  - name: Tender Wolf Steak
+    ingredients:
+      - 1x Spotted Yellowtail
+      - 1x Raw Meat Scraps
+    skill_required: 300
+    notes: Guide claims this is cooked from Spotted Yellowtail and Raw Meat Scraps.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNrUp7CsqhK7pamKw8o3oOHF2NNZku0pKZPMIzdEIKcxo9X847viGuwnkEYt_XhdMKyLB_qnABV5ZMgv9zZg_a_gtjXTCq__lemtdWttkQN412hqEtDjViWg0K3iQI6Bgh5rGL2mHwPRFSUXgvBtCkyG5YG8wS_jSTWn_EZ2E=
+    corrections:
+      - 'ingredients: should be 1x Tender Wolf Meat and 1x Soothing Spices, not 1x Spotted Yellowtail and 1x Raw Meat Scraps'
+      - 'skill_required: should be 225, not 300'
+
+  - name: Mithril Head Trout
+    ingredients:
+      - 1 Raw Mithril
+      - Soothing Spices
+    buff: +25 Stam
+    recipe_source: Cooking
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3QtqQwf_fOi1h2ekKPvYBvGnM3V0wG-UpOXTlMv0Qf9Vt94sp7w7IHAJl9naQkxivgX2RFzvg78eBDuD_EaajNXKySlZ2hl8y32ugKCFu92yIFdQiYxYb97hymwGD9UQWT5Td6KF9A_XFMmlYFRlGhTD2EMvbbOszKLC8xE6wM6HtvmuRp0YVt8bxEKlhTS-7Gsy7lju2-RBGmA==
+    corrections:
+      - 'ingredients: should be 1 Raw Mithril Head Trout, not 1 Raw Mithril and Soothing Spices'
+      - 'buff: should be none (it is a health-restoration food, not a stat-buff food)'
+
+  - name: Hot Smoked Bass
+    ingredients:
+      - 1 Raw Greater Sagefish
+    buff: +18 MP5
+    recipe_source: Cooking
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAiWwFfBne75tdo_fPT-rCNmQm7VrM4rjyAmIX7abPqiBKGhewAk06zGbtoLcdAkZpTk-FPIuqtFlxLikYtZ9EHnVxe90hQapDZ96qNoc8aXP9E_t_Kz2SCwmaXBZiQ-wd8lM3CDlcFY3T-ZleSiRX9vDZDejt4xKZzIr50Ez6Jj-__J9QXiwhI4Luo7E2iZlTJJude87EA8XiFg==
+    corrections:
+      - 'buff: should be +10 Spirit, not +18 MP5'
+      - 'ingredients: should be 1 Raw Summer Bass and 2 Hot Spices, not 1 Raw Greater Sagefish'
+
+  - name: Lobster Stew
+    ingredients:
+      - x Darkclaw Lobster
+    buff: +12 Stamina
+    skill_required: 225
+    recipe_source: vendor in Feathermoon Stronghold, Feralas
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg9i3PdzSUNd6jXJtMgS73vPGM--ARgDBXwd5YhU89B_mU46uR9qIWZO29ApIBecPYHYyHUw_HdRJNcXEKH46PK5OJMTR7mMa_C7srAZayRhkqI_WVM9gjNCF2Q9-oztWtq0cswyWPd-Gij0LS6LofE74AvOyzp2GIlrnUfVz1MIL-aNjF1eGdHRHrbUrpE9UHiqDAF9c9NSCpwg==
+    corrections:
+      - "ingredients: should be '1x Darkclaw Lobster, 1x Refreshing Spring Water', not 'x Darkclaw Lobster'"
+      - "buff: should be 'None' (restores health only), not '+12 Stamina'"
+      - 'skill_required: should be 275, not 225'
+
+  - name: Spotted Yellowtail
+    ingredients:
+      - x Raw Spotted Yellowtail
+    skill_required: 225
+    notes: The guide says to cook it, but does not give a buff.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "ingredients: should be '1 Raw Spotted Yellowtail', not 'x Raw Spotted Yellowtail'"
+
+  - name: Clam Chowder
+    ingredients:
+      - Nx Clam Meat
+    notes: The guide says clam meat can be cooked into Clam Chowder.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS_i407Jk_idwbDOjCRX6SXqsxcCvYe-yru-sh_o8zoBm_V2vbZZm9NuZM6JkVoiW8XexJGYy1qhllFqK05Pqmmc-fhR3COvZN-I0E_dl1fqY1W5BZvD_7brpukMrQ1KVulJ4fa5Fbqe64615jPnCOBE8=
+    corrections:
+      - 'ingredients: should be ["Clam Meat", "Ice Cold Milk"], not ["Nx Clam Meat"]'
+
+  - name: Grilled Mightfish
+    recipe_source: not specified
+    notes: Cooked from Raw Glossy Mightfish.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpl4u8L2CtSCV6lh9BpcDfTfg7AOdDYi-MAqI0iQ3EBzeeWpxSFoiD7pnP0mhDs6TK8tfkTGw-RlS6zP7uk8crN6xVPi2M79JcxJ2irzlCsYGC3OC7
+    corrections:
+      - "name: should be 'Cooked Glossy Mightfish', not 'Grilled Mightfish'"
+      - "notes: 'Raw Glossy Mightfish' is used to make 'Cooked Glossy Mightfish', not 'Grilled Mightfish'"
+
+  - name: "Recipe: Nightfin Soup"
+    ingredients:
+      - "1x Raw Nightfin Snapper"
+      - "1x Refreshing Spring Water"
+    buff: "+8 MP5"
+    recipe_source: "Gikkix in Steamwheedle Port, Tanaris"
+    notes: "Feeds casters and healers."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOG15KpgtgvIKtFCx2qcHZDebJAfihpTXT_V3wevi4fvoVULMN4F2VNydsISdiyKrW_L0kpHsYHSnreHtF-KQpMRkQXGu3MxvmEMyDQVQJqgHk0Fq1UHAdGK4qkU80lY2o__4YOBp7dIdUCrtncY_k2Q==
+    corrections:
+      - "buff: should be 'Restores 8 Mana every 5 seconds', not '+8 MP5'"
+
+  - name: "Recipe: Grilled Squid"
+    ingredients:
+      - "1x Winter Squid"
+    buff: "+10 Agility"
+    recipe_source: "Gikkix in Steamwheedle Port, Tanaris"
+    notes: "Feeds rogues, hunters, and warriors."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEQu1eIv_RFpKJrAGAKeCBNCUgtWLNLkSny93NXdaovtKQSyT4XbKfGzFHgNBkkgvd4mFvrTrYsYVMWgo1AHhe8_paT4ndezKGi1M5IMDy6jUFiqrTWg==
+    corrections:
+      - "buff: should be '+10 Agility for 10 minutes' (and typically includes health restoration info)"
+
+  - name: "Poached Sunscale Salmon"
+    ingredients:
+      - "Raw Sunscale Salmon"
+    buff: "+20 Spirit"
+    buff_duration: "Unknown"
+    skill_required: 300
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqzAP_1J4PAISIyo6Ry-5PL7wIcGeJswmYuE-oblAUq76nOWDO8shjQVsnDMLrdK2ACg4NcpiF2cxGJRIS_bgzxBiiDnidwclCVXmI5swr3yGuFcSXsxDTt3mI3URqslzIQViCKxyysHcWT7jtx1CpqCDa3RaYTJly1sLDOrwRqUGfGlQoUIyw4ftyW1GtMhc=
+    corrections:
+      - "buff: should be 'Restores 6 health every 5 seconds', not '+20 Spirit'"
+      - "buff_duration: should be '10 minutes', not 'Unknown'"
+      - 'skill_required: should be 250, not 300'
+
+  - name: "Recipe: Savory Deviate Delight"
+    ingredients:
+      - "1x Deviate Fish"
+    buff: "Turns the player into a Ninja or Pirate"
+    skill_required: "Cooking 85"
+    recipe_source: "Not stated in the guide"
+    notes: "Described as having zero combat stats."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUHn7yeEExYweWptgcj8qoW0Zz8Nz2haFBXd9Tb_T4305aOVJpaO9YE_loWf00XLOPBZsfh-klKp7BH6ZZfaFWFYpxYtwdVSil7gC7z2Tev6jf8Hb29Vv-W1qqyJjMyi1TR-ggeDJax2c-nGVISg==
+    corrections:
+      - "ingredients: should be '1x Deviate Fish, 1x Mild Spices', not '1x Deviate Fish'"
+      - "recipe_source: should be 'World drop from mobs in The Barrens', not 'Not stated in the guide'"
+
+  - name: "Recipe: Poached Sunscale Salmon"
+    ingredients:
+      - "Sunscale Salmon"
+    buff: "+6 HP5"
+    recipe_source: "Gikkix in Steamwheedle Port, Tanaris"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqqmH6_4eKQdLW-cBjKXgyWh-QPGqbsTMTk9lvK5TrvDZSvhKPkbkeOfDwVycn1b1qOlDxrkBI-9PmgtKDJABW4-ExsYSZYruvVlxkhREq7LGnDnE1KbmdgI_7U062Tx3T5YyHcXtbK1rffBTf7V26nAxmHRc=
+    corrections:
+
+  - name: "Sagefish Delight"
+    recipe_source: "guide mentions cooking Sagefish into Sagefish Delight"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLAEY01jRTZtLhc57G_3Bz8iyNA5L_hHo3SDyL-9J5y09CC_opOFZlFu9KenPUiVap3h4M3vOSUrCDDgCcf8xN9j2IeRi67ap_etryXPWEFllkRmVEWreT92LjFAdkP4yccDSZxYHTe-EsKroV6A==
+    corrections:
+      - "recipe_source: should be 'Purchased from specific vendors (e.g., Shandrina in Ashenvale or Gikkix in Tanaris)', not 'guide mentions cooking Sagefish into Sagefish Delight'"
+      - "name: the item is 'Sagefish Delight', but the recipe requires 'Raw Greater Sagefish' as an ingredient, not 'Sagefish'"
+
+  - name: "Filet of Mightfish"
+    ingredients:
+      - "Large Raw Mightfish"
+    buff: "+8 Strength and +8 Spirit"
+    notes: "Uses Large Raw Mightfish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPGy_Hbzpit7g-i_EKCgotzbAd6ZHd6AK-3YSJUWgR9dqCHFxqkjIQ4NaNztvvcbpcFu_mtcawv9glKdWEbcsMBQdzuvBNdu8Nehgn6yd6XOt-8BK0
+    corrections:
+      - "name: should be 'Mightfish Steak', not 'Filet of Mightfish'"
+      - "buff: should be '+10 Stamina', not '+8 Strength and +8 Spirit'"
+      - 'notes: should mention it requires Hot Spices and Soothing Spices in addition to Large Raw Mightfish'
+
+  - name: "Bristle Whisker Catfish"
+    ingredients:
+      - "Raw Bristle Whisker Catfish"
+    buff: "+8 Spirit"
+    notes: "Cooked from Raw Bristle Whisker Catfish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9OZAZj3f9sEFu4bmEF9TUoP6MFPneEsOuJAX9yvfCLr4CmbvipFItwtxJ-dAiOUrYwNkgkWZ0P8NG2nIdkj_MNpLFAoekW3ngeNGd1EWbSGTOJCwzbBnwb2cKErDq4lnWtSxsroOsL9wteVZewjSKZ8FSKiuB
+    corrections:
+      - "buff: should be 'None' (restores health only), not '+8 Spirit'"
+      - "ingredients: should include 'Mild Spices' in addition to 'Raw Bristle Whisker Catfish'"
+
+  - name: "Recipe: Mightfish Steak"
+    ingredients:
+      - "1x Large Raw Mightfish"
+    buff: "+10 Stamina"
+    skill_required: 275
+    recipe_source: "Sheendra Tallgrass in Feralas"
+    notes: "Recommended for tanks."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHr-4SgfqhldgbpG0zDffgmh34amUxL6y7cupriXSF7vUTK3NgV-xvahokmV543vB_o8Rv-2Yjn0S9bsmo7r_lK7xKtzHiK4_z8BmLfRs6AQsK3wtnLpAQreCC1s1Ehmy0dJ77tB-hiZw6c0Ofo-W9tYvNKO74_naixT0MmZeAGgsCGiRya
+    corrections:
+      - 'ingredients: should be 1x Large Raw Mightfish, 1x Hot Spices, 1x Soothing Spices, not 1x Large Raw Mightfish'
+
+  - name: "Cooked Glossy Mightfish"
+    ingredients:
+      - "Raw Glossy Mightfish"
+    buff: "Stamina"
+    recipe_source: "Cooking conversion mentioned in guide"
+    notes: "Guide says tanks/levelers may buy it if the server values stamina food."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHr1eKFUr-mRkFBIoE0_EioL4iRNZPeSBqAC96xHWSF0lbc3KSKQcQtn9ZGY3fFmNM4z3vNv9vZ_7kXTsCFAWC-tr8z_8JqbYkzG__05QxtTk9KyPB
+    corrections:
+      - 'ingredients: should be ["Raw Glossy Mightfish", "Soothing Spices"], not ["Raw Glossy Mightfish"]'
+
+  - name: "Clam Cocktail"
+    ingredients:
+      - "1x Clam Meat"
+    notes: "Described as the cooked version of Clam Meat."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwT8cLXgd6xZGJtzJCvd_wFa-4oaONl7oq7GL1B6da8i0Luxvjkuj8OEJ11jy7Tp6ecOJUvwFP7O6ylkgRdwWVxuP8lOeDrF4t-TxyisKQfg10Xlo00XLeGp1weU0HO-amjQzKHOeyjwY8udBm71hWBfu-TIndtAZmS_USLzSiWIllWz23bfcR4NByCTBij62GPcAgfAnYEY8=
+    corrections:
+      - "name: 'Clam Cocktail' does not exist in WoW Classic"
+      - 'ingredients: No such recipe exists'
+      - "notes: 'Clam Cocktail' is not a cooked version of Clam Meat in WoW Classic"
+
+  - name: "Grilled Firefin"
+    ingredients:
+      - "1x Firefin Snapper"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwcuLacCmJH7r_s9TZ10kE7Fwen2Ysr37k4H-xIjTGTbYinmD7F1UT6jfMRa9qeVeGw3ozNzSd4N6W-D5D-B5xAGXbx4sUFBvoeOl21ZqKRXjGLFZgRvKtkWfuhF_EAzStti95-w==
+    corrections:
+      - "name: 'Grilled Firefin' does not exist in WoW Classic"
+      - 'ingredients: Firefin Snapper is an Alchemy reagent, not a Cooking ingredient'
+
+  - name: "Yellowfin Grouper"
+    ingredients:
+      - "1x Striped Yellowtail"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4xw62QHiV_6KWappy9SIODt4l9tkuvD9GzWthmagi9SzTzl23hU46rF_YVZCj_BP4rK65SMO8NKoirYq2ILy57k4Njik35K5l8EQ2FpYAW6i7Mus=
+    corrections:
+      - "'Yellowfin Grouper' is not a valid cooking recipe in WoW Classic."
+      - "'Striped Yellowtail' is a fish item, not a recipe ingredient for a 'Yellowfin Grouper' dish."
+
+  - name: "Recipe: Cooked Glossy Mightfish"
+    ingredients:
+      - "1x Raw Glossy Mightfish"
+      - "1x Soothing Spices"
+    recipe_source: "Gikkix in Steamwheedle Port, Tanaris"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsvH2gAo-OM0LMgNJ7hRt1sGKiOsE8n_RI7vCTu1Qn5Wum1EsPQmZmcP5GAgYnZLQTurYfQ1XYQ6DAbHUQmQpKK47Bdus8CtmN9LwDYcWL4zmP25yKRk0aSfMVE9PIHujHbYgFkwG0mmUCJF2S
+    corrections:
+      - 'recipe_source: should be Kelsey Yance in Booty Bay, Stranglethorn Vale, not Gikkix in Steamwheedle Port, Tanaris'
+
+  - name: "Recipe: Spotted Yellowtail"
+    ingredients:
+      - "1x Raw Spotted Yellowtail"
+      - "1x Soothing Spices"
+    recipe_source: "Gikkix in Steamwheedle Port, Tanaris"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhvKSNXzQYxTPUGqpX_0esoXuOWJDw8fbGi9ZzSn2EUrWFSqlHpgzNXKjcbgq9SHYmChMvk8mStmESx2QPLwnzmu6LcgAcdCDdnAQhtSyDW6wIMAyxKSSZ6OcpBgpGO576rxOsni5Jpo23ikSCWPdbQFtVbHkOkI0=
+    corrections:
+      - "ingredients: should be ['1x Raw Spotted Yellowtail'], not ['1x Raw Spotted Yellowtail', '1x Soothing Spices']"
 fish:
 
   - name: "Raw Nightfin Snapper"
@@ -113,6 +428,10 @@ fish:
       - "Eastern Plaguelands"
     fishing_skill_required: 205
     notes: "Paired with Refreshing Spring Water for Nightfin Soup."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'fishing_skill_required: should be removed or clarified, as there is no universal skill requirement for the fish itself; the requirement depends on the zone and water type (e.g., open water vs. pools) where it is fished.'
 
   - name: "Raw Sunscale Salmon"
     time_restriction: "Day only — 6:00 AM to 6:00 PM server time"
@@ -122,6 +441,11 @@ fish:
       - "Azshara"
     fishing_skill_required: 205
     notes: "Day equivalent of Nightfin Snapper. Less demand."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5-m3BVL5-gR9CSJ4MP8F-F3neeoiaHJp8yzp6Xd1LEX16RChoAzihIJ-t4TwZJr9E6JHjusFWcUAr0m69vgrMrwQBC28vCLEOV01-Jm5HGzTdK-QUNwSmVQzXu99nnwog9JT7z3yu62SfM3LG8AXeVGg=
+    corrections:
+      - "time_restriction: should be 'Available at all times, but with a reduced drop rate from 12:00 AM to 6:00 AM server time', not 'Day only — 6:00 AM to 6:00 PM server time'"
 
   - name: "Winter Squid"
     time_restriction: "Seasonal — September 23 to March 19 (real-world calendar)"
@@ -131,6 +455,11 @@ fish:
       - "Feralas"
     fishing_skill_required: 330
     notes: "Season-only. Companion to Grilled Squid (+10 Agi). Very valuable during raid season."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgk5IzHJOnxxeEYXxoob22cyo_bN9Yx6BiDQD8ty7jIjGZXS_vBa8bhjmiOchJxGVakff-ku2xptL64ReYHBJ-GlizCQossbZnMaMCxFJmag27TrV-GAdcaWPX5Ux8iIbF5E984ZxPsHtmoBWFlA71MGxxTJMlaAndP1rf5uWB
+    corrections:
+      - 'fishing_skill_required: there is no hard minimum skill requirement to fish in these zones, but a high effective skill (often 300+) is recommended to avoid junk catches and fish escaping.'
 
   - name: "Stonescale Eel"
     time_restriction: "Night only — best in coastal zones at night"
@@ -141,6 +470,12 @@ fish:
       - "Feathermoon Stronghold area (Feralas)"
     fishing_skill_required: 305
     notes: "Used in Flask of the Titans and Greater Stoneshield Potion. Alchemist demand."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoa00tNNiLu2RGudmSRWw2xsQ83sPXaBdzW39DRB9BcL6Hwk03k5HBqt2ndfbulBHPhzVtRUktgJG0HMYSJOMOb0hdn8-uKVQKpt_Q2k2IcNiY9LA5H3fNon6dsvc980XUdZRHAbcc9LTVRf66KLt7vckiDFKHp3l8WaxUH2P3KqZwJ6RLxJ74ZyFUgONr2rnne6HOsDTD5l0=
+    corrections:
+      - "time_restriction: should be 'Higher catch rate from 12 AM to 12 PM', not 'Night only'"
+      - 'fishing_skill_required: should be 205 (minimum) to 300 (to avoid getaways), not 305'
 
   - name: "Large Raw Mightfish"
     zones:
@@ -148,6 +483,12 @@ fish:
       - "Tanaris"
       - "Feralas"
     fishing_skill_required: 305
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHf9oF4JKvn_9b3vb-57ts8BKLhi-Q44Ck-E2QjkG6ThhAuVtSfVbAWuCh2FTeAnCWu70Nav6QOkNsuRB5-y8_d3c9UsoIBkj8A00gWj8L4eUPE1xZW8jk38lAuceoGh5XvbQ2xtTO-GdyCK79cg-p82rmH6sl14DU5qmVfQ186xmSRTaI1w==
+    corrections:
+      - "zones: should be 'Azshara' (specifically Bay of Storms), not 'Tanaris' or 'Feralas'"
+      - 'fishing_skill_required: should be 300, not 305'
 
   - name: "Deviate Fish"
     zones:
@@ -155,6 +496,10 @@ fish:
       - "The Barrens (Oasis lakes: Lushwater Oasis, The Forgotten Pools, Stagnant Oasis)"
     fishing_skill_required: 1
     notes: "Very valuable for Savory Deviate Delight recipe. Instance farming is safe."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSd6_x_5X988TA-1u9r9PnEGthazgCfuZVrtQ8HA7ynSU2212pJGnQtPwClbPIRFJnAg-vZ45eX5n7nBHOIRemlYNP8crqkCkDFPxwjvfBPu_8a7pJBPLPnJjnjX83CbqeSNLv08C_RXK-
+    corrections:
 
   - name: "Oily Blackmouth"
     zones:
@@ -162,6 +507,11 @@ fish:
       - "Darkshore, Westfall, Redridge, Wetlands"
     fishing_skill_required: 1
     notes: "NOT the same as Blackmouth Oil. Oil is the alchemy product FROM this fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbhvI2KKaj099oqxRLJoSyWXNZIwh5pcrTQYt1XWhIBMP_jxwwZLoN5gXdvHAUeFC2OXRXbU6d5BSctOodfQGx3Ss0YyHn-G7eU8cf8JTTiHy9FGmrVqBg14Kltygg2NxcC5yGf60r1nSgzRhF
+    corrections:
+      - 'fishing_skill_required: should be 55, not 1'
 
   - name: "Firefin Snapper"
     zones:
@@ -170,6 +520,11 @@ fish:
       - "Stranglethorn Vale"
     fishing_skill_required: 1
     notes: "Used for Fire Oil (alchemy). Moderate value."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdYE1MO59FdzZS4yXhzoBOCE5zOYKFcsU7iycxs3PD6Xp3zBfPzjd0MWxFJtodhEXGkMcqEK6uOoWBz94Wgc21kjeF16_63XEb5GmWkuJEoNfDhk-88wDbgyS-Fdj3xyK_I5WsA9w=
+    corrections:
+      - 'fishing_skill_required: should be 130, not 1'
 
   - name: "Raw Whitescale Salmon"
     zones:
@@ -180,7 +535,749 @@ fish:
 
   # --- FYLL INN FLERE HER ---
 
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCLNdTkdMbOQ2tdqxMcXoppi1jivQ_D5U9Sj-mhbD8NkozWZTPTg1c3UG5L7QkCmJqyfnCeZuXi-26bv4aQsCtO1eRjgJ2d2-6i0pvR1AO7Bk7o_xrxYkJf47cQrYmG2dMG7YtqPwi8BnW2k69mGIZ4GR5
+    corrections:
+      - 'zones: the list is incomplete; it also includes Winterspring, Eastern Plaguelands, Feralas, Deadwind Pass, and Burning Steppes.'
+      - 'fishing_skill_required: should be approximately 205-225 (base requirement), not 300.'
 
+  - name: Roach
+    zones:
+      - Lake Shire
+    notes: Described as vendor trash and a filler fish.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEHSOzEdqUvGxzyBjQDiVJfYXemj4NARHyLgaXG1vp3De__3PFGqHkh_a1IzQhi3FkQuKhjnQKHjpFcQ9F_fN651jRnEcmIbZQ1avo6fXq1dLay_IxRUy0QTFk
+    corrections:
+      - "name: 'Roach' is not a fish in WoW Classic; it is a critter (cockroach)."
+      - "zones: 'Lake Shire' is incorrect as this is not a fish."
+      - 'notes: The description is incorrect as it is not a fish or vendor trash.'
+
+  - name: Smallmouth Bass
+    zones:
+      - Lake Shire
+      - Blackwood Lake
+      - Charred Vale Lake
+    notes: Described as cooking ingredient or vendor trash depending on location.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Smallmouth Bass' does not exist in WoW Classic."
+      - "zones: The listed zones ('Lake Shire', 'Blackwood Lake', 'Charred Vale Lake') are not valid fishing locations in WoW Classic."
+      - 'notes: The item does not exist, so this description is inaccurate for the game.'
+
+  - name: Catfish
+    zones:
+      - Lake Shire
+      - Menethil Harbor
+      - Blackwood Lake
+      - Charred Vale Lake
+    notes: Described as a cooking ingredient.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr3rkygc5KwTsCOqCJy_Y7M7y8hC4Fo-2HYR9rmKJ63-vwmzAYQjuF1RXlYwoh6yxg_CQHStb6--kB65wPhOMZKTj4dL_elOMUH6b8IHUGmGeGsdtqVeZnRhXiWxv60Ijg79wukr6-ezk=
+    corrections:
+      - "name: should be 'Raw Bristle Whisker Catfish', not 'Catfish'"
+      - "zones: 'Lake Shire', 'Menethil Harbor', 'Blackwood Lake', and 'Charred Vale Lake' are not valid fishing zone entries for this item; it is found in many inland zones like The Barrens, Redridge Mountains, Loch Modan, etc."
+
+  - name: Clam
+    zones:
+      - Menethil Harbor
+    notes: Guide says clam shells and clam meat can be obtained there.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGroZFsbbgjCl52ugO_xP-CKjgNSh_ML-I0oI47lxQiWD6WtbhVDXdDyw0bX3khCOPP2vofaEfk43IwIGg4bvvAd_sKaIntmNRh6fQL04fFQ8hMkg2FNCTsHe5C
+    corrections:
+      - "name: 'Clam' is not a specific item; use the correct item name (e.g., 'Thick-Shelled Clam', 'Big-Mouth Clam')."
+      - "notes: Clarify that clams are container items obtained via fishing or looting coastal creatures, not just 'obtained there' as a general item."
+
+  - name: Bluegill
+    zones:
+      - Menethil Harbor
+    notes: Described as vendor trash but stackable.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHl9JOXQhe94SMuL9rllF5Px0FNC0mPIrrhg9QWdbiJ9-6VlvJwCxyx1OUybyn7xcoJku7lyWWWIgtErMhtRWE047tvws5H2SGHYbbe47YsFm9I4IVMOT0Hc2IsyuoeQxabAv3zf7NT8B4PRq7RsHzpQwQuEc1eV07EbCYDSRh_4DrRTQ==
+    corrections:
+      - "name: 'Bluegill' is not an item in WoW Classic; it is a Murloc tribe."
+      - "zones: 'Bluegill' does not exist as a fish in Menethil Harbor or elsewhere."
+      - 'notes: The entry is factually incorrect as the item does not exist.'
+
+  - name: Spotted Yellowtail
+    zones:
+      - Camp Mojache Area
+      - Feralas
+    notes: Described as rare and valuable; the guide recommends off-peak farming.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDrULCTMGF9w1brutY1ddCNmYhGV97Ae3a5AQkeTTko_PnOMKhqsdVUfnYpzNshBR90feAt_js3sjB9W6hucj_jGM4FJR__3XtDlMA1oXArhzsrKgsa-QpsMRWeiT_vPJtDxclVDcni19GTEvu9-H3o2sKuw==
+    corrections:
+      - "name: should be 'Raw Spotted Yellowtail', not 'Spotted Yellowtail'"
+      - 'zones: should include additional zones like Tanaris, Stranglethorn Vale, Azshara, The Hinterlands, and Badlands, as it is not limited to Feralas'
+      - "notes: the claim that it is 'rare and valuable' is incorrect; it is a common fish used for leveling Cooking"
+
+  - name: Nightfin Snapper
+    time_restriction: Night only
+    zones:
+      - Hillsbrad Foothills coastline
+      - Azshara
+      - Eastern Plaguelands
+      - Talrendis Point Coast
+    notes: Described as spawning only at night.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs_8arKmwIrhvi9XhDmZiuNiUCpSSBMM6vz2Hn4VAJZO9u_hecLp21SU1I3D-4jJqBuYv69NQbThzYyit-yarSyJS2wGCAYtfo4EhU78vqGLuEHzS7cTBjmOMdXQ-yufzgNl3Q2jgHp8ggEQppTBPdjg==
+    corrections:
+      - "time_restriction: should be 'Higher catch rate at night (12am-6am), unavailable 12pm-6pm', not 'Night only'"
+      - "zones: 'Talrendis Point Coast' is not a valid or recognized zone for this fish; list should include major high-level zones like Feralas, The Hinterlands, Felwood, Tanaris, Un'Goro Crater, and Winterspring"
+
+  - name: Raw Mithril Head Trout
+    zones:
+      - Loch Modan
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF21sq-RbtvYhm2qssKX6C0s2VOGkU8FJ7sKJLP9-92uFvmoS-12GlRmOzmcC366uw75tqT6TVjNIe5j3J2xYHY_w9v-fxsSEqQZRcZXLD6FdPEf48PrQd-x3SExE6tDXnPW1pDq97UtQ0h2W8YFDr6NdOP-g==
+    corrections:
+      - 'zones: should include zones like Stranglethorn Vale, Desolace, Arathi Highlands, and Dustwallow Marsh, not Loch Modan'
+
+  - name: Raw Glossy Mightfish
+    zones:
+      - Lake Kel'Theril
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDKwGfADOuD9iVImBXaHZkYqrJVRLEzqRm_K_O9qK2RLW31iP6JpcLRvVdBzm3HjB_4uUo4f0A-6lPK2L_5JdymwGkeTQtfPBcJqZo8WQBzNRQzCSpxTjKwCwpjccATzDfbSdcOnOWSWWpLUHQmxTp_-0=
+    corrections:
+      - "zones: should be ['Azshara', 'Feralas', 'Stranglethorn Vale', 'Tanaris', 'The Hinterlands'], not ['Lake Kel'Theril']"
+
+  - name: Raw Redgill
+    zones:
+      - Stranglethorn
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFB2vKDDvupmGP5ID5Owv7rRJ_0AppXlVREtP-w7h0FBZbZIEHTH0JxTgnrUeHW31OhBjSEmlzwR2mjoK8jS3L-bMscgYupb7G-y3jtUvHfZt3S_jmoYzhPGsxFROe3Abwk9A4IxOlc60M=
+    corrections:
+      - "zones: should include multiple high-level zones like Feralas, Azshara, Felwood, Un'Goro Crater, Silithus, Western Plaguelands, and Moonglade, rather than just Stranglethorn"
+
+  - name: Sunscale Salmon
+    zones:
+      - Loch Modan
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0wpU9t3iO8Rfj0lP5-Khd0mBLvIWEPZMBGiZ1WaUEHzmkTUGxQbX_6DKaDAZacZD0aDd_tusfe0MyucXHid-vHgdqZOxCneiIom92iyeJC5DrHZJVjmKNofejAcSt969qoolRoqyDjlo4gNLmZdNuppBmEIA=
+    corrections:
+      - 'zones: Loch Modan is incorrect; Sunscale Salmon is found in higher-level zones like Feralas, Moonglade, Winterspring, The Hinterlands, and the Plaguelands.'
+
+  - name: Raw Greater Sagefish
+    zones:
+      - Loch Modan
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGJ-WuZfPXxyB9knT-fWP2FxC71XpIDOBzip6ds1cJQU7HMVpUsNPSJLxf6J6PwDZ-CDlfSUudOC7XfavxgWeqw_TpGaj2mQEIRzIWTeb11zRuj9k_snVFn7MPb2D1HUo1Kyx-ozU0vRwH8gLJezA56_o=
+    corrections:
+      - 'zones: should include zones like Stranglethorn Vale, Alterac Mountains, Arathi Highlands, Feralas, Stonetalon Mountains, and Blasted Lands, not Loch Modan'
+
+  - name: Raw Spotted Yellowtail
+    zones:
+      - Tanaris
+      - Stranglethorn Vale
+    notes: Cook into Spotted Yellowtail.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6EI-wyLUqfO0cPAUFtfuSFsxTaYtnIc3ETLxrjvOlOtTJn2GhKcGtjdG2j0gU8FQPfcDg6WboF8OxL53MuoZFPUrcmPtc5yHMXFRKNTphn45puVclxubIMC7h9D9zodc3wepkSVhS8HGKS9t4fKb9XWxr
+    corrections:
+      - 'zones: should include Azshara, Badlands, Feralas, and The Hinterlands in addition to Tanaris and Stranglethorn Vale'
+
+  - name: Tastyfish
+    zones:
+      - Stranglethorn Vale
+    notes: Seasonal quest turn-in fish.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPYvuYfdxmW3RY3M8feowDtrq3BHSEWq2tziEL3cNn3hdTA5DAJ92dXOXFxh6pfzRQ5bWdZi_IQ1SRuQGvgpG5oo1Zepp9BXb5cht5OL6V9dLhw8eg-w==
+    corrections:
+      - "name: should be 'Speckled Tastyfish', not 'Tastyfish'"
+      - "notes: should be 'Weekly fishing tournament quest turn-in fish', not 'Seasonal quest turn-in fish'"
+
+  - name: Darkclaw Lobster
+    zones:
+      - Winterspring
+    notes: Cook into Lobster Stew.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkPCxjo8tky4x5BL1W6dt4qlbCrGnCH6hG8YlvWDO5EWL2eQ6sNZG_sHYrZEqZu4qzsbTzFuurOe-RMGfmWk5t7lGMOFhnRz2EEqSVwFFYfYWH11oTt-bh7OjJA8ZQLMe4nY-74m50D6OMi4qX
+    corrections:
+      - 'zones: should be ["Azshara", "Swamp of Sorrows", "Blasted Lands"], not ["Winterspring"]'
+
+  - name: Mithril Bass
+    zones:
+      - The Hinterlands
+    notes: Described as vendor trash.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Mithril Bass' does not exist in WoW Classic; perhaps you meant 'Mithril Head Trout'?"
+      - 'zones: N/A (item does not exist)'
+      - 'notes: N/A (item does not exist)'
+
+  - name: Redgill
+    notes: Mentioned as the fish for Filet of Redgill.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-Iv72N0SEO01KNuWCZxeKGc5WVTjdhTXYbH3Ocgq6jb73dlY1ucuLpDsncIS2Kjd5NvsYWNOXamhlZfbiH_FTccKoNjQv9bEQ2iZ0kmI5VwsujzzqJ185Ehz2qBojGAs=
+    corrections:
+      - "name: should be 'Raw Redgill', not 'Redgill'"
+
+  - name: Longjaw Mud Snapper
+    zones:
+      - Loch Modan
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFt8gpZHC1gQ-ppsfxQ8QlVH-Cy5kxl30-hDQnE1FDGXhDuYHw778e2BQZkIPBY_beaNpUPoGcOxymrhoGGCNuQnqVx7wDVC7vZOCT8G93PdlJ-JTSruv-ngmMmh9NgJrQjfhDHLORAICK22OkcHg==
+    corrections:
+      - 'zones: should include many other low-level zones (e.g., Ashenvale, Darkshore, Dun Morogh, Elwynn Forest, Hillsbrad Foothills, Mulgore, Redridge Mountains, Stonetalon Mountains, The Barrens, Tirisfal Glades, Westfall, and capital cities), not just Loch Modan'
+
+  - name: Bristle Whisker Catfish
+    zones:
+      - Loch Modan
+    notes: Cooked into a food item.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8d3n24RgjherZZVCSqKii-_9YOUDSOtNACiJ9kGjoAp2jfRoccRamjluAyepBzVke5g9oKZRYYUw-Rit8rSwBfsECeTfHL-X019pf5ZO3RwkFCa1xSBBLyQf6zI4kACtO8LBOhf6M-2Sp0TSaTROuK917w3_81H1u3upY3mmfQ2ccfJM=
+    corrections:
+      - 'zones: Loch Modan is only one of many zones where this fish can be caught (e.g., The Barrens, Ashenvale, Hillsbrad Foothills, etc.)'
+      - "notes: Should specify that it is used in the 'Bristle Whisker Catfish' cooking recipe."
+
+  - name: Winterfall E'ko
+    zones:
+      - Winterspring
+    notes: Described as a rare catch from pools and sold to a rep vendor.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElV4LLDQj95Q554VlpdV81I9yhqOrp_jWlCAQtr9bujBZvyrfcZDlq3OBnbK5HmkzK_ScMDrc-2OZ6eldkOniFoz9fmmn7EENWw21Xmzr0GcK0Q7YttG6KxPDmY1BDe5fiq3Ptfbq0Hg==
+    corrections:
+      - "name: Winterfall E'ko is not a fish."
+      - 'zones: While found in Winterspring, it is a mob drop, not a fishing catch.'
+      - "notes: It is a quest item dropped by Winterfall Furbolgs (requires Cache of Mau'ari), not a rare catch from pools, and is turned in for Juju buffs, not sold to a reputation vendor."
+
+  - name: "Winterspring Trout"
+    zones:
+      - "Winterspring"
+    notes: "Described as an open-water filler catch."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLqQLmNevYyQfdex6PbL8L6JfiFe50EFK8e_I7h8NcOseLyz3MJfVRZeFpqSbWJQRD2Rtu_AEKXDaFUs4qNYSDAaaHrkfA-jChGLDFPEjkb3O-7wTafA8LL02aRcdWnpYCdbhRkxaHJM7pFtXMEGbIWPR-mUNA1dHxGK0hDM7PG6xRfpTXrNMX5X2TcRMukeMr4e-OHmRn0eK7C_hldMzAF-Xj-YtWPNGYZMk=
+    corrections:
+      - "name: should be 'Mountain Trout', not 'Winterspring Trout'"
+      - "notes: 'Winterspring Trout' is not a valid item name in WoW Classic"
+
+  - name: "Blackmouth Oil"
+    zones:
+      - "Charred Vale Lake"
+      - "Camp Mojache Area"
+    notes: "The guide explicitly says it is not a fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe24YU9m74vhNUbuKtVxvKAcCC1DldDH0E7D-Qnbr1sgpaAreEitBm-ZVfxF_DTbbXvmzOWLUOVk4UlSerlarWKS6qPv6bP3ClqKVaxAA8M25m5mHK_oOZ0twJnVttXoOj-91tzFJswiG30b8=
+    corrections:
+      - 'zones: should be removed or replaced with coastal zones where Oily Blackmouth is fished (e.g., Darkshore, Stranglethorn Vale, The Barrens, Westfall), as Blackmouth Oil is a crafted item, not a world drop or catch'
+      - 'name: Blackmouth Oil is an item, but the entry implies it is a fishable entity in specific zones, which is incorrect'
+
+  - name: "Mithril Head Trout"
+    zones:
+      - "Jademir Lake"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGU3piA6Me_GOEdcrFy9v5arfQ5p5Sms_JZ8AfHX-EuRRN4r36N7duN856FTlnl2r9dcFq9gqoh-aMqRjxxeyES0ZceSkveB5MblbeZWdISiRdFzRH1Kh8JvBrUe9bI921Zgd8E3qAqBd3d3Rj
+    corrections:
+      - 'zones: Jademir Lake is incorrect; Mithril Head Trout is found in mid-level zones like Stranglethorn Vale, Desolace, and Arathi Highlands, not Jademir Lake.'
+
+  - name: "Raw Bristle Whisker Catfish"
+    notes: "Mentioned as a mid-tier cooking fish with potentially good demand."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFp9itom8JEVhT5hFZ1xerCyZ3VuKLIgqLSMKvBQxASzucw-yAjNWlrdn8xZKV-KJynuoYQuPNvhs1AqOV7-s6lDVUE8_iVr9VpTMyGXcbdWNpAA3Hk
+    corrections:
+
+  - name: "Raw Brilliant Smallfish"
+    zones:
+      - "Azshara"
+    notes: "Mentioned as a less valuable catch while fishing Azshara."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-HfInIEzxFfvCP3pWM357DVs67_D8iooAF75RnIHO6GDJXauod7G6iQwj2YISo2Yj8RanqvA_ki-mJpofqQgqB5UM8GTnDfK9TmR2sPjbsgrhEC4NZhnRPYbCK6dFrGqCjcc0b9OCfeY=
+    corrections:
+      - "zones: should be 'Starting zones and capital cities', not 'Azshara'"
+      - 'notes: should reflect that it is a low-level fish found in starting areas, not a catch in Azshara'
+
+  - name: "Azuregill Snapper"
+    zones:
+      - "Azshara - Azuredale Bay"
+    notes: "Listed as a fish type in Azshara."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Azuregill Snapper' does not exist in WoW Classic"
+      - 'zones: entry is invalid as the item does not exist'
+      - 'notes: entry is invalid as the item does not exist'
+
+  - name: "Spotted Sunfish"
+    zones:
+      - "Azshara - Azuredale Bay"
+    notes: "Listed as a fish type in Azshara."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUZU3ol-8mBbw097M8u0mNutXJxJJofMYmyoQh17SJvi7Alyf-2NwHpyDrBoSN0eD71nb3CR1oA9Yun1fz941dxiqZyUmmf7RE654TydwykRDg27gMLv_Nqryuop070LnhPf0Dng==
+    corrections:
+      - "zones: should be 'Redridge Mountains', not 'Azshara - Azuredale Bay'"
+
+  - name: "Glassfin Minnow"
+    zones:
+      - "Azshara - Azuredale Bay"
+    notes: "Listed as a fish type in Azshara."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGItclCFJZpiBMjiPT3zfx0_kfddq5eeIA9QiODmPWxaFKRnFSKLTFAQ_fzbZyscDkipgSAyAS-THoGmAvPMcze3BmAlkaKBl35ABMvjj3AOY6mtzNsRFBfY5cxeYbzixGhaiqI1wQ5Bik7lZU=
+    corrections:
+      - 'name: Glassfin Minnow does not exist in WoW Classic (it is a WotLK item)'
+      - 'zones: Glassfin Minnow is not found in Azshara; it is found in Crystalsong Forest (WotLK)'
+      - 'notes: The entry describes a non-existent item for the Classic era'
+
+  - name: "Blacktip Shark"
+    zones:
+      - "Winterspring - Mazthoril"
+    notes: "Listed as a fish type in Winterspring."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEzQq0mtZsA6vW4ucka29Fn_yvC6P1BWB8cNHi7VjKE37KCu2Tz5L2O0MoPnoauBc4RNLNqiczsczpCfa06x9ScnB6P0z0D_8I_djF_l3iEA2ziw3m61zJPR5po57dS3sdAVcg0MDGs-APk_ijbCnEZDjm6o4NIGS-aW_swvJ77oQ-mjfS3auDcFebwzATj
+    corrections:
+      - 'name: Blacktip Shark does not exist in WoW Classic (1.12/Era); it is a WotLK item.'
+      - "zones: Blacktip Shark is not found in Winterspring; it is found in Northrend fishing pools during the Kalu'ak Fishing Derby in WotLK."
+      - 'notes: The item is not a fish type in Winterspring; it is a quest item for a WotLK-specific event.'
+
+  - name: "Largemouth Bass"
+    zones:
+      - "Feralas - Feathermoon Stronghold"
+    notes: "Listed as a fish type in Feralas."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG19vllWhO-M-mf-1zqFnsCSo0fjYAmT3ZhLL9lUkBQGH4_MsbRJe3puTZBd4jRAPWGOzo5F5TIuAb4vLlp3t7Ibg0KVDlgKOWUmuKdJKLkL0UqH20p_SnV0QasLpJ3MUfVoCPTPY8DphruGzScANqItpw5zco=
+    corrections:
+      - "name: 'Largemouth Bass' does not exist in WoW Classic; you may be thinking of 'Summer Bass' or confusing it with real-world fishing terminology."
+      - "zones: 'Feralas - Feathermoon Stronghold' is not a valid zone for a fish named 'Largemouth Bass'."
+
+  - name: "Misty Fin Snapper"
+    zones:
+      - "Dustwallow Marsh - Theramore Isle"
+    notes: "Listed as a fish type in Dustwallow Marsh."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDfj3UJzmQDtiv3e2PvsSd9McdWO7rT0euw3FICxgdVuiF4T5eknCroOBeiT_sERXMx3L3EqkjvCx08v3yB5Bu3TCYenKORaIUsgpCN74DWu9oYGAPqLYhduQVSpbvnYcbZk9MDZc88JHXHTA=
+    corrections:
+      - "name: should be 'Firefin Snapper' or 'Nightfin Snapper', not 'Misty Fin Snapper'"
+      - "notes: 'Misty Fin Snapper' is not a valid item name in WoW Classic"
+
+  - name: "Firecracker Salmon"
+    zones:
+      - "Dustwallow Marsh - Theramore Isle"
+    notes: "Listed as a fish type in Dustwallow Marsh."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBVpRwFNafLeo6sK5idwUiR_2mi_--pH44IIsjqMJtd27sCmBvlqsNTuR3MFpk2M9v6d5NvDl319l94a4YQWBVGicPe89CbxKR0SP9w-9VXXe_2H4_3WeQ7qeKghO6em0pyRRItYHnhD8=
+    corrections:
+      - 'name: Firecracker Salmon is a cooked food item, not a fish.'
+      - 'zones: Firecracker Salmon cannot be caught in Dustwallow Marsh or any other zone in WoW Classic.'
+      - 'notes: Firecracker Salmon was introduced in Wrath of the Lich King and does not exist in WoW Classic (1.12).'
+
+  - name: "Rockfin Grouper"
+    zones:
+      - "Dustwallow Marsh - Theramore Isle"
+    notes: "Listed as a fish type in Dustwallow Marsh."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2ZD42grO2jQDqvzv0I0WHJRCS6bEvRye_bI7EQh9vjoQe8eorycVPky6LUomgiD07e98ogCSpCuxdlYkRH9fqlpmUfDgxCbb-QV6mPDzFTY7foBBFp_V6O7GZJeWvEQknlaoibg==
+    corrections:
+      - 'name: Rockfin Grouper does not exist in WoW Classic (1.12).'
+      - 'zones: Rockfin Grouper is a Northrend fish (Wrath of the Lich King) and cannot be found in Dustwallow Marsh.'
+      - 'notes: This item is not a fish type in WoW Classic.'
+
+  - name: "Bright Baubles"
+    zones:
+      - "The Hinterlands - Beastsfall River"
+    notes: "Listed as a fish type in The Hinterlands."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFknJmXG-ToIt0iAMAUXpe67GbGi-RM1FywrozL0Al1i4uji9dsy-1yYZ3XHRmNSp-__NtDaL8WqhX8UiEaM7UwpkOltg6M0AW_3lHHlqbnhsaF0wE
+    corrections:
+      - 'name: Bright Baubles is a fishing lure, not a fish'
+      - 'zones: Bright Baubles is not a fish found in any zone; it is a vendor-sold item'
+      - 'notes: Bright Baubles is a consumable item used to increase fishing skill, not a fish type'
+
+  - name: "Zesty Clam Meat"
+    zones:
+      - "The Hinterlands - Beastsfall River"
+    notes: "Listed as a fish type in The Hinterlands."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1Ph8Dure0X3J0ewMxY94nqLP0Zk4DgNaC6-lkya_QBpsI-C3wzxxUIfvsNTwwH9RWHkA1nDQqCu85KrGw7pF2Gw-hq11MkFD7368cHBEJ3i_ao611Mnf1ldAg1NK7QTj4y5CwRI8=
+    corrections:
+      - 'name: Zesty Clam Meat is a cooking reagent, not a fish.'
+      - 'zones: The Hinterlands - Beastsfall River is incorrect; it is a drop from coastal mobs (e.g., murlocs, naga, turtles) in various zones, not a fish caught in a river.'
+      - 'notes: It is not a fish type; it is a clam meat item obtained from opening Big-Mouth Clams.'
+
+  - name: "Sagefish"
+    zones:
+      - "Feralas"
+      - "Ashenvale"
+    notes: "Mentioned as a high-margin Auction House fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExG9Dr55M4a5jAnn-femhA73UFODch2mZA--GiMSTFy6k0hI80nf4w4SIhyKuW9YK6YqrLrprxBp2k4QrifupIJGiuRsC40MehpUfbrIwzKCIKtfihlXhT03aLu_mgQEEdtmY7PD48wDJM
+    corrections:
+      - 'zones: Feralas is incorrect for Sagefish; it should be Ashenvale, Hillsbrad Foothills, Loch Modan, Silverpine Forest, and Stonetalon Mountains.'
+
+  - name: "Raw Mightfish"
+    zones:
+      - "Hinterlands"
+    notes: "The guide says it is targeted from schools on the eastern coast."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGszBwuRQIYQJX5V948nKq2CsgLB5yYmCcN9Q_5tsPEXo_7uWJBQv0A6Liwh9U4UqBElf3HABJZ8weh6-j1FJgL9A65Nyw-lWWcx5KQ0ZVuTtfgPg39
+    corrections:
+      - "name: should be 'Large Raw Mightfish', not 'Raw Mightfish'"
+      - "zones: should be 'Azshara' (specifically Bay of Storms), not 'Hinterlands'"
+      - 'notes: Mightfish are not targeted from schools on the eastern coast of the Hinterlands; they are primarily fished in the Bay of Storms in Azshara.'
+
+  - name: "Raw Longjaw Mud Snapper"
+    zones:
+      - "Ironforge"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENmwp_Mzv0OYURWiZhC3Az37x2hPIYXTCcWZzBe1xHvOqPpN2tO0nZgcyIKXVpz7ypcMsz4e5X9ogGX-8gH7YSBpO-tMh_0q8SELuMZ3lcljrFUQfLfNNVbMzWeSYYIzOQJkp1vCc8QybEp4IUpQ==
+    corrections:
+      - 'zones: list is incomplete; Raw Longjaw Mud Snapper is found in many zones including Dun Morogh, Elwynn Forest, Loch Modan, Westfall, Redridge Mountains, Wetlands, Darkshore, Ashenvale, Stonetalon Mountains, The Barrens, Mulgore, and Tirisfal Glades, in addition to capital cities like Ironforge.'
+
+  - name: "Sickly Fish"
+    zones:
+      - "Dustwallow Marsh"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTnCIN6psxi3zgxAJ6NVZJ20MW74Ul7rhL3XXqdC2cDI178J466hge2k1g8_I2bv1lYuqhwpdNeJtWwpi_D1NBuaGIoGNsGvxSpco9yOSzMaSOqYMwiNSw4GpPfVPbclwHkt3UtyHeWLU=
+    corrections:
+      - "zones: should be 'Worldwide' or 'All zones' (it is a universal junk item caught when fishing skill is too low for the area), not just 'Dustwallow Marsh'"
+
+  - name: "Essence of Water"
+    zones:
+      - "Bay of Storms, Azshara"
+    notes: "Listed as coming from Water Pools."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFDcYtbblEYLlJ16NjONRDztUiLf-gyJSjx2fVJNwN8EOLZNdtIqkfMSw3LUyNupO4Rvh5cJ2SjekxlXHm2dJqrvjCWQNRoU04XI7y-MOQaI-VUyqRWMBalZO2t8WfzoxUemtqd0akXWx4aelGRQ==
+    corrections:
+      - "name: should be 'Patch of Elemental Water' (the pool name), not 'Essence of Water' (the item name)"
+      - "notes: should be 'Listed as coming from Patch of Elemental Water pools', not 'Water Pools'"
+
+  - name: "Raw Rockscale Cod"
+    zones:
+      - "Wetlands"
+    notes: "Mentioned as an occasional catch at Menethil Harbor Docks."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZ1IcdlUotrvUIxTDX1K3KgcNq9guxC4kx24cfL1AregGz5491EeZjRI2QcgCwRKSu9z_2yI4AX3HdZ8ACpOsrhi51IM0nSgvJpTxUPEZL3nE5xn_Dbv_Zn8ar_jlB5aZEcyw8kJCrSwK5UOKJ3ONQp4ky8exTRFBHay-yWg==
+    corrections:
+      - "zones: should be ['Stranglethorn Vale', 'Feralas', 'Dustwallow Marsh', 'Tanaris', 'Arathi Highlands', etc.], not ['Wetlands']"
+      - 'notes: should not mention Menethil Harbor Docks as a location for catching Raw Rockscale Cod'
+
+  - name: "Raw Rainbow Fin Albacore"
+    zones:
+      - "Darkshore"
+    notes: "Mentioned at Auberdine Harbor."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIw0aMJb1Em5Fi5UaGCHmsrS1yvOLl_Lwl3IcX-_CQuCDb5E_NJR-HFPcSOVoIhtWseHO4wD0kPhQ36vcAo4n_m44seBQaBXDrq1fMI14sjPG0-Dg=
+    corrections:
+
+  - name: "Large Mightfish"
+    zones:
+      - "Feathermoon Stronghold Dock, Feralas"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFU1N903ms6knXQczOPjhTOIR6WgGGKcWgWRbfd1goLR463OpoxKOr4c4mPlzcGZR5fEPDl7hcxr3Z0DM-hKKew2Y-8vqp-sgn5XH1ualpSoHluQK-YOaRO79-5Q2eSikK-wDVz5ZjiFL4=
+    corrections:
+      - "name: should be 'Large Raw Mightfish', not 'Large Mightfish'"
+      - "zones: Feathermoon Stronghold is not a primary or standard location for Large Raw Mightfish; they are typically fished in Azshara (e.g., Scalebeard's Cave, Bay of Storms)"
+
+  - name: "Rosy Lichen"
+    zones:
+      - "Azshara"
+    notes: "Caught in Azshara; described as vendor junk."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Rosy Lichen' does not exist in WoW Classic."
+      - 'zones: No such item exists to be found in Azshara.'
+      - 'notes: The item is not a fish and does not exist.'
+
+  - name: "Winterfall Saury"
+    zones:
+      - "Winterspring"
+    notes: "Found in the Frozen Runes lake."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Winterfall Saury' does not exist in WoW Classic."
+      - "zones: 'Winterspring' is a valid zone, but the fish does not exist there."
+      - "notes: 'Frozen Runes lake' is not a location in Winterspring."
+
+  - name: "World Tuna"
+    zones:
+      - "Winterspring"
+    notes: "Found in Winterspring."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'World Tuna' does not exist in WoW Classic"
+      - 'zones: no such fish exists in Winterspring or any other zone'
+
+  - name: "Spotted Dreamfish"
+    zones:
+      - "Feralas"
+    notes: "Described as rare in Feralas."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_L92hRnE3ioroMCnY6gadoKCuT2xp22latdyaaETacz5-hHzcdG8UNKgnU3OOipr76YgIgDKAFk3jEOhhJRLBgsYsy7VK6FsWErZscyVeFLtq5AaRatVJMIKTGx7G4Jkg8sxydcxSzRPwkhEprfIZ6_2Pkg==
+    corrections:
+      - "name: 'Spotted Dreamfish' does not exist in WoW Classic"
+      - 'zones: No such item exists to be found in Feralas'
+      - 'notes: The item is not a real item in the game'
+
+  - name: "Bristly Smallfish"
+    zones:
+      - "Thousand Needles"
+    notes: "Found in Thousand Needles."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Bristly Smallfish' does not exist; likely a confusion with 'Brilliant Smallfish' or 'Bristly Whisker'"
+      - 'zones: Thousand Needles does not contain fishable water in WoW Classic'
+
+  - name: "Sar'theris Striker"
+    zones:
+      - "Feralas"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR4fJCtnuZqtywhzxCjdpJu2xVPBuut1d-lro6Slq8RXa4vfnmx4nmAbu3ttDsgfZotl5rn3soSh0xHHNif11zuPCae9C7i2pSz2yy_qg247bWxHRoAnQ2cjQZNOB0KFcv17EaFvwbh9wg-zaqf93mlA==
+    corrections:
+      - "zones: should be ['Desolace'], not ['Feralas']"
+
+  - name: "Plated Armorfish"
+    zones:
+      - "Feralas"
+    notes:
+      - "Available during night cycles."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoeH7d6bViSbdaJS8zxDNO3Te-rEBLamC5PItGfnohXHLVU7ixftsL29SOSu0hxzdV2U1dp3lsqenOTLUCPz1q_6ar15kHyBeYi0kp4dfuLB7MHTbMk8St933MIft81V7FLH_5mVss
+    corrections:
+      - 'notes: Plated Armorfish can be caught 24 hours a day and is not restricted to night cycles.'
+
+  - name: "Glossy Mightfish"
+    zones:
+      - "Hillsbrad Foothills"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEcSyLtadeq_myXcPbcJ1mjn2akzCn4fHFWRlCYN9L1aryshNF9SnskLEqrxgLq7_RaAusgJC-62ajkT7zFAqjUzqAITKqLYrlN5yE-mW6Tr6UwxU3SPFyHHoTec1Dep7GsWhIg1MntBD8sgG6_WEOzA==
+    corrections:
+      - 'zones: should include Azshara, Badlands, Feralas, Stranglethorn Vale, Tanaris, and The Hinterlands, not Hillsbrad Foothills'
+
+  - name: "Summer Bass"
+    time_restriction: "March 20 to September 22"
+    zones:
+      - "Feralas"
+      - "Tanaris"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1uMtNnK79Xt1EZI38PgHG-ksLrQmDjD1UwvhEJhx_FCokGPpbtaAxaRkna9P5fyGJw4uD0mi75rk9V38kZk9EC7kXb_7Mk5npzdMqSe3mtshrPs1yIqT4eLsrsGA4dCADB_0_LYOPwli0LRfrikpyXmXI0f8CF2NDsRn7QBURGYejv5qvkOa8t0P9LBw5qelw-Dmatc6H
+    corrections:
+      - 'zones: should include other high-level coastal zones such as Azshara (Bay of Storms), not just Feralas and Tanaris'
+
+  - name: "Raw Redgill Cherry"
+    zones:
+      - "Moonglade"
+    notes: "Described as a daytime filler fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIiOfZgfrBe9lat8itaMBD6DANU42J-47nhRMfgG21-9Zw-mpRYwUGCfH2UGoVMM6V2nowwFS74_0M5rXDJ6Xn7wig7s3_DXbsCz2aLyukk8ZfMYoq
+    corrections:
+      - "name: should be 'Raw Redgill', not 'Raw Redgill Cherry'"
+      - "notes: 'Raw Redgill' is not a daytime filler fish; it is a standard fish with no specific time-of-day requirement"
+
+  - name: "Raw Summer Bass"
+    zones:
+      - "Feathermoon Stronghold, Feralas"
+    time_restriction: "Late March–late September"
+    notes: "Guide says this is the summer seasonal fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPZCzE70g6P1d_17v7BGl-Pi5qcN6KFKTBRrA6DRm-v8HvpbOinoDLmRppEXCKpm9jnSHficI9EUE7OU05Yty-SDGE2YcyObi8OKw03504sm0lNEIIf8Qd3bCFfeWkNFplefouqbcvO-AnDJYJDDVbjOcVjfGEYiVaG_RIMvBAYntK1orWzag7Oagl_tcDVkbSQ-UlSng=
+    corrections:
+      - 'zones: should include other coastal zones like Tanaris, Azshara, and Stranglethorn Vale, not just Feathermoon Stronghold'
+      - 'time_restriction: should be roughly March 20/21 to September 22/23 (Spring Equinox to Fall Equinox)'
+
+  - name: "Darkshore Grouper"
+    zones:
+      - "Auberdine"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHViV0mQE-8vTIJzpDT61XsiF1XSi_GsT6LWHN1x15-3l3Lho5TQ4CW7uMp2_VdAZW0O5WvBJwKqT6aFuUT4KOnZd_z4UI1V1bdSgqJ1vy5NH9sq_0EKxCxWw7qvQ6zNQN01RCGNrmuQzhE6m6EpQE=
+    corrections:
+      - 'zones: should be ["Darkshore"], not ["Auberdine"]'
+
+  - name: "Turtle"
+    zones:
+      - "Wetlands"
+    notes: "Occasional."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Turtle' is not a valid fish item in WoW Classic 1.12."
+      - "zones: 'Turtle' cannot be caught in the Wetlands or any other zone in WoW Classic."
+
+  - name: "Stranglekelp"
+    zones:
+      - "Ashenvale"
+    notes: "Mentioned as a high-spawn item at Ravenwind River."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-ZxgL39l5VePYkyfqdc2AOWrNkZcFSuAlnvBML48fhde3-407kS2o9Q5V6GwdFsd9Bpas9t8VY2fs9UWNKIj3_6Uhmmr7BOov4oAgVNlJQ-DAxHsmaOxOugAUtxyutEkmUvixVtqp5qZGnE59sQ==
+    corrections:
+      - 'name: Stranglekelp is an herb, not a fish'
+      - "notes: 'Ravenwind River' is not a recognized high-spawn location for Stranglekelp; it is primarily found in coastal waters"
+
+  - name: "Brilliant Smallfish"
+    zones:
+      - "Ashenvale"
+      - "Loch Modan"
+    notes: "Mentioned as a fishing catch in Ashenvale and as a fish from Loch Modan. The guide says it can be cooked and sold."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2EEZRngOPm516c33DAJMPmHy-3k3xaOF4c3hYt8_ZmYgNm3KWDDmTwfDWlWqWBUYiTasdL6BrFz5aT4lAnV2G-EJwNY0-V9YjGm-70FidM1YU9_kLJa-sfSW1Q2h4LyIHjv9v4Bz96e1D7z3V90MfQxjGcmGEhVA=
+    corrections:
+      - 'zones: should include various low-level starting zones (e.g., Durotar, Mulgore, Elwynn Forest, Dun Morogh, Tirisfal Glades, Teldrassil) instead of just Ashenvale and Loch Modan'
+      - 'notes: the fish is a standard catch in most low-level freshwater zones, not specific to Ashenvale or Loch Modan'
+
+  - name: "Lockjaw"
+    zones:
+      - "Ashenvale"
+    notes: "Described as rare at Ravenwind River."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCPYLri262Za8GmtPUtgD3AiIk5U6AJRvKicfG8SsjSD8JKI_QhG1PoMkS6v6TfZxFm8I4jP2wC0XEDISY597uVS_b7-xKmhaHkwl2KCmt1yD8X0QIasP5GLle-2wqwzY=
+    corrections:
+      - "name: 'Lockjaw' is not a fish in WoW Classic; you likely mean 'Old Ironjaw' or are confusing it with the fishing term 'lockjaw'."
+      - 'zones: No such fish exists in Ashenvale.'
+      - "notes: 'Lockjaw' is a term for when fish are not biting, not a specific rare fish."
+
+  - name: "Mud Snap"
+    zones:
+      - "Wetlands"
+    notes: "Listed as a catch in Wetlands."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOWla-ZOCwa7AacKw1ur7LlNX0mdB-gvCATORuvdXCQMDReI3BoQTVNdfn6E6EEg8CxGoJYvT_TxixWyAy9GPatfz4nlKGjWn2KEByoViq1VZzUWlU6BjKkE3SrQKLMh5AEXP_R-sXtaQ=
+    corrections:
+      - "name: should be 'Longjaw Mud Snapper' (or specific trophy fish like '10 Pound Mud Snapper'), not 'Mud Snap'"
+      - "notes: should clarify that 'Mud Snap' is not an item name in the game"
+
+  - name: "Silverscale Fish"
+    zones:
+      - "Loch Modan"
+    notes: "Listed as a catch in Loch Modan."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbNBoGWB4c8OZToUHU01VosYwRMD5sW1v4E3C6lC2DFgClctmCUII62z6aO1oti_Kn8SfdRpLY5sjwTeLpWduemz7Vc_AhTTpMlycYk5ab6nY6NSgW4aHWahrtyLMI3VCVR8C-dnm4mDVVejSuSyrSc5U6GnGw3Vn26FC-tzshzEocdOhCcJ1MQ1NfTTZ1dwHI9Q==
+    corrections:
+      - "name: 'Silverscale Fish' does not exist in WoW Classic; likely a confusion with 'Sunscale Salmon' or a non-game entity."
+      - "zones: 'Loch Modan' is not a valid zone for a non-existent item."
+
+  - name: "Festival Fish"
+    time_restriction: "Seasonal/event fish"
+    zones:
+      - "Tanaris"
+      - "Dustwallow Marsh"
+    notes: "Described as spawning in Tanaris and as seasonal fish in Dustwallow Marsh."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRLLot4ohC0d0QWZz4Z1v01e0pNaUpeuuQ0nfYvoFWru3a30f1Sh2fdmCke90q6_t2SCvb-I_viibUHIkauysTwaz0zJVDhQGA06UQh3hNhJnrlMMUTLUD-3yfZQa-THcTv5rxuYfnOlOlhVblCriaiPaT2Bl-afP4NnNM37_iX9uiyHkvK7rBGNlxBh60JHpYdOHiQitDUsQNElI_rW0IKoqxDhY=
+    corrections:
+      - "name: 'Festival Fish' does not exist in WoW Classic."
+      - 'time_restriction: No such item exists, so it has no time restriction.'
+      - 'zones: No such item exists, so it has no associated zones.'
+      - 'notes: The description is inaccurate as the item is not part of the game.'
+
+  - name: "Tender Meat"
+    zones:
+      - "Tanaris"
+    notes: "Listed as a catch in Tanaris."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESVDLTOAMIkVd-R1PEZQQ4dp6A5TxtpT64xfkNp-zR7XaCM2YPfMlQWzMrNXs0UmzlMxlhXof3AIM7a6WAHS48lUEi64SslrM_evFmV5zVu5aCYH56Z13NKY-d-ULkUepN
+    corrections:
+      - "name: 'Tender Meat' does not exist in WoW Classic; perhaps you meant 'Tender Wolf Meat' or 'Tender Crab Meat'"
+      - "zones: 'Tender Meat' is not a fish and cannot be caught in Tanaris"
+
+  - name: "Silithid Husks"
+    zones:
+      - "Desolace"
+    notes: "Listed as a catch in Desolace."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzy87ie9iBaTG7B6uD7yP5BnNIDtRqLStMB0_dAj-X37FgNJ_22IbINq5krR4TQsS774FHnuFwjM3m1NaiV_SBI8-5rqXm9M5fcUcUbtX9a0REDDFsNw-DlgBMIXRv7n0BCQeixCR_vU_efWSVSLjvsYddnNNk155QUdjrDbBTynYD0S2MbC0=
+    corrections:
+      - "name: 'Silithid Husks' is not a fish; it is a quest-related item/object found in Silithus, not a catchable fish."
+      - "zones: 'Desolace' is incorrect as this item cannot be fished."
+      - 'notes: The claim that this is a catch in Desolace is factually incorrect.'
+
+  - name: "Clam Meat"
+    zones:
+      - "Wetlands"
+    notes: "Listed as a high-volume catch in Wetlands."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRmxm8ddB4B3r-qGcPPcy2NuRTPDbFzgMJ3ol0BmB9AAjJjYG_wB5PnfbMT_S6TAaV4asy8k5WU9kIZEGV6IDYQOxqty3bBjRc4Rw9HG8y0K9sY1YLVWx-tfg96-VgNNQ=
+    corrections:
+      - 'zones: should include multiple coastal zones (e.g., Westfall, Darkshore, Wetlands), not just Wetlands'
+      - 'notes: Clam Meat is a cooking ingredient, not a fish; it is obtained from clams and aquatic mobs, not by fishing.'
+
+  - name: "Lightning Eel"
+    zones:
+      - "Azshara"
+    notes: "Described as rare, from open water."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMMpoN70uxf3vPdOcxwarrne2FwVuGPD6AtyQyHnN1XZc8FoqmhLCkBmtcUTTaNhE_378jopyXVD4nzq-Cao5D1yOgbO8ZN5A1Ync-LwGU0xPkMmdrZg1VqkrXVT04Vl0tyFGY
+    corrections:
+      - "zones: should include areas like Western Plaguelands, Eastern Plaguelands, Felwood, Feralas, and Zul'Gurub, not Azshara"
+
+  - name: "Raw Winter Squid"
+    time_restriction: "October–April (real-world calendar months)"
+    zones:
+      - "Winterspring"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe21BGA3HlPgWyZlBGx3l95glcWAdqgZKHPeWWWZXPXXarrrQWroS2RlE7JDkrW4_sb1zTQBq96KmNjBo8_a9npzROOs5q0GoRPbKzG8lbJXPCI_tmRC2CxhNkP-0kBGH-mRP66IFXnTjEf-uPofayWORPNPyFRevUd7e01sYu-VWvEaU81Saa-yTQ6A7D-OTeJrw99Q==
+    corrections:
+      - 'time_restriction: should be September 23–March 20, not October–April'
+      - 'zones: should include Azshara, Feralas, Tanaris, and the Hinterlands, not just Winterspring'
+
+  - name: "Rockscale Cod"
+    zones:
+      - "Theramore Isle, Dustwallow Marsh"
+    notes: "Mentioned as a possible catch in Theramore."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwvL8QnO5qxogM7H1qiwPHNhUleeyFETbmAWbl89xZPHw_bez08sDRO7K7WRAKt7dPXNDDgTiD6nlwmoV0_AEGJUSVp3U1ZDLtkJdu-bPeH9iI9uCgByLetFP3SpHQGmpx7SV7lBkqBdelAQ==
+    corrections:
 zones:
 
   - name: "Moonglade"
@@ -193,6 +1290,13 @@ zones:
       - "Lake Elune'ara — dock near Nighthaven village"
     fishing_skill_effective: "~300 recommended"
     access_notes: "Accessible via Teleport: Moonglade (Druid) or flight path. Warriors cannot teleport — need to fly or walk through Felwood."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR2QtN_bsJYi-Y-THIL_cmZtm0NLgObMf_WqtiTfK65o2HsfrxcWf_phz5OgTsWkylc-uXUY13TbCnB_Ua2enTgFYpsriasOC9lh1gI81jkT2wlizs2Dek_RXuyzI3Gpr5fHLQDhGa5ClCh3v7vIbPpdKbuIGsvg_NY-j_RQ==
+    corrections:
+      - 'faction_safety: Moonglade is not a Sanctuary zone; it is a contested/neutral zone where PvP is enabled.'
+      - "pvp_risk: PvP is possible (not 'None')."
+      - 'access_notes: Warriors are not the only class unable to teleport; only Druids have access to the Teleport: Moonglade spell.'
 
   - name: "Azshara"
     faction_safety: "Contested"
@@ -206,6 +1310,11 @@ zones:
       - "Bay of Storms — large bay in southeast Azshara, ruins in water"
       - "Ruins of Eldarath (northern coast)"
     fishing_skill_effective: "300+ required, 425 effective to avoid escapees"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQLz3H5O9BOHtkTA_RBajdEsxYgLfxBxOToLLN46fizp5QVe3RLPZSec9pXSAuhHIwmhfvbvXlL3BUb_4ANMdyrRAoD0ep9_u37izxYan_EIKk1NplkBDxIOZuGzrFSTloIE8EdthKCQ==
+    corrections:
+      - 'notable_spots: Ruins of Eldarath is located in central Azshara, not the northern coast'
 
   - name: "Feralas"
     faction_safety: "Contested (Alliance-leaning — Feathermoon Stronghold nearby)"
@@ -219,10 +1328,23 @@ zones:
       - "Feathermoon Stronghold docks (Isle of Dread)"
       - "Sardor Isle coast"
     fishing_skill_effective: "300+"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_Fy75QmbITkbUlxAVNaLXylhyLfVs7dJSXUAtmOXBKC5tftd6jjtECrbSZRbVdMfc3NNFbo9z26suESJIr1ui6oBYbG1P2twIl7xlmecNrs2H8HoVK5DU9cNesXL9XExaVmZ14lHXN5Js-91pIEpkWBnupzQ0bis=
+    corrections:
+      - "notable_fish: 'Large Raw Mightfish' is incorrect; should include 'Stonescale Eel' and 'Raw Nightfin Snapper' (night). 'Feralas Ahi' is a quest-specific item, not a general catch."
+      - "notable_spots: 'Jademir Lake' is in Stranglethorn Vale, not Feralas; should be 'Verdantis River'."
+      - "fishing_skill_effective: should be '225' (the skill required to catch fish without junk), not '300+'."
 
   - name: "Moonglade (Felwood route)"
     faction_safety: "Safe once in Moonglade"
     notes: "Warriors access Moonglade by traveling through Felwood (hostile mobs, manageable at 60)"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXj078ozaaBUHgAbsWd9MY_-gC6Bx8707yuQ3UGYlXvQkD9HoBtQlAhPv9jtpRjYIPDh4uKkJO_4ITv47-0_mb1o5GGPwD3C6YY3OJtgeEvR6TPmJUiphQwOZ78cfxk86fm25nsIiI45DfNaHAVUXRbMZxdg==
+    corrections:
+      - 'faction_safety: Moonglade is a neutral sanctuary, but the access route (Timbermaw Hold) is hostile until neutral reputation is earned with the Timbermaw Furbolg faction.'
+      - 'notes: Warriors (and all non-druids) must travel through the Timbermaw Hold tunnel system located at the northern tip of Felwood to reach Moonglade, not just through Felwood itself.'
 
   - name: "Wailing Caverns"
     faction_safety: "Instance — completely safe"
@@ -230,6 +1352,13 @@ zones:
     notable_fish:
       - "Deviate Fish (very high concentration)"
     notes: "Fishing inside the instance is a legitimate Classic tactic. No competition, no PvP."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkUch0jBZWHrlrGCxBvqqjHFxbmPLX-bu9zI-MzJ_fM48zFCHApnTZCPk3_ka5i_wJTjmTDktxNMzVQOGK73xvuTYbYKCdj7532ou5GOpN4V01fhRoQ37KM3bDMGfqx75awdwMimJTO1-jXVLY4a0g
+    corrections:
+      - "faction_safety: should be 'Instance — safe only while inside', not 'completely safe'"
+      - "pvp_risk: should be 'High (during travel on PvP servers)', not 'None'"
+      - 'notes: should clarify that while the instance itself is a private group area, the journey through The Barrens on PvP servers involves significant PvP risk'
 
   - name: "Stranglethorn Vale"
     faction_safety: "Contested"
@@ -239,7 +1368,1215 @@ zones:
       - "Eastern coast"
 
 
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGd4YbQhsyiYvlYYBdztqwvpb9WSKyEg5ky-oETkSkggcPqJ3Gx-pD2PSztTqZl0NDKkigjUbla8k8yEgCAVfftd8UD154oWlGUtKW5bdCMIYsOj8SryDShx00gG8XNCQpsXN8tnhgd1NqXEg7jJWfTDskJjQ==
+    corrections:
 
+  - name: Lake Shire
+    faction_safety: Alliance territory
+    pvp_risk: Low
+    notable_fish:
+      - Roach
+      - Smallmouth Bass
+      - Catfish
+    access_notes: Described as deep in Alliance territory; Horde rarely ventures there.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxfUQp_1iaAJ04wSJvFqRW_Whn3chFhtAHtd-eWlgCI3eQIJFuoYvloDj4VKKIszklzVOH6UOPOxAAZAOX7ute99LMJdv2UyKmiod4dgfDXI2oTZNVuVmzIMrWc_VQ8Tg=
+    corrections:
+      - "name: should be 'Lakeshire', not 'Lake Shire'"
+      - "faction_safety: should be 'Contested territory', not 'Alliance territory'"
+      - "pvp_risk: should be 'High' or 'Contested', not 'Low'"
+
+  - name: Menethil Harbor
+    faction_safety: Neutral
+    pvp_risk: Low
+    notable_fish:
+      - Catfish
+      - Clam
+      - Bluegill
+    access_notes: Described as a completely isolated corner of Wetlands and a dead zone for PvP.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'faction_safety: should be Alliance (controlled town in a contested zone), not Neutral'
+      - 'pvp_risk: should be High (frequent ganking/camping hub), not Low'
+      - "notable_fish: these are generic/incorrect; Menethil Harbor does not have unique 'notable' fish"
+      - 'access_notes: Menethil Harbor is a major, high-traffic travel hub, not an isolated dead zone'
+
+  - name: Blackwood Lake
+    faction_safety: Contested
+    pvp_risk: Low
+    notable_fish:
+      - Smallmouth Bass
+      - Catfish
+      - Firefin Snapper
+    notable_spots:
+      - Southwestern shore
+    access_notes: Described as far from flight paths or quest hubs; the guide says to swim to the deepest part for safety.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'pvp_risk: should be High, not Low'
+      - 'notable_fish: Smallmouth Bass and Catfish are low-level fish not found in Eastern Plaguelands'
+      - "access_notes: The lake is relatively close to Light's Hope Chapel, a major hub in the zone"
+
+  - name: Charred Vale Lake
+    faction_safety: Alliance territory
+    pvp_risk: Low
+    notable_fish:
+      - Catfish
+      - Firefin Snapper
+      - Blackmouth Oil
+    notable_spots:
+      - Southern shore
+    access_notes: Described as a high-level zone that casual players do not visit often.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Charred Vale Lake' does not exist; the area is simply 'Charred Vale'"
+      - 'faction_safety: Charred Vale is in Stonetalon Mountains, which is a contested zone, not Alliance territory'
+      - "pvp_risk: Stonetalon Mountains is a contested zone, meaning PvP risk is 'High' (or 'Contested'), not 'Low'"
+      - 'notable_fish: Charred Vale is not a fishing location'
+      - "notable_spots: 'Southern shore' is invalid as there is no lake"
+      - "access_notes: While the Charred Vale is a high-density mob area, the description of it as a 'high-level zone' is inaccurate; it is a mid-level questing area (typically levels 25–30)"
+
+  - name: Camp Mojache Area
+    faction_safety: Horde territory
+    pvp_risk: Medium
+    notable_fish:
+      - Firefin Snapper
+      - Blackmouth Oil
+      - Spotted Yellowtail
+    access_notes: Guide says there is a small lake away from the camp that can be positioned around safely.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested territory', not 'Horde territory'"
+      - "pvp_risk: should be 'High', not 'Medium'"
+      - "notable_fish: 'Blackmouth Oil' should be 'Oily Blackmouth' (Blackmouth Oil is an Alchemy product)"
+
+  - name: Stonetalon Mountains
+    faction_safety: Alliance territory
+    pvp_risk: Low
+    notable_fish:
+      - Catfish
+      - Firefin Snapper
+      - Blackmouth Oil
+    notable_spots:
+      - Charred Vale Lake
+    access_notes: Guide says the lake is in the northwest section; fish from the southern shore.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHspx2_UEVfRqkcphsuzmESQifx7afslQTDq8W3jvlukJYiQNSWK8p2RHxnxTg6H5zwDgcrQqX5jI39OREHXYGOPOjGLLijylSE5ZeZ0ZWag83f8hflcnyWjBjDlfm7HQ37_NCz1pqD5hc6ylelwXBlZQ9WoM7r7zNUyaUjRXs=
+    corrections:
+      - 'faction_safety: should be Contested territory, not Alliance territory'
+      - 'pvp_risk: should be High (Contested), not Low'
+      - 'notable_fish: Blackmouth Oil is a crafted item, not a fish; should be Oily Blackmouth'
+      - 'notable_spots: Charred Vale Lake is not a primary landmark; Mirkfallon Lake is the notable lake'
+      - 'access_notes: Fishing for Firefin Snapper is most notable in the oil-polluted waters of Windshear Crag, not a lake in the northwest'
+
+  - name: Ashenvale
+    faction_safety: Alliance territory
+    pvp_risk: Low
+    notable_fish:
+      - Roach
+      - Smallmouth Bass
+      - Catfish
+      - Firefin Snapper
+    notable_spots:
+      - Blackwood Lake
+    access_notes: Guide says Blackwood Lake is reached by riding north from the flight point toward the Felwood border.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested territory', not 'Alliance territory'"
+      - "pvp_risk: should be 'High', not 'Low' (Ashenvale is a notorious contested PvP zone)"
+      - "notable_spots: 'Blackwood Lake' is in Eastern Plaguelands, not Ashenvale"
+      - 'access_notes: The note regarding Blackwood Lake is incorrect as the location does not exist in Ashenvale'
+
+  - name: Hillsbrad Foothills coastline
+    faction_safety: Alliance-friendly
+    pvp_risk: Low
+    notable_fish:
+      - Nightfin Snapper
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHw-mXIkjyO7hv14zNYzs0uDRNCigI0RL7LHKGeFa9sOF-q0jf-g_sNeoKDXX6vfO7rxozGh5Wx2MTaGAsoN59Tos7iaVuadOwEeOAMUNTNbZBLRdwyUXHBdPJL3_q98AzFhyHyYteAHk1btzMPtwiFstxFNg==
+    corrections:
+      - "faction_safety: should be 'Contested', not 'Alliance-friendly'"
+      - "pvp_risk: should be 'High', not 'Low'"
+      - 'notable_fish: Nightfin Snapper cannot be caught in Hillsbrad Foothills'
+
+  - name: Eastern Plaguelands
+    faction_safety: Alliance-safe
+    pvp_risk: Low
+    notable_fish:
+      - Nightfin Snapper
+    notable_spots:
+      - Light's Hope Chapel coast
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'faction_safety: should be Contested, not Alliance-safe'
+      - 'pvp_risk: should be High, not Low'
+      - "notable_spots: Light's Hope Chapel is not a coastal location"
+
+  - name: Southern coastline of Tanaris
+    faction_safety: Neutral
+    pvp_risk: Moderate
+    notable_fish:
+      - Stonescale Eel
+    notable_spots:
+      - Steamwheedle Port
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmlUGfJ-_5v2CDrpxK0UlKGVTkV4h9_Z8fTDaGd_7zW0Qtsw9XYnRvWPXhWBvxiMhFqiUght8NaA-sS0gNcsHrDQDEYxTOYSQLjJCE1IsfEQm8d7iMiEMqnvcJgYU=
+    corrections:
+      - "name: should be 'Tanaris', not 'Southern coastline of Tanaris'"
+      - "faction_safety: should be 'Contested', not 'Neutral'"
+      - "pvp_risk: should be 'High' or 'Contested', not 'Moderate'"
+
+  - name: Theramore Isle
+    faction_safety: Neutral
+    pvp_risk: Low
+    notable_fish:
+      - Stonescale Eel
+      - Firefin Snapper
+      - Oily Blackmouth
+    notable_spots:
+      - Theramore docks
+      - Theramore Lighthouse Rocks
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmE8O2tw2VWd4ctwGT736qHvNyZ5abYUSpqgzt750HR9IwZv0ISz4MUqaqkrVl_OCaYFq1gwxAUZGpEwoYC5gre43wfKHzUWBY0c7TdSSQUXpN5RNJYnF1EpZFUT7z43XS9S1qJpkrKiJF6nRQVR2_TwlRZDK53mfZ1iKkbNzvJkVPLUAsy7aL1lvTX-rb3JN1r9SriA==
+    corrections:
+      - 'faction_safety: should be Alliance, not Neutral'
+      - 'pvp_risk: should be High (on PvP realms) or Hostile (for Horde players), not Low'
+
+  - name: Feathermoon Stronghold
+    faction_safety: Alliance-safe
+    pvp_risk: Low
+    notable_fish:
+      - Stonescale Eel
+    notable_spots:
+      - Western coast
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzceyE9HxLMk05NwZj_JzLl__Us4oQZeF_IAqZNN4ViZPtsz_GwmQPMbAQPDBm4kt27NkJqvF0JXj7Jjq-r02xPwxz0g56_9HqQi-PiVrOob50g_yeFergBTY2ToY9JRRW7FfoYxeAnd4LpKMl
+    corrections:
+      - 'name: Feathermoon Stronghold is a subzone, not a zone'
+      - "pvp_risk: Feralas is a contested zone, so PvP risk is high/standard for a PvP server, not 'Low'"
+
+  - name: The Wailing Caverns
+    faction_safety: Horde territory
+    pvp_risk: Moderate
+    notable_fish:
+      - Deviate Fish
+    access_notes: Guide says the pools inside the cave entrance are uncontested.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVTKTQqOmQB3yx6socM5EEuuKgHMIFlKO0RWw-IcZBW7V8jM_IvqloLsSwvKt7p7vcNlhQR4le3p4y-NdIJeqsBN878ixHKg2LqvodFGrihsq0onASAXNDA995UnWh_nJwBOoTEclHJIu3N77XEoU4qlaLlxmAE4DkIuNgfrqJhrZMQsDK
+    corrections:
+      - 'pvp_risk: should be High, not Moderate'
+      - 'access_notes: should be updated to reflect that the cave entrance is in a contested zone and is not an instance-protected area'
+
+  - name: Loch Modan
+    faction_safety: Alliance-safe
+    pvp_risk: Low
+    notable_fish:
+      - Raw Mithril Head Trout
+      - Sunscale Salmon
+      - Big-mouth Clam
+    notable_spots:
+      - The Loch
+      - Small island in the middle of the Loch
+      - Giant statue's hand on the dam
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Alliance-controlled', not 'Alliance-safe'"
+      - "pvp_risk: should be 'Contested', not 'Low'"
+      - "notable_fish: 'Sunscale Salmon' is not found in Loch Modan; 'Big-mouth Clam' is a container, not a fish"
+      - "notable_spots: 'Giant statue's hand on the dam' is not a standard zone landmark; the correct name is 'Stonewrought Dam'"
+
+  - name: Winterspring
+    faction_safety: Mixed
+    pvp_risk: Moderate
+    notable_fish:
+      - Raw Glossy Mightfish
+      - Large Raw Mightfish
+      - Stonescale Eel
+      - Winter Squid
+    notable_spots:
+      - Lake Kel'Theril
+      - Southwest small unnamed island
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested', not 'Mixed'"
+      - "pvp_risk: should be 'High', not 'Moderate'"
+      - "notable_fish: should include 'Raw Nightfin Snapper', 'Raw Whitescale Salmon', and 'Plated Armorfish'; remove 'Raw Glossy Mightfish', 'Large Raw Mightfish', and 'Winter Squid'"
+      - "notable_spots: 'Southwest small unnamed island' is not a recognized notable spot; consider 'Everlook' or 'Frostsaber Rock'"
+
+  - name: Dustwallow Marsh
+    faction_safety: Mixed
+    pvp_risk: Moderate
+    notable_spots:
+      - Theramore Isle docks
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqtsSK2XGxxLB66IOKCl_4GxBFU-LqCXW5gdABleDTaUcso-0QZIYt3HP6S8DSqzruE_xz_6awwIcV3TTDk-ULdPz4NpZHJF9B1gB4-fza6-PLagBhGH2qDGhKHWJO8RnhS4N7e2B2zh-l
+    corrections:
+      - "faction_safety: should be 'Contested Territory', not 'Mixed'"
+
+  - name: Northern Barrens
+    faction_safety: Horde territory
+    pvp_risk: Moderate
+    notable_fish:
+      - Deviate Fish
+    notable_spots:
+      - The Wailing Caverns pools
+      - The Forgotten Pool
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGv2O-ulWO8s7BlusQuTaCAVhkzbwE4x9Ph1HfdcA0iyMaoaXUOxZ_6OwfiObivP91TLhNI05Ou1-WHhE_2yiwjVFxA1W467y_RsptPqyx1Oe48KR_wbASyuPhGwNQRZkrV
+    corrections:
+      - "name: should be 'The Barrens', not 'Northern Barrens'"
+      - "notable_spots: 'The Forgotten Pool' should be 'The Forgotten Pools'"
+
+  - name: Tanaris
+    faction_safety: Contested
+    pvp_risk: Low
+    notable_fish:
+      - Oily Blackmouth
+      - Firefin Snapper
+      - Raw Spotted Yellowtail
+      - Stonescale Eel
+    notable_spots:
+      - Steamwheedle Port docks
+    access_notes: Steamwheedle Port is described as a goblin town where PvP is disabled.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "pvp_risk: should be 'High' or 'Contested', not 'Low'"
+      - 'access_notes: Steamwheedle Port is a neutral town with guards, not a sanctuary where PvP is disabled.'
+
+  - name: Alterac Mountains
+    faction_safety: Alliance-friendly territory
+    pvp_risk: Low
+    notable_fish:
+      - Firefin Snapper
+      - Oily Blackmouth
+    notable_spots:
+      - small lake in Alterac Mountains
+    access_notes: The guide distinguishes this from the battleground and says the water's edge is not patrolled by nearby Syndicate mobs.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested territory', not 'Alliance-friendly territory'"
+      - "pvp_risk: should be 'High', not 'Low'"
+      - "notable_fish: should include 'Raw Greater Sagefish', 'Raw Bristle Whisker Catfish', and 'Raw Mithril Head Trout' instead of 'Firefin Snapper' and 'Oily Blackmouth'"
+      - "notable_spots: should be 'Lordamere Lake', not 'small lake in Alterac Mountains'"
+
+  - name: The Hinterlands
+    faction_safety: Contested
+    pvp_risk: Low
+    notable_fish:
+      - Oily Blackmouth
+      - Firefin Snapper
+      - Stonescale Eel
+      - Mithril Bass
+    notable_spots:
+      - Northeron
+      - creeks
+      - large central lake
+    access_notes: Creeks are described as funneling pool spawns into predictable locations.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHByuk5ICYqQEekVevwVp18_j3HXKjOC8xMnVejuy_HneohViJNsHw56oSyqL1-zGY4LYH6WFCx3jhtCBKbKcNehkWzvAQup7b3O6UkuiUpmzh4casxqE_59Jr_-unO6rC4yCB5gcad6XP--AIvOy9AIN1VCXGq3oOCGLmOd35SWyTR5h0z3T2_GQ==
+    corrections:
+      - 'notable_fish: The Hinterlands does not have fishing pools (schools) for these fish; they are primarily found in other coastal zones.'
+      - 'notable_spots: Northeron is not a location in the Hinterlands in WoW Classic.'
+      - 'access_notes: There are no fishing pools in the Hinterlands to funnel into predictable locations.'
+      - "pvp_risk: Should be 'Moderate' or 'High' as it is a contested zone with active quest hubs for both factions."
+
+  - name: Thousand Needles
+    faction_safety: Contested
+    pvp_risk: Medium
+    notable_spots:
+      - Tethris Aran cliffs
+      - southern coastal section
+    access_notes: The guide says the southern coast connects toward Tanaris.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "notable_spots: 'Tethris Aran cliffs' is incorrect; Tethris Aran is a subzone in Desolace."
+      - 'access_notes: The southern coast does not connect to Tanaris; the Shimmering Flats (eastern Thousand Needles) connects to Tanaris via a land pass.'
+
+  - name: Western Plaguelands
+    faction_safety: Contested
+    pvp_risk: Low
+    notable_fish:
+      - Stonescale Eel
+      - Raw Nightfin Snapper
+    notable_spots:
+      - small ponds and lake near the Ruins of Andorhal
+    access_notes: Described as low traffic outside of Scholomance runs.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'pvp_risk: should be High, not Low'
+      - 'notable_fish: Raw Nightfin Snapper is not a notable fish for this zone'
+      - 'access_notes: should be High traffic, not Low traffic'
+
+  - name: "Talrendis Point"
+    faction_safety: "Alliance outpost"
+    pvp_risk: "Protected by sentinels per guide"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Nightfin Snapper"
+      - "Firefin Snapper"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6FkW-lKvo3VwafXZVsyvRGFCNSPycLDcnGEBOFbpvJiHT9EzjJlbz2Y1oEyZz7o-SDKLyTqAIg1v2Ufzat0aeQasI4JvID5URCJ_OmRohLQZ9dnRUBbYSoCG2mU3mHZyun24bzz_dZw0=
+    corrections:
+      - 'notable_fish: these fish are not specific to Talrendis Point; they are general fishing catches found in various zones across Azeroth.'
+      - "pvp_risk: 'Protected by sentinels per guide' is not a standard or accurate description of PvP risk in WoW Classic; it is a contested zone outpost."
+
+  - name: "Wetlands"
+    faction_safety: "neutral"
+    pvp_risk: "low"
+    notable_spots:
+      - "Menethil Harbor"
+    access_notes: "The guide identifies Menethil Harbor as being in Wetlands."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2uOjV9loM6IdcR1hyB1GEguDktJkPeQN3PwczMrBIeMv-yfBCYmTs27xinUBOMhf8KIufEDB2PsYZbnZ9QzKiAPSUnWpGRWIK7uEv8Ubw1eG0Aa0OlbH0XafCVKnwGhKZ_vF9KBZkPmQB
+    corrections:
+      - "faction_safety: should be 'contested', not 'neutral'"
+      - "pvp_risk: should be 'high' or 'moderate', not 'low'"
+
+  - name: "Hillsbrad Foothills"
+    faction_safety: "Alliance-friendly side"
+    pvp_risk: "Not specified"
+    notable_fish:
+      - "Nightfin Snapper"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested Territory', not 'Alliance-friendly side'"
+      - "pvp_risk: should be 'High' (it is a notoriously contested PvP zone)"
+      - 'notable_fish: Nightfin Snapper is a general nighttime catch in many inland waters and is not uniquely notable to Hillsbrad Foothills'
+
+  - name: "Bay of Storms"
+    faction_safety: "Contested"
+    pvp_risk: "High"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Winter Squid"
+      - "Big-Mouth Clam"
+    notable_spots:
+      - "Eastern coast of Azshara"
+      - "Southern edge cliffs"
+      - "Jagged cliffs jutting out of the water"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOXLnHslFjk2qCw2WOdsL5faJZs4CnKTs1NKciLHohEC15EcP5YpJ90BlfGcpi2XhZCUg3MYnuAdn02rfOWj8x3rv-1bXQqePAl6wrLVR72zOXsHX0kYFWE4-C6LYexpsiShE=
+    corrections:
+
+  - name: "Jademir Lake"
+    faction_safety: "Alliance-leaning"
+    pvp_risk: "Very Low"
+    notable_fish:
+      - "Raw Nightfin Snapper"
+      - "Mithril Head Trout"
+    notable_spots:
+      - "Northernmost tip of the lake on a rock"
+    access_notes: "Located in northeastern Feralas, near the Alliance outpost of Thalanaar."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-3F8OvbjOZas9Dtb4O-2qNQ9IjgGb_r7iuTkoA1BExAFav7m2y042qiCEK7d_xxA4k-856oOJzE0t_N8owI8Z-QfyPD54n65dlXAd2Sp4_KvfO-ShLVBGAQ1aU_aprJqfKzQ=
+    corrections:
+      - "faction_safety: should be 'Contested', not 'Alliance-leaning'"
+      - "pvp_risk: should be 'High' (due to elite mobs and contested status), not 'Very Low'"
+      - "notable_fish: 'Mithril Head Trout' is not a primary notable fish for Jademir Lake; it is known for Raw Whitescale Salmon and other specific drops"
+      - 'access_notes: Jademir Lake is in northern Feralas, but it is not near the Alliance outpost of Thalanaar (which is in the southern/central part of the zone)'
+
+  - name: "Felwood"
+    faction_safety: "generally safe if you avoid dangerous areas"
+    pvp_risk: "medium"
+    notable_fish:
+      - "Nightfin Snapper"
+      - "Sunscale Salmon"
+      - "Stonescale Eel"
+    notable_spots:
+      - "pools"
+    access_notes: "The guide recommends Felwood pools, especially at night, and says some spots are very safe if you choose the right shore or pool route."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkB-lKDt6DrkvUj7Dg1PrqdR3Q6k-q2ivFeao8l4HYy3Sd962AK_axd0YfRzKDihUywxLzMC9j3lYByhKYldlrKXqIRmoyWkU-jTFVYO619lKWczYpcDm8dptoyIlB9u5nRg1hKyLPqOc=
+    corrections:
+      - 'notable_fish: Stonescale Eel should be removed; they are not found in Felwood'
+      - "faction_safety: should be 'Contested' rather than 'generally safe'"
+      - "pvp_risk: should be 'high' due to it being a major endgame farming and questing zone"
+      - "notable_spots: 'pools' is inaccurate; Felwood is not a primary zone for fishing pools"
+
+  - name: "The Barrens"
+    faction_safety: "contested"
+    pvp_risk: "high"
+    notable_fish:
+      - "Deviate Fish"
+    notable_spots:
+      - "The Wailing Caverns waters"
+      - "oasis-like zones"
+    access_notes: "The guide says this is a contested specialty farm area and mentions Wailing Caverns waters/pools."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Horde-controlled', not 'contested'"
+      - "pvp_risk: should be 'low' (or 'moderate' on PvP servers due to player activity), not 'high' (as it is not a contested zone)"
+
+  - name: "Stormwind canals"
+    faction_safety: "very high"
+    pvp_risk: "low"
+    access_notes: "Described as pure safety with no risk, but lower profit."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbhMmDAH-uyM7lNunCPzG7W3is88_Kxrousr4uM3jYn3-G38VGitYLIR4of6aties0UIugq4gZjbPNhOmjMC21Pm8UewBwuCzWTMpkY6RJ5DzgAO4CaXyr5kSzPu2gerUojzD5bDZWX4LvilG-
+    corrections:
+      - "name: 'Stormwind canals' is a sub-zone, not a zone."
+      - "faction_safety: Stormwind is a sanctuary city, not 'very high' in a way that prevents PvP raids."
+      - "pvp_risk: 'low' is misleading; capital cities are subject to enemy raids on PvP servers."
+      - 'access_notes: This field contains subjective and inaccurate gameplay commentary.'
+
+  - name: "Duskwood"
+    faction_safety: "safe hidden spots"
+    pvp_risk: "low"
+    access_notes: "Mentioned as having inland safe spots."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFV51gP5j5Kqzv2LwdugBwn3onnx3Zi52EQ-zgTQVyIcIaixziWmnQz_B4ZFippj9iXvfqaGcM8HE2eD1uMsKaD9SRKuqplbGodI_2NjZWF2lyvPRhQvNP2krraHgY_5wt3fxyHjpZF5lKbLZOB8D7sqfdV5Hflrc6PQkzclhI=
+    corrections:
+      - "faction_safety: should be 'contested', not 'safe hidden spots'"
+      - "pvp_risk: should be 'high' or 'contested', not 'low'"
+      - 'access_notes: should reflect that it is a contested zone where PvP is always possible, not that it has safe inland spots'
+
+  - name: "Azshara - Azuredale Bay"
+    faction_safety: "Remote location; essentially safe"
+    pvp_risk: "Zero foot traffic; essentially 0 PvP risk on most servers"
+    notable_fish:
+      - "Azuregill Snapper"
+      - "Spotted Sunfish"
+      - "Glassfin Minnow"
+    access_notes: "Coastal position."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoMuuQF3X896CTAJWhnh6ukAPxkp68oqbAAv6GbyYyGXAwS5W4wI_ffZfbJVYiXxMoUa1xhTxYcbtjPyZ_TP1UH8i_pNhbEU3eKi7bX6kqp5G6sgiXYwEW3jjJRFmSym2F
+    corrections:
+      - "name: 'Azuredale Bay' does not exist in WoW Classic"
+      - "notable_fish: 'Azuregill Snapper' does not exist in WoW Classic"
+      - "notable_fish: 'Spotted Sunfish' is found in Redridge Mountains, not Azshara"
+      - "notable_fish: 'Glassfin Minnow' is a Wrath of the Lich King item, not present in WoW Classic"
+      - 'pvp_risk: Azshara is a contested zone with significant PvP risk, not zero'
+
+  - name: "Winterspring - Mazthoril"
+    faction_safety: "Extremely safe"
+    pvp_risk: "Low PvP risk"
+    notable_fish:
+      - "Firefin Snapper"
+      - "Blacktip Shark"
+    access_notes: "Described as the north corner."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpmlTGkpF3uE2XMYmsfCAxv4T3ae9C3EgNjIIlJGoPkK_i_vhRq_4LcEYoICiGJrvx3mVNRblAVf7wTz-XcZH0EpJ2iKVtzEz8UBSvgGIJlafGQUw9yD8iXeYmCmuWLA==
+    corrections:
+      - 'name: Mazthoril is a cave/sub-zone, not a standalone zone'
+      - "faction_safety: Should be 'Dangerous' or 'Hostile' (it is an elite dragon cave)"
+      - "pvp_risk: Should be 'High' (it is a contested zone/cave)"
+      - 'notable_fish: Mazthoril is an inland cave and has no notable fish'
+      - 'access_notes: Mazthoril is located in the central part of Winterspring, not the north corner'
+
+  - name: "Feralas - Feathermoon Stronghold"
+    faction_safety: "100% secure"
+    pvp_risk: "Zero threat"
+    notable_fish:
+      - "Largemouth Bass"
+      - "Oily Blackmouth"
+      - "Redgill"
+    access_notes: "Alliance territory."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGckk8V5lctdYB_-rdPvMHCSYVcbpKf1wU8t7iUE3tUX1G3KBApi1n5IpeMg3mUAivE3kpCMO-1Tjbov53o4HkFUEDfGlDRs9b12ASV2i_M1Z_TFeAn5JCDG0ZzODgkETGDKZaklaC98UwE5Q==
+    corrections:
+      - "faction_safety: should be 'Contested territory', not '100% secure'"
+      - "pvp_risk: should be 'High on PvP realms; potential for flagging on PvE realms', not 'Zero threat'"
+      - "notable_fish: fishing in the coastal waters of Feathermoon Stronghold is often unproductive or yields different results than inland Feralas waters; the list provided is not specific to the stronghold's immediate vicinity"
+
+  - name: "Dustwallow Marsh - Theramore Isle"
+    faction_safety: "Alliance-controlled area"
+    pvp_risk: "Contested"
+    notable_fish:
+      - "Misty Fin Snapper"
+      - "Firecracker Salmon"
+      - "Rockfin Grouper"
+    access_notes: "Heavily Alliance-controlled at Theramore Isle."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2wm0h-l8uuL-wiUbybLnY0aV5pB7Ta0hpxThwqvnFVRAtz6i0MvdIAJthcLpw4gnR6akMTMKRE6OcFMJ64SelR1D3wAstEgPvMVFPZFwrT3kZkHWHPUxCDRsR39ESXoCPGZpz
+    corrections:
+      - 'faction_safety: Dustwallow Marsh is a Contested zone, though Theramore Isle is an Alliance-controlled sanctuary/hub.'
+      - 'notable_fish: Firecracker Salmon and Rockfin Grouper are not present in WoW Classic; they were added in Wrath of the Lich King.'
+
+  - name: "The Hinterlands - Beastsfall River"
+    faction_safety: "Low foot traffic"
+    pvp_risk: "Moderate PvP risk"
+    notable_fish:
+      - "Bright Baubles"
+      - "Zesty Clam Meat"
+    access_notes: "North of the river, tucked away from main travel paths."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyvcEED6yvAnn-IrPoowsweFqVC-mME232Iiy45lLiWUU31J2Q7qHXyzpAbhNmfrCCT6IDWbBHNrmpvmjsaCvvJwBwKkN5AoH5XS7rwO-TxiThJJVB
+    corrections:
+      - "name: 'Beastsfall River' does not exist in WoW Classic."
+      - "notable_fish: 'Bright Baubles' is a fishing lure, not a fish."
+      - "notable_fish: 'Zesty Clam Meat' is a cooking ingredient, not a fish."
+
+  - name: "Ungoro Crater"
+    faction_safety: "Not recommended"
+    pvp_risk: "Not specified"
+    access_notes: "Listed as a zone to avoid due to limited fish variety and remote travel."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: should be 'Un'Goro Crater', not 'Ungoro Crater'"
+      - "faction_safety: should be 'Contested Territory', not 'Not recommended'"
+      - "pvp_risk: should be 'High' (as it is a Contested Territory), not 'Not specified'"
+      - 'access_notes: should be updated to reflect that it is a popular, high-level questing and farming zone, not a zone to avoid'
+
+  - name: "Swamp of Sorrows"
+    faction_safety: "Not recommended"
+    pvp_risk: "Not specified"
+    access_notes: "Listed as a zone to avoid due to saturated market and low-value fish."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyd0zY0LYCc_veEiPN76uHt56B4pMUpvuiJzcnQ_dm5XtvcZusAMYVjGsqQnkwbvfL2ySA593HB0PTt26HobuzTqyTAUKmbbTAboZGqc-Xk6wZ1nAqRaxDgunpFBeQprFJCgkx_16flhua3JDL7FCGQA==
+    corrections:
+      - "faction_safety: should be 'Contested', not 'Not recommended'"
+      - "pvp_risk: should be 'Contested' (or 'High' on PvP servers), not 'Not specified'"
+      - 'access_notes: should be removed or corrected to reflect that it is a standard leveling zone (level 35-45) with specific herbalism resources'
+
+  - name: "Hinterlands"
+    faction_safety: "Alliance-side beaches per guide"
+    pvp_risk: "low"
+    notable_fish:
+      - "Raw Sunscale Salmon"
+      - "Raw Mightfish"
+    notable_spots:
+      - "Eastern coast"
+      - "Small bay directly east of Aerie Peak's flightpath"
+      - "Overlook Cliffs"
+    access_notes: "The guide says to sneak down through the cliffs to the safe area."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3_iXkO6grXzK7lWnaNI_vRscbvqaPmTqPoXk3MrPoM1UjlENhn3aJzBSuD_5oECxoSd7ZPmEd8ExeqfNz7NvZbA5PtkYpIg2QZC7E8ZbAfET6LZT-PC_Dh_772V3fAWL3Kw==
+    corrections:
+      - 'faction_safety: The Hinterlands is a contested zone, not Alliance-safe.'
+      - 'pvp_risk: PvP risk is high (standard for contested zones), not low.'
+      - "access_notes: Access is standard via flight paths or travel from Arathi Highlands; there is no specific 'safe area' requiring a cliff-sneak."
+
+  - name: "Ironforge"
+    faction_safety: "Capital city"
+    pvp_risk: "None"
+    notable_fish:
+      - "Raw Brilliant Smallfish"
+      - "Raw Longjaw Mud Snapper"
+    notable_spots:
+      - "The Great Forge Moat"
+      - "Mystic Ward Pond"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "notable_fish: Ironforge does not have these as notable fish; it is primarily known for the rare 'Old Ironjaw' and standard city-level fish."
+      - "notable_spots: 'The Great Forge Moat' and 'Mystic Ward Pond' are not recognized fishing spots; the primary fishing location in Ironforge is the Forlorn Cavern."
+
+  - name: "Stormwind Canal"
+    faction_safety: "Alliance-safe"
+    pvp_risk: "very low"
+    notable_fish:
+      - "Sagefish"
+    access_notes: "Described as Alliance HQ with very little danger."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERH7GNeB_BzfTNMXUeG73HUtrptsy46owKJx28yZMEe2Lw3dqTaNmiRlTsKtZHDm-rfN_GANb_Blgnr_bfM5tnLY-vblblQplydrLeG_XTmQTADhRcXRy_GFVXpo0qQveqRUWSuQAle44urbxOTA==
+    corrections:
+      - "name: 'Stormwind Canal' is a district/landmark within Stormwind City, not a separate zone."
+      - 'notable_fish: Sagefish are not found in the Stormwind Canals; they are found in zones like Ashenvale, Hillsbrad Foothills, etc.'
+
+  - name: "Stormwind Docks"
+    faction_safety: "Alliance-safe"
+    pvp_risk: "very low"
+    notable_fish:
+      - "Sagefish"
+    access_notes: "Included with the Stormwind Canal / Docks area."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'name: Stormwind Docks did not exist in WoW Classic (1.12).'
+      - 'faction_safety: N/A (location did not exist).'
+      - 'pvp_risk: N/A (location did not exist).'
+      - 'notable_fish: N/A (location did not exist).'
+      - 'access_notes: The area was not accessible in WoW Classic.'
+
+  - name: "Desolace"
+    faction_safety: "contested"
+    pvp_risk: "medium"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Firefin Snapper"
+      - "Oily Blackmouth"
+    access_notes: "Shadowprey-adjacent waters are described as often quiet with long shoreline stretches."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGAUxeZWBYZUpkPFU1ZOUcx0nwwciGygFWxn-dvcRfVCCijR0fBdxW35a-S1w_ZwQ7Wn1Nrc17R4mKK7EGU3CQ7wjVOHwbfu_n7TY-diT9zjso3iCIEDHe
+    corrections:
+      - 'notable_fish: Stonescale Eel should not be listed as a notable fish for Desolace; it is not found there.'
+
+  - name: "Menethil Harbor Docks"
+    faction_safety: "Alliance-controlled"
+    pvp_risk: "near-zero"
+    notable_fish:
+      - "Firefin Snapper"
+      - "Oily Blackmouth"
+      - "Raw Rockscale Cod"
+    notable_spots:
+      - "southern dock"
+    access_notes: "Patrolled by guards."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'name: Menethil Harbor Docks is a sub-area, not a zone; the zone is Wetlands'
+      - 'faction_safety: Wetlands is a contested zone, not Alliance-controlled'
+      - 'pvp_risk: pvp_risk is high, not near-zero, due to its status as a contested hub'
+
+  - name: "Southshore Lake"
+    faction_safety: "Alliance-controlled"
+    pvp_risk: "very low"
+    notable_fish:
+      - "Nightfin Snapper"
+      - "Raw Bristle Whisker Catfish"
+    notable_spots:
+      - "eastern shore just south of the inn"
+    access_notes: "Guide says to fish only at night and stay within 30 yd of town guards."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8BdbypW2BnjChOIyj3MyoPaq_xdj0X80kMSIgdvFk8M44qlP_byfHst_kqSVaMal4uHOxWVeY1aAjpr125cqGZ9sq9FmxdjBWvmrG-A4tVHvqbGA1GxTz_PeXc9n_cEuj8tmJKjS6vv9ox1cw3KNmKi94fUzYrSmYpps8Cg==
+    corrections:
+      - "name: 'Southshore Lake' does not exist in WoW Classic; the area is simply 'Southshore' (a coastal town)."
+      - "notable_fish: 'Nightfin Snapper' are not found in Southshore waters."
+      - "pvp_risk: Hillsbrad Foothills is a contested zone with high PvP activity, not 'very low'."
+
+  - name: "Feathermoon Stronghold Pier"
+    faction_safety: "Alliance-controlled"
+    pvp_risk: "very low"
+    notable_fish:
+      - "Raw Redgill"
+      - "Large Raw Mightfish"
+    notable_spots:
+      - "north side pier"
+      - "exact rock at 30.8, 43.5"
+    access_notes: "Guide says sentries will aggro hostile players; daytime fishing only."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested Territory' (Alliance-controlled town), not 'Alliance-controlled'"
+      - "pvp_risk: should be 'high' or 'moderate' (Contested Territory), not 'very low'"
+      - "notable_fish: 'Large Raw Mightfish' is not a standard notable catch for this specific location in Classic"
+      - 'access_notes: guards/sentries are active at all times, not just daytime'
+
+  - name: "Auberdine Harbor"
+    faction_safety: "Alliance-controlled"
+    pvp_risk: "contested but practically safe"
+    notable_fish:
+      - "Deviate Fish"
+      - "Raw Rainbow Fin Albacore"
+    notable_spots:
+      - "northern dock"
+    access_notes: "Guide says to fish at night."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: should be 'Auberdine' (the zone is 'Darkshore'), not 'Auberdine Harbor'"
+      - "notable_fish: 'Deviate Fish' should be removed; they are only found in The Barrens"
+      - "pvp_risk: should be 'Contested' (on PvP servers, players are flagged for combat)"
+      - "access_notes: 'Guide says to fish at night' is not a standard or factual mechanic for this location"
+
+  - name: "Feathermoon Stronghold Dock"
+    faction_safety: "Alliance-safe"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Raw Spotted Yellowtail"
+      - "Stonescale Eel"
+      - "Raw Rockscale Cod"
+      - "Darkclaw Lobster"
+      - "Large Mightfish"
+    notable_spots:
+      - "Very end of the Feathermoon dock, facing slightly southwest into the Veiled Sea"
+    access_notes: "Alliance guards are described as being 50 yards away."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'faction_safety: Feathermoon Stronghold is in a contested zone (Feralas), not an Alliance-safe zone.'
+      - 'access_notes: Alliance guards are present at the stronghold and dock, not 50 yards away.'
+      - 'notable_fish: The list is generic for Feralas coastal waters and not specific to the dock.'
+
+  - name: "Phantom Cove"
+    faction_safety: "Contested"
+    pvp_risk: "Moderate"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Firefin Snapper"
+      - "Oily Blackmouth"
+      - "Mithril Head Trout"
+    notable_spots:
+      - "Southwest coast of Azshara"
+      - "Tiny hidden beach inlet with a single tree"
+      - "Stand in the water against the cliff wall"
+    access_notes: "Described as a hidden cove in Azshara; access route is via Talrendis Point and the south beach."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqh0Op80-sPOHpYfxQI6iA49Z59WxrnwAtiCAnUWp46fjlUxI1TRasssTJziEEEf9T9Yj08A5ROaP4zxn21OcSam5TUbeUxLCrNL0AeCPC5JBg_M_B-vroeu0-Fbv_yqMZ
+    corrections:
+      - "name: 'Phantom Cove' does not exist in WoW Classic; likely a confusion with 'Faldir's Cove' in Arathi Highlands."
+      - 'faction_safety: N/A (location does not exist).'
+      - 'pvp_risk: N/A (location does not exist).'
+      - 'notable_fish: N/A (location does not exist).'
+      - 'notable_spots: N/A (location does not exist).'
+      - 'access_notes: N/A (location does not exist).'
+
+  - name: "Lordamere Lake Island"
+    faction_safety: "Neutral"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Stonescale Eel"
+    notable_spots:
+      - "Small island in the middle of Lordamere Lake"
+    access_notes: "Located in Alterac Mountains; accessible by swimming or boat from the Alliance side."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEijh3x-DMLDuoo3zmxwSG4ONmrQFIL3kv2Bidsk9HaHTUi_OSW0e_uzDl4NE9OU001nS7RPf_Vi39ILuJ5M7F27t4Mqgi_u12eVF8iOr7sWFmPXRHZ_ubG3CJiuUTvl6NO-ehd-yQWjSThhA==
+    corrections:
+      - "name: should be 'Fenris Isle' (the primary island in Lordamere Lake), not 'Lordamere Lake Island'"
+      - "faction_safety: should be 'Horde/Contested' depending on the specific shore, not 'Neutral'"
+      - "pvp_risk: should be 'High' for Alliance players, not 'Low'"
+      - 'access_notes: should not mention a boat; the island is accessed by swimming'
+
+  - name: "Aerie Peak"
+    faction_safety: "Dwarf outpost"
+    pvp_risk: "low"
+    notable_fish:
+      - "Raw Sunscale Salmon"
+    notable_spots:
+      - "small pond just east of the flight master"
+    access_notes: "very quiet"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'name: Aerie Peak is a town/outpost, not a zone'
+      - "faction_safety: should be 'Alliance' (it is an Alliance town)"
+      - 'notable_fish: not a standard or verifiable database field for this location'
+      - 'notable_spots: not a standard or verifiable database field for this location'
+      - 'access_notes: not a standard or verifiable database field for this location'
+
+  - name: "Lakeshire"
+    faction_safety: "Low-level Alliance"
+    pvp_risk: "low"
+    notable_fish:
+      - "Deviate Fish"
+      - "Sagefish"
+    notable_spots:
+      - "dock behind the inn"
+    access_notes: "almost zero max-level traffic"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLUM5r8WxI794Mhjqb-JbDd7mrVv22wr_ZMiMKh0EVVU60hUKcUftc_-ewtkR9cNrCGIJAZGLvEUPVDLLkxY1f96YroSVt3hN5WlG2-6EINhfWDKhWVR5vzENQgO9VrRYPnhrQmtGr34YB
+    corrections:
+      - 'name: Lakeshire is a town, not a zone (the zone is Redridge Mountains)'
+      - "pvp_risk: should be 'medium' or 'high' (Redridge Mountains is a contested zone)"
+      - "notable_fish: should be 'Spotted Sunfish', not 'Deviate Fish' or 'Sagefish'"
+      - 'access_notes: inaccurate; Redridge Mountains is a popular leveling zone with significant player traffic'
+
+  - name: "Refuge Pointe"
+    faction_safety: "Alliance"
+    pvp_risk: "low"
+    notable_spots:
+      - "tiny pond behind the flight master"
+    access_notes: "almost zero traffic"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEROYCl9Js14DMPx2wRk0eQz2A9S6ibiTmM9F-QBaqCSjf08QSFEkAPmdBwal2wq2RBcAob-H3hjDh-1sZhBOJJJoKd-yIDS_iyjoawZr_Gv4BdQfzJppkH21K3N-qEKW2u
+    corrections:
+      - 'continent: should be Eastern Kingdoms, not Kalimdor'
+      - 'pvp_risk: should be high/contested, not low'
+      - 'access_notes: inaccurate; it is a primary questing hub with moderate to high traffic'
+
+  - name: "Southshore"
+    faction_safety: "Alliance"
+    pvp_risk: "low"
+    notable_spots:
+      - "southernmost dock"
+    access_notes: "before it was destroyed; extremely quiet at night"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtMBLe7wG4yjPAWTpO58AyoMZNVOvZo_f-_bCxRqGQiI-rOEz_5PYL-PsqUDyp_GA_y-T5tcGszc_4D_vo4cwHKq5pn1dDkdMglzpDvEyDI-wDp-Vm9fRC9wWno-Nq
+    corrections:
+      - 'name: Southshore is a town, not a zone (the zone is Hillsbrad Foothills)'
+      - 'pvp_risk: should be high, not low (Hillsbrad Foothills is a contested zone famous for world PvP)'
+      - 'access_notes: the claim about it being destroyed is incorrect for WoW Classic (1.12); it is an active Alliance town'
+
+  - name: "Darkshore"
+    faction_safety: "Alliance"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Nightfin Snapper"
+    notable_spots:
+      - "Coastline north of Auberdine near Bashal'Aran"
+    access_notes:
+      - "The guide says this is only fishable during the in-game night cycle, roughly 9 PM to 6 AM server time."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested', not 'Alliance'"
+      - "pvp_risk: should be 'Moderate' or 'Contested', not 'Low'"
+      - 'notable_fish: Nightfin Snapper is not unique to or particularly notable for Darkshore compared to other zones'
+
+  - name: "Camp Feathermoon"
+    faction_safety: "Alliance stronghold"
+    pvp_risk: "low"
+    notable_fish:
+      - "Nightfin Snapper"
+      - "Winter Squid"
+    notable_spots:
+      - "The docks"
+      - "Behind a thick tree near the coast"
+    access_notes: "The guide says to fly to Feathermoon and fish at the docks or on the mainland side of the channel."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested Territory', not 'Alliance stronghold'"
+      - "pvp_risk: should be 'high', not 'low'"
+      - 'notable_fish: these are general coastal catches for Feralas, not specific to the camp'
+      - 'notable_spots: these are not recognized or mechanically significant fishing spots'
+      - 'access_notes: Feralas is a contested zone and not inherently safe for Alliance players'
+
+  - name: "Steamwheedle Port"
+    faction_safety: "Neutral"
+    pvp_risk: "contested"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Winter Squid"
+      - "Summer Bass"
+      - "Oily Blackmouth"
+    notable_spots:
+      - "Steamwheedle Port Docks"
+    fishing_skill_effective: 350
+    access_notes: "Protected by neutral goblin Bruisers."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'name: Steamwheedle Port is a subzone of Tanaris, not a standalone zone'
+      - 'notable_fish: The list provided is inaccurate; the Tanaris coast is primarily known for Raw Spotted Yellowtail, Firefin Snapper, and Raw Glossy Mightfish'
+      - 'fishing_skill_effective: 350 is incorrect; the skill requirement for Tanaris is lower (225-300)'
+
+  - name: "Booty Bay"
+    faction_safety: "High"
+    pvp_risk: "Low"
+    notable_spots:
+      - "docks"
+    access_notes: "Described as a neutral town waterfront with very high safety and nearby guards."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLSvoDgdAySsy_VZbWccLpkG5vsaI5PQpaEJZdPs_PKFLkCP8nB3hs-WCeoCghXyXZUIJcQ0c-AJMBxXvZohJFnSDbXmR13z32lecJcYa6z4WDGdYJ84mOTsoixd8gN8BN
+    corrections:
+      - "faction_safety: should be 'Moderate' or 'Low' (not 'High'), as it is a common location for world PvP and ganking despite the presence of guards"
+      - "pvp_risk: should be 'High' (not 'Low'), as it is a frequent site for player-versus-player combat on PvP realms"
+
+  - name: "Ratchet"
+    faction_safety: "High"
+    pvp_risk: "Low"
+    notable_spots:
+      - "docks"
+    access_notes: "Listed as one of the best low-risk, stationary, long-session fishing spots."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5zZ9sCnmF3CtVS_54gqSKt3QIH5O8ylH6ypVhSSflxNsz565pQMYRG8JWuetrHz8774N2PpelHA1KrkDJDmD6r3fFAW6JAsdLjOX4TPo_cFT7FwPGiIYrtZ2v2Th3
+    corrections:
+      - 'name: Ratchet is a town/settlement, not a zone.'
+      - "pvp_risk: Should be 'High' or 'Moderate' (it is a notorious hotspot for world PvP/ganking on PvP realms)."
+      - "access_notes: Ratchet is not considered a premier or notable 'best' fishing spot in WoW Classic."
+
+  - name: "Gadgetzan"
+    faction_safety: "High"
+    pvp_risk: "Low"
+    notable_spots:
+      - "docks"
+    access_notes: "Listed as one of the best low-risk, stationary, long-session fishing spots."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEjc8K5MOE2eRpusu54p8NkbkXqYU36Y7u9cCEiy47WwpiOzubnHp6LK1dDRiq6kzXPRQaznx11N8geKVzQ_7N4gM9nuMPClBjtFc5m7nyeSN9E5LYFHS3AKfI8YwBP9pr4cXh8oTOV_lQS
+    corrections:
+      - 'name: Gadgetzan is a town, not a zone (it is located in the Tanaris zone)'
+      - 'notable_spots: Gadgetzan does not have docks in WoW Classic; it is an inland desert town'
+      - "pvp_risk: Should be 'High' or 'Variable' (it is a notorious world PvP hotspot on PvP servers)"
+      - 'access_notes: Gadgetzan is not a fishing spot; the Tanaris coastline is, but the town itself is inland'
+
+  - name: "Auberdine"
+    faction_safety: "Alliance town"
+    notable_fish:
+      - "Darkshore Grouper"
+      - "Large Raw Mightfish"
+    notable_spots:
+      - "hidden cove 30 yards south of the dock (coords 37,43 Darkshore)"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvY3cvO-Ak2wfZQnIqvOQq_G_4eSX9Q7gstGLlyA4Wzf-FVtusMV6hYXNU0F5QQffQHaW04pOd96n-B5enqofk4-fdEUoOHmoYupmXfadW5KWRxta8DDidft7L-Iqos1I=
+    corrections:
+      - 'notable_fish: Large Raw Mightfish should be removed; it is not found in Darkshore.'
+      - "notable_spots: 'hidden cove 30 yards south of the dock (coords 37,43 Darkshore)' is not a verified or standard landmark in WoW Classic."
+
+  - name: "Redridge Lake"
+    faction_safety: "Not stated"
+    notable_fish:
+      - "Large Mightfish"
+      - "Deviate Fish"
+    notable_spots:
+      - "north-west corner behind the mountain ridge"
+    notes: "Described as completely empty."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_yxKgvMm7EEOgUrm7guDnBTvwRg0pGvVXmLZWwPFdfa-XUbpA3_Runr10GPRsSqK8DM8KS91dMaGdHM-Avbv6i_YVMVu-Jv9jVwM2ZuNaaVqySSfmQNP1lMvCy3iQ3sYiddTWkoY4jHwV7saDaCGAsrU3TuciidRo6DySmbmIORDUUfz4ydU=
+    corrections:
+      - "name: should be 'Lake Everstill', not 'Redridge Lake'"
+      - "faction_safety: should be 'Contested Territory', not 'Not stated'"
+      - "notable_fish: 'Deviate Fish' are not found here; they are exclusive to the Wailing Caverns"
+      - 'notes: the area is not empty; it contains murloc camps and underwater footlockers for lockpicking'
+
+  - name: "Barrens"
+    faction_safety: "contested"
+    pvp_risk: "medium"
+    notable_fish:
+      - "Deviate Fish"
+    access_notes:
+      - "Used in the Deviate Fish farming route around the Wailing Caverns region."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpcHam78BDRvDgG8OIi4JbePMZAlZWxb0VpOU7CY-ICT3xmDGVmophesDHnMZjHPeXnmnMUXQ3go-I0H78KphSmz-vlgCjrtwaHy4b5pDFLqSZX_35q0moCJO7nsDlS4ffo1YVBz8x
+    corrections:
+      - "faction_safety: should be 'Horde', not 'contested'"
+      - "pvp_risk: should be 'low' (or 'none' for PvE servers), as it is a faction-controlled zone"
+
+  - name: "Wailing Caverns area"
+    faction_safety: "contested"
+    pvp_risk: "medium"
+    notable_fish:
+      - "Deviate Fish"
+    access_notes:
+      - "The guide refers to pools and Barrens waters around the dungeon area rather than fishing inside the dungeon itself."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHURFDpHDN4wjKARrXex2oj65jJ3LFIDkdBMlUOT_YPb67kEobinQiVXaAhXu4HiJYNp8ypwTAtQhXdGNnN6wGV-yawlGuabz4y8ZY1gG7iQNm90OkQzlrP7uGZsnqoJ5rJ4HJV-yM=
+    corrections:
+      - 'access_notes: Deviate Fish can be caught both in the waters outside the dungeon and inside the Wailing Caverns instance itself, not just outside.'
+      - "pvp_risk: 'medium' is subjective; in WoW Classic, PvP risk is determined by server type and zone status (Contested)."
+
+  - name: "Moonglade, Lake Elune'ara"
+    faction_safety: "Extremely safe"
+    pvp_risk: "Very low"
+    notable_fish:
+      - "Raw Nightfin Snapper"
+      - "Raw Sunscale Salmon"
+    notable_spots:
+      - "Shore near Nighthaven"
+      - "Docks/settlement shoreline"
+    access_notes: "Fish from the shore of Lake Elune'ara near Nighthaven."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcsMfvU2Slo8sXqpUa5Y6DhFk-dv_fyJBLNalBO_PQ-2gJh1Cs1IYXPQR619gV_N1C5oUIg7FCKn2RtxCQ2OqxTSs5OaEGV9EoEnch069mC3dKM_TSarYv-N9KPYwd6Z0=
+    corrections:
+      - 'faction_safety: Moonglade is Contested Territory, not a safe zone.'
+      - "pvp_risk: PvP risk is standard for Contested Territory; it is not 'Very low' on PvP servers."
+      - 'notable_fish: These fish are found in many inland zones, not just Moonglade, and their availability is strictly time-dependent.'
+
+  - name: "Feathermoon Stronghold, Feralas"
+    faction_safety: "Very safe for Alliance, guarded"
+    pvp_risk: "Low to moderate"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Raw Winter Squid"
+      - "Raw Summer Bass"
+      - "Raw Glossy Mightfish"
+      - "Raw Spotted Yellowtail"
+    notable_spots:
+      - "The docks"
+      - "The edge of the island settlement"
+    access_notes: "Fish into ocean water while staying close to guards."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'notable_fish: Raw Winter Squid and Raw Summer Bass are seasonal; Stonescale Eel is primarily found in pools along the coast, not as a standard catch.'
+      - 'access_notes: Coastal waters around Feathermoon Stronghold do not yield fish in WoW Classic; fishing must be done in inland waters like the Verdantis River or Wildwind Lake.'
+
+  - name: "Steamwheedle Port, Tanaris"
+    faction_safety: "Guarded by neutral goblins"
+    pvp_risk: "Moderate"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Raw Winter Squid"
+      - "Raw Spotted Yellowtail"
+      - "Raw Glossy Mightfish"
+    notable_spots:
+      - "The pier"
+      - "Near the neutral guards"
+    access_notes: "More exposed than Feathermoon on a PvP server, but has the recipe vendor Gikkix."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrPDi2cQskLozXkdPkjT9piIK59ZQeraliNp2Luf4wnikErRuA09S-NzdSdv-wDI9zgL8AqK09Zy8bDKYynNiWItDP8kttPerHiB9ErJyf0nUMccfmhUnijHdXEp8QSSdeRvlZF2x4tg==
+    corrections:
+      - 'name: Steamwheedle Port is a sub-zone/point of interest, not a standalone zone'
+      - 'pvp_risk: PvP risk is determined by the zone (Tanaris is Contested), not the specific sub-zone'
+      - 'notable_fish: List is incomplete and lacks seasonal context (e.g., Winter Squid is seasonal)'
+
+  - name: "Theramore Isle, Dustwallow Marsh"
+    faction_safety: "Alliance-guarded"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Spotted Yellowtail"
+      - "Rockscale Cod"
+    notable_spots:
+      - "The docks"
+      - "Near guards"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "pvp_risk: should be 'High' (as it is a contested zone) or 'Contested', not 'Low'"
+
+  - name: "Menethil Harbor, Wetlands"
+    faction_safety: "Very safe Alliance docks"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Oily Blackmouth"
+      - "Firefin Snapper"
+    notable_spots:
+      - "The docks near guards"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "faction_safety: should be 'Contested territory', not 'Very safe Alliance docks'"
+      - "pvp_risk: should be 'High', not 'Low'"
+
+  - name: "Auberdine, Darkshore"
+    faction_safety: "Very safe Alliance docks"
+    pvp_risk: "Low"
+    notable_fish:
+      - "Oily Blackmouth"
+      - "Firefin Snapper"
+    notable_spots:
+      - "The docks"
+      - "The shore"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe3Nkh7yY2VdFpBrugfKFAUE1fZPF3yJNXbGM9XZ4-_84tfdbky4TzOEA2ZPRVW3azapZuUJU-7Anxmo_2hopVWZu2W0Rr5IeODCtquv_8VX_WLIBk3ldWUF6FovVw2g8gy7nLygH4FjmoZQC5NW7qLW8uyLY3mnBDuvcwENc=
+    corrections:
+      - "pvp_risk: should be 'None' (Alliance territory), not 'Low' (contested)"
+      - "notable_fish: should include 'Darkshore Grouper' as it is the zone-specific quest fish"
+
+  - name: "Hidden Azshara coast/Bay of Storms"
+    faction_safety: "Good if hidden, risky travel"
+    pvp_risk: "Moderate to high"
+    notable_fish:
+      - "Stonescale Eel"
+      - "Raw Winter Squid"
+    access_notes: "The guide recommends finding a quiet rock or island with no nearby mob patrols."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFbtgsUG4PIu0lPtZ378kVwWTsj1c773vRV5B1I6d2emT1kdevKuUbZSvURgy0A9xPfSqcJCy-D7LGiKfHrggvIocBCsbHynZrualFrm-sZ5tw5RImkmk1JcFvWp6mVXWpv9zOFAM5_SrU
+    corrections:
+      - "name: should be 'Azshara (Bay of Storms)', as 'Hidden Azshara coast' is not an official zone name."
+      - "faction_safety: should be 'Contested territory', as it is a high-level zone open to PvP, not inherently safe for either faction."
+
+  - name: "Southshore River"
+    faction_safety: "Alliance guard patrol range"
+    pvp_risk: "low"
+    notable_fish:
+      - "Raw Nightfin Snapper"
+      - "Raw Sunscale Salmon"
+      - "Raw Greater Sagefish"
+    notable_spots:
+      - "Just south of Southshore on the eastern bank of the river"
+    access_notes: "Coords given in the guide are approximately 58, 70."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6cfFtECQJUaoM9N8VbLalHrV19Vh1RLvpKMcn5DyZfUKxjgq4u_rPf5lrI35L3eqkRbfeykIlRG_Ql0HAp4alXeiF-_tNAVJeyOoLLVKZsu9mr4i0PJ0qNVVGVOCuWhFgu5yrldnrM5fH6bVs7qHke_SdAw==
+    corrections:
+      - "name: 'Southshore River' is not an official in-game name; it is a river in Hillsbrad Foothills."
+      - 'faction_safety: Hillsbrad Foothills is a contested zone; the river is not under Alliance guard protection.'
+      - "pvp_risk: should be 'high', not 'low', due to the zone's status as a major World PvP hotspot."
+      - 'notable_fish: Nightfin Snapper and Sunscale Salmon are not the primary fish associated with this river; Bristle Whisker Catfish is the standard catch.'
+
+  - name: "Menethil Harbor Hidden Jetty"
+    faction_safety: "Alliance guards nearby"
+    pvp_risk: "low"
+    notable_fish:
+      - "Oily Blackmouth"
+      - "Firefin Snapper"
+      - "Stonescale Eel"
+    notable_spots:
+      - "The small wooden dock directly west of the inn, tucked against the mountain"
+    access_notes: "Coords given in the guide are approximately 10, 57."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENHAtbDz-0bOZXvRx-MV9OIoFCR04nTFQL6sn557BtXA0XbPV7tBPxqey4A8FCmIx6O0z1OV7luK7z49_VXov0163m5r8UvvwSdZIRbVtqt80VDP9X6iKvLILW65lol3QrhbGeFak=
+    corrections:
+      - "name: 'Menethil Harbor Hidden Jetty' does not exist in WoW Classic."
+      - "notable_spots: The described 'hidden jetty' is not a recognized location in the game."
+      - 'access_notes: The coordinates 10, 57 do not lead to a hidden jetty.'
+
+  - name: "The Loch"
+    faction_safety: "inside a major Alliance town"
+    pvp_risk: "very low"
+    notable_fish:
+      - "Raw Bristle Whisker Catfish"
+      - "Raw Mithril Head Trout"
+    notable_spots:
+      - "Northwest shore near Thelsamar"
+    access_notes: "Coords given in the guide are approximately 48, 18."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpv9HiG1lhFPm4XVMn5_JpzFdnxNoP6S4dnsayxzdhbUVoEwWtuYpYLwMYROO0T5tWYqo9DxrjAtXDfVuZkaEFnWZ1PVgmbA1JdVJ9ZvlALqKYaaOKZDGHMsIIYpbnQH3IBahnd_K_dQ7nbQ==
+    corrections:
+      - "name: should be 'Loch Modan', not 'The Loch'"
+      - "faction_safety: should be 'Alliance-controlled zone', not 'inside a major Alliance town'"
+      - "notable_fish: 'Raw Mithril Head Trout' cannot be caught in Loch Modan"
+
+  - name: "Darkshire Duskwood River"
+    faction_safety: "town guards have line of sight"
+    pvp_risk: "low"
+    notable_fish:
+      - "Raw Nightfin Snapper"
+      - "Deviate Fish"
+    notable_spots:
+      - "The river bend directly east of Darkshire, behind the tree line"
+    access_notes: "Coords given in the guide are approximately 75, 47."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzziAliYvYpCg3P8ZcqV-Jg8jDdkmUCJsv7ZcDorFxwiR7f4tDlqxBAYlsboxORXgoiWC1dO461GHnfq1S6PplKZ0IA9u0G4QXXUwxO6NMKvexPZehF-5ON5ANcCL9luyU
+    corrections:
+      - "name: 'Darkshire Duskwood River' is not a valid zone or sub-zone name; it is a town in the Duskwood zone."
+      - "notable_fish: 'Deviate Fish' are only found in the Northern Barrens, not Duskwood."
+      - 'faction_safety: The river is not a town area and does not have town guards.'
+      - 'pvp_risk: Duskwood is a contested zone, so PvP risk is high, not low.'
 known_fake_locations:
   - "Lake Shire (Ashenvale) — does not exist"
   - "Blackwood Lake (Ashenvale) — does not exist as a named fishable location"
@@ -256,6 +2593,11 @@ vendors:
       - "Recipe: Grilled Squid (skill 240)"
       - "Recipe: Hot Smoked Bass"
     notes: "Goblin vendor, friendly to both factions."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'location: should be Steamwheedle Port, Tanaris (66, 22 approx), not (39, 27)'
+      - 'sells: Recipe: Hot Smoked Bass is sold by Kelsey Yance, not Gikkix'
 
   - name: "Kelsey Yance"
     location: "Booty Bay, Stranglethorn Vale (inside the inn area)"
@@ -267,7 +2609,176 @@ vendors:
 
   # --- FYLL INN FLERE HER ---
 
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "sells: should not include 'Recipe: Mightfish Steak', 'Recipe: Baked Salmon', or 'Recipe: Undermine Clam Chowder'"
+      - "sells: should include recipes he actually sells in WoW Classic, such as 'Recipe: Mithril Head Trout', 'Recipe: Rockscale Cod', 'Recipe: Hot Smoked Bass', 'Recipe: Cooked Glossy Mightfish', 'Recipe: Giant Clam Scorcho', 'Recipe: Sagefish Delight', and 'Recipe: Smoked Sagefish'"
 
+  - name: Innkeeper
+    location: Ironforge
+    sells:
+      - Simple Flour
+    notes: Guide says this vendor sells Simple Flour in bulk.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5domlQhQ2oQqCfEjqIv3o3on6zB65Tp2IlL57vzsjmOB5e7z2Db8paLlqZLdcx6ioqXm_9uZnFzt24qgGjrCf4MUVbna-W-C29oEMQvMecnYpnbqztvNFszX0306oJ14kaotXLHlLgFU=
+    corrections:
+      - 'sells: Innkeeper Firebrew does not sell Simple Flour; it is sold by Cooking Suppliers like Emrul Riknussun.'
+      - 'notes: The claim that this specific vendor sells Simple Flour is incorrect.'
+
+  - name: Nat Pagle
+    location: Dustwallow
+    sells:
+      - Strong Trout Lure
+    notes: Also referenced as the quest source for Nat Pagle's Extreme Anglin' Boots.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLeXC87dFEWHnAM9p-DjaR-mUUrt9y2Vg2uG7UrYx3CmAPBQQediAuKbOPcjDjL7pvvw_ePY-RHqFIodVaZGCpuBslNu3VfKVSLKtVw67hVJdLsHiFmkyZY3V6OokoXLiC
+    corrections:
+      - 'sells: Nat Pagle is not a vendor and does not sell items.'
+      - "notes: Nat Pagle's Extreme Anglin' Boots are a reward from the Stranglethorn Fishing Extravaganza, not a quest from Nat Pagle."
+
+  - name: Vendor
+    location: Unspecified
+    sells:
+      - Bright Baubles
+      - Shiny Bauble
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErZ3fOntULd21RnaPGux7xVt63LTJoTwWsOrep4ZhcDk9cum_BluriBphS88KCFezU7cEfnn37d5kj7RJ7zkII6W_0jjYaPH9dI2Rhfc5eOlXMckx-2mFIJKNerNSZxCW1SUvg_ZMAzETmLb3Nix8=
+    corrections:
+      - "name: 'Vendor' is not a specific NPC; these items are sold by many different Fishing Supply and Trade Supply vendors."
+      - "location: 'Unspecified' is incorrect; these vendors are located in almost every major city and many quest hubs throughout Azeroth."
+
+  - name: 'Recipe: Mightfish Steak vendor'
+    location: Feathermoon Stronghold, Feralas
+    sells:
+      - 'Recipe: Mightfish Steak'
+      - 'Recipe: Nightfin Soup'
+      - 'Recipe: Baked Salmon'
+      - 'Recipe: Lobster Stew'
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnRAXlqJrslduRzaJTjvGE3UrCJwQwZ0hqA0ExgX69A55dWohacz1vJfigqh36BQzeeMgwBc_cROOnE_9ewTjuvdQrF2j56lKBx5s-pSoztNgrfeH8pq5F3UwkoEWBUsGYx_odnQXhd-xEjvHdgFn4C_zyJio=
+    corrections:
+      - 'sells: Recipe: Nightfin Soup is sold by Gikkix in Tanaris, not by the Feralas vendors.'
+
+  - name: 'Recipe: Grilled Squid vendor'
+    location: Shadowprey Village
+    sells:
+      - 'Recipe: Grilled Squid'
+    notes: Described as a neutral vendor.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFe1rN53-LUowv4jzGguKO4SYaCfjuA7xjjMk8xG9CDrhWcyZbMuv4aFSwA9l82-d06imLGMZtr-PMIWm-naGxQKjnvYBLpV5NmjbdpS-_skM-YwfvYktOobEWmh5o=
+    corrections:
+      - 'location: should be Steamwheedle Port, Tanaris, not Shadowprey Village'
+
+  - name: Recipe vendors
+    location: Feathermoon Stronghold, Feralas
+    sells:
+      - 'Recipe: Mightfish Steak'
+      - 'Recipe: Nightfin Soup'
+      - 'Recipe: Baked Salmon'
+      - 'Recipe: Lobster Stew'
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNkP2RH59o5YexC6OWTY_vtOoTHoU_tqS0rpN2uJRiGUmMcO3y-BFxzuYaGskwH4gyQAR6P_kWgr0RzvM6KlhRBN1jroUJJFFAtSEce2NqnowP9RbxkWTfNzr9W8nFa8Et6Ly78M0=
+    corrections:
+      - 'sells: Recipe: Nightfin Soup should be removed, as it is sold by Gikkix in Tanaris, not Vivianna in Feathermoon Stronghold'
+
+  - name: Recipe vendor
+    location: Shadowprey Village
+    sells:
+      - 'Recipe: Grilled Squid'
+    notes: Described as neutral.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'location: should be Steamwheedle Port, Tanaris, not Shadowprey Village'
+      - 'notes: Shadowprey Village is a Horde settlement, not neutral; the vendor Gikkix is neutral but located in Tanaris'
+
+  - name: "Feathermoon Stronghold vendor"
+    location: "Feathermoon Stronghold, Feralas"
+    sells:
+      - "Recipe: Mightfish Steak"
+      - "Recipe: Nightfin Soup"
+      - "Recipe: Baked Salmon"
+      - "Recipe: Lobster Stew"
+    notes: "Described as a cooking recipe hub."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHV0NxGqhPlQIRwKepWd4I7-tl0PDTpuaSU5o8oeMMgPgilXJ5hA3AxAXzr5jf14hGK-Pn_du5Od86YqD6sQvu2CISo9_km4VQlf19G43sbQNAej2tvASbXO2L7KJVTD9vUtsQ_sC56FJ-1hf2EAMAsRLin7E9oMj6DxOJ5ufjjsJ4=
+    corrections:
+      - 'sells: Recipe: Nightfin Soup is sold by Gikkix in Tanaris, not in Feathermoon Stronghold'
+      - 'name: Should be identified as Vivianna'
+
+  - name: "Shadowprey Village vendor"
+    location: "Shadowprey Village"
+    sells:
+      - "Recipe: Grilled Squid"
+    notes: "Described as a neutral vendor."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFK3QyYyKGCnZecs5LLQVU3nCHxVkE54FpVwcfnWihPl83Ny_YdiV7MopeuZpmm-4o4jO0B6nQ5_fC7AKWAqOnY8hVQKf3C7PckxfKaP9S7Ri6D6YpigQf2CUOmATq_6oUvdiiPiD96rd6p-x-_WYfk2wo06C_zokXAjDV8M9c4vLBo8qVQG1Cbc6R3YCUM
+    corrections:
+      - "sells: should be 'Expert Cookbook' (for Horde), not 'Recipe: Grilled Squid'"
+      - 'location: Wulan is in Shadowprey Village, but does not sell that recipe'
+
+  - name: "A fisherman in Desolace"
+    location: "Desolace"
+    sells:
+      - "Recipe: Grilled Squid"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3YscpbxH-4fyRm4Ny-brhCwB5kuDFxilap9UtmBYYoBLqFmMnlrNmVr4PYhaA8lV9OqvrSGI9kFgTbErdvj3VwfNq5yq4s_vUkytRRqh23tRpU11YSy_Tjc2OaA==
+    corrections:
+      - 'location: should be Tanaris, not Desolace'
+      - 'name: should be Gikkix, not A fisherman in Desolace'
+
+  - name: "Strong Fishing Pole vendor"
+    location: "Booty Bay"
+    sells:
+      - "Strong Fishing Pole"
+    notes: "The guide says this vendor is in Booty Bay, among other places."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFw_6Dzj9NADjoIJEhcbh4MvhD830z0g5T8YmuJmkmT-i-47-oI2lsl-lywtqSgrn8zXcC-r-HGf5q_jsGQB_U9RcCKyrQj4lJX2FAXJlqvLgVWI9dEoQyye4fui71zD87xiHbrWw==
+    corrections:
+
+  - name: "Reagent vendors"
+    location: "Various"
+    sells:
+      - "Bright Baubles"
+      - "Aquadynamic Fish Attractor"
+    notes: "The guide says these can be bought from reagent vendors or fishing vendors."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF_oEM6BzlTvToMe3YBr3YVK-HhqXZkD_1upUdHJHxlr14FKbPLNddApqAwJ-EzighkA3e_tG67jJUlVndi-W6Terq3fKNAmAPUQSve9QCfCMrAVrqNHU-vWYT0JD-JPGv2EQdow==
+    corrections:
+      - "name: should be 'Fishing and Trade Goods vendors', not 'Reagent vendors'"
+      - 'notes: should clarify that these items are sold by Fishing Suppliers and Trade Goods vendors, as Reagent vendors typically focus on spell components'
+
+  - name: "Sheendra Tallgrass"
+    location: "Feralas"
+    sells:
+      - "Recipe: Mightfish Steak"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZ5fHjeNH0oFdLEA_b3Yx9JIA-CPI6yVozZfRhUZjsAW6Tk7N8ApFgbfAJwkL9xBOfWWPMbNV3pcnWvTBiBhYz7v1OlHKT-sK3lmWxI0Cnrt78dH-NEhODElM4QtiVNpap6QB4jHk5MFA=
+    corrections:
+
+  - name: "Vivianna"
+    location: "Feathermoon Stronghold"
+    sells:
+      - "Recipe: Nightfin Soup"
+      - "Recipe: Poached Sunscale Salmon"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETCtnCEjqk8P9pyqiHIwwWIpE7ftSb56F341LssJiy7wTIxgOsCwj2dAz33hDBmLT65GDdGJ0zM2W5VqwoSkdExkcQpmygmTxamuIjmnqnBz5-yr1EHiDAu06F0xOX
+    corrections:
+      - "sells: should not include 'Recipe: Nightfin Soup' or 'Recipe: Poached Sunscale Salmon', as these are sold by Gikkix in Tanaris."
 items_and_clarifications:
 
   - name: "Blackmouth Oil"
@@ -275,33 +2786,1064 @@ items_and_clarifications:
     notes: >
       Blackmouth Oil is NOT a fish. It is crafted by alchemists from Oily Blackmouth (the fish).
       Common LLM error: calling 'Blackmouth Oil' a fish species.
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9JliZRYCRPydlMIvsGOOokBSOBcUnFztzuMoEysWbg4wW71Fz1bY-vcb-vGljL8zAwtJPYLFExdo17R_rUDBNHgMWJTtpDnuQzwojiMSZFRxj7SnW9lb40U1aRr6IHilO9FDq7Q==
+    corrections:
 
   - name: "Oily Blackmouth"
     type: "Fish"
     notes: "The actual fish. Oily Blackmouth → Blackmouth Oil (alchemy)."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR0U3-wlNneC0hqLh8H30iGUdE00km4VDOmJP5f4YW0nMT9B3IlCiDOE9xjxDy4VKRkiVsl8gqhXefvi0XhIE37dHjTmqmNs_c_gX41QJk9WUNtiPmcDds3KD5nrMRTIlN3Ayhm9c=
+    corrections:
 
   - name: "Aquadynamic Fish Attractor"
     type: "Fishing lure (consumable)"
     bonus: "+100 Fishing skill"
     duration: "5 minutes"
     notes: "Duration is 5 minutes, NOT 10 minutes."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoxopYoFzk8kolnUgTe7LzNB2nh54d6Ews1qqlfmFvBm2tBiXSquTPBuulea_64ljglXfQOEIRgAuw1dh-B5apgitxmP26JYjz8hjl-VT6wiUtnP8=
+    corrections:
 
   - name: "Bright Baubles"
     type: "Fishing lure (consumable)"
     bonus: "+75 Fishing skill"
     duration: "10 minutes"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ5m0r4PbiRssvGPLJBLH1z_Hc5A-Bv9fuKSPa9ti_xZHHuSM131jO6A9X641CkBjRd4jEhDep-OJ84rDetgljVfomlWIuUnX2gCvPwKDf-PQ64uwM2WZUSpty7iCfjUHTtyqYXJfmng==
+    corrections:
 
   - name: "Big Iron Fishing Pole"
     type: "Fishing pole"
     bonus: "+20 Fishing skill"
     source: "Looted from Shellfish Traps in Desolace"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGefD6ZshYcdKDk8AFyYQcRGjklTF-Kbe29iz_U3r_oJI-AG2_3A2VdsY6BWbXNJLRHFn166syHX7geqhgihvuoJrwdv5lxCieVi42uGkQ1o1zpslI0zPcMZ3a2nEyhN-jqXIDBrS1FTvWlBM=
+    corrections:
 
   - name: "Nat Pagle's Extreme Angler FC-5000"
     type: "Fishing pole"
     bonus: "+25 Fishing skill"
     source: "Reward from Nat Pagle, Angler Extreme (quest)"
 
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRWDyTvMZThoDbxXkZJeJaFtFrco8PVIw3-3rMTh87MsRFvF4oVfktxrLstu7yJ79BIOnRGLyxcyM8pEZ7YQS3EalQ1EGBPmx7eSNedZ_ByTDXh1_BCNceS3PftvuLh1-J_tnzo8gc4lh4
+    corrections:
+      - "source: should be 'Reward from Snapjaws, Mon! (Horde quest)', not 'Reward from Nat Pagle, Angler Extreme (quest)'"
 
+  - name: Simple Flour
+    type: ingredient
+    source: vendor
+    notes: Guide says it is bought in bulk from an Ironforge vendor.
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaoOuXht_NMXGCblsZBFjeE4FrwrecyA_hDyXZb-A-VTtj2LO_o9jJWVZtAw-qH7JBzZXpA7HL6Idak0ZUTzLDJbxOC5ja-Hoc0JQEtg1g5cYvoF8asE1BEywwf_vACpVniofFbXtnvj7c
+    corrections:
+
+  - name: Tomato
+    type: ingredient
+    source: vendor
+    notes: Guide says it is vendor-purchased.
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Tomato' does not exist in WoW Classic"
+      - 'type: N/A'
+      - 'source: N/A'
+      - 'notes: No such item exists in the game database'
+
+  - name: Raw Meat Scraps
+    type: ingredient
+    source: mob drops or vendor
+    notes: Guide says 1 is needed per Tender Wolf Steak.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaDbJOqxkpU47ME6VoMfYNTLOrWTAWxRyZ32l5VDpadIJYZLRtZvQ_qGUGLvGMftUygLj5UK4sruZEXX11znzhPBwRqghCCs54pbLVhQ7XrPpmcIwHIJPQWv426etuOYy0LCAl0BPW5YIYOTUUQY_ElA==
+    corrections:
+      - "name: should be 'Tender Wolf Meat', not 'Raw Meat Scraps'"
+      - 'notes: Tender Wolf Steak requires 1 Tender Wolf Meat and 1 Soothing Spices, not 1 Raw Meat Scraps'
+
+  - name: Cooking Kit
+    type: crafting tool
+    notes: Guide says it can be bought from any vendor and used infinitely.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKMHoVGsuJHt9hYclMYqz9k09zGQjSXr2RZN-4mLkcbUNEKSVkxjfdoq4PgqpY8Er16DCfdalkJtHIxVtSPymqW4qzEDGHWKB4IN4J5vR5lJhCzQc8NfVhzwymrUw0TRoLdJe1lOxlNlKY5ztTGCthMQyvua__gn7x
+    corrections:
+      - "name: 'Cooking Kit' does not exist as an item in WoW Classic."
+      - 'type: N/A (not an item).'
+      - 'notes: This is a marketing term used by third-party boosting services for material bundles, not an in-game item.'
+
+  - name: Fishing Rod
+    type: tool
+    notes: Guide says any fishing rod is sufficient at 300 fishing.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuEQK_WVHjA1LuKbPRQqkd9IBuED1nvbWv1_4don_-jihL_TGlozNVGOeydwxeCtPh8FU7fvT-ISf5Cq8IlVAhcjRo5YD-UZQ7UTnfz8NBWMbkJUv02xEOX6Xg-ktYKPmV4K8=
+    corrections:
+      - "name: 'Fishing Rod' is a category, not a specific item name; common items include 'Fishing Pole', 'Strong Fishing Pole', etc."
+      - 'notes: Any fishing rod is not necessarily sufficient at 300 fishing; to fish in high-level zones without fish getting away, you often need a rod with a skill bonus and/or a lure to reach an effective skill of 425.'
+
+  - name: Nat Pagle's Extreme Anglin' Boots
+    type: Boots
+    bonus: +5 Fishing
+    source: Nat Pagle quest (Dustwallow)
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEMAwIoxnDtOhphftuPZNsSvTgADRmv04WJJdkJP4G2YHxCCWMtdd0RJx61eGcNl3PVhyUBstD3ywlndnlAQ0ZIOQ6zxk27fMoq34RntJ1RCACLkGKTelZpL8Sc9ejAdXlCR95d9yc_2qo8Yz5wFd_FZ0z1_Z28j0MIHjGa
+    corrections:
+      - "source: should be Stranglethorn Fishing Extravaganza (reward for turning in a Brownell's Blue Striped Racer), not Nat Pagle quest (Dustwallow)"
+
+  - name: Lucky Fishing Hat
+    type: Head
+    bonus: +5 Fishing
+    source: '"Stranglethorn Fishing Extravaganza" reward'
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNoFeAgS5kfhcajWkA7u4Kh9yQDhf0kcHIqAwSMmeak0--KL1yfZIeNcuYWH4u1XOVAjlPVZ_Jzz0edn96CX1Lk3jqWzpAiIfSgQw0OzNGXhUQQ8rE7A==
+    corrections:
+
+  - name: Shiny Bauble
+    type: Fishing lure
+    bonus: +75 Fishing for 10 min
+    source: Vendor
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSvZYuCA6sAqkirrakfIRP_hJsdfNOEts87XjArYtFh71ZuTba_l52HvtAo8iU8DmbfrAGwDC1npIVzD3t2fKHwtLir71vihQARX7srYJNXHsrP2hDFPrdYOOHCrlr_2ncE7tFsPsXLxfs4TtQu05iEhLonW3daMRnFqCXQXMT1XRu55A=
+    corrections:
+      - 'bonus: should be +25 Fishing, not +75'
+
+  - name: Strong Trout Lure
+    type: Fishing lure
+    bonus: +75 Fishing
+    source: Nat Pagle
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECZM3axbNG_vRlATeq2CwZwgtvxOoiwvFSizgNXNOr8QTIuSYEYPPzesYBacAGXiUXvLn4yHWDetFpRkWVD8liNABmXBnL1FdeRJ75PpEAUBl1Wi8WDFeGe3shmhbZk1ad3ROVuEkHSQ==
+    corrections:
+      - "name: 'Strong Trout Lure' does not exist in WoW Classic"
+      - "type: 'Fishing lure' is incorrect as the item does not exist"
+      - "bonus: '+75 Fishing' is not associated with this non-existent item"
+      - "source: 'Nat Pagle' is not the source of any such item"
+
+  - name: Soothing Spices
+    type: Cooking reagent
+    source: Vendor
+    notes: Guide says they stack to 10.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHL40dLN50Rl0VDiju48kD3feZOw0D6DKObOIHfgDCarYPCMLL0BobDlATgPYo6JJMW2vLdD4VZoRtb9TytbhhSlQGhYXm4VlRzz453eDQoi66Ou59DcODvm9Fw7i5esdlJPPYJf0=
+    corrections:
+      - "notes: should be 'Stacks to 20', not 'stack to 10'"
+
+  - name: Tastyfish
+    type: Fish
+    source: Stranglethorn Fishing Extravaganza
+    notes: Guide says they vendor for about 20s each.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8IwoKF9c3rNGnt0qOMExSDhM1amlZB3_S-I19Lu2dAz2QHLiOw0dABz3DYE4hoVT_-GDZuBnf9i7QNSKNlXah914eF8bdwq_Aihu7YhdgcqkoGbwd
+    corrections:
+      - "name: should be 'Speckled Tastyfish', not 'Tastyfish'"
+      - 'notes: Speckled Tastyfish are quest items that disappear after the event; they are not standard vendor trash items.'
+
+  - name: Hook of the Master Angler
+    type: Fishing trinket
+    source: Stranglethorn Fishing Extravaganza
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENgL1e9uRVWD6S9wIEwTSxm36VAdSqfFKbEYOplk3v_uO1hGT7qBcZHRAYTsKqxG-hCvvieUkKoQj6vIjiv797VPmRgOs5sj14IsaXUs_8IlW5oWPp
+    corrections:
+
+  - name: Small Lustrous Pearl
+    type: Pearl
+    source: Big-mouth Clam
+    notes: Guide says Big-mouth Clams can contain pearls.
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPK13MWp3ztJ6WaNURbY1hKHKHI7xhz7lM1ctVsyLwHnhPuHbmtfjin9VyP8y7sIrj7PIweS_9oLwHxliotouqgSEzb-vz4vDMLcPiplaWWd5C59clkwnDq6Es
+    corrections:
+
+  - name: Black Pearl
+    type: Pearl
+    source: Big-mouth Clam
+    notes: Guide says it is used in Smoking Heart of the Mountain.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-x1PjQU7uaz5IIb8yC5NTvB5hz9yfSKQcp4S9BQBdVUoorL7IpsHLvwknDU_PPUXkfaCEla0NomN94VtYmdE20EjOxG8svwYuelvw3vB7yvZzy2GRxgYcMlIvxqzs
+    corrections:
+      - "type: should be 'Trade Goods', not 'Pearl'"
+      - 'notes: Black Pearl is used to craft the Runed Truesilver Rod, not the Smoking Heart of the Mountain'
+
+  - name: Flask of the Titans
+    type: alchemy flask
+    bonus: +1200 HP
+    source: Uses Stonescale Eel as a reagent
+    notes: Described as a raid-progression flask.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj00ojCFvuYrYZHL_Xlj8Q94emFJWBF2qheobh1fRzJ2HobuiWH16jctLE8DHzLgztyUufEsd6l6H0NMvSb9o2R86hHSmkn5OirzufO7vczg1_rsg4xHPbDqDb2ZW8yndkGWnswrs_
+    corrections:
+      - "source: should be 'Requires Gromsblood (7), Stonescale Oil (3), Black Lotus (1), and Crystal Vial (1)', not 'Uses Stonescale Eel as a reagent'"
+
+  - name: Free Action Potion
+    type: alchemy potion
+    source: Uses Oily Blackmouth as a reagent
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaQOdO2JiPgkoEVLCRC-qoq4fYA0GJnE2g2GkBGR0nrbsJi0pIEeX84T2bGSXlbK2T0orXcxdwzmPJKOvHxCXsWYonSmCj2XCJ_SQbjNf5m81hPHRYCC3Y2sA2
+    corrections:
+      - "source: should be 'Uses Blackmouth Oil as a reagent', not 'Uses Oily Blackmouth as a reagent'"
+
+  - name: Fire Protection Potion
+    type: alchemy potion
+    source: Uses Firefin Snapper as a reagent
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHr9sKOG0xwSKz9fVLnkeqeznPWxcfbyv27QMj592QRSOgVjMEtHvDWe3JS0bUv5nwQVYo257aRRwqiiDvbv7_mERpMEwu4VFOKZbkeReYLBF4c7y0lJZuDdl1czrvjWqG2fS0LQLhV8vP7AEmassQF-mFdEMs=
+    corrections:
+      - "source: should be 'Uses Small Flame Sac, Fire Oil, and Crystal Vial as reagents', not 'Uses Firefin Snapper as a reagent'"
+
+  - name: Nightfin Soup
+    type: cooked food
+    bonus: +8 MP/5 while sitting
+    source: Cooked from Nightfin Snapper
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvMhR0nkF-GxtSQgqeTCdQAkhDZkoVNq-_oFENV9euPNvPfB2MqM9Ne43UjGOeH1P3MgjyzGZXQ6A5OW26YQx-e-HgEpDKACDoYT8_1WsvPE2LR3DnimwpYEtJfCrMBkbqhfTtG0YiHTlRKQ==
+    corrections:
+      - "bonus: should be '+8 MP/5' (not 'while sitting')"
+
+  - name: Mightfish Steak
+    type: cooked food
+    bonus: +35 Strength, +7 Spirit
+    source: Cooked from Large Raw Mightfish
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfTKbBqqhcM6xxJDOs2v62HRhEjD1LO-AkiAT5M46Jd4yaN4tTOj2i7UV051PZFijUTb0kGrJOBP2n3z-_jivP2PdBePeipw-G8e72f01TfIetFdoXFwzt9_bR7G27elWlgp7yLI0olA==
+    corrections:
+      - 'bonus: should be +10 Stamina, not +35 Strength, +7 Spirit'
+
+  - name: Grilled Squid
+    type: cooked food
+    bonus: +10 Agility
+    source: Cooked from Winter Squid
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-Iw3EmE59XuIG05XDJstHfpFJw2KNdKiYzTDdfnPKgT1Ra1Ed-mMYRSMyPf6qQoRBsK_Y9fbh9XrshsUir-Qan1UHGu3DcS2w59hkQKh1DaMQ313XVxf87Q==
+    corrections:
+
+  - name: Baked Salmon
+    type: cooked food
+    bonus: +20 Spirit
+    source: Cooked from Raw Whitescale Salmon
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbEaPBvQrLMZRFGh1v7Ag5cCT3JfMlwvZaLXk1l3tDIrCdL1RR10fRE_pEQjboclfMnLgsmLU7L-6Vjyi_Vw-TppxQP5iOYVzEaU6pG8Kv7Tvmc7Uj3T11dYKkIL9sTynnkCY=
+    corrections:
+      - "bonus: should be 'Restores health over 30 sec', not '+20 Spirit'"
+      - "source: should be 'Cooked from Raw Whitescale Salmon and Soothing Spices', not just 'Raw Whitescale Salmon'"
+
+  - name: Spotted Yellowtail
+    type: cooked food
+    source: Cooked from Raw Spotted Yellowtail
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHscZU9yOiVuILGgVTImHp9GNW7wJnHh9mwJZn33nfjBf89Vqp7BFj2sS4GtV1b2FbMcU2_eLWDbliFOFyexvpK0N3QlmoOqkzxn2C6YkwsoOq64rQ=
+    corrections:
+
+  - name: Lobster Stew
+    type: cooked food
+    bonus: +12 Stamina
+    source: Cooked from Darkclaw Lobster
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "bonus: should be 'None' (restores health over time), not '+12 Stamina'"
+      - "source: should be 'Purchased from vendors (Sheendra Tallgrass/Vivianna) in Feralas', not 'Cooked from Darkclaw Lobster'"
+
+  - name: Campfire
+    type: fire source
+    source: Flint and Tinder + Simple Wood
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaXz7sC1oktDPxhAbg1JBN4cCbSkY0pGTr-xVKH4yLTqnJuxLGQOWREJTml3JKMISQncxEORL2lyZAH820vCYfFVCHjUfHtupC3ZESR2YrUmyx7PUnF7y_tf_YkHUP4j13ZH8eJ6Q28iR00Q==
+    corrections:
+      - "name: should be 'Basic Campfire' (spell), not 'Campfire' (item)"
+      - "type: should be 'Spell' or 'Ability', not 'fire source'"
+      - "source: should be 'Learned from Cooking trainer', requiring 'Flint and Tinder' (tool) and 'Simple Wood' (reagent)"
+
+  - name: Waterlogged Chest
+    type: locked box
+    source: Open water fishing
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4ky3sj5zYFTrPm7DQJcMcyR9O9baLf84s1d9zf2M8yIohbv8dxZRPOxnNJm9AMC-iCn2FkwOPFaC8yeFH81EzUyXLqVQcwlotKTxj11jmBLwGZEq0
+    corrections:
+      - "type: should be 'quest object', not 'locked box'"
+      - "source: should be 'static object in the Wetlands', not 'Open water fishing'"
+
+  - name: Truesilver Lockbox
+    type: locked box
+    source: Open water fishing
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Truesilver Lockbox' does not exist in WoW Classic"
+      - "type: 'locked box' is incorrect as the item does not exist"
+      - "source: 'Open water fishing' is incorrect as the item does not exist"
+
+  - name: Stonescale Eel Oil
+    type: Alchemical reagent
+    source: Milled from Stonescale Eels
+    notes: Mentioned as a key reagent for Flask of the Titans and Greater Stoneshield Potion.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYkQ1GBeibAY6u-2DMOkDqDrDGPFWlGbtlBe7Mtz94MtvXr2fuXLv0SJSz_U34-ERSlIq_Aij0bIzGonWWFBtxk93gYXPOieb7ufzDhw5B_unhLi__JAeitrywu3hWp3WyJLktzO5H97sr9v4=
+    corrections:
+      - "name: should be 'Stonescale Oil', not 'Stonescale Eel Oil'"
+      - "source: should be 'Crafted by Alchemy (250) using Stonescale Eel', not 'Milled from Stonescale Eels'"
+
+  - name: Greater Stoneshield Potion
+    type: Potion
+    notes: Mentioned as a recipe using Stonescale Eel Oil.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEva5ii1glTKCjkrkK93d0a6Q7EKG11uV71JT6ZY2OLu0ty9to0_sX2cEG2Mz4tmfXSmX6rh0EyO_9umXOl5P1HnuNFFDEoF-Kmcb3k8XqyguFX8QquMA==
+    corrections:
+      - "notes: should specify 'Stonescale Oil' (crafted from Stonescale Eels), not 'Stonescale Eel Oil'"
+
+  - name: Mithril Head Trout
+    type: Food
+    bonus: +25 Stam
+    notes: Cooked from Raw Mithril Head Trout and Soothing Spices.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFguDOWkqWhxkQLXe0xUZpSeQQ9BhXX-ZJ8-qDc0FH9CIYKtLAepWndkME83Iz-aJBxivBcvpoiq6mkYS5tlME9bODFELgIUfWc6jG7Q0w6uiUgqV-XiDatwvbII7hk6VDcY9JgRKV4Nz-4Q9qXBtd-kg==
+    corrections:
+      - "bonus: should be 'None' (restores health only), not '+25 Stam'"
+      - "notes: should be 'Cooked from Raw Mithril Head Trout', not 'Cooked from Raw Mithril Head Trout and Soothing Spices'"
+
+  - name: Winter Squid
+    type: Fish
+    notes: Cooked into Grilled Squid; described as a night-only catch.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSola3ZIgbdhazZDvVYwoB386hhKvqQk5BdzZhcCMA-eU7akrqFNTx-KEgYekf9zNaiEKCmA6aTN6focItrLdpPntsowJ1e5KPogwFCmF6SfSv9MzSXHTX8Iu8Ran5TBdkhpmrECy-w2yrfH7YP8cH2oqYCihtYGSMejVMJCcrGsO0ULKv9jcwq8nuqpQo5KRQy25_NB3jXl0Ohw==
+    corrections:
+      - "notes: should be 'Cooked into Grilled Squid; seasonal (available roughly September to March) and primarily caught during the day (12:00-00:00 server time), not night-only'"
+
+  - name: Old Boot
+    type: junk item
+    notes: Described as vendor trash.
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjM-BSweN5td-yYDkJMvHLnGlnuj1FY-j3pCaS8lzrvfv06KgHZR3jDN_gXPvFNeSGWHY_7i-oH7RJkp3k2ktiY8C5TYwp6KtAuomykrvGSjrOBbZELogC8q-xypPHr76eyqBkkb-Zj0Pqug==
+    corrections:
+
+  - name: Empty Bottle
+    type: junk item
+    notes: Described as vendor trash.
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFS55kWwnDRRUytt1K01iqJyhfnTmFlhv4WE8qfI0k1yVl-KWLyBf4wk-7e4aPokMWvm273gBT96G-kgqdLoWQ154oaenRpX9fMSnq0BNT0Qp8rwgCoHQ==
+    corrections:
+      - "name: 'Empty Bottle' is not a standard vendor trash item; it is typically a quest-specific item."
+      - "type: should be 'quest item' if referring to the common quest object, not 'junk item'."
+
+  - name: Bent Fishing Hook
+    type: junk item
+    notes: Listed as junk to vendor.
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7tZqIefPBln0p3vxd-GedCJUanA_GDTUI9Es9Lemb-CIh6PVS0DndiA4ZTbREl-MpK8qBn6aqSw_9Uvwvj-ap_GqLDlEapHe1h4QoQ5FadH7l2D3WMocicjeYxxer5Hdm-e2V
+    corrections:
+
+  - name: Deviate Fish
+    type: fish
+    notes: 'Described as having small vendor value if you do not have Recipe: Savory Deviate Delight.'
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'notes: The vendor value of Deviate Fish is fixed and does not depend on whether you have the Recipe: Savory Deviate Delight.'
+
+  - name: "Flint and Tinder"
+    type: "fire-making reagent"
+    source: "used with Simple Wood to make a Campfire"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8QvwP8kbv8JeigdEvkvJRD2_dAJbvexAT2XtOMCbLIIvcdj33zc4vSnaksi7EDX09ApGgOQzYdVYE3ySUbSlDlMc1_Dc851wVTtcS-7G7iuARpOuur7clrfENISMF9EJzSMNGLLhgYJanyNd4cZcpmJw=
+    corrections:
+
+  - name: "Simple Wood"
+    type: "fire-making reagent"
+    source: "used with Flint and Tinder to make a Campfire"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEn4StjoX0kKfiou0u_D7PcBkulx9N49BPZMFPEunTTD5yyA2_IYXVkpCNAwptmWEX7UXOPcrpjIdiax90u9r8bHHdkQwZYmEQB7XAy7KFo-rAlolhlRnaJUwDFLnrngeiT
+    corrections:
+      - "type: should be 'Trade Good' or 'Crafting Reagent', not 'fire-making reagent'"
+
+  - name: "Big-mouth Clam"
+    type: "Clam"
+    notes: "Sometimes contains pearls."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9fgAc5-9zt2IY3ahj2O9cEXQOs3VRn5uHT8EN2HuzXIDLcBlWCrBlIZBVynvLvoSSfHR59wKg1sDx1gKiTQwubPgJLhi_orXGzOjNPp9TEUnxIjEIZVubzdiM9Gm5GnIbguU4hg==
+    corrections:
+      - "type: should be 'Trade Goods' (or 'Consumable'), not 'Clam'"
+
+  - name: "Smoking Heart of the Mountain"
+    type: "Crafting item"
+    notes: "Mentioned as using Black Pearls."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKbMim4VYFHal5K0biZ1JmQaPalrN-cLzJncTFIDOUyimm55iUKxyIcXFY77zBTEyChHn98-XffvQnDBDD9WNO67dhVS4gySWF7s9jxt2a-fYCooPAbA==
+    corrections:
+      - "type: should be 'Trinket', not 'Crafting item'"
+      - 'notes: should mention it requires Blood of the Mountain, Essence of Fire, and Small Brilliant Shards, not Black Pearls'
+
+  - name: "Arcanite Fishing Pole"
+    type: "Fishing pole"
+    bonus: "+35 fishing"
+    notes: "Presented as part of the pre-deployment checklist."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkPUlnTwdh5CVETVmAxo5uZOHwaGRmTPw-RD9DiHA1rgnfpTbelPm1X4jgPgFb7Swi2ZYod3d9uRoQAKvo61uZNp7_RqHKJpgV8hfLsYRAl4ovO4mvXfsHUJsv3M4rnw4Xw02eIPR3I9Uw
+    corrections:
+
+  - name: "Enchant Gloves - Fishing"
+    type: "Enchant"
+    bonus: "+2 fishing"
+    notes: "Listed under the pre-deployment checklist."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHiwnRMwPFL7nPmYajGKGZ3b0ZNRo9BVv_FYzSQKuRpMwzqtbeTrRAOetG89NYs7RH0cwNj_bIAMVngr8fMEWzMXnoH_56YBB4zp4b8_s-12cAdHtcKA==
+    corrections:
+
+  - name: "Stonescale Eel"
+    type: "Fish"
+    source: "Feathermoon Stronghold; Azshara; Bay of Storms"
+    notes: "Guide says not to cook it; sell it raw."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi2mcQuFqMlFBzjP1yGF2VkyxAoAbiFy3wMakZtpMjNeNM6tV3LS2fCstpMQ1EGAF84XHTVXcUas3bFPDWO_00wjDShy9hzcYSewepIuxv5HDCiRSxEJ8YxA==
+    corrections:
+      - 'source: should include additional zones like Stranglethorn Vale, Tanaris, and The Hinterlands, as it is not limited to the listed locations'
+      - 'notes: should state that the item cannot be cooked and is used exclusively for Alchemy (Stonescale Oil)'
+
+  - name: "Aquadynamic Fish Lens"
+    type: "Fishing lure"
+    bonus: "+100 Fishing"
+    duration: "10 minutes"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIdI48s9dngFznqxvNJkun9UnUpiuGijTn6mkD7XuY7So9TrmYPcLIYaP2XObzx0luKaez-wW9Mt9jk7ZubWzx3vXevTzJqarpv418IB5fV9YqNPACIQ==
+    corrections:
+      - 'bonus: should be +50, not +100'
+
+  - name: "Bright Baaits"
+    type: "Fishing lure"
+    bonus: "+75 Fishing"
+    duration: "10 minutes"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - 'name: should be Bright Baubles, not Bright Baaits'
+
+  - name: "Stonescale Oil"
+    type: "Alchemy product"
+    notes: "Mentioned as a product made from Stonescale Eels."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlOEa6F8fgua_mgYu_ffYcmaT5H1y0z8VVAUxYEWtjDB_KJsrp8QK7zkT0r9rjwUeExstNVfIJhrb9duWByYcRtufIysf7997PkDxlRd_zhGbNAPHkWQSEQ3HEeP9xzE3zoZnq5uwi7ahvnJY=
+    corrections:
+
+  - name: "Fishing Hat"
+    type: "headgear"
+    bonus: "+10 fishing"
+    source: "Zul'Farrak drop"
+    notes: "Not necessary at 300 skill."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHu0ziodnKVP11Ts76UNJDTKrQhNs0TVkwnXRhInF5DkAJe514Qwbui7VPVauu1lwYrne45SY3cefGu7-ihA8tPGOVGVH7DkLpQEfiegRbEDgqR-7Tc
+    corrections:
+      - "name: should be 'Lucky Fishing Hat', not 'Fishing Hat'"
+      - "bonus: should be '+5 fishing', not '+10 fishing'"
+      - "source: should be 'Stranglethorn Fishing Extravaganza (Keefer's Angelfish quest reward)', not 'Zul'Farrak drop'"
+
+  - name: "Weighted Fishing Hat"
+    type: "headgear"
+    bonus: "+5 fishing"
+    source: "Quest reward"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAGp6uouGrhdEoq3HxjOXWCi3oYaXJwwEgQW1TD0gevLo4kIHtG61ljnvKzdi1gto3KQATzT1KdjM5uPw92breVQygnQ70HX3LR8CzAEoVhQgFrw1ztw==
+    corrections:
+      - "name: should be 'Lucky Fishing Hat', not 'Weighted Fishing Hat'"
+      - "source: should be 'Stranglethorn Fishing Extravaganza (Quest reward)', not just 'Quest reward'"
+
+  - name: "Sturdy Obsidian Fishing Pole"
+    type: "fishing rod"
+    source: "Auction House"
+    notes: "Described as a permanent item."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPdN8yK2eT7pcZR1KomSodzDDrGM8_LoViIcJtxvgISp95RIFdsKitpGTgcjtcqOkKfuENCFPoKRqo_cfrdeXviWR3ncB70a2Gdt-BQHaTdV9t6kzMUwl_XQO9wogwlc2cGhW8EvZvlO08oQFINwcH
+    corrections:
+      - "name: 'Sturdy Obsidian Fishing Pole' does not exist in WoW Classic"
+      - 'type: N/A (item does not exist)'
+      - 'source: N/A (item does not exist)'
+      - 'notes: N/A (item does not exist)'
+
+  - name: "Fishing Lures"
+    type: "consumable"
+    bonus: "+10-15 fishing"
+    notes: "Not needed at 300 skill, but claimed to help speed catches."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2R79QIRnOG8bmtYkabmbyyth9yIYq-p0_MlDlPbml4FuYYzA8R58DzqgJNr9x-3N9oJWiR5uh8dZGK18ekPMU9XU3L-ty8FK2g7lKFq08Fo7NYt2zo_aZQXt292oxCFwrW6gW_jvGSGzS
+    corrections:
+      - 'bonus: should be +25 to +100, not +10-15'
+      - 'notes: lures do not speed up catches; they increase effective skill to reduce the chance of fish getting away, which remains relevant at 300 skill for high-level zones'
+
+  - name: "Water Walking Enchant"
+    type: "enchant"
+    notes: "Allows fishing from otherwise inaccessible spots."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQonaNiTFpY0xy0AyAdSiVvFgDUvTM15wB-0Q1gAmsMeIk2NRJKQjjoRDnsHhtyT7XmsSAP2j3PPDPVYUa8qP8XWgZKgQrUXcOgkiN0AtK9gCdv1zv7SkE_Anr1mlib9mNhBOlLjP2FSOgRNy3MQrTtluQOpLvaXUzW4f5bTA-TxtKfPB0NdPckg==
+    corrections:
+      - "name: 'Water Walking Enchant' does not exist in WoW Classic."
+      - 'type: There is no such enchantment in the game.'
+      - 'notes: Water walking is not available via an enchantment; the claim is factually incorrect for the 1.12 era.'
+
+  - name: "Flying Fish Boots"
+    type: "junk gear"
+    notes: "Vendor sells for 30s."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFR8Tzp27oj4ZbOaoQ0NXjE6w720R7Rvu7RJBWLtIxWXgmPJgRovPi7w4m5t5zZ2XIYeCKGWTmN3nTOXRoUMIHrNnO0y-MV5GKl8WqEzpO1H8D65T5cQLansdnqA4QKcAnQMOed_QhI_LbYmKM2AZ6CAr-mEMb5eE5Fqcnu30n1baEXqDLnCpw=
+    corrections:
+      - "name: 'Flying Fish Boots' does not exist in WoW Classic"
+      - 'type: item does not exist in WoW Classic'
+      - 'notes: item does not exist in WoW Classic'
+
+  - name: "Nightcrawlers"
+    type: "consumable"
+    bonus: "+50 fishing"
+    notes: "The guide says to stack up around 40."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGtQ3jHKtMZmJnnYJ2bvEwUv-0hU8fi7OuJnwVfBe3qLeHdJHyGE8u1xgch27YL7mUKrxoIrTLL-n9nNhMrsDybca84v1fXo5psP3TBKGFZ-rmEcs0SzOgdwAEZSYcWiuksJBul8nNC6c=
+    corrections:
+
+  - name: "Fire Oil"
+    type: "alchemy ingredient"
+    source: "Milled from Firefin Snapper"
+    notes: "The guide says Firefin Snapper can be milled into this."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEndrR7LVO5-g4chaWhAUBT6-aW7yuMUJTbTd1PTHhmVC6F_chAbXicfVuKgOf8lEJXGuPVK7JjVmAtxGOi7GaGhRk13JCraPOFVlSpOVlV5kXVv8wdNzQ_44lPsnLz_FmmLi3uwg==
+    corrections:
+      - "source: should be 'Crafted by Alchemy', not 'Milled from Firefin Snapper'"
+      - "notes: Firefin Snapper is a required reagent for the Alchemy recipe, but it is not 'milled'."
+
+  - name: "Mithril Bound Trunk"
+    type: "container"
+    notes: "The guide says it can contain 6+ slot bags."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESBLerAK5onIIJRChUmEpZTRAbL_Vy-ZNVNNZvRG4-OwH7dRYvz_4iiIQUlGi_3Fax3xsdA803LMgFdBFeijofpcBEebSfLxGiiwmWn12FJzwyLDfqQo5dfiFkNqVt5ouQj_8xTbWv_UKq
+    corrections:
+      - "notes: The claim that it contains '6+ slot bags' is not supported by reliable WoW Classic loot tables; it contains random materials, gear, and potentially bags, but is not guaranteed or specifically known for 6+ slot bags."
+
+  - name: "Sealed Wooden Crate"
+    type: "container"
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "name: 'Sealed Wooden Crate' does not exist as an item in WoW Classic."
+      - "type: 'container' is incorrect as the item does not exist."
+
+  - name: "Iron-Bound Trunk"
+    type: "container"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNwV0pcgDGYyhdy6xs0xmaKnB0xCad83YCadgtgliSdV0o2H_CQC0FJXayDnW_60qmLep_6R_vztv7juiWpjCUHfou7TuMuKnvJZisqN5ZtahtbzZID4xGfn1rCbUC-ZlErhn6FKWB-4Q=
+    corrections:
+
+  - name: "Strong Fishing Pole"
+    type: "Fishing pole"
+    bonus: "+5 Fishing"
+    source: "General goods vendors"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8oEJYRk_jBNIGhVjoZiexnd9GkQ4L42pn57FZNyuRh31haremMwa_8-AUvr57p6ymiyKmz7-sKHLV9vs7uELOrUhONYNwEg2DwUFAaFwKiLG8uP2rkLeb3ptKdN9bVA_AWxkShMRzTgf3
+    corrections:
+
+  - name: "Flesh Eating Worm"
+    type: "Lure"
+    bonus: "+75 Fishing"
+    duration: "10 minutes"
+    source: "Orgrimmar and Ironforge vendors"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtb6-sibN8hCKNmiBXV2UpX8_C1gC6TnjkfamWYEOiJNAfTDmZjSm4fz9xG_dan9zzOH80-p5RFHxpGGv8QwY4XWoDXy148lcn5ppFtDVXsn9n_jD1rrCKOkiM442pqZwlAQkswfSElJS5
+    corrections:
+      - "source: should be 'Rare drop from Rotted One in Duskwood', not 'Orgrimmar and Ironforge vendors'"
+
+  - name: "Heat-Treated Spinning Lure"
+    type: "Lure"
+    bonus: "+75 Fishing"
+    duration: "10 minutes"
+    source: "Engineering"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE65yCLPt3FXQxngLmOk9RgzR6uF9whBuZjfsR13BjYPZK3F6wLFXqeAv242OMzgPF9q2hZOjiHbq3YMl6wttJ0mRNAgi7ZFs_LafOhvFH9vQhgSIvnAaxW-4U0yKiYDojxDQU=
+    corrections:
+      - 'name: Heat-Treated Spinning Lure does not exist in WoW Classic'
+      - 'type: N/A (item does not exist in this version)'
+      - 'bonus: N/A (item does not exist in this version)'
+      - 'duration: N/A (item does not exist in this version)'
+      - 'source: N/A (item does not exist in this version)'
+
+  - name: "High Test Eternium Fishing Line"
+    type: "Fishing line"
+    bonus: "+5 Fishing"
+    source: "Stranglethorn Fishing Extravaganza"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGqbCFSL3jrFwnPCxz_WfP95wNlTMFlIW41o7ucrpln0TY27JdWt08YfKnMTdFxtDmXH78-DCuGohoatkxCmRCWAWPy-YBOfUlkDxQpDpYD6p_38PtOJS57ac_uglF95C3iYTCrg8x96KuufAQiFdjOqu9VVM=
+    corrections:
+
+  - name: "Diplomacy"
+    type: "Racial passive"
+    notes: "Human passive that increases reputation gains faster"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZUr6Wmp0mBBs5GbXIKuR9u9Y8tuiQpxK3_uwvbli6x4KSHDikYV4WF-0cuVHvjAZfbzJyxpPIzqGv16DHx2wmj8jvBfDK29g7llrL9PpigB1jMXwgqNp3VbfqPLxsbA==
+    corrections:
+
+  - name: "Aquadynamic Fish Attractors"
+    type: "lure"
+    bonus: "+100 Fishing"
+    source: "Auction House or Engineering"
+    notes: "The guide says they can be bought in bulk from the AH or crafted via Engineering."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6Yh9a22gKi2BE7tCZ7AOB5a0ZA2G-g4ZfENftyJawo7VdYTU7PXACdHt1y8eKDG5uzEYB9eNVNSxYd99zTxSOKobqRaVByln26XEue__AFJCd7-Q7
+    corrections:
+
+  - name: "Elixir of Water Walking"
+    type: "consumable"
+    source: "Not stated in the guide"
+    notes: "Used to reach the rock in Bay of Storms."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHspRdMFcYaPKuEPi_amnhmCGEdngJjo0BpCLIwp2VgHks1pNoM574uZaJTo52F7i1scznB4ppnvVLljhYoWt5AxxLmvjx_ZKKvsiYfgHij9860IJGhXrOnN8TTEdhMlp_tMOo1i1CocwSTj-WH
+    corrections:
+      - "source: should be 'Alchemy (Crafted)' or 'World Drop/Vendor' (not stated in the guide is technically true but incomplete), and specifically NOT from 'Bag of Fishing Treasures' which is a WotLK feature."
+      - "notes: The note is anecdotal; while true that it can be used there, it is not the item's primary purpose or source."
+
+  - name: "Elixir of Greater Firepower"
+    type: "Potion"
+    source: "Mentioned as a use for Firefin Snapper"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHzVfvrYtuNK73YWDCR9nm0lkZSAfdY31NqVzxToPc7ZTYcJ5W_5lmB6Vnv8srL1MLt60egg66iLHoLHCj_zkU8Hx3U-t9ENjg97w9rLJ2w77PruP_Zk4jBP-dRw1WIF8sF9KrmnUENsnpPKoeN8atWG0=
+    corrections:
+      - "type: should be 'Elixir' (or 'Battle Elixir'), not 'Potion'"
+
+  - name: "Swiftness Potion"
+    type: "consumable"
+    notes: "Mentioned as a survival tool while fishing."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhBGGYYRZGcgi93oYMjSRo4ftMUvJNLeH3ZgONzv8GMqOcOxno8z0BhQugRX8Gu81PGlOGFEvvrWKXLDPsGweAwNbiOo1X3wXjUTVko99EJ2OPS9Q=
+    corrections:
+
+  - name: "Roast Raptor"
+    type: "food"
+    notes: "Mentioned as a bag item for self-heals if a rare gank happens."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG40ebTQuBO-fF8npi0_ixP8PChwOYs2BDROP7JyHqGx8HKYR1zlbv-UnSLPKs2Yc9pzcQMIrVjIVh8OQkk7LNvYGXXr0nganz6I2GZRbtKVSMjVkN5
+    corrections:
+      - "notes: The item is primarily a standard food item used for leveling Cooking and providing a Well Fed buff (+8 Stamina/Spirit), not specifically a 'bag item for self-heals if a rare gank happens'."
+
+  - name: "Sagefish Delight"
+    type: "Food"
+    notes: "Described as providing mana and spirit while fishing."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhbo2dDmKO4BLO4gaTYGBNWJLrvoIDUh9R_Aplo2A9nIXsRLI1GJnYM5jIe-mK0tzdHGNtm-zP1_sFkzr1jMrnBpGvjv5dBVsuowKI42g9TfmkLJtw4Z0=
+    corrections:
+      - "notes: should be 'Provides a mana regeneration (MP5) buff when consumed', not 'providing mana and spirit while fishing'"
+
+  - name: "Fishing Hat +2 Lure"
+    type: "fishing gear"
+    notes: "Described as not necessary at 300 Fishing, but nice to have."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPWR9Kfc5f_vKjWs0hvM6BMb-HpJhkkdoh15_uiKNkFUm9ruQcBNKwNnQ2bWXCrHrt6byXvkYwy1CnMh-Sedp6EtBN869XI7bqBzGobR8snU7s5Si-coutwbAbuLBQPhkzek9wn4RxNObU
+    corrections:
+      - "name: should be 'Lucky Fishing Hat', not 'Fishing Hat +2 Lure'"
+      - "type: the item is a piece of head armor (Cloth), not 'fishing gear' (though it is used for fishing)"
+      - 'notes: the item provides +5 Fishing skill, not a +2 lure; it is used to increase total skill beyond 300 to minimize fish escaping in high-level areas'
+
+  - name: "Fishing Pole"
+    type: "fishing gear"
+    notes: "Any 300-capable pole works."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG41Y-nxD7c18N7xOrqxmyekgnNleBTQYeU4lNUpO1cQwDLqpDpYhGuweq169kUL1SgyZjO8EvnOMj7H9tIz-dsIyzR-Vo-CrFP3w44NaofLbIHvvQ=
+    corrections:
+      - "name: 'Fishing Pole' is a specific item, not the category name; the category is 'Fishing Poles'"
+      - "notes: Fishing poles do not have a '300-capable' requirement; they provide varying skill bonuses (+5 to +25) which help reach the effective skill levels needed for high-level zones."
+
+  - name: "FishingBuddy"
+    type: "addon"
+    notes: "Described as tracking fish caught and profit margins."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWdN8reDauniuI88ijE2qeeuqh5VQ4PqnT7WpDw4LjfqScrLQJ3YrweHcekwiwwboEDQqK4ybJwglf5GtlBNHXblmkuB3IaYql5pASTMiaabSjbF3BKQsuuVkei81BUH71
+    corrections:
+      - "notes: should be 'Described as tracking fish caught and managing fishing gear, not profit margins.'"
+
+  - name: "TradeSkillMaster"
+    type: "addon"
+    notes: "Described as monitoring AH prices in real time."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOAfp1XGsvZbHwNJYvouKQVBiBH61LMJwhTYqJORWdPzAF3FTcuZ1jzivHqEIk_m1yBmqQSu1p3xIm7-60Z6PumBS_Dtj6nUopQeZbH6kBc7VnFFj7-4IMBoXKe_C8d7OvDpFhZj59ASJJa39UnRlZwCKTSNg7rUjXqQ==
+    corrections:
+      - "notes: should be 'Requires manual Auction House scans to update price data, as WoW Classic lacks a real-time API.' instead of 'Described as monitoring AH prices in real time.'"
+
+  - name: "Atlas"
+    type: "addon"
+    notes: "Described as marking fishing hotspots on the map."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE65VUcVLNiAL3zdZdfLXu-2zE6F8ghYqx2kihMJOCA1Xfl8ZqCTVSQ0v8_A6siTYVU3l6uF_fmay2pci0A34aP4Z8sCXzkqXA0zN3QkyF5wSDnC_BJQ6Rx6X-aqUy7b7Jz
+    corrections:
+      - "notes: Atlas is an instance map browser, not a fishing hotspot marker; the addon described is likely 'Angler Atlas'."
+
+  - name: "AutoProfit"
+    type: "addon"
+    notes: "Described as calculating cooking vs. raw value instantly."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElGDhGS9FQznYC-Jx1d0BdQ7x-rdQqbGym1Y6h_N1EHmOvzpsEme8fBSaM81wQqB3d8Hs7MGXvu9y16WWZoDh8TbWjqh4RzFWw0yjonzrgtODwDzO-9Tj_FVhGl5fPc9r-imUAu0LQqRFvumy8tVSxhfLb5GJb9LkTBTzD3vUVKDgsGvmqTTq-xilHtf7cbbZKoetz8DRxGM9SOBnHNKxvOMny85Gc92VwgpNqewtDSObggLEBnkI5DaikvtrEJVIuKo4EyMRKLpLAz9HT
+    corrections:
+      - "notes: should be 'Automatically sells gray (poor quality) items to vendors when interacting with them', not 'Described as calculating cooking vs. raw value instantly.'"
+
+  - name: "Rumsey Rum Black Label"
+    type: "Consumable"
+    bonus: "+15 Stamina"
+    notes:
+      - "The guide recommends it for survival."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRzEIJnbMwNRzQYJfW9ehpiTb54M5LKTt_O47jmpwdg0U-a-4dUN3q8pDqeSt9nuEiyho2iDDXs1pz3ii7Ainy4QA9Mg2diXbx5sTmeRTPuWuA9ZmYuA==
+    corrections:
+
+  - name: "Nat Pagle's Extreme Anglin'"
+    type: "Fishing gear"
+    bonus: "+5 Fishing"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEo-tmiOoAcHuGo4MLd1UKm-kaWlfzXYPfyFv086tVK3kOt7TocMKN5t4leKcEGSGZaA3mFIEhdaajJuc3RVLq6g8hZ7woCUuFQrDnAzAy76mXh7f-HW8srZ_W1drRHm9Mv6tan3I7XQeFJb13SUW06T6sT_52nsZF0QYWf
+    corrections:
+      - "name: should be 'Nat Pagle's Extreme Anglin' Boots', not 'Nat Pagle's Extreme Anglin''"
+      - "type: should be 'Armor' (or 'Cloth, Feet'), not 'Fishing gear'"
+
+  - name: "Seth's Graphite Fishing Pole"
+    type: "fishing rod"
+    notes: "The guide says it is Horde-only."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0dytNk6ymmMfxuMWv-BS8whUkw3VwXC_9c6o6m_AgmEwt0VEV9PXqbbAhHO_La5EBPQMktWFqsOG1b-5H8osHqx007e192BD_Yy2HUtx6DursWFi_RKs8eVcuzZtnbMcS
+    corrections:
+      - "name: Seth's Graphite Fishing Pole does not exist in WoW Classic (1.12); it was added in The Burning Crusade."
+      - 'type: N/A (item does not exist in Classic).'
+      - 'notes: The item is not Horde-only; it is not in the game at all.'
+
+  - name: "Firefin Snapper Oil"
+    type: "alchemy reagent"
+    source: "Made from Firefin Snapper"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYq5-OQGvtJHBXY-n3JzjAzwkp4qKkppBGhkumUdHIdc2L_uyu-FXEQ9DFvdNbLSzDlIwTbfin9FfYsJn6UyNZVspw-wTtLE4A8vPDh8Ka5o9MfVQnt3gioUVxcYJPYwRDr58ZuGamercat5x1XMFg8rB9hgW58KIbbis3dGa0z9YLn2-aeRCZTlZ7wccDhrGM42eOSA==
+    corrections:
+      - "name: should be 'Fire Oil', not 'Firefin Snapper Oil'"
+
+  - name: "Heavy Runecloth Bandages"
+    type: "bandage"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEN0SSKg2IxaWapRpa8y10FGa6Ka3M62GKvRc3Wm05cDTOfIAa1tFB8NXoXUIwkkSIqsFDZA7fiycFrwOXqOb9AOfoaUTsaG7ROW1A_w7sLZPlTENffQXSWEP3vONClwIxo0tIejINhoCdybRKGOv2vuGtvdg==
+    corrections:
+
+  - name: "Empty Vials"
+    type: "reagent"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfK3dyB0tCY7JP_SQbdf3UGJIkQ3qtEIGXLAMXHTGPX60H49M6eEwsbR_yjufUU5b0_rBncKG70Ot3-1FX1g84SHXt8sQLlrwew9gx1B7aqSXO3JDeHEUHJ3IhiAgp86CL
+    corrections:
+      - 'type: should be Trade Goods, not reagent'
+
+  - name: "Basic Campfire"
+    type: "campfire"
+    bonus: "+4 Spirit"
+    notes: "The guide says it allows immediate cooking."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG40zAn9zge4BP77rDtXigHz8hg8Lmxe937g3OxFMD6PmJA-EVTSeoNDMrZcaWT5o0UqA98ZzxU-h5CxuWuMrRHNCXd__kotifqUWGSbqKe6QzGWCa7
+    corrections:
+      - "type: should be 'spell' or 'ability', not 'campfire'"
+      - 'notes: should state that it is a spell with a cast time that requires reagents (Simple Wood and Flint and Tinder) to create a fire, not that it allows immediate cooking'
+
+  - name: "300 Fishing"
+    type: "fishing skill requirement"
+    notes: "The guide states the character has 300 Fishing."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoP9A367MVPOupYv-mlISAcxr-yni6p1YFzdptaQuWBYL8tbYXL2dzf0on4z7drLFt-gZa5J_gK5Bd5uSw1h_XTvZREDPOkz3fWcpeRiezhBnyTklOm6X2pO2xdP9DP4Jj
+    corrections:
+
+  - name: "Fishing pole with +skill"
+    type: "item bonus"
+    bonus: "+fishing skill"
+    notes: "The guide recommends using a fishing pole with a fishing bonus if available."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpEIgQDhXBTjmwR1IrQz3K3rj-APJif10bOxXwxf6pG5MkXzKjeXMiDf2KIk3j7L7yKOmZWyEhwcMb9ioRo5iUuzH0bRHmEhNKyZ0PGM2nWB7U4MPkFhZlShEC3EwywyWbSAc94OG7vbTQKRmwd5KeEP5OLI5OlS5fQ2yLvMQAvV08GQpngpjMNOAOalIXR3ZL7Nr2ceNeKbgs-pw=
+    corrections:
+
+  - name: "Gear with fishing bonuses"
+    type: "item bonus"
+    bonus: "+fishing skill"
+    notes: "The guide recommends gear with fishing bonuses if available."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5rECmNaDgBdhXh4OZGkpcZ10x5gC_Wp_LZQY9UqX689vh9CVIRGRBcDNaPJGQUO-A92FR8-DjQNzkZI4G7mjNXRRtKxNcYepKEsSiBFMUctrBkdrY-1UgRdbKMfAQML7fnvSiTmSTyTh30323EQUbf86n4X4=
+    corrections:
+      - "type: should be 'equipment and consumables', not 'item bonus'"
+      - "bonus: should be 'permanent or temporary fishing skill increase', not '+fishing skill'"
+
+  - name: "Bait/lures"
+    type: "item bonus"
+    notes: "The guide says bait/lures can reduce resist or failed catches."
+    verified: true
+    verified_date: '2026-06-08'
+    corrections:
+
+  - name: "Refreshing Spring Water"
+    type: "Crafting ingredient"
+    notes: "Guide says to bring it if the Nightfin Soup recipe requires it."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgJf72sgSkQ20siXUuvqARTgHpQYMVmiMDeDKURJlJWbjUMbdSAb3wI3tXLG_UOwr0_GMdLCK6kKGGQGLg7oEmz1tZpgZnCXbM-0llKYfnDc8eGTe-DxLBqOxo9alzsgcflI7o-fndYoWIH3rnpykHVJl32Q==
+    corrections:
+      - "type: should be 'Consumable', not 'Crafting ingredient'"
+      - "notes: the phrasing 'if the Nightfin Soup recipe requires it' is unnecessary as it is a confirmed requirement for that recipe"
+
+  - name: "Nightfin Snapper"
+    type: "fish"
+    duration: "00:00–06:00 server time"
+    notes: "Bites only at night according to the guide."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbYGnWlXbS2Nf4w1Mf4_csNigpsuBNQKbT-FqtWmHWmdIM2Y2ciq2vuEH5cCHcE-syAW4g9A5jRBrzHqszUJcrPhdD3QG2W97xVEPBw8TXdGyVkYlDhSMQu2u1d-ClQaendtkVrgN4QZO2R1pN
+    corrections:
+      - 'duration: should be 18:00–06:00 server time, not 00:00–06:00'
+      - 'notes: should clarify that while 00:00–06:00 is the peak time, the fish is available from 18:00–06:00'
+
+  - name: "Perception"
+    type: "racial ability"
+    notes: "Human racial mentioned as useful against stealthed rogues."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnoAgjLix0fpxq22mu9iIfZ7-yMumFMgPunZaeNYCq06fuSXZNzG_ZCLOhP3piC9-zp76AcdN8T4aYsrsTtFvshTlnOrnqM-8GwB3GwAFRuhXPgbseISqdxByIK4Kf_UAw8thPceeJHbv6lHxRMoQM
+    corrections:
+
+  - name: "Masterwork Angelfish Rod"
+    type: "Fishing rod"
+    bonus: "+10 fishing"
+    notes: "Described as the ideal rod in the guide."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4JVpvH3dr9HXKqbjLatWuAiVv4GpOBqOXJ2PtEGUKlf8OehR48QxzwxgIMpZv48nLAvL78OW61TNUMjhe9GtLYM5XSI3SweHOULsaBnVhR6TUFGY9WjSragwvraag5CHhVB9ol9tpJQg=
+    corrections:
+      - "name: 'Masterwork Angelfish Rod' does not exist in WoW Classic"
+      - 'type: N/A'
+      - 'bonus: N/A'
+      - 'notes: N/A'
+
+  - name: "Tackle Box"
+    type: "Container"
+    notes: "Guide says to keep it in your bags to save room."
+    verified: false
+    verified_date: '2026-06-08'
+    corrections:
+      - "'Tackle Box' is not a container item in WoW Classic."
+      - There are no specialized fishing bags in WoW Classic; the 'Lure Master Tackle Box' was added in a later expansion.
+      - The 'Battered Tackle Box' exists in Classic only as a static, lootable object in Zul'Gurub, not as an item for player inventory.
+
+  - name: "Waterbreathing Elixir"
+    type: "Consumable"
+    notes: "Recommended for underwater spots."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnAUvESJKEMq6DaRCcBXmhsHKjLx5YfbXL22BmK2H8OjpV2Jp2vuUTGRS_fSGa9_Q26NXigRbNAJsO8Mvf8gvWYuRiM6DvV09UArosBsNs22QVtkM=
+    corrections:
+      - "name: should be 'Elixir of Water Breathing', not 'Waterbreathing Elixir'"
+
+  - name: "Battle Shout"
+    type: "Warrior ability"
+    notes: "Mentioned as providing slight DPS help."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrB67yuFDihHPqPLeBlD7ImkbxF0mrAHY8kviTZhD9SsVCAjHNMxvEbZBNnscC3sDJ-rAEYe-bm_jqc-HnAF89o-d2RMre2j_9TXMyLBYBPFw8iDM8CQ==
+    corrections:
+      - "notes: 'slight DPS help' is misleading; it is a major raid utility buff that provides a significant flat Attack Power increase to all melee party members."
+
+  - name: "Intercept"
+    type: "Warrior ability"
+    notes: "Mentioned as an escape tool in contested zones."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1y0OO0fsGL3smlW8HGJn8o0HxwnYQfWraqx6ZqmNpZ5C-0fVWGuUv0Qt1b9_5lblPB_R0CHAnU6dIsn5WHDO3YWkX8j_fsi6lVjaKPbk3rRMymXVsvK92Spkgc5LyzZgzuqNfefIrAOcv
+    corrections:
+      - "type: should be 'Warrior ability' (correct), but the notes are factually incorrect as Intercept requires a hostile target and cannot be used as an escape tool."
+
+  - name: "Shield Wall"
+    type: "Warrior ability"
+    notes: "Mentioned as emergency damage mitigation."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9I5Qd7-m0APmyeHhxdVP3bSTWJqsq3TtohccAYz8kKADjcPv8mGldOLAP_L7-mQrfi6FnaleQLK2LUFOEWM3wk3sUtnp2hgHCxBLVPyxdqtPcpx0hUiyH_ScOuhmDfynp
+    corrections:
+
+  - name: "Darkwood Fishing Pole"
+    type: "Fishing pole"
+    bonus: "+15 Fishing"
+    source: "Rare reward from Nat Pagle's quest"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuvIP1S5Ob2bk3ILL4nStFO5ifmn0wFnS8w1vVa1Zz3BTHbebWrV35Q_g3Y7CDbaF4CjVV94U5gWtcPXPiQLmNrufWviYGiEmetHH3QBbU7Reiz4XiWRlDFovOdWre4ACPv3MPRD0qL33a9lUPwnaj3KSFi9_wk4u12KEFU0862QqZLLoOWBP4bio69eYFgN7hSwj47nI=
+    corrections:
+      - "source: should be 'Rare drop from fishing in inland waters in level 10-20 zones', not 'Rare reward from Nat Pagle's quest'"
+
+  - name: "Firefin Oil"
+    type: "Alchemy reagent"
+    source: "From Firefin Snapper according to the guide"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErJWPhQ_-Td9sYxnR8NZTn1JvgJYzNR6i_xr146Xqv3Sf8foxEAVH4ooy5rllNDFoZKdMvDKh0O_7rAVE2zgAyfgSmD34R-wzQx2La2fHmzOegtxryowZfOzAFSSXnmRbUU4ZvVw==
+    corrections:
+      - "name: should be 'Fire Oil', not 'Firefin Oil'"
+
+  - name: "Greater Stoneshield Potions"
+    type: "Item clarified as an Alchemy use"
+    source: "Mentioned as using Stonescale Eels"
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_LGXo_ekZ1XnT7uLwd3BDe8cAwFzjOfiCYR78STuHXAQMQLZqyk6YS6ssk7W1387RfK7VbYGjkb2QTRACtE5La95M4C58Cp5hfJRRRL-Lelb_OgJeOtge4BT_3EJFuboAnsTKZ6GFRzNfq70n6Gwh
+    corrections:
+      - "name: should be 'Greater Stoneshield Potion', not 'Greater Stoneshield Potions'"
+
+  - name: "Fishing Buddy"
+    type: "Addon"
+    notes: "Mentioned as tracking school locations, cast successes, and in-game time."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHo0aYDHB_kgy7cP7HKggObht72DvavVyB4iOJwovmmBBs1owQ3y5tA4Jga0W_Rj6j6PLtjq98AXJwPauVjC2OvWRqMGPqcWhNyjymrzPadn8DE8Vz9K0yEWBGGxaxYbaaY
+    corrections:
+      - 'notes: Fishing Buddy did not track school locations (it tracked fish caught in specific zones/sessions), but it did track catch statistics, fishing gear, and session time.'
+
+  - name: "FishingAce"
+    type: "Addon"
+    notes: "Mentioned as tracking school locations, cast successes, and in-game time."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAp_HS5Oq4p8smQDMJFGJwWZOX_ssk7bsNlwQDjWQOuGr7n8tIi2Hm7SIBOJyMHjelK3Yi5amP9bOxTx5wJYuns7L-ejCrNtuGSgQHgGIlTPRHrhd3BtATXbVVv_5VCG2j1G3pM9N5B67h0NpUuPNtTdcRs1N0vA2i30xzcyrAqFgfYyG8Sa_10Mag
+    corrections:
+      - 'notes: FishingAce was primarily a utility for right-click casting (double-right-click to cast), not for tracking school locations, catch successes, or in-game time; those features are characteristic of addons like Fishing Buddy.'
+
+  - name: "Nat Pagle’s Extreme Angler FC-5000"
+    type: "Fishing pole"
+    source: "From the Hinterlands quest"
+    notes: "The guide lists it as a fishing gear option."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFb_UXscxEz_CnRscwHWRBzeYbI69E-DQf9BpqF18T08iGTOHy-cuUsmRdefo7PTbG3Ceo6aRm1iFu82wmHfPm2zJNavJaHaMdY23kDCo7WYCdY8kDOQg==
+    corrections:
+      - "source: should be 'Horde-only quest \"Snapjaws, Mon!\" in the Hinterlands', not 'From the Hinterlands quest' (implies availability to both factions)"
+
+  - name: "Spun Truesilver Thread"
+    type: "Line enchant"
+    bonus: "+3 Fishing"
+    notes: "The guide says it is applied permanently to a rod."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8MF00tc73o7Tp5N865C6BLaG6mMMu4cT7Fw3UFGuH6JpLs-7h0vVRqSB-7PdV6ah_4uZzQyhGEtoKsOG9fO5ClLYJVCozXanPMpbXzK7z1jTFd7iiCvI9ryQWBW0M0GEgrWphyz6IlzruWXu25_BEeEnZznJ3nDgQHQ==
+    corrections:
+      - "name: should be 'Spun Truesilver Fishing Line', not 'Spun Truesilver Thread'"
+      - "type: this is a permanent fishing pole upgrade/enchantment, not a 'Line enchant'"
+      - 'notes: This item does not exist in WoW Classic (1.12/Era); it was added in Patch 2.4.0.'
+
+  - name: "Noggenfogger Elixir"
+    type: "Consumable"
+    notes: "The guide says it is used for Slow Fall to reach the Azshara ledges."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqT5prmaNTF1z9-LKgfghw81207iKfSAkv3HSfRH-ngKGl1ggfD1wAoxYoyCj-Y4UXb6CVrzVV5sIq0jDvYDN2B-S3XD6Eh1x-HQ1zfOM8n89UkiDSldqbKylY1bFe9os=
+    corrections:
+
+  - name: "Sound in Background"
+    type: "Game audio setting"
+    notes: "The guide says enabling it allows hearing the bobber splash while the game is minimized."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJJAXKZkP_pSvuAtoeItDakzGwKEl12wNqjEM6pGVmOOB07zqB9_6XNkza3ePGzrQmWGptM2kWeBaqlqp8yYwyI4Y5o6Zt0uC95wsj7RaGlPRQFiKCuO41VbLqrB3JiUnVKdwBEhf-WIM30BYXUHYfIhpKvsl0pLR7GKnc2USqcd7WUvCTQCRd7Oxiezcr8Ts=
+    corrections:
+      - "name: 'Sound in Background' was not a native, functional setting in the 1.12 client for Windows."
+      - 'notes: The 1.12 client natively mutes audio when minimized; this functionality requires third-party patches or modifications to the client.'
+
+  - name: "Mild Spices"
+    type: "Reagent"
+    notes: "Used for Savory Deviate Delight."
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGWA8kJq58kQmeFJXemEC9R0M66vav0a3kNdi_OpYQ5TMcLPnzS01wy8rmK4rf7Lr1f7_w_z7QxZeLPnQZ9dMU1dGR81InGeOQFe6apv-NvGGWPSs=
+    corrections:
+
+  - name: "Swim Speed Potion"
+    type: "Alchemy consumable"
+    source: "Mentioned as using Blackmouth Oil"
+    verified: true
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFT1LNBmZ1Bdzxz1A6l_abEQKDuPobvm5uS7PZCMFt5FEKql_yVSGr5B4wAcSdf8IZNaHSoglVIyITN5EM1zoJkzbOy5fyjuu6u7ZzAJWZAKX8oH2VQEcmICuS0aqDLvYQsTkNP
+    corrections:
+
+  - name: "Well Fed"
+    type: "buff"
+    bonus: "5%"
+    notes: "The guide says to keep a stack of food for the 5% well-fed buff."
+    verified: false
+    verified_date: '2026-06-08'
+    source_url: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcjsdXzycuUoXHoLID_d05WJHV5ypLF6AkWG82GrOgy95oi9Itk8HixQ8FmcXBphienld_99xoS-jYT3ygPKGwQBVB7c5tl_VDMsdRWN3TbwDHVk7inI0=
+    corrections:
+      - 'bonus: should be flat stat increases (e.g., +Stamina/Spirit), not 5%'
 gold_estimates:
   # Realistic gold/hour ranges on a typical Classic server (2019–2026 era)
   # These are approximate and vary with server economy/population

@@ -71,18 +71,32 @@ say so in corrections. Do not guess."""
 def parse_json_obj(text: str) -> dict | None:
     if not text:
         return None
-    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
-    raw = m.group(1) if m else None
-    if raw is None:
-        start, end = text.find("{"), text.rfind("}")
-        if start != -1 and end > start:
-            raw = text[start : end + 1]
-    if raw is None:
-        return None
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return None
+    # 1. Prefer a fenced code block: find the { right after the opening fence
+    #    and use raw_decode so the JSON parser determines the object boundary
+    #    (avoids regex back-tracking surprises with nested/trailing braces).
+    m = re.search(r"```(?:json)?\s*", text, re.IGNORECASE)
+    if m:
+        j = text.find("{", m.end())
+        if j != -1:
+            try:
+                obj, _ = json.JSONDecoder().raw_decode(text, j)
+                if isinstance(obj, dict):
+                    return obj
+            except json.JSONDecodeError:
+                pass
+    # 2. Fallback: scan forward through every { and return the first valid dict.
+    pos = 0
+    while True:
+        idx = text.find("{", pos)
+        if idx == -1:
+            return None
+        try:
+            obj, _ = json.JSONDecoder().raw_decode(text, idx)
+            if isinstance(obj, dict):
+                return obj
+        except json.JSONDecodeError:
+            pass
+        pos = idx + 1
 
 
 def entry_to_prompt(section: str, entry: dict) -> str:
@@ -139,7 +153,11 @@ async def verify_one(client, model, types_mod, sem, ref):
     """ref = (section, entry, was_trusted). Returns (ref, verdict, source_url, error)."""
     section, entry, _ = ref
     tool = types_mod.Tool(google_search=types_mod.GoogleSearch())
-    config = types_mod.GenerateContentConfig(tools=[tool], temperature=0.0)
+    config = types_mod.GenerateContentConfig(
+        tools=[tool],
+        temperature=0.0,
+        system_instruction=VERIFY_SYSTEM,
+    )
     async with sem:
         try:
             resp = await client.aio.models.generate_content(
