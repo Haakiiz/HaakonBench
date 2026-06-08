@@ -36,13 +36,12 @@ import asyncio
 import datetime as dt
 import json
 import os
-import re
 import sys
 
 from dotenv import load_dotenv
 from tqdm.asyncio import tqdm as tqdm_async
 
-from reference_io import LIST_SECTIONS, load_reference, save_reference
+from reference_io import LIST_SECTIONS, load_reference, parse_json_obj, save_reference
 
 META_KEYS = {"verified", "verified_date", "source_url", "corrections"}
 MODEL_CANDIDATES = ["gemini-3.1-flash-lite", "gemini-3.1-flash-lite-preview"]
@@ -67,36 +66,6 @@ single fenced JSON block:
 - If you genuinely cannot find a source, set verified=false, confidence="low", and \
 say so in corrections. Do not guess."""
 
-
-def parse_json_obj(text: str) -> dict | None:
-    if not text:
-        return None
-    # 1. Prefer a fenced code block: find the { right after the opening fence
-    #    and use raw_decode so the JSON parser determines the object boundary
-    #    (avoids regex back-tracking surprises with nested/trailing braces).
-    m = re.search(r"```(?:json)?\s*", text, re.IGNORECASE)
-    if m:
-        j = text.find("{", m.end())
-        if j != -1:
-            try:
-                obj, _ = json.JSONDecoder().raw_decode(text, j)
-                if isinstance(obj, dict):
-                    return obj
-            except json.JSONDecodeError:
-                pass
-    # 2. Fallback: scan forward through every { and return the first valid dict.
-    pos = 0
-    while True:
-        idx = text.find("{", pos)
-        if idx == -1:
-            return None
-        try:
-            obj, _ = json.JSONDecoder().raw_decode(text, idx)
-            if isinstance(obj, dict):
-                return obj
-        except json.JSONDecodeError:
-            pass
-        pos = idx + 1
 
 
 def entry_to_prompt(section: str, entry: dict) -> str:
@@ -199,7 +168,12 @@ def apply_verdict(entry: dict, verdict: dict | None, source_url: str | None,
     entry["verified_date"] = today
     if source_url:
         entry["source_url"] = source_url
-    entry["corrections"] = corrections
+    # Only write corrections when there's something to report; omit the key
+    # entirely for clean entries so verified: true entries stay uncluttered.
+    if corrections is not None:
+        entry["corrections"] = corrections
+    elif "corrections" in entry:
+        del entry["corrections"]
     return verified, corrections
 
 
@@ -226,7 +200,7 @@ async def main() -> int:
 
     data = load_reference()
     targets = collect_targets(data, args.include_verified)
-    if args.limit:
+    if args.limit is not None:
         targets = targets[: args.limit]
     if not targets:
         print("No pending entries to verify. (All entries are already verified: true.)")

@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import re
 import sys
 from pathlib import Path
@@ -38,6 +37,7 @@ from reference_io import (
     existing_names,
     load_reference,
     normalize_name,
+    parse_json_obj,
     save_reference,
     to_quoted,
 )
@@ -72,29 +72,12 @@ and time/season restrictions, item bonuses).
 ```json code block."""
 
 
-def parse_json_obj(text: str) -> dict | None:
-    """Tolerant JSON-object extraction from an LLM reply."""
-    if not text:
-        return None
-    m = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.DOTALL)
-    raw = m.group(1) if m else None
-    if raw is None:
-        start, end = text.find("{"), text.rfind("}")
-        if start != -1 and end > start:
-            raw = text[start : end + 1]
-    if raw is None:
-        return None
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return None
-
 
 def gather_response_files(results_dir: Path, limit: int | None) -> list[Path]:
     files = sorted(
         p for p in results_dir.glob("*/*.md") if not p.name.startswith("_")
     )
-    if limit:
+    if limit is not None:
         files = files[:limit]
     return files
 

@@ -11,6 +11,7 @@ every comment and reflow the block scalars.
 from __future__ import annotations
 
 import io
+import json
 import re
 from pathlib import Path
 
@@ -54,7 +55,9 @@ def save_reference(data, path: Path = REFERENCE_PATH) -> None:
     _yaml().dump(data, buf)
     text = buf.getvalue()
     # 4-space indent = key inside an entry. Remove blank lines between them.
-    text = re.sub(r"\n\n(    [a-zA-Z])", r"\n\1", text)
+    # Pattern requires `word:` so it only matches YAML keys, not block-scalar
+    # content that might happen to start with a letter at the same indent.
+    text = re.sub(r"\n\n(    [a-z]\w*\s*:)", r"\n\1", text)
     # Add a blank line before any `  - name:` that doesn't already have one.
     text = re.sub(r"([^\n])\n(  - name:)", r"\1\n\n\2", text)
     with Path(path).open("w", encoding="utf-8") as f:
@@ -73,6 +76,40 @@ def to_quoted(entry: dict) -> dict:
         else:
             out[k] = v
     return out
+
+
+def parse_json_obj(text: str) -> dict | None:
+    """Tolerant JSON-object extraction from an LLM reply.
+
+    Prefers a fenced code block (```json ... ```) and uses raw_decode so the
+    JSON parser determines the object boundary — handles trailing text or extra
+    braces after the object without regex back-tracking surprises. Falls back to
+    scanning forward through every { if no fence is found.
+    """
+    if not text:
+        return None
+    m = re.search(r"```(?:json)?\s*", text, re.IGNORECASE)
+    if m:
+        j = text.find("{", m.end())
+        if j != -1:
+            try:
+                obj, _ = json.JSONDecoder().raw_decode(text, j)
+                if isinstance(obj, dict):
+                    return obj
+            except json.JSONDecodeError:
+                pass
+    pos = 0
+    while True:
+        idx = text.find("{", pos)
+        if idx == -1:
+            return None
+        try:
+            obj, _ = json.JSONDecoder().raw_decode(text, idx)
+            if isinstance(obj, dict):
+                return obj
+        except json.JSONDecodeError:
+            pass
+        pos = idx + 1
 
 
 def normalize_name(name) -> str:
