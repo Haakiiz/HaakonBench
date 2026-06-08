@@ -291,7 +291,7 @@ items_and_clarifications:
     bonus: "+75 Fishing skill"
     duration: "10 minutes"
 
-  - name: "둥근 Big Iron Fishing Pole"
+  - name: "Big Iron Fishing Pole"
     type: "Fishing pole"
     bonus: "+20 Fishing skill"
     source: "Looted from Shellfish Traps in Desolace"
