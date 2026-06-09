@@ -4,6 +4,10 @@
 
 *300 Fishing · 300 Cooking · zero deaths · zero walking*
 
+> 🖥️ **Prefer it visual?** Open [`guide.html`](guide.html) in a browser — same
+> guide with a live window-tracker clock, 24-hour timeline, and gold/hour
+> charts. No build step, just open the file.
+
 You are a warrior. You have no Vanish, no Blink, no Feign Death — you have a
 hearthstone, plate armor, and a bad attitude. This guide is built around that
 reality: every primary spot is either inside an Alliance garrison's guard

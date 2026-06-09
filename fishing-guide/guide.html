@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ironclad Angler — WoW Classic Fishing Gold Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #f0c040;
+      --gold-dim: #b8962e;
+      --gold-glow: #ffd54f;
+      --bg-dark: #0a0e1a;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2332;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --alliance-blue: #3b82f6;
+      --alliance-dark: #1e3a5f;
+      --green: #22c55e;
+      --red: #ef4444;
+      --orange: #f97316;
+      --purple: #a855f7;
+      --cyan: #06b6d4;
+      --night: #6366f1;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(240,192,64,0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .faction-badge {
+      display: inline-block;
+      background: var(--alliance-dark);
+      color: var(--alliance-blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(59,130,246,0.3);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(240,192,64,0.15);
+      margin-bottom: 0.5rem;
+    }
+
+    header p.sub { color: var(--text-dim); font-size: 1.05rem; }
+
+    .specs { display: flex; justify-content: center; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .spec {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+    .spec strong { color: var(--gold-dim); }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 3rem 0 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    h2 .nr {
+      font-size: 0.8rem;
+      color: var(--bg-dark);
+      background: var(--gold-dim);
+      border-radius: 6px;
+      padding: 0.05rem 0.55rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+    }
+    .lede { color: var(--text-dim); margin-bottom: 1.4rem; max-width: 70ch; }
+
+    /* ── Live status widget ── */
+    .live-box {
+      background: linear-gradient(135deg, rgba(30,58,95,0.45), rgba(17,24,39,0.9));
+      border: 1px solid rgba(59,130,246,0.35);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    .live-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;
+    }
+    .live-head .clock {
+      font-family: 'Cinzel', serif; font-size: 1.9rem; font-weight: 700; color: var(--text);
+    }
+    .live-head .tz { font-size: 0.78rem; color: var(--text-dim); }
+    .live-head .tz input {
+      width: 4.2rem; background: var(--bg-dark); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px; padding: 0.15rem 0.4rem;
+      font-family: inherit; font-size: 0.78rem;
+    }
+    .windows { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.8rem; }
+    .window-pill {
+      border-radius: 10px; padding: 0.8rem 1rem; border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .window-pill .wname { font-weight: 700; font-size: 0.92rem; display: flex; align-items: center; gap: 0.45rem; }
+    .window-pill .wtime { font-size: 0.78rem; color: var(--text-dim); }
+    .window-pill .wstate { font-size: 0.82rem; font-weight: 700; margin-top: 0.2rem; }
+    .window-pill.open { border-color: rgba(34,197,94,0.5); box-shadow: 0 0 18px rgba(34,197,94,0.07) inset; }
+    .window-pill.open .wstate { color: var(--green); }
+    .window-pill.closed .wstate { color: var(--red); }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .dot.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot.off { background: var(--red); opacity: 0.6; }
+
+    .go-now {
+      margin-top: 1.1rem; padding: 0.9rem 1.1rem; border-radius: 10px;
+      background: rgba(240,192,64,0.07); border: 1px solid rgba(240,192,64,0.35);
+      font-size: 0.95rem;
+    }
+    .go-now strong { color: var(--gold); }
+
+    /* ── 24h timeline ── */
+    .timeline { margin-top: 1.6rem; }
+    .tl-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.55rem; }
+    .tl-label { width: 130px; flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); text-align: right; }
+    .tl-track {
+      flex: 1; height: 22px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 6px; position: relative; overflow: hidden;
+    }
+    .tl-seg { position: absolute; top: 0; bottom: 0; border-radius: 4px; opacity: 0.85; }
+    .tl-seg.nightfin { background: linear-gradient(90deg, #4f46e5, #6366f1); }
+    .tl-seg.stonescale { background: linear-gradient(90deg, #0e7490, #06b6d4); }
+    .tl-seg.power { background: linear-gradient(90deg, #b8962e, #f0c040); }
+    .tl-hours { display: flex; margin-left: 137px; font-size: 0.65rem; color: var(--text-dim); }
+    .tl-hours span { flex: 1; text-align: left; }
+    .now-line {
+      position: absolute; top: -3px; bottom: -3px; width: 2px;
+      background: var(--red); box-shadow: 0 0 8px var(--red); z-index: 2;
+    }
+
+    /* ── Spot cards ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.1rem; margin-top: 1.4rem; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.3rem 1.3rem 1.1rem; transition: transform .15s ease, border-color .15s ease;
+      display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--gold-dim); background: var(--bg-card-hover); }
+    .card .rank {
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+      display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; width: fit-content;
+    }
+    .rank.s { background: rgba(240,192,64,0.12); color: var(--gold); border: 1px solid rgba(240,192,64,0.4); }
+    .rank.a { background: rgba(59,130,246,0.12); color: var(--alliance-blue); border: 1px solid rgba(59,130,246,0.4); }
+    .rank.b { background: rgba(148,163,184,0.1); color: var(--text-dim); border: 1px solid var(--border); }
+    .rank.danger { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.4); }
+    .card h3 { font-family: 'Cinzel', serif; color: var(--text); font-size: 1.12rem; line-height: 1.3; }
+    .card .zone { color: var(--text-dim); font-size: 0.82rem; margin-top: -0.4rem; }
+    .meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap; }
+    .stars { color: var(--gold); letter-spacing: 0.1em; }
+    .stars .empty { color: var(--border); }
+    .card .fish-list { font-size: 0.85rem; color: var(--text); }
+    .card .fish-list em { color: var(--gold-glow); font-style: normal; font-weight: 600; }
+    .card .when { font-size: 0.8rem; color: var(--cyan); }
+    .ghbar { margin-top: auto; padding-top: 0.6rem; }
+    .ghbar .gh-nums { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 0.25rem; }
+    .ghbar .gh-nums b { color: var(--gold); font-size: 0.95rem; }
+    .gh-track { height: 10px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .gh-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--gold-dim), var(--gold-glow)); }
+    .gh-fill.risk { background: linear-gradient(90deg, #b91c1c, var(--red)); }
+
+    /* ── Cook table ── */
+    table { width: 100%; border-collapse: collapse; margin-top: 1.2rem; font-size: 0.88rem; }
+    th, td { padding: 0.65rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--gold-dim); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; }
+    td .buff { color: var(--green); font-weight: 600; }
+    td .raw-tag { color: var(--cyan); font-weight: 600; }
+    tr:hover td { background: rgba(255,255,255,0.015); }
+    .pill {
+      display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.05rem 0.5rem;
+      border-radius: 999px; border: 1px solid;
+    }
+    .pill.cook { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07); }
+    .pill.raw { color: var(--cyan); border-color: rgba(6,182,212,0.4); background: rgba(6,182,212,0.07); }
+
+    /* ── Season strip ── */
+    .season-strip { display: flex; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-top: 1.2rem; }
+    .season {
+      flex: 1; padding: 0.9rem 0.6rem; text-align: center; font-size: 0.82rem;
+    }
+    .season.winter { background: rgba(99,102,241,0.12); }
+    .season.summer { background: rgba(249,115,22,0.10); }
+    .season b { display: block; font-size: 0.95rem; }
+    .season.winter b { color: var(--night); }
+    .season.summer b { color: var(--orange); }
+    .season .dates { color: var(--text-dim); font-size: 0.74rem; }
+    .season.active { outline: 2px solid var(--gold); outline-offset: -2px; position: relative; }
+    .season.active::after {
+      content: 'NOW'; position: absolute; top: 6px; right: 8px; font-size: 0.6rem; font-weight: 800;
+      color: var(--bg-dark); background: var(--gold); padding: 0 0.4rem; border-radius: 4px;
+    }
+
+    /* ── Rotation ── */
+    .rotation { margin-top: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .rot-block {
+      display: flex; gap: 1rem; align-items: flex-start; background: var(--bg-card);
+      border: 1px solid var(--border); border-left: 4px solid var(--gold-dim);
+      border-radius: 10px; padding: 0.85rem 1.1rem;
+    }
+    .rot-block.power-b { border-left-color: var(--gold); background: linear-gradient(90deg, rgba(240,192,64,0.06), var(--bg-card) 40%); }
+    .rot-block.off { border-left-color: var(--border); opacity: 0.85; }
+    .rot-time { font-family: 'Cinzel', serif; font-weight: 700; color: var(--gold); width: 110px; flex-shrink: 0; font-size: 0.9rem; }
+    .rot-what b { color: var(--text); }
+    .rot-what { font-size: 0.88rem; color: var(--text-dim); }
+
+    /* ── Shopping ── */
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+    .shop-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.2rem; }
+    .shop-card h4 { color: var(--alliance-blue); font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .shop-card ul { list-style: none; font-size: 0.85rem; color: var(--text-dim); }
+    .shop-card li { padding: 0.18rem 0; }
+    .shop-card li::before { content: '◆ '; color: var(--gold-dim); font-size: 0.7rem; }
+    .macro {
+      background: var(--bg-dark); border: 1px solid var(--border); border-radius: 8px;
+      font-family: monospace; font-size: 0.85rem; color: var(--gold-glow);
+      padding: 0.7rem 1rem; margin-top: 0.5rem; white-space: pre;
+    }
+
+    /* ── Hallucination watch ── */
+    .fake-fish { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+    .fake {
+      font-size: 0.78rem; color: var(--red); border: 1px dashed rgba(239,68,68,0.45);
+      border-radius: 999px; padding: 0.15rem 0.7rem; text-decoration: line-through;
+      text-decoration-color: rgba(239,68,68,0.6);
+    }
+
+    footer {
+      margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      text-align: center; color: var(--text-dim); font-size: 0.8rem;
+    }
+    footer .sig { font-family: 'Cinzel', serif; color: var(--gold-dim); font-size: 0.95rem; margin-bottom: 0.3rem; }
+
+    @media (max-width: 640px) {
+      .tl-label { width: 84px; font-size: 0.68rem; }
+      .tl-hours { margin-left: 91px; }
+      .rot-time { width: 88px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="faction-badge">⚔ For the Alliance</div>
+    <h1>The Ironclad Angler</h1>
+    <p class="sub">A fishing &amp; cooking gold guide for the level 60 Human Warrior — zero deaths, zero walking</p>
+    <div class="specs">
+      <span class="spec">Class <strong>Warrior</strong></span>
+      <span class="spec">Fishing <strong>300</strong></span>
+      <span class="spec">Cooking <strong>300</strong></span>
+      <span class="spec">Patch <strong>1.12</strong></span>
+    </div>
+  </header>
+
+  <!-- ── LIVE STATUS ── -->
+  <h2><span class="nr">1</span> Where should I be right now?</h2>
+  <p class="lede">Fishing gold is time-gated. This panel reads the clock and tells you which money-windows are open <em>at this moment</em>. Set the offset if your server time differs from your computer's.</p>
+
+  <div class="live-box">
+    <div class="live-head">
+      <div class="clock" id="clock">--:--</div>
+      <div class="tz">server offset (hours): <input type="number" id="offset" value="0" step="1" min="-23" max="23"></div>
+    </div>
+    <div class="windows">
+      <div class="window-pill" id="w-nightfin">
+        <div class="wname"><span class="dot"></span> 🌙 Nightfin window</div>
+        <div class="wtime">6:00 PM – 6:00 AM · Raw Nightfin Snapper</div>
+        <div class="wstate">—</div>
+      </div>
+      <div class="window-pill" id="w-stonescale">
+        <div class="wname"><span class="dot"></span> 🌗 Stonescale window</div>
+        <div class="wtime">12:00 AM – 12:00 PM · boosted eel rate</div>
+        <div class="wstate">—</div>
+      </div>
+      <div class="window-pill" id="w-season">
+        <div class="wname"><span class="dot"></span> 📅 Seasonal fish</div>
+        <div class="wtime">Squid Sep 23–Mar 20 · Bass otherwise</div>
+        <div class="wstate">—</div>
+      </div>
+    </div>
+    <div class="go-now" id="go-now">…</div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-row">
+      <div class="tl-label">🌙 Nightfin</div>
+      <div class="tl-track" id="track-n">
+        <div class="tl-seg nightfin" style="left:0%; width:25%"></div>
+        <div class="tl-seg nightfin" style="left:75%; width:25%"></div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">🌗 Stonescale</div>
+      <div class="tl-track" id="track-s">
+        <div class="tl-seg stonescale" style="left:0%; width:50%"></div>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">⚡ Power hours</div>
+      <div class="tl-track" id="track-p">
+        <div class="tl-seg power" style="left:0%; width:25%"></div>
+      </div>
+    </div>
+    <div class="tl-hours">
+      <span>12AM</span><span>3AM</span><span>6AM</span><span>9AM</span>
+      <span>12PM</span><span>3PM</span><span>6PM</span><span>9PM</span>
+    </div>
+  </div>
+
+  <!-- ── SPOTS ── -->
+  <h2><span class="nr">2</span> The spot dossiers</h2>
+  <p class="lede">Every primary spot is inside an Alliance garrison's guard radius or so remote nobody will find you. Bars show estimated gold/hour on a mid-pop era server with active raiders — cooking included where it applies.</p>
+
+  <div class="cards">
+
+    <div class="card">
+      <span class="rank s">🥇 S-tier · hidden contested</span>
+      <h3>Jademir Lake</h3>
+      <div class="zone">Northern Feralas — no road leads there</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★★<span class="empty">★</span></span></span>
+        <span>Comfort <span class="stars">★<span class="empty">★★★★</span></span></span>
+      </div>
+      <div class="when">⏰ 6 PM – 6 AM (Nightfin window)</div>
+      <div class="fish-list"><em>Raw Nightfin Snapper</em> → cook Nightfin Soup at your campfire (+8 mp5). Filler: Redgill, Mithril Head Trout. Saltwater twin: Sardor Isle.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour</span><b>12–18 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank s">🥈 S-tier · Alliance guards</span>
+      <h3>Feathermoon Stronghold Dock</h3>
+      <div class="zone">Feralas — guards, mailbox, recipe vendor on-site</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★★★</span></span>
+        <span>Comfort <span class="stars">★★★★★</span></span>
+      </div>
+      <div class="when">⏰ 12 AM – 12 PM (Stonescale window)</div>
+      <div class="fish-list"><em>Stonescale Eel</em> (sell raw — Flask of the Titans), <em>Large Raw Mightfish</em> → Mightfish Steak. Vivianna sells the recipes 50 yards away.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour</span><b>10–16 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank a">🥉 A-tier · quiet contested</span>
+      <h3>Bay of Storms</h3>
+      <div class="zone">Azshara — hidden coves, naga are rage generation</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★<span class="empty">★★</span></span></span>
+        <span>Comfort <span class="stars">★★<span class="empty">★★★</span></span></span>
+      </div>
+      <div class="when">⏰ 12 AM – 12 PM eels · pools all day</div>
+      <div class="fish-list"><em>Stonescale Eel</em>, Mightfish, Whitescale Salmon → Baked Salmon, plus the jackpot: <em>Patch of Elemental Water</em> pools (Essence of Water).</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour (spiky)</span><b>10–18 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank a">A-tier · quiet contested</span>
+      <h3>Lake Kel'Theril</h3>
+      <div class="zone">Winterspring — Everlook's mailbox up the hill</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★★<span class="empty">★</span></span></span>
+        <span>Comfort <span class="stars">★★★<span class="empty">★★</span></span></span>
+      </div>
+      <div class="when">⏰ 6 PM – 6 AM (Nightfin window)</div>
+      <div class="fish-list"><em>Raw Nightfin Snapper</em> → Nightfin Soup, Raw Redgill filler. Horde almost never patrol here.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour</span><b>11–16 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank a">A-tier · safest open water</span>
+      <h3>Lake Elune'ara</h3>
+      <div class="zone">Moonglade — no hostile mobs, no Horde traffic</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★★★</span></span>
+        <span>Comfort <span class="stars">★★★<span class="empty">★★</span></span></span>
+      </div>
+      <div class="when">⏰ Nightfin at night · Sunscale by day</div>
+      <div class="fish-list"><em>Raw Nightfin Snapper</em> (night), <em>Raw Sunscale Salmon</em> (day) → Poached Sunscale Salmon, Redgill. Day-AND-night viable.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour</span><b>10–14 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:70%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank b">B-tier · Alliance guards</span>
+      <h3>Menethil Harbor Dock</h3>
+      <div class="zone">Wetlands — the "movie on second monitor" spot</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★★★★★</span></span>
+        <span>Comfort <span class="stars">★★★★★</span></span>
+      </div>
+      <div class="when">⏰ Anytime — no windows</div>
+      <div class="fish-list"><em>Oily Blackmouth</em> + <em>Firefin Snapper</em> — alchemy fish, sell raw forever. Clams → Undermine Clam Chowder. PvP servers: Free Action Potion demand lifts this spot.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour</span><b>4–8 g</b></div>
+        <div class="gh-track"><div class="gh-fill" style="width:40%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank danger">⚠ Danger pays · Horde territory</span>
+      <h3>The Barrens Oases</h3>
+      <div class="zone">Forgotten Pools / Lushwater / Stagnant Oasis</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★<span class="empty">★★★★</span></span></span>
+        <span>Comfort <span class="stars">★<span class="empty">★★★★</span></span></span>
+      </div>
+      <div class="when">⏰ Off-peak server mornings ONLY</div>
+      <div class="fish-list"><em>Deviate Fish</em> — best raw g/h in Classic. Cook Savory Deviate Delight only if you own the rare world-drop recipe; otherwise sell raw.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>est. gold/hour (raw)</span><b>15–25 g</b></div>
+        <div class="gh-track"><div class="gh-fill risk" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="rank danger">⚠ Weekly event · Sundays 2–4 PM</span>
+      <h3>Stranglethorn Extravaganza</h3>
+      <div class="zone">STV coast — a PvP bloodbath with a prize</div>
+      <div class="meta">
+        <span>Safety <span class="stars">★<span class="empty">★★★★</span></span></span>
+        <span>Comfort <span class="stars">★★<span class="empty">★★★</span></span></span>
+      </div>
+      <div class="when">⏰ First to 40 Speckled Tastyfish wins</div>
+      <div class="fish-list">The prize pool includes the <em>Arcanite Fishing Pole</em> (+35, best in slot). You're a warrior — at least you can fight back. Go for the pole, not the g/h.</div>
+      <div class="ghbar">
+        <div class="gh-nums"><span>payout</span><b>the pole</b></div>
+        <div class="gh-track"><div class="gh-fill risk" style="width:55%"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── COOKING ── -->
+  <h2><span class="nr">3</span> The cooking multiplier</h2>
+  <p class="lede">Your 300 cooking adds roughly +30–40% to income — but only on the right fish. Golden rule: <strong style="color:var(--text)">cook what raiders eat, sell raw what alchemists drink.</strong> Drop a campfire and queue food while the bobber works.</p>
+
+  <table>
+    <thead>
+      <tr><th>Catch</th><th>Action</th><th>Becomes</th><th>Buff</th><th>Skill</th><th>Who buys</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Raw Nightfin Snapper</td><td><span class="pill cook">COOK</span></td>
+        <td>Nightfin Soup</td><td class="buff">+8 mana / 5 sec</td><td>250</td><td>Healers &amp; casters — biggest food market in the game</td>
+      </tr>
+      <tr>
+        <td>Raw Winter Squid <small>(seasonal)</small></td><td><span class="pill cook">COOK</span></td>
+        <td>Grilled Squid</td><td class="buff">+10 Agility</td><td>240</td><td>Rogues, hunters, warriors</td>
+      </tr>
+      <tr>
+        <td>Large Raw Mightfish</td><td><span class="pill cook">COOK</span></td>
+        <td>Mightfish Steak</td><td class="buff">+10 Stam / +10 Spirit</td><td>175</td><td>Tanks, levelers</td>
+      </tr>
+      <tr>
+        <td>Raw Whitescale Salmon</td><td><span class="pill cook">COOK</span></td>
+        <td>Baked Salmon</td><td class="buff">+12 Stam / +12 Spirit</td><td>275</td><td>Tanks</td>
+      </tr>
+      <tr>
+        <td>Raw Sunscale Salmon</td><td><span class="pill cook">COOK</span></td>
+        <td>Poached Sunscale Salmon</td><td class="buff">+6 hp / 5 sec</td><td>250</td><td>Modest — daytime filler</td>
+      </tr>
+      <tr>
+        <td>2× Zesty Clam Meat</td><td><span class="pill cook">COOK</span></td>
+        <td>Undermine Clam Chowder</td><td class="buff">+8 Stam / +8 Spirit</td><td>225</td><td>Budget buyers</td>
+      </tr>
+      <tr>
+        <td>Stonescale Eel</td><td><span class="pill raw">SELL RAW</span></td>
+        <td colspan="3"><span class="raw-tag">Alchemy:</span> Flask of the Titans, Greater Stoneshield</td><td>Alchemists, raid tanks</td>
+      </tr>
+      <tr>
+        <td>Oily Blackmouth</td><td><span class="pill raw">SELL RAW</span></td>
+        <td colspan="3"><span class="raw-tag">Alchemy:</span> Blackmouth Oil → Free Action Potions</td><td>Alchemists, PvPers</td>
+      </tr>
+      <tr>
+        <td>Firefin Snapper</td><td><span class="pill raw">SELL RAW</span></td>
+        <td colspan="3"><span class="raw-tag">Alchemy:</span> Fire Oil</td><td>Alchemists</td>
+      </tr>
+      <tr>
+        <td>Deviate Fish</td><td><span class="pill raw">SELL RAW</span></td>
+        <td colspan="3"><span class="raw-tag">Unless</span> you own the rare Savory Deviate Delight recipe</td><td>Everyone — pirate/ninja novelty</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="season-strip">
+    <div class="season winter" id="season-winter">
+      <b>🦑 Winter Squid season</b>
+      <span class="dates">Sep 23 → Mar 20 · Grilled Squid (+10 Agi)</span>
+    </div>
+    <div class="season summer" id="season-summer">
+      <b>🐟 Summer Bass season</b>
+      <span class="dates">~Mar 20 → Sep 22 · stockpiled squid sells high now</span>
+    </div>
+  </div>
+
+  <!-- ── ROTATION ── -->
+  <h2><span class="nr">4</span> A perfect fishing day</h2>
+  <p class="lede">The full no-lifing Saturday rotation (server time). Even just the midnight block twice a week funds repairs, consumables, and a slow march to an epic mount.</p>
+
+  <div class="rotation">
+    <div class="rot-block power-b">
+      <div class="rot-time">12 AM – 6 AM</div>
+      <div class="rot-what"><b>⚡ Power hours — Jademir Lake.</b> Nightfin AND Stonescale windows overlap. Nightfin until your bags groan, cooking soup at the fire between bites.</div>
+    </div>
+    <div class="rot-block">
+      <div class="rot-time">6 AM – 12 PM</div>
+      <div class="rot-what"><b>Feathermoon dock.</b> Stonescale window still open — eels + Mightfish. Mail everything, restock spices and Refreshing Spring Water.</div>
+    </div>
+    <div class="rot-block off">
+      <div class="rot-time">12 PM – 6 PM</div>
+      <div class="rot-what"><b>Windows closed.</b> Menethil movie-fishing (Oily Blackmouth), AH posting, or actually going outside.</div>
+    </div>
+    <div class="rot-block">
+      <div class="rot-time">6 PM – 12 AM</div>
+      <div class="rot-what"><b>Nightfin reopens — Lake Kel'Theril or Moonglade.</b> Soup production continues into the night.</div>
+    </div>
+  </div>
+
+  <!-- ── SHOPPING ── -->
+  <h2><span class="nr">5</span> One shopping trip, then never again</h2>
+  <div class="shop-grid">
+    <div class="shop-card">
+      <h4>🎣 Gear</h4>
+      <ul>
+        <li>Big Iron Fishing Pole (+20) — fine forever</li>
+        <li>Arcanite Fishing Pole (+35) — Sunday's prize</li>
+        <li>Aquadynamic Fish Attractor (+100 lure)</li>
+        <li>Bright Baubles (+75, cheap workhorse)</li>
+        <li>Nat Pagle's Artisan quest done (Dustwallow)</li>
+      </ul>
+    </div>
+    <div class="shop-card">
+      <h4>📜 Recipes — Gikkix, Steamwheedle Port (Tanaris, neutral)</h4>
+      <ul>
+        <li>Nightfin Soup</li>
+        <li>Grilled Squid</li>
+        <li>Poached Sunscale Salmon</li>
+        <li>Spotted Yellowtail</li>
+      </ul>
+    </div>
+    <div class="shop-card">
+      <h4>📜 Recipes — Vivianna, Feathermoon Stronghold</h4>
+      <ul>
+        <li>Mightfish Steak</li>
+        <li>Baked Salmon</li>
+        <li>+ Undermine Clam Chowder from Jabbey (Tanaris) or Mrs. Gant (Booty Bay)</li>
+      </ul>
+    </div>
+    <div class="shop-card">
+      <h4>🧂 Consumables (stock 100+)</h4>
+      <ul>
+        <li>Refreshing Spring Water (innkeeper)</li>
+        <li>Soothing Spices</li>
+        <li>Hot Spices</li>
+        <li>Mild Spices</li>
+      </ul>
+      <div class="macro">/equip Big Iron Fishing Pole
+/cast Fishing</div>
+    </div>
+  </div>
+
+  <!-- ── SELLING ── -->
+  <h2><span class="nr">6</span> Reading your server's market</h2>
+  <p class="lede">Two minutes at the AH answers everything: guilds pushing AQ/Naxx → Stonescale Eel is king. PvP server with active BGs → Oily Blackmouth quietly outperforms. Post raw fish in <strong style="color:var(--text)">stacks of 20</strong>, buff food in <strong style="color:var(--text)">stacks of 5/10</strong>, on <strong style="color:var(--text)">Monday–Wednesday</strong> — raid reset economics. Soup and squid are consumed weekly; this market never saturates.</p>
+
+  <!-- ── HALLUCINATION WATCH ── -->
+  <h2><span class="nr">7</span> Hallucination watch</h2>
+  <p class="lede">Guides and AI tools love inventing fish. None of these exist in WoW Classic 1.12 — if a guide mentions one, close the guide:</p>
+  <div class="fake-fish">
+    <span class="fake">Misty Fin Snapper</span>
+    <span class="fake">Firecracker Salmon</span>
+    <span class="fake">Rockfin Grouper</span>
+    <span class="fake">Azuregill Snapper</span>
+    <span class="fake">Glassfin Minnow</span>
+    <span class="fake">Smallmouth Bass</span>
+    <span class="fake">Largemouth Bass</span>
+    <span class="fake">Mithril Bass</span>
+    <span class="fake">Spotted Dreamfish</span>
+    <span class="fake">Winterfall Saury</span>
+    <span class="fake">World Tuna</span>
+    <span class="fake">Silverscale Fish</span>
+    <span class="fake">Festival Fish</span>
+    <span class="fake">Grilled Firefin</span>
+    <span class="fake">Clam Cocktail</span>
+  </div>
+
+  <footer>
+    <div class="sig">Tight lines, soldier.</div>
+    The bobber dips for those who wait. · All facts patch 1.12, grounded in wow_reference.yaml · g/h estimates assume a mid-pop era server with active raiders
+  </footer>
+
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  function serverNow() {
+    const off = parseInt($('offset').value || '0', 10);
+    const d = new Date();
+    d.setHours(d.getHours() + off);
+    return d;
+  }
+
+  function setPill(id, open, openText, closedText) {
+    const el = $(id);
+    el.classList.toggle('open', open);
+    el.classList.toggle('closed', !open);
+    el.querySelector('.dot').className = 'dot ' + (open ? 'on' : 'off');
+    el.querySelector('.wstate').textContent = open ? openText : closedText;
+  }
+
+  function inSquidSeason(d) {
+    // Sep 23 -> Mar 20
+    const m = d.getMonth() + 1, day = d.getDate();
+    if (m > 9 || (m === 9 && day >= 23)) return true;
+    if (m < 3 || (m === 3 && day <= 20)) return true;
+    return false;
+  }
+
+  function fmtUntil(hoursUntil) {
+    return hoursUntil === 1 ? 'in 1 hour' : 'in ' + hoursUntil + ' hours';
+  }
+
+  function update() {
+    const now = serverNow();
+    const h = now.getHours(), mins = now.getMinutes();
+
+    $('clock').textContent =
+      String(h).padStart(2, '0') + ':' + String(mins).padStart(2, '0');
+
+    const nightfin = (h >= 18 || h < 6);
+    const stonescale = (h < 12);
+    const squid = inSquidSeason(now);
+
+    setPill('w-nightfin', nightfin, 'OPEN — fish Nightfin now',
+      'closed — opens 6 PM ' + fmtUntil((18 - h + 24) % 24 || 24));
+    setPill('w-stonescale', stonescale, 'OPEN — boosted eel rate',
+      'closed — opens midnight ' + fmtUntil(24 - h));
+    setPill('w-season', true,
+      squid ? '🦑 Winter Squid in season' : '🐟 Summer Bass in season', '');
+    $('w-season').classList.toggle('open', squid);
+
+    // recommendation
+    let rec;
+    if (nightfin && stonescale) {
+      rec = '<strong>⚡ POWER HOURS.</strong> Both windows open — go to <strong>Jademir Lake</strong> (or Kel\'Theril/Moonglade) and fish Nightfin, cooking Nightfin Soup at the fire. This is the best fishing money in the game right now.';
+    } else if (nightfin) {
+      rec = '<strong>🌙 Nightfin window open.</strong> Head to <strong>Jademir Lake</strong>, <strong>Lake Kel\'Theril</strong>, or <strong>Moonglade</strong>. Soup production hours.';
+    } else if (stonescale) {
+      rec = '<strong>🌗 Stonescale window open.</strong> Park on the <strong>Feathermoon Stronghold dock</strong> (or a Bay of Storms cove) — eels and Mightfish until noon.';
+    } else {
+      rec = '<strong>😴 Both windows closed (noon–6 PM).</strong> Menethil Harbor movie-fishing (Oily Blackmouth), post your auctions, or take the break — Nightfin reopens at 6 PM.';
+    }
+    $('go-now').innerHTML = rec;
+
+    // season strip highlight
+    $('season-winter').classList.toggle('active', squid);
+    $('season-summer').classList.toggle('active', !squid);
+
+    // now-line on timelines
+    const pct = ((h + mins / 60) / 24 * 100).toFixed(2) + '%';
+    ['track-n', 'track-s', 'track-p'].forEach(id => {
+      const track = $(id);
+      let line = track.querySelector('.now-line');
+      if (!line) {
+        line = document.createElement('div');
+        line.className = 'now-line';
+        track.appendChild(line);
+      }
+      line.style.left = pct;
+    });
+  }
+
+  $('offset').addEventListener('input', update);
+  update();
+  setInterval(update, 30000);
+</script>
+</body>
+</html>
