@@ -70,6 +70,10 @@ class LLMClient:
         self.web_search = self.config.get("web_search", False)
         # Populated after each call() so callers can read token usage.
         self.last_usage: Optional[dict] = None
+        # Populated after each call() with how many web searches the model
+        # actually ran (when web_search is on). None = not applicable or the
+        # provider doesn't expose a per-call count.
+        self.last_web_searches: Optional[int] = None
         self._client = self._init_client()
 
     @staticmethod
@@ -126,6 +130,7 @@ class LLMClient:
 
     async def call(self, prompt: str, system: Optional[str] = None) -> str:
         self.last_usage = None
+        self.last_web_searches = None
         if self.provider == "anthropic":
             kwargs = {
                 "model": self.model,
@@ -160,6 +165,10 @@ class LLMClient:
                     getattr(u, "input_tokens", 0),
                     getattr(u, "output_tokens", 0),
                 )
+                if self.web_search:
+                    # usage.server_tool_use.web_search_requests is the count.
+                    stu = getattr(u, "server_tool_use", None)
+                    self.last_web_searches = int(getattr(stu, "web_search_requests", 0) or 0)
             # With thinking enabled, content[0] is a thinking block — pull text blocks.
             text = "".join(
                 b.text for b in response.content if getattr(b, "type", None) == "text"
@@ -216,6 +225,12 @@ class LLMClient:
                         getattr(u, "output_tokens", 0),
                         reasoning,
                         getattr(u, "total_tokens", None),
+                    )
+                if self.web_search:
+                    # Each search shows up as a web_search_call item in output.
+                    self.last_web_searches = sum(
+                        1 for item in getattr(response, "output", []) or []
+                        if getattr(item, "type", None) == "web_search_call"
                     )
                 return text
             else:
@@ -276,6 +291,9 @@ class LLMClient:
                     reasoning,
                     getattr(u, "total_tokens", None),
                 )
+            # last_web_searches stays None for xAI: the OpenAI-compatible usage
+            # object doesn't expose a per-call search-query count (only a
+            # sources-used proxy), so we don't report a possibly-misleading number.
             return response.choices[0].message.content
 
         elif self.provider == "google":
@@ -316,6 +334,13 @@ class LLMClient:
                     getattr(um, "thoughts_token_count", 0),
                     getattr(um, "total_token_count", None),
                 )
+            if self.web_search:
+                # grounding_metadata.web_search_queries lists each query the
+                # model ran (Gemini 3 is billed per query).
+                cands = getattr(response, "candidates", None) or []
+                gm = getattr(cands[0], "grounding_metadata", None) if cands else None
+                queries = getattr(gm, "web_search_queries", None) or []
+                self.last_web_searches = len(queries)
             return response.text
 
     async def batch_call(

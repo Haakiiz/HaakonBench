@@ -176,7 +176,10 @@ async def run_contestant(
             response = await asyncio.wait_for(client.call(PROMPT), timeout=timeout)
         else:
             response = await client.call(PROMPT)
-        return label, response, time.perf_counter() - t0, None, client.last_usage
+        usage = client.last_usage
+        if client.last_web_searches is not None:
+            usage = {**(usage or {}), "web_searches": client.last_web_searches}
+        return label, response, time.perf_counter() - t0, None, usage
     except asyncio.TimeoutError:
         return label, "", time.perf_counter() - t0, f"TimeoutError: no response within {timeout:.0f}s", None
     except Exception as e:
@@ -191,6 +194,14 @@ def _meta_block(secs: float, effort: str, usage: dict | None, web_search: bool =
         f"seconds: {secs:.1f}",
         f"effort: {effort}",
         f"web_search: {str(web_search).lower()}",
+    ]
+    if web_search:
+        # How many searches the model actually ran. Omitted when the provider
+        # doesn't expose a per-call count (e.g. xAI) → table shows '—'.
+        n = usage.get("web_searches")
+        if n is not None:
+            lines.append(f"web_searches: {n}")
+    lines += [
         f"input_tokens: {usage.get('input_tokens', 0)}",
         f"output_tokens: {usage.get('output_tokens', 0)}",
         f"reasoning_tokens: {usage.get('reasoning_tokens', 0)}",
@@ -457,10 +468,14 @@ def build_efficiency_table(
             "output": meta.get("output_tokens"),
             "reasoning": meta.get("reasoning_tokens"),
             "total": meta.get("total_tokens"),
+            "searches": meta.get("web_searches"),  # only present on --web-search runs
         })
 
     # Sort by score (desc) when we have it, otherwise keep label order.
     rows.sort(key=lambda r: (r["score"] is not None, r["score"] or 0), reverse=True)
+
+    # Only show the search column when this run actually used web search.
+    show_searches = any(r["searches"] is not None for r in rows)
 
     def cell(v) -> str:
         if v is None:
@@ -469,22 +484,30 @@ def build_efficiency_table(
             return f"{v:g}"
         return f"{v:,}" if isinstance(v, int) else str(v)
 
+    note = ("_Same score with fewer tokens or less time = more efficient. "
+            "Reasoning tokens are internal thinking; '—' means the provider didn't report it.")
+    if show_searches:
+        note += " Web searches = queries the model actually ran (— if not exposed, e.g. xAI)."
+    note += "_"
+
+    search_h = " Web searches |" if show_searches else ""
+    search_sep = "---|" if show_searches else ""
     lines = [
         "",
         "---",
         "",
         "## Efficiency — raw data",
         "",
-        "_Same score with fewer tokens or less time = more efficient. "
-        "Reasoning tokens are internal thinking; '—' means the provider didn't report it._",
+        note,
         "",
-        "| Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok |",
-        "|---|---|---|---|---|---|",
+        f"| Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok |{search_h}",
+        f"|---|---|---|---|---|---|{search_sep}",
     ]
     for r in rows:
+        search_c = f" {cell(r['searches'])} |" if show_searches else ""
         lines.append(
             f"| `{r['label']}` | {cell(r['score'])} | {cell(r['seconds'])} | "
-            f"{cell(r['output'])} | {cell(r['reasoning'])} | {cell(r['total'])} |"
+            f"{cell(r['output'])} | {cell(r['reasoning'])} | {cell(r['total'])} |{search_c}"
         )
     return "\n".join(lines)
 

@@ -107,6 +107,8 @@ Key per-provider facts (verified against provider docs):
 
 As with the effort knob, an unsupported tool just makes that one call fail loudly (saved as `FAILED`), never a silent empty.
 
+**Search counts are model-decided, not capped.** We attach only the tool — each provider runs its own server-side search loop and the model chooses how many queries to fire. `LLMClient.last_web_searches` captures how many it *actually* ran, parsed per provider: Anthropic `usage.server_tool_use.web_search_requests`, OpenAI `web_search_call` items in the Responses output, Gemini `grounding_metadata.web_search_queries`. xAI stays `None` — the OpenAI-compatible usage object doesn't expose a clean per-call search count. The count is folded into `HB_META` (`web_searches: N`, omitted when unknown) and surfaces as a **Web searches** column in the efficiency table — but only on `--web-search` runs (normal runs keep the original 6-column table). Provider caps exist if you ever want bounded/comparable runs (Anthropic `max_uses`, xAI `max_turns`) but are not wired up.
+
 ### Grader accuracy
 
 The grader is backed by `wow_reference.yaml` — a curated file of verified WoW Classic facts (recipes, ingredients, buff stats, zones, vendors). This file is injected into the grader's system prompt at runtime so it judges accuracy against ground truth rather than its own knowledge. **When the grader flags a factual error, always check `wow_reference.yaml` first before assuming the response is wrong.**
