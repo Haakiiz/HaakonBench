@@ -34,6 +34,7 @@ from reference_io import LIST_SECTIONS
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
+    ("anthropic", "claude-fable-5"),
     ("anthropic", "claude-opus-4-8"),
     #("anthropic", "claude-opus-4-7"),
     ("anthropic", "claude-sonnet-4-6"),
@@ -80,7 +81,7 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
-TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
+TIER_MAX_TOKENS = {"low": 16000, "medium": 32000, "high": 64000, "max": 128000}
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort

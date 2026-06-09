@@ -1,105 +1,104 @@
-### Professional Evaluation of LLM Responses
-
----
-
-### Performance & Accuracy Analysis
+### Individual Evaluation of Responses
 
 #### Response A
-* **Accuracy (9/10):** Highly accurate. Correctly notes that *Nightfin Soup* requires *Refreshing Spring Water* (not *Soothing Spices*). Correctly identifies the seasonal availability and stats of *Winter Squid* and *Grilled Squid*. The only minor error is listing the *Aquadynamic Fish Attractor* as a `+50` skill lure (it is `+100`).
-* **Strategy Depth (9/10):** Excellent distinction between "AFK Mode" (open water) and "Active Mode" (pools). Highly realistic gold-per-hour estimates (20–40g AFK, 40–70g active) that match the realities of a Classic Era economy.
-* **Creativity (8/10):** Great thematic formatting ("The Iron Angler's Codex") with solid warrior-specific survival tips.
-* **Structure (9/10):** Highly scannable, clean tables, and logical chapter progressions.
-* **Prompt Fidelity (10/10):** Fully respects the level 60 Alliance warrior constraints, focusing heavily on safety and stationary spots.
+* **Accuracy (9/10):** Very strong. It correctly identifies that the Aquadynamic Fish Attractor lasts 5 minutes (a rare correct detail). It accurately represents the uses of Stonescale Eel and Nightfin Snapper. 
+* **Strategy depth (8/10):** Solid. It breaks down peak hours (12 AM–6 AM for Eels and Nightfin) and provides a clear 24-hour rotation. The gold estimates are highly realistic for Classic.
+* **Creativity (8/10):** Fun, engaging tone ("The Iron Angler's Codex"). Adding warrior-specific combat tips (Battle Stance/shield) was a great touch.
+* **Structure (9/10):** Excellent. Clean tables, clear chapter divisions, and highly scannable.
+* **Prompt fidelity (9/10):** Hits all constraints. Highly tailored to a level 60 Alliance warrior.
 
 #### Response B
-* **Accuracy (5/10):** Contains several notable errors and hallucinations. It places *Steamwheedle Port* in *Winterspring* instead of *Tanaris*. It hallucinates a cooking recipe called "Grilled Mightfish" (+16 Str, +6 Sta) sold by Kelsey Yance; in Classic, Kelsey Yance sells the recipe for *Mightfish Steak* (which uses *Large Raw Mightfish* and gives Stamina/Spirit, not Strength). Additionally, it mentions "fishing in Moonglade can yield up to 45 gold per hour at level 20," which is bizarre context for a level 60 prompt.
-* **Strategy Depth (7/10):** Decent advice on time windows, but undermined by the geographical and item errors.
-* **Creativity (4/10):** Severe meta-prompting leak at the very beginning (*"Now I have all the information I need to write... Now I have everything I need..."*), which ruins the immersion and professionalism of the output.
-* **Structure (7/10):** Well-organized tables, but the copy-paste meta-text at the top drags it down.
-* **Prompt Fidelity (8/10):** Addresses the Alliance warrior, but recommends a hallucinated Strength food as "BiS" for the class.
+* **Accuracy (7/10):** Mostly good, but has some key errors. It claims the Aquadynamic Fish Attractor is +50 skill (it is +100). It recommends using an "autocast/no-AFK fishing addon" to stay logged in and fish, which is a major violation of Blizzard's ToS (botting/automation) and will get a player banned.
+* **Strategy depth (8/10):** Excellent explanation of the difference between "AFK" open-water fishing and "Active" pool-hopping. 
+* **Creativity (7/10):** Good structure, but has a brief scratchpad leak at the very beginning ("I'll research...").
+* **Structure (8/10):** Highly readable, but slightly cluttered.
+* **Prompt fidelity (8/10):** Good, but recommending a bannable automation tool for "AFK" is dangerous advice for a level 60 character.
 
 #### Response C
-* **Accuracy (4/10):** Fails a major critical reference check. It strongly recommends *Jademir Lake* in Feralas as a premier spot for *Raw Nightfin Snapper*. In WoW Classic, **Jademir Lake contains Raw Whitescale Salmon, not Nightfin Snapper**. It also hallucinates "Nat Pagle's Bone Fishing Pole" (a non-Classic item) and claims *Raw Redgill* cooks into a "heavily stamina-buffed" food (Filet of Redgill provides no stat buff; it is restorative only).
-* **Strategy Depth (8/10):** The Wailing Caverns instance strategy for safe *Deviate Fish* farming is an excellent, highly creative addition for an AFK player on a PvP server.
-* **Creativity (8/10):** Great "Lazy Raider Tax" concept and seasonal hoarding strategies.
-* **Structure (9/10):** Beautifully written and highly scannable.
-* **Prompt Fidelity (9/10):** Good alignment with the prompt, but the geographical loot-table errors severely impact its utility.
+* **Accuracy (3/10):** Very poor. It is riddled with hallucinations. It claims you can swim north from Darkshore to reach Moonglade (Moonglade is a landlocked mountain zone). It confuses Winterspring with Tanaris/Steamwheedle Port. It invents "Grilled Mightfish (+16 Str, +6 Sta)" which does not exist in Classic. 
+* **Strategy depth (5/10):** High word count but low actual value due to the sheer number of incorrect facts.
+* **Creativity (6/10):** Included a table of contents, but has a glaring scratchpad leak at the top ("Now I have all the information...").
+* **Structure (7/10):** Visually appealing, but the content is highly unreliable.
+* **Prompt fidelity (5/10):** Fails on accuracy, giving impossible travel advice.
 
 #### Response D
-* **Accuracy (8/10):** Mostly excellent. It correctly details how an Alliance player can farm the *Big Iron Fishing Pole* from underwater Shellfish Traps in Desolace (a brilliant, highly specific Classic WoW tactic). However, it incorrectly states that *Aquadynamic Fish Attractors* last 10 minutes (they last 5 minutes) and claims *Mightfish Steak* gives +10 Strength (it gives Stamina and Spirit).
-* **Strategy Depth (9/10):** Outstanding. The "Netflix & Cast" configuration (using background sound and the *Fishing Buddy* double-click feature) is exactly what a lazy AFK warrior needs.
-* **Creativity (9/10):** Excellent ASCII "Chrono-Angler's Almanac" and custom weapon-swapping macros.
-* **Structure (10/10):** Flawless markdown, highly professional, and easy to read.
-* **Prompt Fidelity (10/10):** Perfectly tailored to an Alliance warrior, explaining *why* they must use alternative pole acquisition methods compared to Horde players.
+* **Accuracy (6/10):** Mixed. The suggestion to fish inside the Wailing Caverns instance to safely farm Deviate Fish as an Alliance player is an elite, highly accurate strategy. However, it hallucinates "Nat Pagle's Bone Fishing Pole" (a Wrath of the Lich King item). It claims Jademir Lake in Feralas is a safe, high-yield Nightfin spot (it actually spawns elite level 53-55 green dragons/treants and yields Whitescale Salmon, not Nightfin). It also claims Redgill and Mithril Head Trout cook into "heavily stamina-buffed foods" (they provide no stat buffs).
+* **Strategy depth (8/10):** The Wailing Caverns instance tip is brilliant for a warrior who wants 100% safety.
+* **Creativity (8/10):** Great tone, clever "Lazy Raider Tax" section.
+* **Structure (8/10):** Very clean and easy to read.
+* **Prompt fidelity (8/10):** Good, though the Jademir Lake advice would get a warrior killed while AFK.
 
 #### Response E
-* **Accuracy (10/10):** **Flawless accuracy.** It is the only model to correctly state that the *Aquadynamic Fish Attractor* lasts 5 minutes (not 10). It correctly identifies the exact buffs for *Mightfish Steak* (+10 Stam, +10 Spirit), *Cooked Glossy Mightfish* (+10 Stamina), and *Hot Smoked Bass* (+10 Spirit). It provides exact coordinates for Duke Hydraxis's island in Azshara (79.2, 73.6) and cites highly accurate, historical database catch percentages (e.g., 23% Stonescale Eel in Bay of Storms, 18% at Feathermoon).
-* **Strategy Depth (10/10):** Unmatched depth. It uses real mathematical probability tables to calculate GPH. It also uniquely references the real-world date (June 9, 2026) to correctly point out that the player is currently in *Summer Bass* season, meaning *Winter Squid* is currently unavailable.
-* **Creativity (9/10):** The real-world date check and the "Anti-Gank Bunker" Zul'Farrak instance strategy are brilliant.
-* **Structure (10/10):** Highly clean, logical, and structured with clear summaries and step-by-step instructions.
-* **Prompt Fidelity (10/10):** Perfect. Tailored perfectly to the exact professions and class constraints.
+* **Accuracy (7/10):** Moderate. It claims the High-Test Fishing Line is +2 (it is +5). It claims the Aquadynamic Fish Attractor lasts 10 minutes (it lasts 5). It claims Mightfish Steak gives +10 Strength and +10 Stamina (it actually gives +10 Stamina and +10 Spirit).
+* **Strategy depth (8/10):** Good. It includes a great ASCII time-of-day chart and a solid breakdown of the Stonescale Eel economy.
+* **Creativity (8/10):** Excellent "Netflix & Cast" configuration tips, including an audio-only fishing setup and a weapon-swap macro.
+* **Structure (9/10):** Highly organized and visually clean.
+* **Prompt fidelity (9/10):** Followed all constraints well.
 
 #### Response F
-* **Accuracy (7/10):** Decent, but generic. It claims *Stonescale Eels* have higher rates from "12am–12pm," which is technically true but misses the peak midnight-to-6am window. It suggests catching *Savory Deviate Delight* in Theramore or Feralas, which is incorrect (Deviate Fish are only caught in the Barrens/Wailing Caverns).
-* **Strategy Depth (6/10):** Lacks the granular math, coordinate-level safety, or specific recipe breakdowns found in the top responses. Estimates are slightly inflated for pure AFK open-water fishing.
-* **Creativity (6/10):** Standard guide format, nothing particularly unique.
-* **Structure (8/10):** Clean and readable, but contains some repetitive points.
-* **Prompt Fidelity (9/10):** Respects the constraints but feels like a generic guide with "Warrior" keywords copy-pasted in.
+* **Accuracy (10/10):** Flawless. It is the only model to correctly identify all fishing buffs, recipe ingredients (specifically noting Refreshing Spring Water for Nightfin Soup, avoiding the common Soothing Spices trap), and seasonal fish calendars (Summer Bass vs. Winter Squid). It correctly identifies that Duke Hydraxis's island in Azshara has safe standing spots out of mob patrol ranges.
+* **Strategy depth (10/10):** Exceptional. It uses actual database math (e.g., 18% Stonescale catch rate at Feathermoon vs. 23% in Azshara) to calculate exact fish-per-hour yields (~150 catches/hr). It also suggests a brilliant "Anti-Gank Bunker" strategy: clearing to the Gahz'rilla pool inside the Zul'Farrak instance to fish Nightfin Snappers in 100% safety from PvP.
+* **Creativity (9/10):** The ZF instance bunker strategy and the detailed seasonal calendar are incredibly smart additions.
+* **Structure (10/10):** Perfect, highly professional layout. No system leaks or conversational filler.
+* **Prompt fidelity (10/10):** Understood the exact nuances of a level 60 Alliance warrior on a Classic server.
+
+#### Response G
+* **Accuracy (2/10):** Terrible. It suggests "cooking" Stonescale Eels (impossible, they are only used raw in Alchemy). It claims you can make 20–40g/hour in the Stormwind Canals and 50–80g/hour in Theramore catching low-level trash fish, which is completely absurd.
+* **Strategy depth (3/10):** Generic advice that doesn't understand the actual economy of the game.
+* **Creativity (1/10):** Extremely poor. It left raw web search citations in the text (e.g., `[[1]](url)`).
+* **Structure (4/10):** Messy due to the raw citations and formatting errors.
+* **Prompt fidelity (4/10):** Missed the mark on realistic gold values and basic game mechanics.
 
 ---
 
-### Assessment Table
+### Comparison Table
 
 | Letter | Accuracy | Strategy | Creativity | Structure | Fidelity | Total | One-line verdict |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **E** | 10 | 10 | 9 | 10 | 10 | **49** | An absolute masterclass in accuracy, math, and seasonal timing. |
-| **D** | 8 | 9 | 9 | 10 | 10 | **46** | Incredibly practical warrior-specific tips with beautiful formatting. |
-| **A** | 9 | 9 | 8 | 9 | 10 | **45** | Extremely solid, realistic, and highly accurate Classic guide. |
-| **F** | 7 | 6 | 6 | 8 | 9 | **36** | A decent but generic guide that lacks mechanical depth. |
-| **B** | 5 | 7 | 4 | 7 | 8 | **31** | Marred by a bad meta-prompt leak and hallucinated items/locations. |
-| **C** | 4 | 8 | 8 | 9 | 9 | **38** | Great layout, but completely fails major Classic geography/loot checks. |
+| **A** | 9 | 8 | 8 | 9 | 9 | **43** | Highly accurate, fun, and very practical. |
+| **B** | 7 | 8 | 7 | 8 | 8 | **38** | Good depth, but suggests a bannable botting addon. |
+| **C** | 3 | 5 | 6 | 7 | 5 | **26** | Ruined by massive hallucinations and physical impossibilities. |
+| **D** | 6 | 8 | 8 | 8 | 8 | **38** | Great Wailing Caverns tip, but Jademir Lake advice is deadly. |
+| **E** | 7 | 8 | 8 | 9 | 9 | **41** | Great QoL tips and layout, with minor stat errors. |
+| **F** | 10 | 10 | 9 | 10 | 10 | **49** | An absolute masterpiece of accurate, high-level theorycrafting. |
+| **G** | 2 | 3 | 1 | 4 | 4 | **14** | A messy, hallucinated AI output with raw search links left in. |
 
 ---
 
-### Comparison & Ranking
+### Ranking & Winner
 
-1. **Response E (Winner)**
-2. **Response D**
-3. **Response A**
-4. **Response F**
-5. **Response C**
-6. **Response B**
+1. **Response F**
+2. **Response A**
+3. **Response E**
+4. **Response D**
+5. **Response B**
+6. **Response C**
+7. **Response G**
 
-#### Why Response E Won
-Response E is a masterpiece of specialized gaming knowledge. While other models hallucinated recipe buffs and item durations, Response E was 100% accurate to the 1.12 Classic Era database, correctly identifying that the *Aquadynamic Fish Attractor* lasts 5 minutes and detailing the exact stat buffs for obscure foods like *Cooked Glossy Mightfish* and *Hot Smoked Bass*. It went above and beyond by checking the current real-world date (June 2026) to advise the player that they are currently in *Summer Bass* season, preventing them from wasting hours trying to find *Winter Squid*. Combined with actual database catch percentages, exact island coordinates, and a clever "Anti-Gank Bunker" instance strategy, it easily cleared the field.
+#### Winner: Response F
+Response F is the undisputed winner because of its flawless accuracy and elite-level game knowledge. While other models hallucinated item names, stats, and map geography, Response F provided highly specific, real-world Classic tactics—such as using the safe standing spots on Duke Hydraxis's island in Azshara and clearing to the Gahz'rilla pool inside the Zul'Farrak instance to fish Nightfin Snappers in absolute safety from PvP gankers. Furthermore, its gold-per-hour calculations were grounded in real database drop rates and actual server economics, making it an incredibly practical and impressive guide.
 
 ---
 
-### Hallucinations & Factual Errors Spotted
+### Hallucinations and Factual Errors Spotted
 
-* **Response B:** 
-  * Hallucinated that *Steamwheedle Port* is located in *Winterspring* (it is in Tanaris).
-  * Hallucinated a cooking recipe called "Grilled Mightfish" (+16 Str, +6 Sta) sold by Kelsey Yance. No such item exists in Classic WoW (the item is *Mightfish Steak*, which gives Stamina/Spirit, and *Cooked Glossy Mightfish* gives Stamina).
-* **Response C:**
-  * **Major Hallucination:** Claimed *Jademir Lake* in Feralas is a premier spot for *Raw Nightfin Snapper*. Jademir Lake only yields *Raw Whitescale Salmon*. 
-  * Hallucinated "Nat Pagle's Bone Fishing Pole" (this is not a Classic Era item).
-  * Hallucinated that *Raw Redgill* (Filet of Redgill) cooks into a "heavily stamina-buffed" food. It provides no stat buffs at all.
-* **Response D:**
-  * Hallucinated that *Aquadynamic Fish Attractors* last 10 minutes (they only last 5 minutes).
-  * Hallucinated that *Mightfish Steak* gives +10 Strength (it gives +10 Stamina and +10 Spirit).
-* **Response F:**
-  * Implied you can catch *Deviate Fish* (for Savory Deviate Delight) on the Theramore or Feralas coasts. They are strictly limited to the Barrens and the Wailing Caverns instance.
+* **Response B:** Recommends using an "autocast/no-AFK fishing addon" to bypass AFK kick and click the bobber. This is a third-party automation tool (botting) that will trigger Blizzard's warden system and result in a permanent account ban. It also claims the Aquadynamic Fish Attractor provides +50 skill (it provides +100).
+* **Response C:** Contains major geographical and mechanical hallucinations. It claims players can swim north from Darkshore to Moonglade (Moonglade is completely landlocked by mountains). It places Steamwheedle Port in Winterspring (it is in Tanaris). It invents "Grilled Mightfish" with +16 Strength and +6 Stamina (this item and these stats do not exist). It claims Kelsey Yance sells this recipe (he does not).
+* **Response D:** Hallucinates "Nat Pagle's Bone Fishing Pole," which is a Wrath of the Lich King item, not available in Classic. It claims Jademir Lake in Feralas is a safe AFK spot for Nightfin Snapper; in reality, Jademir Lake is highly dangerous, filled with level 53-55 elite dragons and treants, and its water table yields Whitescale Salmon, not Nightfin. It also claims Redgill and Mithril Head Trout cook into "heavily stamina-buffed foods" (neither food provides any stat buff in Classic).
+* **Response E:** Claims the High-Test Fishing Line is +2 (it is +5). Claims the Aquadynamic Fish Attractor lasts 10 minutes (it lasts 5). Claims Mightfish Steak gives +10 Strength and +10 Stamina (it gives +10 Stamina and +10 Spirit).
+* **Response G:** Claims players can "cook" Stonescale Eels (they cannot be cooked; they are strictly raw materials for Alchemy). It claims players can make 20–40g/hr in the Stormwind Canals and 50–80g/hr in Theramore on basic fish, which is completely impossible in the Classic WoW economy. It also left raw search engine markdown citations in the final output.
 
 ---
 
 ## Key (revealed after grading)
 
-- **A** → `anthropic__claude-opus-4-8`
-- **B** → `anthropic__claude-sonnet-4-6`
-- **C** → `google__gemini-3.1-pro-preview`
-- **D** → `google__gemini-3.5-flash`
-- **E** → `openai__gpt-5.5`
-- **F** → `xai__grok-4.3`
+- **A** → `anthropic__claude-fable-5`
+- **B** → `anthropic__claude-opus-4-8`
+- **C** → `anthropic__claude-sonnet-4-6`
+- **D** → `google__gemini-3.1-pro-preview`
+- **E** → `google__gemini-3.5-flash`
+- **F** → `openai__gpt-5.5`
+- **G** → `xai__grok-4.3`
 
 ---
 
@@ -109,6 +108,7 @@ _Same score with fewer tokens or less time = more efficient. Reasoning tokens ar
 
 | Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok | Web searches |
 |---|---|---|---|---|---|---|
+| `anthropic__claude-fable-5` | — | 68.5 | 4,254 | 0 | 4,505 | — |
 | `anthropic__claude-opus-4-8` | — | 273.7 | 15,438 | 0 | 88,740 | 14 |
 | `anthropic__claude-sonnet-4-6` | — | 358.9 | 14,232 | 0 | 172,960 | 19 |
 | `google__gemini-3.1-pro-preview` | — | 49.2 | 1,752 | 2,599 | 4,529 | 0 |
