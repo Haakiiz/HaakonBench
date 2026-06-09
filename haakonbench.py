@@ -137,7 +137,7 @@ def list_runs() -> None:
         md_files = [f for f in p.glob("*.md") if not f.name.startswith("_")]
         has_grades = (p / "_grades.md").exists()
         marker = "latest ←" if p == folders[-1] else ""
-        print(f"  {p.name:<28}  {len(md_files):>3}    {'✓' if has_grades else '—'}  {marker}")
+        print(f"  {p.name:<28}  {len(md_files):>3}    {'Y' if has_grades else '-'}  {marker}")
 
 
 # ── Running ────────────────────────────────────────────────────────────────
@@ -224,14 +224,14 @@ def save_result(
             f"# {label}\n\n**FAILED after {secs:.1f}s**\n\n```\n{err}\n```\n",
             encoding="utf-8",
         )
-        return f"  ✗ {label}  ({secs:.1f}s)  — {err}"
+        return f"  FAIL {label}  ({secs:.1f}s)  -- {err}"
     meta = _meta_block(secs, effort, usage, web_search)
     path.write_text(
         f"# {label}\n\n_Generated in {secs:.1f}s_\n\n{meta}\n{BODY_SEP}\n{response}\n",
         encoding="utf-8",
     )
     tok = usage.get("total_tokens", 0) if usage else 0
-    return f"  ✓ {label}  ({secs:.1f}s, {len(response):,} chars, {tok:,} tok)"
+    return f"  OK   {label}  ({secs:.1f}s, {len(response):,} chars, {tok:,} tok)"
 
 
 # ── Loading from disk ──────────────────────────────────────────────────────
@@ -602,13 +602,13 @@ async def main():
         to_run = parse_only(args.only) if args.only else CONTESTANTS
         verb   = "Adding to" if args.only else "Starting new run in"
         web_search_note = "ON" if args.web_search else "OFF"
-        print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort}, web search: {web_search_note})\n")
+        print(f"HaakonBench -- {verb} {run_dir.name}  (effort: {args.effort}, web search: {web_search_note})\n")
         for provider, model in to_run:
             _, knob = resolve_effort(provider, model, args.effort)
-            print(f"  • {provider:10s} {model:32s} → {knob}")
+            print(f"  * {provider:10s} {model:32s} -> {knob}")
         if args.timeout:
             print(f"  (per-model timeout: {args.timeout:.0f}s)")
-        print(f"\nRunning {len(to_run)} model(s) in parallel — saving each as it finishes:\n")
+        print(f"\nRunning {len(to_run)} model(s) in parallel -- saving each as it finishes:\n")
 
         # Stream results: save + print the moment each model returns, so partial
         # results survive a failure/Ctrl-C, and a heartbeat shows what's still
@@ -635,7 +635,7 @@ async def main():
                 print(f"[{done_count}/{len(tasks)}]{msg}")
             if pending and not done:
                 still = ", ".join(sorted(tasks[t] for t in pending))
-                print(f"  … {len(pending)} still running after {time.perf_counter() - t0:.0f}s: {still}")
+                print(f"  ... {len(pending)} still running after {time.perf_counter() - t0:.0f}s: {still}")
 
     if args.no_grade:
         print(f"\n--no-grade set; skipping grading. Results in: {run_dir}")
@@ -652,7 +652,7 @@ async def main():
     grade_path.write_text(verdict, encoding="utf-8")
     print(f"\nGrades written to {grade_path}")
     print("\n" + "=" * 60)
-    print(verdict)
+    sys.stdout.buffer.write((verdict + "\n").encode("utf-8", errors="replace"))
 
 
 if __name__ == "__main__":

@@ -65,8 +65,8 @@ class LLMClient:
         #   Anthropic → tools: [{type: web_search_20260209}]   (GA, dynamic filtering)
         #   OpenAI    → Responses API tools: [{type: web_search}]
         #   Gemini    → GenerateContentConfig(tools=[Tool(google_search=...)])
-        #   xAI       → tools: [{type: web_search}]  (agent-tools; the old
-        #               search_parameters Live Search was retired 2026-01-12)
+        #   xAI       → Responses API tools: [{type: web_search}]
+        #               (Chat Completions only accepts "function"/"live_search")
         self.web_search = self.config.get("web_search", False)
         # Populated after each call() so callers can read token usage.
         self.last_usage: Optional[dict] = None
@@ -257,44 +257,76 @@ class LLMClient:
                 return response.choices[0].message.content
 
         elif self.provider == "xai":
-            messages = []
-            if system:
-                messages.append({"role": "system", "content": system})
-            messages.append({"role": "user", "content": prompt})
-
-            kwargs = {
-                "model": self.model,
-                "messages": messages,
-                "max_tokens": self.max_tokens,
-            }
-            # grok-4.3 accepts reasoning_effort (low/medium/high); older grok-4
-            # rejects it. Sent via extra_body so the OpenAI SDK forwards it
-            # verbatim to the xAI endpoint without client-side enum validation.
-            if self.reasoning_effort:
-                kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
             if self.web_search:
-                # xAI agent-tools web search. NOTE: the old Live Search
-                # (search_parameters / extra_body) was retired 2026-01-12 and
-                # now 410s — the agent-tools `web_search` is the replacement.
-                # The server orchestrates the search loop and returns a final
-                # answer; if grok-4.3 rejects it the call fails loudly (saved
-                # as FAILED), never a silent empty.
-                kwargs["tools"] = [{"type": "web_search"}]
-            response = await self._client.chat.completions.create(**kwargs)
-            u = getattr(response, "usage", None)
-            if u is not None:
-                details = getattr(u, "completion_tokens_details", None)
-                reasoning = getattr(details, "reasoning_tokens", 0) if details else 0
-                self.last_usage = self._usage_dict(
-                    getattr(u, "prompt_tokens", 0),
-                    getattr(u, "completion_tokens", 0),
-                    reasoning,
-                    getattr(u, "total_tokens", None),
+                # xAI web_search is a Responses API tool; the Chat Completions
+                # endpoint rejects it (only accepts "function" or "live_search").
+                kwargs = {
+                    "model": self.model,
+                    "input": [{"role": "user", "content": prompt}],
+                    "max_output_tokens": self.max_tokens,
+                    "tools": [{"type": "web_search"}],
+                }
+                if system:
+                    kwargs["instructions"] = system
+                # reasoning_effort sent via extra_body (same as chat path).
+                if self.reasoning_effort:
+                    kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
+                response = await self._client.responses.create(**kwargs)
+                if getattr(response, "status", None) == "incomplete":
+                    reason = getattr(
+                        getattr(response, "incomplete_details", None),
+                        "reason",
+                        "unknown",
+                    )
+                    raise RuntimeError(
+                        f"Responses API returned incomplete (reason={reason})."
+                    )
+                text = response.output_text
+                if not text:
+                    raise RuntimeError(
+                        f"Responses API returned no visible output "
+                        f"(status={getattr(response, 'status', '?')})."
+                    )
+                u = getattr(response, "usage", None)
+                if u is not None:
+                    details = getattr(u, "output_tokens_details", None)
+                    reasoning = getattr(details, "reasoning_tokens", 0) if details else 0
+                    self.last_usage = self._usage_dict(
+                        getattr(u, "input_tokens", 0),
+                        getattr(u, "output_tokens", 0),
+                        reasoning,
+                        getattr(u, "total_tokens", None),
+                    )
+                self.last_web_searches = sum(
+                    1 for item in getattr(response, "output", []) or []
+                    if getattr(item, "type", None) == "web_search_call"
                 )
-            # last_web_searches stays None for xAI: the OpenAI-compatible usage
-            # object doesn't expose a per-call search-query count (only a
-            # sources-used proxy), so we don't report a possibly-misleading number.
-            return response.choices[0].message.content
+                return text
+            else:
+                messages = []
+                if system:
+                    messages.append({"role": "system", "content": system})
+                messages.append({"role": "user", "content": prompt})
+                kwargs = {
+                    "model": self.model,
+                    "messages": messages,
+                    "max_tokens": self.max_tokens,
+                }
+                # grok-4.3 accepts reasoning_effort via extra_body; older grok-4 rejects it.
+                if self.reasoning_effort:
+                    kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
+                response = await self._client.chat.completions.create(**kwargs)
+                u = getattr(response, "usage", None)
+                if u is not None:
+                    details = getattr(u, "completion_tokens_details", None)
+                    reasoning = getattr(details, "reasoning_tokens", 0) if details else 0
+                    self.last_usage = self._usage_dict(
+                        getattr(u, "prompt_tokens", 0),
+                        getattr(u, "completion_tokens", 0),
+                        reasoning,
+                        getattr(u, "total_tokens", None),
+                    )
+                return response.choices[0].message.content
 
         elif self.provider == "google":
             from google.genai import types

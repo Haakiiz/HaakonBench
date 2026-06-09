@@ -80,6 +80,33 @@ Lagrer svarene, men kaller ikke graderen. Billig måte å sjekke at modellene sv
 
 ---
 
+### Slå på nettsøk med `--web-search`
+```bash
+python haakonbench.py --web-search
+python haakonbench.py --web-search --effort low
+python haakonbench.py --web-search --only anthropic/claude-opus-4-8
+```
+Henger på hver leverandørs innebygde nettsøk-verktøy. Default er **av** – da svarer
+modellene fra eget kunnskap, noe som gir et renere bilde av hva de kan uten å slå opp.
+
+Hva som skjer per leverandør:
+
+| Leverandør | Implementasjon |
+|---|---|
+| Anthropic | `tools: [{type: web_search_20260209}]` – GA, ingen beta-header |
+| OpenAI | Responses API `tools: [{type: web_search}]` |
+| Gemini | `GenerateContentConfig(tools=[Tool(google_search=...)])` – faktureres per søk |
+| xAI grok-4.3 | Responses API `tools: [{type: web_search}]` (Chat Completions-endepunktet støtter det ikke) |
+| Haiku 4.5 | ⚠ Støtter ikke programmatisk tool calling – feiler alltid med `--web-search` |
+
+Antall søk modellen faktisk kjørte vises i **Web searches**-kolonnen i efficiency-tabellen
+i `_grades.md`. xAI eksponerer ikke søketal via usage-objektet og vises som `—`.
+
+Merk: `--web-search` lagres i `HB_META`-blokken i hver modell-fil, så `--regrade` vet
+om søk var på i det opprinnelige kjøret.
+
+---
+
 ### Se alle kjøringer
 ```bash
 python haakonbench.py --list
