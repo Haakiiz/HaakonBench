@@ -162,6 +162,7 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
 
 async def run_contestant(
     provider: str, model: str, effort: str, timeout: float | None = None,
+    web_search: bool = False,
 ) -> tuple[str, str, float, str | None, dict | None]:
     label = slug(provider, model)
     t0 = time.perf_counter()
@@ -170,6 +171,7 @@ async def run_contestant(
         client = LLMClient(provider=provider, model=model)
         client.max_tokens = max_tokens
         client.reasoning_effort = knob        # named level (or None for provider default)
+        client.web_search = web_search        # attach each provider's server-side search tool
         if timeout:
             response = await asyncio.wait_for(client.call(PROMPT), timeout=timeout)
         else:
@@ -181,13 +183,14 @@ async def run_contestant(
         return label, "", time.perf_counter() - t0, f"{type(e).__name__}: {e}", None
 
 
-def _meta_block(secs: float, effort: str, usage: dict | None) -> str:
+def _meta_block(secs: float, effort: str, usage: dict | None, web_search: bool = False) -> str:
     """A machine-parseable comment so --regrade can recover tokens/time later."""
     usage = usage or {}
     lines = [
         "<!-- HB_META",
         f"seconds: {secs:.1f}",
         f"effort: {effort}",
+        f"web_search: {str(web_search).lower()}",
         f"input_tokens: {usage.get('input_tokens', 0)}",
         f"output_tokens: {usage.get('output_tokens', 0)}",
         f"reasoning_tokens: {usage.get('reasoning_tokens', 0)}",
@@ -200,6 +203,7 @@ def _meta_block(secs: float, effort: str, usage: dict | None) -> str:
 def save_result(
     run_dir: Path, label: str, response: str, secs: float,
     err: str | None, usage: dict | None = None, effort: str = DEFAULT_EFFORT,
+    web_search: bool = False,
 ) -> str:
     """Write the result file and return a one-line status string for the caller
     to print (so the run loop can stream feedback as each model finishes)."""
@@ -210,7 +214,7 @@ def save_result(
             encoding="utf-8",
         )
         return f"  ✗ {label}  ({secs:.1f}s)  — {err}"
-    meta = _meta_block(secs, effort, usage)
+    meta = _meta_block(secs, effort, usage, web_search)
     path.write_text(
         f"# {label}\n\n_Generated in {secs:.1f}s_\n\n{meta}\n{BODY_SEP}\n{response}\n",
         encoding="utf-8",
@@ -549,6 +553,11 @@ async def main():
     parser.add_argument("--timeout", type=float, default=None, metavar="SECONDS",
                         help="Per-model wall-clock limit. A model that doesn't answer in time is "
                              "marked FAILED and the run continues + grades the rest. Default: no limit.")
+    parser.add_argument("--web-search", action="store_true",
+                        help="Turn ON each provider's server-side web search tool (Anthropic "
+                             "web_search, OpenAI Responses web_search, Gemini google_search "
+                             "grounding, xAI agent-tools web_search). Default: OFF — models answer "
+                             "from base knowledge only. The grader never uses web search.")
     args = parser.parse_args()
 
     if args.list:
@@ -569,7 +578,8 @@ async def main():
     else:
         to_run = parse_only(args.only) if args.only else CONTESTANTS
         verb   = "Adding to" if args.only else "Starting new run in"
-        print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort})\n")
+        web_search_note = "ON" if args.web_search else "OFF"
+        print(f"HåkonBench — {verb} {run_dir.name}  (effort: {args.effort}, web search: {web_search_note})\n")
         for provider, model in to_run:
             _, knob = resolve_effort(provider, model, args.effort)
             print(f"  • {provider:10s} {model:32s} → {knob}")
@@ -581,7 +591,9 @@ async def main():
         # results survive a failure/Ctrl-C, and a heartbeat shows what's still
         # running (so a long --effort max run is visibly alive, not hung).
         tasks = {
-            asyncio.create_task(run_contestant(p, m, args.effort, args.timeout)): slug(p, m)
+            asyncio.create_task(
+                run_contestant(p, m, args.effort, args.timeout, args.web_search)
+            ): slug(p, m)
             for p, m in to_run
         }
         t0 = time.perf_counter()
@@ -594,7 +606,8 @@ async def main():
             )
             for task in done:
                 label, response, secs, err, usage = task.result()
-                msg = save_result(run_dir, label, response, secs, err, usage, effort=args.effort)
+                msg = save_result(run_dir, label, response, secs, err, usage,
+                                  effort=args.effort, web_search=args.web_search)
                 done_count += 1
                 print(f"[{done_count}/{len(tasks)}]{msg}")
             if pending and not done:

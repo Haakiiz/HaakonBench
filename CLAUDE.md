@@ -49,6 +49,10 @@ python haakonbench.py --no-grade
 python haakonbench.py --effort high
 python haakonbench.py --effort max --only anthropic/claude-opus-4-8
 
+# Turn ON each provider's server-side web search (default OFF — base knowledge only)
+python haakonbench.py --web-search
+python haakonbench.py --web-search --only anthropic/claude-opus-4-8
+
 # List all run folders
 python haakonbench.py --list
 
@@ -89,6 +93,19 @@ Key per-provider facts (verified against provider docs):
 - **xAI** grok-4.3 **does** accept `reasoning_effort` (none/low/medium/high), sent via `extra_body`. (Older grok-4 rejects it.)
 
 `LLMClient` exposes a single `reasoning_effort` (the named level for every provider; Anthropic also auto-enables adaptive thinking). An unsupported level just makes that one call fail loudly (saved as `FAILED`), never a silent empty. After every `call()`, `client.last_usage` holds the normalized `{input,output,reasoning,total}_tokens` dict (parsed from each provider's usage object).
+
+### Web search (`--web-search`)
+
+**Default OFF** — every contestant answers from base knowledge only (no `tools` are sent). This is usually what you want for a WoW-Classic-facts benchmark: it tests the model's own knowledge against `wow_reference.yaml`, not its ability to look things up. Pass `--web-search` to flip on each provider's **server-side** web search tool. All searching happens on the provider's infra — there is no scraping/fetch code in this repo, `LLMClient` just declares the tool. `LLMClient.web_search` is the single boolean knob; the flag is recorded in `HB_META` (`web_search: true/false`) so a run's search mode survives `--regrade`. The grader **never** uses web search (it judges against the reference file).
+
+| Provider | Tool attached when `--web-search` is on |
+|----------|------------------------------------------|
+| Anthropic | `tools: [{type: web_search_20260209, name: web_search}]` — GA, no beta header; dynamic filtering auto-activates on Opus 4.8/4.7/4.6 & Sonnet 4.6 |
+| OpenAI | Responses API `tools: [{type: web_search}]` (the gpt-5.x contestants already route through the Responses branch) |
+| Gemini | `GenerateContentConfig(tools=[Tool(google_search=GoogleSearch())])` — Gemini 3 is billed **per search query** |
+| xAI | agent-tools `tools: [{type: web_search}]` — ⚠️ the old `search_parameters` Live Search was **retired 2026-01-12** (410s); agent-tools `web_search` is the replacement |
+
+As with the effort knob, an unsupported tool just makes that one call fail loudly (saved as `FAILED`), never a silent empty.
 
 ### Grader accuracy
 

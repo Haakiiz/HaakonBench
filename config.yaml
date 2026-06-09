@@ -65,3 +65,17 @@ temperature: 0.7
 #         xAI grok-4.3          → reasoning_effort (low/medium/high)
 #       Tom = provider-default.
 reasoning_effort:
+
+
+# ── Web-søk (valgfritt) ───────────────────────────────────────────────────
+# Slår på leverandørens SERVER-SIDE web-søk slik at modellen kan slå opp ting
+# live i stedet for å svare kun fra egen kunnskap. All søking skjer hos
+# leverandøren — ingen scraping-kode her, vi sender bare med verktøyet:
+#   Anthropic → tools: [{type: web_search_20260209}]  (GA, dynamisk filtrering)
+#   OpenAI    → Responses API tools: [{type: web_search}]
+#   Gemini    → GenerateContentConfig(tools=[Tool(google_search=...)])
+#   xAI       → tools: [{type: web_search}]  (agent-tools; gamle search_parameters
+#               Live Search ble pensjonert 2026-01-12)
+# Benchmarken (haakonbench.py) overstyrer dette med --web-search.
+# false = av (standard), true = på.
+web_search: false

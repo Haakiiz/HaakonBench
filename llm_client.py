@@ -57,6 +57,17 @@ class LLMClient:
         #   Gemini 3              → thinking_level (low/medium/high)
         #   xAI grok-4.3          → reasoning_effort (low/medium/high)
         self.reasoning_effort = self.config.get("reasoning_effort", None)
+        # Web search toggle. False = base knowledge only (default). When True,
+        # each provider's SERVER-SIDE web search tool is attached so the model
+        # can look things up live. Every provider runs the search on its own
+        # infra and folds the results into the answer — there is no scraping
+        # code here, we just declare the tool:
+        #   Anthropic → tools: [{type: web_search_20260209}]   (GA, dynamic filtering)
+        #   OpenAI    → Responses API tools: [{type: web_search}]
+        #   Gemini    → GenerateContentConfig(tools=[Tool(google_search=...)])
+        #   xAI       → tools: [{type: web_search}]  (agent-tools; the old
+        #               search_parameters Live Search was retired 2026-01-12)
+        self.web_search = self.config.get("web_search", False)
         # Populated after each call() so callers can read token usage.
         self.last_usage: Optional[dict] = None
         self._client = self._init_client()
@@ -136,6 +147,12 @@ class LLMClient:
                     "output_config": {"effort": self.reasoning_effort},
                     "thinking": {"type": "adaptive"},
                 }
+            if self.web_search:
+                # Server-side web search (GA, no beta header). Dynamic filtering
+                # auto-activates on Opus 4.8/4.7/4.6 & Sonnet 4.6; older/Haiku
+                # just run it without filtering. Text blocks are still pulled
+                # out below; the extra server_tool_use / result blocks are ignored.
+                kwargs["tools"] = [{"type": "web_search_20260209", "name": "web_search"}]
             response = await self._client.messages.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
@@ -167,6 +184,10 @@ class LLMClient:
                     kwargs["instructions"] = system
                 if self.reasoning_effort:
                     kwargs["reasoning"] = {"effort": self.reasoning_effort}
+                if self.web_search:
+                    # Hosted web search tool on the Responses API. Citations are
+                    # folded into output_text, which we already return below.
+                    kwargs["tools"] = [{"type": "web_search"}]
                 response = await self._client.responses.create(**kwargs)
                 if getattr(response, "status", None) == "incomplete":
                     reason = getattr(
@@ -236,6 +257,14 @@ class LLMClient:
             # verbatim to the xAI endpoint without client-side enum validation.
             if self.reasoning_effort:
                 kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
+            if self.web_search:
+                # xAI agent-tools web search. NOTE: the old Live Search
+                # (search_parameters / extra_body) was retired 2026-01-12 and
+                # now 410s — the agent-tools `web_search` is the replacement.
+                # The server orchestrates the search loop and returns a final
+                # answer; if grok-4.3 rejects it the call fails loudly (saved
+                # as FAILED), never a silent empty.
+                kwargs["tools"] = [{"type": "web_search"}]
             response = await self._client.chat.completions.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
@@ -268,6 +297,11 @@ class LLMClient:
                 config_kwargs["thinking_config"] = types.ThinkingConfig(
                     thinking_level=self.reasoning_effort
                 )
+            if self.web_search:
+                # Grounding with Google Search. Gemini 3 is billed per search
+                # query the model decides to run; the grounded answer comes back
+                # in response.text as usual (groundingMetadata is ignored here).
+                config_kwargs["tools"] = [types.Tool(google_search=types.GoogleSearch())]
             config = types.GenerateContentConfig(**config_kwargs)
             response = await self._client.aio.models.generate_content(
                 model=self.model,
