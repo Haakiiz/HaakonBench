@@ -51,9 +51,25 @@ GRADER_PROVIDER = "google"
 GRADER_MODEL    = "gemini-3.5-flash"
 
 # ── The prompt ─────────────────────────────────────────────────────────────
-PROMPT = """I want you to create me a fishing strategy, as a level 60 human warrior on World of Warcraft Classic servers. I must be able to fish for an extended period of time where i am not killed and do not have to move. That is alliance zones, or maybe very hidden areas in contested zones. I have level 300 fishing and level 300 cooking, so please utilize both for maximum gold/hour. Tell me where to fish, when, what, etc. Give an estimated gold / hour for the different zones and areas and fish.
+PROMPT = """You are writing a WoW Classic fishing guide for a specific character: level 60 Human Warrior, Alliance faction, Fishing 300, Cooking 300. The character has unlimited time to fish but cannot die and cannot babysit the game — every recommended spot must be genuinely AFK-safe for extended sessions.
 
-Be creative in giving me a great guide, you can add 'features'/chapters/stuff as youd like, if you think that would improve the end result. You are not hard limited by this prompt, but catch the essence of it and work on it. Your overarching goal is to impress me"""
+Your job is not to write a competent guide. Your job is to write the BEST guide this character will ever read. That means:
+
+1. ROUTE OVER SPOT LIST — Do not give a flat list of zones. Design an actual rotation or decision tree: what to fish Monday morning vs. Saturday evening, what to do when a zone is camped, how to pivot if a market crashes. A guide that ignores the AEC (Auction House Economy Cycle) is a guide that leaves gold on the table.
+
+2. COOKING AS A FORCE MULTIPLIER — Identify every recipe at 300 cooking that converts cheap fish into items worth materially more. Give concrete before/after valuations (e.g., "Spotted Yellowtail vendor trash → Grilled Squid sells for X per stack on a typical server"). Show the math. If a fish has no profitable cooking use, say so explicitly and recommend vendoring or another use.
+
+3. GOLD/HOUR WITH HONEST UNCERTAINTY — Give a gold/hour figure for each recommended spot. Do not invent false precision. Format it as a range with stated assumptions (e.g., server population tier, time of day, AH saturation). Explain what collapses the estimate downward.
+
+4. AFK-SAFETY ANALYSIS — For every spot you recommend, state WHY it is safe: patrol paths, respawn geometry, nearest Alliance flight point, whether a PvP player could grief you while you shower. Do not just say "safe zone" — explain the safety.
+
+5. ONE CONTRARIAN RECOMMENDATION — Recommend at least one spot or strategy that most guides ignore or actively dismiss, but that you believe is underrated for this specific character. Defend it with specifics.
+
+6. FAILURE MODES — What are the top 3 ways a player following your guide would still underperform? What mistakes does every fishing guide fail to warn about?
+
+You control the structure. Use whatever format — chapters, tables, decision trees, callout boxes — that makes this genuinely more useful than a wall of text. Length should be determined by the content, not by an attempt to seem thorough.
+
+Do not hedge everything. Make claims. Be wrong confidently if you must. A guide full of "it depends" is useless."""
 
 MAX_TOKENS_PER_CALL = 8000
 BASE_RESULTS_DIR    = Path("results")
@@ -278,11 +294,13 @@ def load_result_meta(run_dir: Path, label: str) -> dict:
 # ── Grading ────────────────────────────────────────────────────────────────
 
 GRADER_SYSTEM_TEMPLATE = (
-    "You are an expert evaluator for LLM benchmarks. You grade responses blind — "
-    "the identities of the models are hidden behind letters (A, B, C, ...). Be "
-    "rigorous, specific, and honest. Reward accuracy, depth, creativity, structure, "
-    "and usefulness. Penalize hallucinations (especially WoW Classic facts that look "
-    "made up), generic filler, and prompt-ignoring.\n\n"
+    "You are a brutally honest evaluator for an LLM benchmark. Responses are anonymized "
+    "behind letters (A, B, C, ...). Your only job is accurate discrimination: identify "
+    "which models produced genuinely excellent work and which ones produced competent-but-forgettable work.\n\n"
+    "THE CENTRAL FAILURE MODE YOU ARE GUARDING AGAINST: Most LLM responses to creative prompts "
+    "are technically correct but generically structured — safe lists of zones, vague gold estimates, "
+    "and no opinions. This is the mediocre center. Your scoring must spread across the full 1–10 range. "
+    "If your scores cluster between 6 and 8 for every response, you have failed as a grader.\n\n"
     "CRITICAL RULE FOR ACCURACY SCORING: When checking WoW Classic facts, use ONLY "
     "the Verified Reference Data section below as your source of truth. Do NOT rely "
     "on your own knowledge for recipes, buff stats, ingredients, or vendor locations — "
@@ -412,21 +430,40 @@ GRADER_RUBRIC = """You will judge multiple LLM responses to the SAME user prompt
 # The responses (anonymized)
 {responses_block}
 
-# Your task
-For EACH response, score it on these dimensions (1-10 each):
-- Accuracy        — Is the WoW Classic info plausible and correct? (zone safety, fish types, cooking recipes, vendor prices)
-- Strategy depth  — Does it actually maximize gold/hour with concrete numbers and reasoning?
-- Creativity      — Did it add interesting structure / 'features' beyond the literal ask?
-- Structure       — Is it well-organized, scannable, useful as a reference?
-- Prompt fidelity — Did it respect the constraints (lvl 60 Alliance warrior, AFK-safe, 300/300)?
+# Scoring dimensions (1–10 each)
 
-Then:
-1. Produce a markdown table with one row per response: | Letter | Accuracy | Strategy | Creativity | Structure | Fidelity | Total | One-line verdict |
-2. Rank the responses from best to worst.
-3. Declare a winner and explain in 3-5 sentences WHY that one beat the others.
-4. Call out any specific hallucinations or factual errors you spotted, by letter.
+**Accuracy** — WoW Classic facts: zone faction status, fish availability, recipe ingredients, buff stats, vendor prices. Use the reference data. Hallucinations cost points. Unverifiable claims are not penalized but should be noted.
 
-Be opinionated. No participation trophies."""
+**Strategy depth** — Does the response actually maximize gold/hour, or does it just list options? Look for: a decision framework (not just a spot list), honest gold/hour ranges with stated assumptions, explicit reasoning about the cooking-as-multiplier opportunity, acknowledgment of AH saturation risk. A response that gives numbers without reasoning scores no higher than 5.
+
+**Creativity and differentiation** — This is the hardest dimension to fake. Score 9–10 only if the response contains at least one of: a genuinely non-obvious recommendation with a real argument for it, a structural innovation (decision tree, rotation schedule, failure-mode analysis) that most guides omit, or an angle on this character's specific constraints (Warrior, Human, AFK) that generic guides would miss. A response that is well-written but follows the standard "zone 1, zone 2, zone 3" template scores no higher than 6 here regardless of prose quality.
+
+**Structure** — Is the format doing real work, or is it decoration? Headers and bullet points that replace thinking (i.e., a bulleted list where a single sentence would communicate more) are penalized. Reward formats that a reader would actually navigate: tables with meaningful columns, callouts that flag exceptions, decision logic that branches.
+
+**Prompt fidelity** — Did the response address the specific demands in the prompt: AFK-safety reasoning (not just "safe zone"), honest uncertainty in estimates, a contrarian recommendation, failure modes? A response that ignores two or more of the explicit structural demands scores no higher than 5 here.
+
+# Scoring discipline
+
+Before writing any scores, read all responses and rank them mentally from best to worst. Then assign scores so that your best response scores at least 3 points higher than your worst on at least one dimension. If you cannot find meaningful differences between responses, you are not looking hard enough.
+
+Scores of 8, 9, or 10 must be justified with a specific quote or example from the response. You cannot award high scores by assertion.
+
+# Output format
+
+1. A markdown table — one row per response — with EXACTLY these columns in this order:
+   | Letter | Accuracy | Strategy | Creativity | Structure | Fidelity | Total | One-line verdict |
+
+   Total = sum of the five dimension scores (max 50). Do not weight or average — sum them.
+
+2. Rankings from best to worst (just the letters and a one-sentence reason each).
+
+3. Winner declaration: 4–6 sentences on what specifically separated the winner from second place. Quote the response if helpful.
+
+4. Hallucination callouts by letter. If none found, say so explicitly.
+
+5. The generic-response penalty list: for each response that scored 6 or below on Creativity, identify the specific structural choice that kept it generic (e.g., "flat zone list with no decision logic", "gold estimates given without assumptions", "no failure-mode analysis").
+
+Be opinionated. If two responses are genuinely equal on a dimension, say so and explain why. Do not award equal scores as a way to avoid making a judgment."""
 
 
 def parse_grade_totals(verdict: str) -> dict[str, float]:
