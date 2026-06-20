@@ -60,6 +60,15 @@ python test_grader.py --verbose
 
 # Test with a different model
 python test_grader.py --model claude-opus-4-7
+
+# Grow wow_reference.yaml from benchmark responses (new result files only)
+python extract_statements.py
+python extract_statements.py --dry-run          # preview, write nothing
+python extract_statements.py --all              # re-scan every file (ignore manifest)
+
+# Verify the new (verified: false) entries against the web
+python factcheck_reference.py --dry-run --limit 2   # cheap smoke test first
+python factcheck_reference.py                        # full run
 ```
 
 ---
@@ -95,6 +104,17 @@ Key per-provider facts (verified against provider docs):
 The grader is backed by `wow_reference.yaml` — a curated file of verified WoW Classic facts (recipes, ingredients, buff stats, zones, vendors). This file is injected into the grader's system prompt at runtime so it judges accuracy against ground truth rather than its own knowledge. **When the grader flags a factual error, always check `wow_reference.yaml` first before assuming the response is wrong.**
 
 `test_grader.py` + `test_claims.yaml` provide a 48-claim test suite (target: ≥95% accuracy) to validate the grader's fact-checking. Run it after changing the grader prompt or reference data.
+
+### Fact-check pipeline (`extract_statements.py` + `factcheck_reference.py`)
+
+Grows `wow_reference.yaml` from benchmark responses, then verifies the new facts against the web. Two scripts plus a shared `reference_io.py` (ruamel round-trip, so the file's comments/structure survive writes).
+
+1. **`extract_statements.py`** — reads agent responses under `results/<timestamp>/*.md`, asks a cheap model (OpenAI `gpt-5.4-mini`, low effort) to pull out WoW Classic fishing/cooking facts, and merges them into `wow_reference.yaml` as **new, unverified entries (`verified: false`)**. Dedups by normalized name per section; never overwrites existing entries. Merge-time guards drop obvious garbage (locations already in `known_fake_locations`, placeholder vendor names, cooked dishes mis-filed into `items_and_clarifications`).
+2. **`factcheck_reference.py`** — for every entry not yet `verified: true`, asks Gemini `gemini-3.1-flash-lite` **with Google Search grounding** to verify each field (Wowhead Classic preferred). Writes `verified` / `verified_date` / `source_url` / `corrections` back **non-destructively** (original fields untouched), saving after each entry (crash-safe). Idempotent: re-runs skip `verified: true`.
+
+**Grader safety:** `_format_reference_data()` in `haakonbench.py` hides any entry with `verified: false` from the ground-truth block, so unverified (possibly hallucinated) extractions can never poison grading until the fact-checker confirms them. Hand-curated entries have no `verified` key and are always trusted.
+
+**Incremental, no re-scanning:** `extract_statements.py` records processed result files in a committed manifest (`.extracted_files.json`) and skips them on later runs (file-level, so a failed file auto-retries). After a new benchmark run the loop is `extract` (new files only) → `factcheck` (new pending only). **Always commit `wow_reference.yaml` and `.extracted_files.json` together** — if the manifest says "done" but the YAML lacks those entries (e.g. on a fresh clone), extract would skip files whose facts were never saved. Overrides: `--all` (full re-scan), `--run FOLDER` (specific run folder), `--dry-run` (writes nothing, manifest untouched).
 
 ### LLM client (`llm_client.py`)
 
