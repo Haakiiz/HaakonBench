@@ -178,7 +178,7 @@ async def main() -> int:
     ap.add_argument("--workers", type=int, default=5)
     args = ap.parse_args()
 
-    load_dotenv()
+    load_dotenv(Path(__file__).parent / ".env", override=True)
 
     files = gather_response_files(args.results_dir, args.limit)
     if not files:

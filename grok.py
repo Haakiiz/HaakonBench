@@ -13,10 +13,11 @@ Usage:
 import argparse
 import os
 import sys
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+load_dotenv(Path(__file__).parent / ".env", override=True)
 
 
 def get_api_key(override: str | None = None) -> str:
