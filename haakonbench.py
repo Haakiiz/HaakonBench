@@ -489,10 +489,12 @@ def parse_grade_totals(verdict: str) -> dict[str, float]:
             if "total" in lower:
                 total_idx = lower.index("total")
             continue
-        if cells and re.fullmatch(r"[A-Z]", cells[0]) and total_idx < len(cells):
+        # Judges sometimes decorate the letter cell (**A**, `A`) — strip it.
+        first = cells[0].strip("*`_ ") if cells else ""
+        if first and re.fullmatch(r"[A-Z]", first) and total_idx < len(cells):
             m = re.search(r"\d+(?:\.\d+)?", cells[total_idx])
             if m:
-                totals[cells[0]] = float(m.group())
+                totals[first] = float(m.group())
     return totals
 
 
@@ -574,7 +576,10 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
 
     print(f"Grading {len(entries)} response(s) with {grader_provider}/{grader_model}...")
     grader = LLMClient(provider=grader_provider, model=grader_model)
-    grader.max_tokens = 8000
+    # Generous budget: on Gemini/OpenAI this is SHARED with thinking tokens,
+    # and the verdict for 9 responses (table + rankings + callouts) is long.
+    # 8k proved too tight once thinking is on by default.
+    grader.max_tokens = 32000
     verdict = await grader.call(grader_prompt, system=grader_system)
 
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]

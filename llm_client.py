@@ -337,9 +337,12 @@ class LLMClient:
             total_token_budget = max(self.max_tokens, 20000)
             config_kwargs = dict(
                 max_output_tokens=total_token_budget,
-                temperature=self.temperature,
                 system_instruction=system if system else None,
             )
+            # Gemini 3.x migration guide: remove temperature/top_p/top_k (the
+            # models are tuned for defaults). Only pre-3 models still take it.
+            if self.model.startswith(("gemini-1", "gemini-2")):
+                config_kwargs["temperature"] = self.temperature
             # Gemini 3 uses a named thinking_level (low/medium/high), NOT the old
             # numeric thinking_budget — passing a budget to a Gemini 3 model is a
             # hard error. reasoning_effort carries the level (case-insensitive).
@@ -358,6 +361,18 @@ class LLMClient:
                 contents=prompt,
                 config=config,
             )
+            # Loud failure on empty text (parity with the OpenAI/xAI branches):
+            # thinking shares the max_output_tokens budget, so a thought-heavy
+            # call can produce zero visible output. Without this guard an empty
+            # response would be saved as a "successful" result.
+            text = response.text
+            if not text:
+                cands = getattr(response, "candidates", None) or []
+                fr = getattr(cands[0], "finish_reason", None) if cands else None
+                raise RuntimeError(
+                    f"Gemini returned no visible text (finish_reason={fr}). "
+                    f"Thinking may have consumed the full {total_token_budget}-token budget."
+                )
             um = getattr(response, "usage_metadata", None)
             if um is not None:
                 self.last_usage = self._usage_dict(
@@ -373,7 +388,7 @@ class LLMClient:
                 gm = getattr(cands[0], "grounding_metadata", None) if cands else None
                 queries = getattr(gm, "web_search_queries", None) or []
                 self.last_web_searches = len(queries)
-            return response.text
+            return text
 
     async def batch_call(
         self,
