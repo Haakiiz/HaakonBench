@@ -34,16 +34,17 @@ from reference_io import LIST_SECTIONS
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
-    ("anthropic", "claude-fable-5"),
+    # GPT-5.6 family (launched 2026-07-09): Sol = flagship, Terra = balanced,
+    # Luna = fast/cheap. Undated IDs are the API snapshots.
+    ("openai",    "gpt-5.6-sol"),
+    ("openai",    "gpt-5.6-terra"),
+    ("openai",    "gpt-5.6-luna"),
+    ("openai",    "gpt-5.5"),            # previous OpenAI frontier, for comparison
+    ("anthropic", "claude-sonnet-5"),
     ("anthropic", "claude-opus-4-8"),
-    #("anthropic", "claude-opus-4-7"),
-    ("anthropic", "claude-sonnet-4-6"),
-    ("anthropic", "claude-haiku-4-5"),
-    ("openai",    "gpt-5.5"),
-    ("openai",    "gpt-5.4-mini"),
     ("google",    "gemini-3.1-pro-preview"),
     ("google",    "gemini-3.5-flash"),
-    ("xai",       "grok-4.3"),
+    ("xai",       "grok-4.5"),           # released 2026-07-08; same reasoning_effort knob as 4.3
 ]
 
 # ── Grader ─────────────────────────────────────────────────────────────────
@@ -83,9 +84,12 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 # differ, and some are Opus-only:
 #
 #   anthropic → output_config.effort + adaptive thinking
-#               (low/medium/high/xhigh/max; 'max' is Opus-only; Haiku 4.5
-#                supports neither effort nor adaptive thinking → no knob)
-#   openai    → reasoning.effort          (low/medium/high/xhigh)
+#               (low/medium/high/xhigh/max; Sonnet 4.x caps at 'high', Sonnet 5
+#                and Opus take the full range; Haiku 4.5 supports neither effort
+#                nor adaptive thinking → no knob)
+#   openai    → reasoning.effort          (low/medium/high/xhigh; GPT-5.6 Sol
+#                                           adds 'max' — Sol-only, Terra/Luna
+#                                           and gpt-5.5 cap at xhigh)
 #   google    → thinking_level            (low/medium/high; Gemini 3 rejects
 #                                           the old numeric thinking_budget)
 #   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
@@ -101,7 +105,7 @@ TIER_MAX_TOKENS = {"low": 16000, "medium": 32000, "high": 64000, "max": 128000}
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
-    "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning.effort
+    "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # reasoning.effort ('max' is Sol-only; resolve_effort caps the rest at xhigh)
     "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
     "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # reasoning_effort
 }
@@ -166,14 +170,18 @@ def slug(provider: str, model: str) -> str:
 def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]:
     """Translate an abstract tier into (max_tokens, provider-specific effort level).
     Returns a named level string, or None to leave the provider default. Applies
-    the per-model Anthropic caps (Haiku has no knob; max/xhigh are Opus-only)."""
+    the per-model Anthropic caps (Haiku has no knob; Sonnet 4.x caps at high;
+    Sonnet 5 and Opus take the full range)."""
     knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
     if provider == "anthropic":
         m = model.lower()
         if "haiku" in m:
             knob = None                       # Haiku 4.5: no effort, no adaptive thinking
-        elif "sonnet" in m and knob in ("xhigh", "max"):
-            knob = "high"                     # 'max'/'xhigh' are Opus-tier only
+        elif "sonnet-4" in m and knob in ("xhigh", "max"):
+            knob = "high"                     # Sonnet 4.x caps at 'high'; Sonnet 5 takes the full range
+    elif provider == "openai":
+        if knob == "max" and "sol" not in model.lower():
+            knob = "xhigh"                    # 'max' effort is GPT-5.6 Sol-only
     return TIER_MAX_TOKENS[effort], knob
 
 

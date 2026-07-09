@@ -79,18 +79,18 @@ python test_grader.py --model claude-opus-4-7
 
 One abstract CLI knob, **translated per provider** because providers disagree on the level names and ceilings. Every provider that has a knob now uses a **named effort level** (no provider uses a numeric token budget anymore). `TIER_MAX_TOKENS` sets a universal output budget; `PROVIDER_EFFORT` in `haakonbench.py` is the single source of truth, and `resolve_effort()` applies the per-model Anthropic caps. Default is `medium`.
 
-| Tier | max_tokens | Anthropic Opus (effort) | OpenAI (reasoning.effort) | Gemini 3 (thinking_level) | xAI grok-4.3 (reasoning_effort) |
-|------|-----------|-------------------------|---------------------------|---------------------------|---------------------------------|
-| low | 8000 | low | low | low | low |
-| medium | 16000 | medium | medium | medium | medium |
-| high | 32000 | high | high | high | high |
-| max | 64000 | **max** | **xhigh** | high | high |
+| Tier | max_tokens | Anthropic Opus/Sonnet 5 (effort) | OpenAI (reasoning.effort) | Gemini 3.x (thinking_level) | xAI grok-4.3/4.5 (reasoning_effort) |
+|------|-----------|----------------------------------|---------------------------|-----------------------------|--------------------------------------|
+| low | 16000 | low | low | low | low |
+| medium | 32000 | medium | medium | medium | medium |
+| high | 64000 | high | high | high | high |
+| max | 128000 | **max** | **max** (Sol) / xhigh (others) | high | high |
 
 Key per-provider facts (verified against provider docs):
-- **Anthropic** Opus 4.7/4.8 use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. `max` is Opus-tier only; **Sonnet 4.6** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k; the `max` tier is 64k).
-- **OpenAI** gpt-5.5 supports `low/medium/high/xhigh` (also `minimal`/`none`); `max` tier uses `xhigh`.
-- **Gemini 3** uses a named `thinking_level` (low/medium/high), **not** the old numeric `thinking_budget` — passing a budget to a Gemini 3 model is a hard error. Set via `ThinkingConfig(thinking_level=...)` (case-insensitive).
-- **xAI** grok-4.3 **does** accept `reasoning_effort` (none/low/medium/high), sent via `extra_body`. (Older grok-4 rejects it.)
+- **Anthropic** Opus 4.7/4.8 and **Sonnet 5** use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. Sonnet 5 takes the full range up to `max` (and runs adaptive thinking by default even without the `thinking` param); **Sonnet 4.x** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). Sonnet 5's model ID is `claude-sonnet-5` — **no date suffix** (dated forms 404). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k).
+- **OpenAI** GPT-5.6 family (launched 2026-07-09): `gpt-5.6-sol` (flagship), `gpt-5.6-terra` (balanced), `gpt-5.6-luna` (fast/cheap); bare `gpt-5.6` aliases to Sol. All support `low/medium/high/xhigh` (also `minimal`/`none`); **`max` effort is Sol-only** — `resolve_effort()` caps every other OpenAI model at `xhigh` on the `max` tier. gpt-5.5 (previous frontier) supports up to `xhigh`. All `gpt-5.x` IDs route through the Responses-API reasoning branch in `llm_client.py` (shared reasoning+output budget, 20k floor still applies; Sol at `max` effort is token-hungry — the big `max`-tier budget matters).
+- **Gemini 3.x** uses a named `thinking_level`, **not** the old numeric `thinking_budget` — passing a budget to a Gemini 3 model is a hard error. Set via `ThinkingConfig(thinking_level=...)` (case-insensitive). 3.1 Pro: `low/medium/high`, default `high` (still `gemini-3.1-pro-preview` — no GA ID yet). 3.5 Flash: `minimal/low/medium/high`, default `medium` (`gemini-3.5-flash` is GA).
+- **xAI** grok-4.3 and grok-4.5 accept `reasoning_effort` (none/low/medium/high; grok-4.5 defaults to `high`), sent via `extra_body`. (Older grok-4 rejects it.) grok-4.5's ID uses a dot: `grok-4.5`.
 
 `LLMClient` exposes a single `reasoning_effort` (the named level for every provider; Anthropic also auto-enables adaptive thinking). An unsupported level just makes that one call fail loudly (saved as `FAILED`), never a silent empty. After every `call()`, `client.last_usage` holds the normalized `{input,output,reasoning,total}_tokens` dict (parsed from each provider's usage object).
 
