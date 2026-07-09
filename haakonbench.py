@@ -579,7 +579,7 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
     # Generous budget: on Gemini/OpenAI this is SHARED with thinking tokens,
     # and the verdict for 9 responses (table + rankings + callouts) is long.
     # 8k proved too tight once thinking is on by default.
-    grader.max_tokens = 32000
+    grader.max_tokens = 60000
     verdict = await grader.call(grader_prompt, system=grader_system)
 
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]
