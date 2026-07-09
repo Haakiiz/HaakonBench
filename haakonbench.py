@@ -39,9 +39,11 @@ CONTESTANTS: list[tuple[str, str]] = [
     ("openai",    "gpt-5.6-sol"),
     ("openai",    "gpt-5.6-terra"),
     ("openai",    "gpt-5.6-luna"),
-    ("openai",    "gpt-5.5"),            # previous OpenAI frontier, for comparison
+    ("openai",    "gpt-5.5"),
+    ("openai",    "gpt-5.4-mini"),      # no gpt-5.5-mini exists; 5.4-mini is the current mini
     ("anthropic", "claude-sonnet-5"),
     ("anthropic", "claude-opus-4-8"),
+    ("anthropic", "claude-haiku-4-5"),
     ("google",    "gemini-3.1-pro-preview"),
     ("google",    "gemini-3.5-flash"),
     ("xai",       "grok-4.5"),           # released 2026-07-08; same reasoning_effort knob as 4.3
@@ -580,7 +582,22 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
     # and the verdict for 9 responses (table + rankings + callouts) is long.
     # 8k proved too tight once thinking is on by default.
     grader.max_tokens = 60000
-    verdict = await grader.call(grader_prompt, system=grader_system)
+    # Transient 5xx (e.g. Gemini 503 UNAVAILABLE) shouldn't kill the grade
+    # phase after a long, expensive run — retry a couple of times first.
+    last_err: Exception | None = None
+    for attempt in range(3):
+        try:
+            verdict = await grader.call(grader_prompt, system=grader_system)
+            break
+        except Exception as e:
+            last_err = e
+            if attempt < 2:
+                wait = 20 * (attempt + 1)
+                print(f"  Grader call failed ({type(e).__name__}: {e}) — "
+                      f"retrying in {wait}s ({attempt + 2}/3)...", file=sys.stderr)
+                await asyncio.sleep(wait)
+    else:
+        raise last_err
 
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]
     for letter, (label, _body) in zip(letters, entries):
@@ -698,7 +715,15 @@ async def main():
             raise SystemExit(f"--grader-model expects provider/model, got '{args.grader_model}'")
         g_provider, g_model = args.grader_model.split("/", 1)
 
-    verdict    = await grade_run(run_dir, grader_provider=g_provider, grader_model=g_model)
+    try:
+        verdict = await grade_run(run_dir, grader_provider=g_provider, grader_model=g_model)
+    except Exception as e:
+        raise SystemExit(
+            f"\nGrading failed after retries ({type(e).__name__}: {e}).\n"
+            f"All model responses are safe on disk in {run_dir} — nothing is lost.\n"
+            f"Re-grade without re-running the models:\n"
+            f"    python haakonbench.py --regrade --run {run_dir.name}"
+        )
     grade_path = run_dir / "_grades.md"
     grade_path.write_text(verdict, encoding="utf-8")
     print(f"\nGrades written to {grade_path}")

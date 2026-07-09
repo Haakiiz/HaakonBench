@@ -157,7 +157,15 @@ class LLMClient:
                 # auto-activates on Opus 4.8/4.7/4.6 & Sonnet 4.6; older/Haiku
                 # just run it without filtering. Text blocks are still pulled
                 # out below; the extra server_tool_use / result blocks are ignored.
-                kwargs["tools"] = [{"type": "web_search_20260209", "name": "web_search"}]
+                # allowed_callers=["direct"]: the tool's default caller set
+                # includes programmatic tool calling, which Haiku 4.5 doesn't
+                # support (400s). We only ever want the model calling it
+                # directly, so pin it — harmless on Opus/Sonnet.
+                kwargs["tools"] = [{
+                    "type": "web_search_20260209",
+                    "name": "web_search",
+                    "allowed_callers": ["direct"],
+                }]
             response = await self._client.messages.create(**kwargs)
             u = getattr(response, "usage", None)
             if u is not None:
