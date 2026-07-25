@@ -30,14 +30,24 @@ XAI_API_KEY=...
 ## Common commands
 
 ```bash
-# Full benchmark run — new timestamped folder
+# Run the benchmark. Lands in the bucket for this config and only calls the
+# contestants that don't already have a valid answer there.
 python haakonbench.py
+
+# Show what would be reused vs. called (and what it lands in) — calls nothing
+python haakonbench.py --dry-run
+
+# Ignore cached answers and re-call every contestant in the bucket
+python haakonbench.py --refresh
 
 # Re-grade existing results with updated grader prompt
 python haakonbench.py --regrade
 
-# Retry a failed model (slots into latest run folder, re-grades)
+# Retry / force-refresh specific models (always calls them, cached or not)
 python haakonbench.py --only openai/gpt-5.5
+
+# A second, independent bucket of the same config (e.g. to measure variance)
+python haakonbench.py --tag variance-2
 
 # Use a different grader model
 python haakonbench.py --regrade --grader-model anthropic/claude-opus-4-7
@@ -53,8 +63,11 @@ python haakonbench.py --effort max --only anthropic/claude-opus-4-8
 python haakonbench.py --web-search
 python haakonbench.py --web-search --only anthropic/claude-opus-4-8
 
-# List all run folders
+# List all buckets (config, how many answers, when last graded)
 python haakonbench.py --list
+
+# Target an old timestamped folder by name (pre-bucket runs have no manifest)
+python haakonbench.py --regrade --run 2026-07-09_214014
 
 # Validate grader accuracy against WoW Classic reference data
 python test_grader.py
@@ -70,10 +83,32 @@ python test_grader.py --model claude-opus-4-7
 
 ## Architecture
 
+### Run buckets — results are keyed on config, not on time
+
+A saved answer is reusable **if and only if** everything that shaped it is identical: the `PROMPT` text, the effort tier (which also fixes `max_tokens`), and whether web search was on. Those three fields *are* the folder name:
+
+```
+results/p3f2a1c__high__search-on/
+    _run.json          ← authoritative config record (the folder name is just the label)
+    _prompt.md         ← the exact prompt these answers were given
+    openai__gpt-5.6-sol.md
+    anthropic__claude-opus-4-8.md
+    _grades.md         ← latest verdict
+    _grades/2026-07-24_203355_google__gemini-3.5-flash.md   ← history
+```
+
+So re-running a config **lands in the same bucket and only calls what's missing**. Adding an 11th model to `CONTESTANTS` and re-running the same command costs one API call, not eleven. The pieces:
+
+- **`prompt_sha()`** — first 6 hex of `sha256(PROMPT)`. Edit one comma in the prompt and the hash changes, so old answers can never be silently reused against a new prompt. It reads the `PROMPT` global at call time — **do not** turn that back into a default argument, or the hash freezes at import.
+- **`plan_contestants()`** — splits `CONTESTANTS` into `(to_call, reused)`. `has_valid_result()` defines "reusable": file exists, isn't `FAILED`, and has a non-empty body. So failed *and* silently-empty responses are always retried.
+- **`--only` / `--refresh`** are explicit "call it anyway" instructions and skip the cache. `--dry-run` prints the plan and exits without writing anything (it even removes the empty bucket it just probed).
+- **Config guard** — `--run NAME` refuses to proceed if that folder's `_run.json` contradicts your flags (pass `--force` to override). This is what stops an `--effort high` answer from being slotted into a low-effort folder. Legacy timestamped folders have no manifest: they still work, you just get a warning that the config can't be verified.
+- **`--tag foo`** appends to the bucket name, for a deliberately separate run of the same config (variance testing).
+
 ### Benchmark flow (`haakonbench.py`)
 
-1. **Run phase** — `CONTESTANTS` list drives parallel async API calls via `LLMClient`. Each response is written to `results/{timestamp}/{provider}__{model}.md`. The file header carries an `<!-- HB_META ... -->` block recording wall-clock time, the effort tier, and token usage (input/output/reasoning/total) so it survives `--regrade`.
-2. **Grade phase** — all successful responses are loaded, anonymised as letters (A, B, C…), and sent to the judge model in a single call. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Results go to `results/{timestamp}/_grades.md` with the letter→model key appended, followed by an **Efficiency — raw data** table joining each model's Total score against its time and token counts (sorted by score). The score column is parsed best-effort from the judge's table; if parsing fails it shows `—` but the token/time columns still populate.
+1. **Run phase** — `CONTESTANTS` minus whatever the bucket already answered drives parallel async API calls via `LLMClient`. Each response is written to `results/{bucket}/{provider}__{model}.md`. The file header carries an `<!-- HB_META ... -->` block recording the date, wall-clock time, effort tier, max_tokens, prompt_sha and token usage (input/output/reasoning/total) so it survives `--regrade`. Because a bucket fills up over time, `date` matters: the efficiency table grows an **Answered** column whenever the answers in a bucket aren't all from the same day.
+2. **Grade phase** — **always runs over the whole bucket, even when nothing was called.** Grading is comparative and blind (responses are anonymised as letters A, B, C…), so one added contestant reshuffles everyone's letters and can move their scores — and it's a single cheap call next to the answers it ranks. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Output goes to `_grades.md` (latest) *and* an archived copy under `_grades/{stamp}_{grader}.md`, so re-grading with a different judge doesn't erase the old verdict. Each verdict is stamped with an `HB_GRADE` header (grader, date, response count, bucket config) — scores depend on the grader and on the exact set compared, not just on the answers. The letter→model key is appended, followed by an **Efficiency — raw data** table joining each model's Total score against its time and token counts (sorted by score). The score column is parsed best-effort from the judge's table; if parsing fails it shows `—` but the token/time columns still populate.
 
 ### Effort tiers (`--effort {low,medium,high,max}`)
 
@@ -88,7 +123,7 @@ One abstract CLI knob, **translated per provider** because providers disagree on
 
 Key per-provider facts (verified against provider docs):
 - **Anthropic** Opus 4.7/4.8 and **Sonnet 5** use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. Sonnet 5 takes the full range up to `max` (and runs adaptive thinking by default even without the `thinking` param); **Sonnet 4.x** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). Sonnet 5's model ID is `claude-sonnet-5` — **no date suffix** (dated forms 404). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k).
-- **OpenAI** GPT-5.6 family (launched 2026-07-09): `gpt-5.6-sol` (flagship), `gpt-5.6-terra` (balanced), `gpt-5.6-luna` (fast/cheap); bare `gpt-5.6` aliases to Sol. All support `low/medium/high/xhigh` (also `minimal`/`none`); **`max` effort is Sol-only** — `resolve_effort()` caps every other OpenAI model at `xhigh` on the `max` tier. gpt-5.5 (previous frontier) supports up to `xhigh`. All `gpt-5.x` IDs route through the Responses-API reasoning branch in `llm_client.py` (shared reasoning+output budget, 20k floor still applies; Sol at `max` effort is token-hungry — the big `max`-tier budget matters).
+- **OpenAI** GPT-5.6 family (launched 2026-07-09): `gpt-5.6-sol` (flagship), `gpt-5.6-terra` (balanced), `gpt-5.6-luna` (fast/cheap). There is **no** bare `gpt-5.6` alias and no dated snapshots for the family — the three suffixed IDs are the only forms (verified against `/v1/models` 2026-07-24; bare `gpt-5.6` returns 404 `model_not_found`). All support `low/medium/high/xhigh` (also `minimal`/`none`); **`max` effort is Sol-only** — `resolve_effort()` caps every other OpenAI model at `xhigh` on the `max` tier. gpt-5.5 (previous frontier) supports up to `xhigh`. All `gpt-5.x` IDs route through the Responses-API reasoning branch in `llm_client.py` (shared reasoning+output budget, 20k floor still applies; Sol at `max` effort is token-hungry — the big `max`-tier budget matters).
 - **Gemini 3.x** uses a named `thinking_level`, **not** the old numeric `thinking_budget` — passing a budget to a Gemini 3 model is a hard error. Set via `ThinkingConfig(thinking_level=...)` (case-insensitive). 3.1 Pro: `low/medium/high`, default `high` (still `gemini-3.1-pro-preview` — no GA ID yet). 3.5 Flash: `minimal/low/medium/high`, default `medium` (`gemini-3.5-flash` is GA).
 - **xAI** grok-4.3 and grok-4.5 accept `reasoning_effort` (none/low/medium/high; grok-4.5 defaults to `high`), sent via `extra_body`. (Older grok-4 rejects it.) grok-4.5's ID uses a dot: `grok-4.5`.
 

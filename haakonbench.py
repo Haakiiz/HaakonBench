@@ -2,26 +2,37 @@
 haakonbench.py — Run the same prompt across multiple providers/models,
 then have a grader model score the responses blind.
 
-Full run  →  creates a NEW timestamped folder so nothing is ever overwritten:
-    python haakonbench.py
-    # → results/2026-05-24_143022/
+Results live in a CONFIG-KEYED folder (a "bucket"), named after everything that
+shaped the answers — prompt hash, effort tier, web search on/off:
 
-Retry / add a model  →  targets the LATEST run folder by default:
-    python haakonbench.py --only openai/gpt-5.5
-    python haakonbench.py --only anthropic/claude-opus-4-7,xai/grok-4.3
+    python haakonbench.py --effort high --web-search
+    # → results/p3f2a1c__high__search-on/
 
-Target a specific past run:
-    python haakonbench.py --only openai/gpt-5.5 --run 2026-05-24_143022
+Re-running the same config is INCREMENTAL: only contestants that don't already
+have a valid answer in the bucket are called. So adding an 11th model to
+CONTESTANTS and re-running the same command costs one API call, not eleven.
+Grading is always redone over the whole bucket (it's comparative and blind, so
+one new response shifts everyone's letters — and it's one cheap call).
+
+    python haakonbench.py                       # fill in whatever is missing, then grade
+    python haakonbench.py --dry-run             # show the plan (reuse vs. call), exit
+    python haakonbench.py --refresh             # ignore the cache, re-run every contestant
+    python haakonbench.py --only openai/gpt-5.5 # re-run just these (always calls)
+    python haakonbench.py --regrade             # no API calls, just re-grade the bucket
+    python haakonbench.py --tag variance-2      # a second, independent bucket of same config
+
+Target a specific folder by name (needed for the old timestamped run folders):
     python haakonbench.py --regrade --run 2026-05-24_110000
 
 Other flags:
-    --regrade   skip API calls, re-grade everything on disk in the target run folder
     --no-grade  run models but skip grading
-    --list      show all existing run folders and exit
+    --list      show all buckets and exit
 """
 
 import argparse
 import asyncio
+import hashlib
+import json
 import re
 import sys
 import time
@@ -42,9 +53,10 @@ CONTESTANTS: list[tuple[str, str]] = [
     ("openai",    "gpt-5.5"),
     ("openai",    "gpt-5.4-mini"),      # no gpt-5.5-mini exists; 5.4-mini is the current mini
     ("anthropic", "claude-sonnet-5"),
+    ("anthropic", "claude-opus-5"),      # verified against /v1/models: adaptive thinking + effort low..max, same surface as 4.8
     ("anthropic", "claude-opus-4-8"),
-    ("anthropic", "claude-haiku-4-5"),
     ("google",    "gemini-3.1-pro-preview"),
+    ("google",    "gemini-3.6-flash"),    # newest Flash (GA); 3.5-flash kept alongside for the generational read
     ("google",    "gemini-3.5-flash"),
     ("xai",       "grok-4.5"),           # released 2026-07-08; same reasoning_effort knob as 4.3
 ]
@@ -113,54 +125,175 @@ PROVIDER_EFFORT: dict[str, dict[str, object]] = {
 }
 
 
-# ── Folder helpers ─────────────────────────────────────────────────────────
+# ── Run identity ("buckets") ───────────────────────────────────────────────
+# A saved answer is reusable if and only if everything that shaped it is
+# identical: the PROMPT text, the effort tier (which also fixes max_tokens), and
+# whether web search was on. Those three ARE the folder name:
+#
+#     results/p3f2a1c__high__search-on/
+#
+# so re-running a config lands in the same bucket and only calls the contestants
+# that are missing. The folder name is the readable label; `_run.json` inside is
+# the authoritative record, and `_prompt.md` freezes the exact prompt those
+# answers were given (so a later prompt edit can never silently reuse them —
+# it changes the hash and therefore the bucket).
+#
+# Old timestamped folders (results/2026-05-24_143022/) have no manifest. They
+# still work with --run / --regrade; they just can't be config-verified.
 
-def new_run_dir() -> Path:
-    stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    path  = BASE_RESULTS_DIR / stamp
-    path.mkdir(parents=True, exist_ok=True)
-    return path
+RUN_MANIFEST = "_run.json"
+PROMPT_COPY  = "_prompt.md"
+GRADES_DIR   = "_grades"
+CONFIG_KEYS  = ("prompt_sha", "effort", "web_search")
 
 
-def latest_run_dir() -> Path:
-    """Return the most recently created run folder, or raise if none exist."""
-    BASE_RESULTS_DIR.mkdir(exist_ok=True)
-    folders = sorted(
-        (p for p in BASE_RESULTS_DIR.iterdir() if p.is_dir()),
-        key=lambda p: p.name,  # ISO timestamp names sort chronologically
+def prompt_sha(prompt: str | None = None) -> str:
+    """Short, stable fingerprint of the prompt — part of the bucket identity.
+    Reads the PROMPT global at call time (not as a default argument, which would
+    freeze it at import and let an edited prompt reuse the old bucket)."""
+    text = PROMPT if prompt is None else prompt
+    return hashlib.sha256(text.strip().encode("utf-8")).hexdigest()[:6]
+
+
+def run_config(effort: str, web_search: bool, tag: str | None = None) -> dict:
+    return {
+        "prompt_sha": prompt_sha(),
+        "effort": effort,
+        "web_search": web_search,
+        "max_tokens": TIER_MAX_TOKENS[effort],
+        "tag": tag,
+    }
+
+
+def bucket_name(cfg: dict) -> str:
+    parts = [
+        f"p{cfg['prompt_sha']}",
+        cfg["effort"],
+        "search-on" if cfg["web_search"] else "search-off",
+    ]
+    if cfg.get("tag"):
+        parts.append(re.sub(r"[^A-Za-z0-9._-]+", "-", cfg["tag"]))
+    return "__".join(parts)
+
+
+def read_manifest(run_dir: Path) -> dict:
+    """The bucket's config, or {} for legacy folders with no manifest."""
+    path = run_dir / RUN_MANIFEST
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def write_manifest(run_dir: Path, cfg: dict) -> None:
+    existing = read_manifest(run_dir)
+    now = datetime.now().isoformat(timespec="seconds")
+    data = {**cfg, "created": existing.get("created", now), "last_run": now}
+    (run_dir / RUN_MANIFEST).write_text(
+        json.dumps(data, indent=2) + "\n", encoding="utf-8"
     )
-    if not folders:
-        raise SystemExit(
-            "No existing run folders found in ./results/.\n"
-            "Run 'python haakonbench.py' first to create one."
-        )
-    return folders[-1]
 
 
-def resolve_run_dir(run_name: str | None, *, creating_new: bool) -> Path:
-    if creating_new:
-        return new_run_dir()
+def write_prompt_copy(run_dir: Path) -> None:
+    """Freeze the prompt next to the answers it produced."""
+    path = run_dir / PROMPT_COPY
+    if path.exists():
+        return
+    path.write_text(
+        f"<!-- prompt_sha: {prompt_sha()} -->\n\n{PROMPT}\n", encoding="utf-8"
+    )
+
+
+def manifest_conflicts(manifest: dict, cfg: dict) -> list[str]:
+    """Fields where an existing folder disagrees with the requested config.
+    Guards against slotting an --effort high answer into a low-effort run."""
+    return [
+        f"{k}: folder has {manifest[k]!r}, you asked for {cfg[k]!r}"
+        for k in CONFIG_KEYS
+        if k in manifest and manifest[k] != cfg[k]
+    ]
+
+
+def resolve_run_dir(
+    run_name: str | None, cfg: dict, *, creating: bool, check_config: bool, force: bool
+) -> tuple[Path, bool]:
+    """Return (bucket_dir, is_new). `creating` allows making the folder;
+    `check_config` refuses a folder whose manifest contradicts cfg."""
+    BASE_RESULTS_DIR.mkdir(exist_ok=True)
+
     if run_name:
         path = BASE_RESULTS_DIR / run_name
         if not path.is_dir():
             raise SystemExit(f"Run folder not found: {path}")
-        return path
-    return latest_run_dir()
+        manifest = read_manifest(path)
+        if check_config:
+            if not manifest:
+                print(
+                    f"Note: {run_name} has no {RUN_MANIFEST} (legacy folder) — its "
+                    "prompt/effort/search config can't be verified against your flags.",
+                    file=sys.stderr,
+                )
+            elif (conflicts := manifest_conflicts(manifest, cfg)) and not force:
+                raise SystemExit(
+                    f"\nConfig mismatch: {run_name} was run with a different config.\n"
+                    + "".join(f"  - {c}\n" for c in conflicts)
+                    + "Mixing configs in one folder makes the comparison meaningless.\n"
+                    "Drop --run to use the matching bucket, or pass --force to override."
+                )
+        return path, False
+
+    path = BASE_RESULTS_DIR / bucket_name(cfg)
+    is_new = not path.is_dir()
+    if is_new and not creating:
+        raise SystemExit(
+            f"No bucket for this config yet: {path.name}\n"
+            "Run without --regrade to create it, or target a folder with --run NAME "
+            "(see --list)."
+        )
+    path.mkdir(parents=True, exist_ok=True)
+    return path, is_new
 
 
-def list_runs() -> None:
+def latest_grade_date(run_dir: Path) -> str | None:
+    grades = sorted((run_dir / GRADES_DIR).glob("*.md")) if (run_dir / GRADES_DIR).is_dir() else []
+    if grades:
+        return grades[-1].name[:10]
+    if (run_dir / "_grades.md").exists():
+        return "yes"
+    return None
+
+
+def list_runs(cfg: dict) -> None:
     BASE_RESULTS_DIR.mkdir(exist_ok=True)
     folders = sorted(p for p in BASE_RESULTS_DIR.iterdir() if p.is_dir())
     if not folders:
         print("No run folders yet.")
         return
-    print(f"{'Run folder':<30}  Files  Grades?")
-    print("-" * 50)
+    here = bucket_name(cfg)
+    print(f"{'Folder':<34} {'Prompt':<8} {'Effort':<7} {'Search':<7} {'OK':>3} {'Fail':>5}  Graded")
+    print("-" * 82)
     for p in folders:
-        md_files = [f for f in p.glob("*.md") if not f.name.startswith("_")]
-        has_grades = (p / "_grades.md").exists()
-        marker = "latest ←" if p == folders[-1] else ""
-        print(f"  {p.name:<28}  {len(md_files):>3}    {'Y' if has_grades else '-'}  {marker}")
+        m = read_manifest(p)
+        ok = fail = 0
+        for f in p.glob("*.md"):
+            if f.name.startswith("_"):
+                continue
+            # Same definition of "usable" the incremental planner uses, so the
+            # OK column always equals the number of answers that get reused.
+            if has_valid_result(p, f.stem):
+                ok += 1
+            else:
+                fail += 1
+        # Plain ASCII: this table goes straight to a Windows console, which
+        # can't encode the em-dashes the markdown reports use.
+        marker = "  <- this config" if p.name == here else ""
+        print(
+            f"  {p.name:<32} {m.get('prompt_sha', '-'):<8} {m.get('effort', '-'):<7} "
+            f"{('on' if m.get('web_search') else 'off') if m else '-':<7} "
+            f"{ok:>3} {fail:>5}  {latest_grade_date(p) or '-'}{marker}"
+        )
 
 
 # ── Running ────────────────────────────────────────────────────────────────
@@ -214,12 +347,18 @@ async def run_contestant(
 
 
 def _meta_block(secs: float, effort: str, usage: dict | None, web_search: bool = False) -> str:
-    """A machine-parseable comment so --regrade can recover tokens/time later."""
+    """A machine-parseable comment so --regrade can recover tokens/time later.
+    `date` and `prompt_sha` matter in a config-keyed bucket: answers accumulate
+    over months, so you need to see how old each one is and confirm it was given
+    the same prompt as its neighbours."""
     usage = usage or {}
     lines = [
         "<!-- HB_META",
+        f"date: {datetime.now().isoformat(timespec='seconds')}",
         f"seconds: {secs:.1f}",
         f"effort: {effort}",
+        f"max_tokens: {TIER_MAX_TOKENS[effort]}",
+        f"prompt_sha: {prompt_sha()}",
         f"web_search: {str(web_search).lower()}",
     ]
     if web_search:
@@ -282,8 +421,43 @@ def load_successful_results(run_dir: Path) -> list[tuple[str, str]]:
         else:
             print(f"  (skipping {path.name} — unrecognized format)", file=sys.stderr)
             continue
+        if not body:
+            # Not marked FAILED but nothing visible came back (a reasoning model
+            # that burned its whole budget). Grading a blank response is worse
+            # than leaving it out; has_valid_result() will re-run it.
+            print(f"  (skipping {path.name} — empty response body)", file=sys.stderr)
+            continue
         out.append((path.stem, body))
     return out
+
+
+def has_valid_result(run_dir: Path, label: str) -> bool:
+    """True if this bucket already holds a reusable answer for `label`.
+    FAILED, empty and unparseable files count as missing so they get re-run."""
+    path = run_dir / f"{label}.md"
+    if not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8")
+    if "**FAILED" in text[:400]:
+        return False
+    for sep in (BODY_SEP, "\n---\n\n"):   # new + legacy formats
+        if sep in text:
+            return bool(text.split(sep, 1)[1].strip())
+    return False
+
+
+def plan_contestants(
+    run_dir: Path, wanted: list[tuple[str, str]], *, refresh: bool
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """Split `wanted` into (to_call, reused). This is the whole point of a
+    config-keyed bucket: a contestant that already answered THIS exact config
+    would only produce the same answer again, so don't pay for it twice."""
+    if refresh:
+        return list(wanted), []
+    to_call, reused = [], []
+    for pair in wanted:
+        (reused if has_valid_result(run_dir, slug(*pair)) else to_call).append(pair)
+    return to_call, reused
 
 
 def load_result_meta(run_dir: Path, label: str) -> dict:
@@ -519,6 +693,7 @@ def build_efficiency_table(
             "reasoning": meta.get("reasoning_tokens"),
             "total": meta.get("total_tokens"),
             "searches": meta.get("web_searches"),  # only present on --web-search runs
+            "date": str(meta["date"])[:10] if meta.get("date") else None,
         })
 
     # Sort by score (desc) when we have it, otherwise keep label order.
@@ -526,6 +701,9 @@ def build_efficiency_table(
 
     # Only show the search column when this run actually used web search.
     show_searches = any(r["searches"] is not None for r in rows)
+    # A bucket fills up incrementally, so answers can be months apart. Surface
+    # the date only when they actually differ — otherwise it's noise.
+    show_dates = len({r["date"] for r in rows if r["date"]}) > 1
 
     def cell(v) -> str:
         if v is None:
@@ -538,10 +716,15 @@ def build_efficiency_table(
             "Reasoning tokens are internal thinking; '—' means the provider didn't report it.")
     if show_searches:
         note += " Web searches = queries the model actually ran (— if not exposed, e.g. xAI)."
+    if show_dates:
+        note += (" Answered = when that response was generated; this bucket was filled "
+                 "in over more than one day, so some answers are older than others.")
     note += "_"
 
     search_h = " Web searches |" if show_searches else ""
     search_sep = "---|" if show_searches else ""
+    date_h = " Answered |" if show_dates else ""
+    date_sep = "---|" if show_dates else ""
     lines = [
         "",
         "---",
@@ -550,14 +733,15 @@ def build_efficiency_table(
         "",
         note,
         "",
-        f"| Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok |{search_h}",
-        f"|---|---|---|---|---|---|{search_sep}",
+        f"| Model | Total score | Time (s) | Output tok | Reasoning tok | Total tok |{search_h}{date_h}",
+        f"|---|---|---|---|---|---|{search_sep}{date_sep}",
     ]
     for r in rows:
         search_c = f" {cell(r['searches'])} |" if show_searches else ""
+        date_c = f" {cell(r['date'])} |" if show_dates else ""
         lines.append(
             f"| `{r['label']}` | {cell(r['score'])} | {cell(r['seconds'])} | "
-            f"{cell(r['output'])} | {cell(r['reasoning'])} | {cell(r['total'])} |{search_c}"
+            f"{cell(r['output'])} | {cell(r['reasoning'])} | {cell(r['total'])} |{search_c}{date_c}"
         )
     return "\n".join(lines)
 
@@ -605,7 +789,40 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
 
     totals = parse_grade_totals(verdict)
     efficiency = build_efficiency_table(run_dir, letters, entries, totals)
-    return verdict + "\n" + "\n".join(key_lines) + "\n" + efficiency
+    header = _grade_header(run_dir, len(entries), grader_provider, grader_model)
+    return header + verdict + "\n" + "\n".join(key_lines) + "\n" + efficiency
+
+
+def _grade_header(run_dir: Path, n: int, grader_provider: str, grader_model: str) -> str:
+    """Scores depend on the grader and the exact set of responses compared, not
+    just on the answers — so stamp both onto the verdict."""
+    m = read_manifest(run_dir)
+    search = ("on" if m["web_search"] else "off") if "web_search" in m else "?"
+    return (
+        f"<!-- HB_GRADE\n"
+        f"graded: {datetime.now().isoformat(timespec='seconds')}\n"
+        f"grader: {grader_provider}/{grader_model}\n"
+        f"responses: {n}\n"
+        f"prompt_sha: {m.get('prompt_sha', prompt_sha())}\n"
+        f"effort: {m.get('effort', '?')}\n"
+        f"web_search: {str(m.get('web_search', '?')).lower()}\n"
+        f"-->\n\n"
+        f"_Graded {datetime.now():%Y-%m-%d %H:%M} by `{grader_provider}/{grader_model}` — "
+        f"{n} responses, bucket `{run_dir.name}` (effort {m.get('effort', '?')}, "
+        f"web search {search})._\n\n"
+    )
+
+
+def save_grades(run_dir: Path, verdict: str, grader_provider: str, grader_model: str) -> Path:
+    """Write the verdict to _grades.md (always the latest) AND to a dated file in
+    _grades/ so a re-grade with a different grader doesn't erase the old one."""
+    (run_dir / "_grades.md").write_text(verdict, encoding="utf-8")
+    history = run_dir / GRADES_DIR
+    history.mkdir(exist_ok=True)
+    stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    archived = history / f"{stamp}_{slug(grader_provider, grader_model)}.md"
+    archived.write_text(verdict, encoding="utf-8")
+    return archived
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────
@@ -628,8 +845,12 @@ async def main():
         description="HåkonBench — multi-model prompt benchmark + blind grader.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("--only",         help="Run only these contestants (comma-separated provider/model).")
-    parser.add_argument("--run",          help="Target a specific run folder name (e.g. 2026-05-24_143022). Defaults to latest.")
+    parser.add_argument("--only",         help="Run only these contestants (comma-separated provider/model). Always calls them, cached or not.")
+    parser.add_argument("--refresh",      action="store_true", help="Ignore cached answers and re-call every contestant in this bucket.")
+    parser.add_argument("--dry-run",      action="store_true", help="Show what would be reused vs. called, then exit without calling anything.")
+    parser.add_argument("--tag",          help="Suffix the bucket name to keep a second, independent run of the same config (e.g. --tag variance-2).")
+    parser.add_argument("--force",        action="store_true", help="With --run: proceed even if the folder's config contradicts your flags.")
+    parser.add_argument("--run",          help="Target a specific folder name instead of the config-keyed bucket (needed for the old timestamped runs).")
     parser.add_argument("--regrade",      action="store_true", help="Skip API calls. Re-grade what's on disk in the target run folder.")
     parser.add_argument("--no-grade",     action="store_true", help="Run models but skip grading.")
     parser.add_argument("--list",         action="store_true", help="List all run folders and exit.")
@@ -651,31 +872,76 @@ async def main():
                              "from base knowledge only. The grader never uses web search.")
     args = parser.parse_args()
 
+    cfg = run_config(args.effort, args.web_search, args.tag)
+
     if args.list:
-        list_runs()
+        list_runs(cfg)
         return
 
     BASE_RESULTS_DIR.mkdir(exist_ok=True)
 
-    # A full run (no --only, no --regrade) → new dated folder.
-    # --only / --regrade → use latest (or --run) so results slot in.
-    creating_new = not args.only and not args.regrade
-    run_dir = resolve_run_dir(args.run, creating_new=creating_new)
+    # The bucket is derived from the config (prompt + effort + web search), so
+    # every invocation with the same flags lands in the same folder. --regrade
+    # never creates one and doesn't care about flag/config agreement.
+    run_dir, is_new = resolve_run_dir(
+        args.run, cfg,
+        creating=not args.regrade,
+        check_config=not args.regrade,
+        force=args.force,
+    )
 
+    to_run: list[tuple[str, str]] = []
     if args.regrade:
         if args.only:
             print("Note: --only is ignored when --regrade is set.", file=sys.stderr)
-        print(f"Re-grading run: {run_dir.name}\n")
+        print(f"Re-grading bucket: {run_dir.name}\n")
+        if args.dry_run:
+            n = len(load_successful_results(run_dir))
+            print(f"--dry-run: would re-grade {n} response(s) in {run_dir}")
+            return
     else:
-        to_run = parse_only(args.only) if args.only else CONTESTANTS
-        verb   = "Adding to" if args.only else "Starting new run in"
+        wanted = parse_only(args.only) if args.only else CONTESTANTS
+        # --only and --refresh are explicit "call it anyway" instructions;
+        # a plain run reuses whatever this exact config already answered.
+        to_run, reused = plan_contestants(
+            run_dir, wanted, refresh=args.refresh or bool(args.only)
+        )
         web_search_note = "ON" if args.web_search else "OFF"
-        print(f"HaakonBench -- {verb} {run_dir.name}  (effort: {args.effort}, web search: {web_search_note})\n")
-        for provider, model in to_run:
-            _, knob = resolve_effort(provider, model, args.effort)
-            print(f"  * {provider:10s} {model:32s} -> {knob}")
-        if args.timeout:
-            print(f"  (per-model timeout: {args.timeout:.0f}s)")
+        state = "new bucket" if is_new else "existing bucket"
+        print(f"HaakonBench -- {run_dir.name}  ({state}; effort: {args.effort}, "
+              f"web search: {web_search_note}, prompt: {cfg['prompt_sha']})\n")
+
+        if reused:
+            print(f"  Reusing {len(reused)} cached answer(s) — same prompt, effort and search mode:")
+            for provider, model in reused:
+                meta = load_result_meta(run_dir, slug(provider, model))
+                when = str(meta.get("date", ""))[:10] or "unknown date"
+                print(f"    = {provider:10s} {model:32s} ({when})")
+            print()
+
+        if to_run:
+            print(f"  Calling {len(to_run)} model(s):")
+            for provider, model in to_run:
+                _, knob = resolve_effort(provider, model, args.effort)
+                print(f"    * {provider:10s} {model:32s} -> {knob}")
+            if args.timeout:
+                print(f"  (per-model timeout: {args.timeout:.0f}s)")
+        else:
+            print("  Nothing to call — every contestant already answered this config.")
+
+        if args.dry_run:
+            print(f"\n--dry-run: nothing called, nothing written. Bucket: {run_dir}")
+            if is_new:
+                run_dir.rmdir()          # don't leave an empty bucket behind
+            return
+
+        write_manifest(run_dir, cfg)
+        write_prompt_copy(run_dir)
+
+        if not to_run:
+            print("\n  (skipping the run phase; re-grading the bucket as it stands)")
+
+    if to_run:
         print(f"\nRunning {len(to_run)} model(s) in parallel -- saving each as it finishes:\n")
 
         # Stream results: save + print the moment each model returns, so partial
@@ -715,6 +981,10 @@ async def main():
             raise SystemExit(f"--grader-model expects provider/model, got '{args.grader_model}'")
         g_provider, g_model = args.grader_model.split("/", 1)
 
+    # Grading is ALWAYS done over the whole bucket, even when nothing was called:
+    # the judge scores responses against each other behind anonymous letters, so
+    # one added contestant reshuffles everyone. It's a single call — cheap next to
+    # the answers it's ranking.
     try:
         verdict = await grade_run(run_dir, grader_provider=g_provider, grader_model=g_model)
     except Exception as e:
@@ -724,9 +994,9 @@ async def main():
             f"Re-grade without re-running the models:\n"
             f"    python haakonbench.py --regrade --run {run_dir.name}"
         )
-    grade_path = run_dir / "_grades.md"
-    grade_path.write_text(verdict, encoding="utf-8")
-    print(f"\nGrades written to {grade_path}")
+    archived = save_grades(run_dir, verdict, g_provider, g_model)
+    print(f"\nGrades written to {run_dir / '_grades.md'}")
+    print(f"           archived {archived}")
     print("\n" + "=" * 60)
     sys.stdout.buffer.write((verdict + "\n").encode("utf-8", errors="replace"))
 
