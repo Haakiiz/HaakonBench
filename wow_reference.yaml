@@ -2614,21 +2614,32 @@ gold_estimates:
     description: Winter Squid (seasonal) → Grilled Squid
     realistic_range: 40–80 gold/hour (when in season)
 common_hallucinations:
-- wrong_claim: Nightfin Soup requires Soothing Spices
-  correct: Nightfin Soup requires Refreshing Spring Water (not Soothing Spices)
-- wrong_claim: Mightfish Steak gives +35 Stamina and Spirit
-  correct: Mightfish Steak gives +10 Stamina and +10 Spirit
-- wrong_claim: Mightfish Steak gives +35 Stamina
-  correct: Mightfish Steak gives +10 Stamina and +10 Spirit
-- wrong_claim: Filet of Redgill is not a real Classic recipe
-  correct: Filet of Redgill IS a real Classic recipe (sold by Kelsey Yance in Booty Bay)
-- wrong_claim: Blackmouth Oil is a type of fish
-  correct: Blackmouth Oil is an alchemy product. The fish is called Oily Blackmouth.
-- wrong_claim: Catfish Steaks is a WoW Classic recipe
-  correct: Catfish Steaks does not exist in WoW Classic.
-- wrong_claim: Firefin Snapper can be cooked into Grilled Squid
-  correct: Grilled Squid uses Winter Squid, not Firefin Snapper.
-- wrong_claim: Gikkix sells Nightfin Soup recipe
-  correct: Gikkix sells Nightfin Soup recipe — this IS correct.
-- wrong_claim: Aquadynamic Fish Attractor lasts 10 minutes
-  correct: Aquadynamic Fish Attractor lasts 5 minutes, not 10.
+  # Kjente feil LLM-er gjør om WoW Classic fishing.
+  # Hjelper graderen avvise falske "rettelser".
+
+  - wrong_claim: "Nightfin Soup requires Soothing Spices"
+    correct: "Nightfin Soup requires Refreshing Spring Water (not Soothing Spices)"
+
+  - wrong_claim: "Mightfish Steak gives +35 Stamina and Spirit"
+    correct: "Mightfish Steak gives +10 Stamina and +10 Spirit"
+
+  - wrong_claim: "Mightfish Steak gives +35 Stamina"
+    correct: "Mightfish Steak gives +10 Stamina and +10 Spirit"
+
+  - wrong_claim: "Filet of Redgill is not a real Classic recipe"
+    correct: "Filet of Redgill IS a real Classic recipe (sold by Kelsey Yance in Booty Bay)"
+
+  - wrong_claim: "Blackmouth Oil is a type of fish"
+    correct: "Blackmouth Oil is an alchemy product. The fish is called Oily Blackmouth."
+
+  - wrong_claim: "Catfish Steaks is a WoW Classic recipe"
+    correct: "Catfish Steaks does not exist in WoW Classic."
+
+  - wrong_claim: "Firefin Snapper can be cooked into Grilled Squid"
+    correct: "Grilled Squid uses Winter Squid, not Firefin Snapper."
+
+  - wrong_claim: "Gikkix sells Nightfin Soup recipe"
+    correct: "Gikkix sells Nightfin Soup recipe — this IS correct."
+
+  - wrong_claim: "Aquadynamic Fish Attractor lasts 10 minutes"
+    correct: "Aquadynamic Fish Attractor lasts 5 minutes, not 10."

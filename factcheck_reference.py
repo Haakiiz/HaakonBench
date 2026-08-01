@@ -186,7 +186,7 @@ async def main() -> int:
     ap.add_argument("--concurrency", type=int, default=5)
     args = ap.parse_args()
 
-    load_dotenv()
+    load_dotenv(Path(__file__).parent / ".env", override=True)
     if not os.environ.get("GOOGLE_API_KEY"):
         print("GOOGLE_API_KEY not set (.env).", file=sys.stderr)
         return 1

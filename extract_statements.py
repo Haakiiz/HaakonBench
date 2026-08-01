@@ -217,7 +217,7 @@ async def main() -> int:
     ap.add_argument("--workers", type=int, default=5)
     args = ap.parse_args()
 
-    load_dotenv()
+    load_dotenv(Path(__file__).parent / ".env", override=True)
 
     manifest = load_manifest()
     files, skipped = select_files(args.results_dir, manifest, args.run, args.all, args.limit)

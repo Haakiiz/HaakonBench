@@ -19,10 +19,11 @@ import os
 import sys
 import urllib.request
 import urllib.error
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+load_dotenv(Path(__file__).parent / ".env", override=True)
 
 
 def get_key(override: str | None = None) -> str:

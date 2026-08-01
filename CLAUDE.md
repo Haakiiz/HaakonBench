@@ -116,10 +116,10 @@ One abstract CLI knob, **translated per provider** because providers disagree on
 
 | Tier | max_tokens | Anthropic Opus/Sonnet 5 (effort) | OpenAI (reasoning.effort) | Gemini 3.x (thinking_level) | xAI grok-4.3/4.5 (reasoning_effort) |
 |------|-----------|----------------------------------|---------------------------|-----------------------------|--------------------------------------|
-| low | 16000 | low | low | low | low |
-| medium | 32000 | medium | medium | medium | medium |
-| high | 64000 | high | high | high | high |
-| max | 128000 | **max** | **max** (Sol) / xhigh (others) | high | high |
+| low | 8000 | low | low | low | low |
+| medium | 16000 | medium | medium | medium | medium |
+| high | 32000 | high | high | high | high |
+| max | 64000 | **max** | **max** (Sol) / xhigh (others) | high | high |
 
 Key per-provider facts (verified against provider docs):
 - **Anthropic** Opus 4.7/4.8 and **Sonnet 5** use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. Sonnet 5 takes the full range up to `max` (and runs adaptive thinking by default even without the `thinking` param); **Sonnet 4.x** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). Sonnet 5's model ID is `claude-sonnet-5` — **no date suffix** (dated forms 404). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k).

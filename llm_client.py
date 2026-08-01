@@ -14,7 +14,7 @@ import yaml
 from dotenv import load_dotenv
 from tqdm.asyncio import tqdm
 
-load_dotenv(override=True)
+load_dotenv(Path(__file__).parent / ".env", override=True)
 
 
 def load_config(path: str = "config.yaml") -> dict:

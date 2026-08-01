@@ -55,6 +55,9 @@ CONTESTANTS: list[tuple[str, str]] = [
     ("anthropic", "claude-sonnet-5"),
     ("anthropic", "claude-opus-5"),      # verified against /v1/models: adaptive thinking + effort low..max, same surface as 4.8
     ("anthropic", "claude-opus-4-8"),
+    # Dropped on request: claude-haiku-4-5 (no effort/adaptive knob) and
+    # claude-fable-5 ($10/$50 per MTok). claude-sonnet-4-6 left out to keep the
+    # field to models we've actually run — re-add any of the three as one line.
     ("google",    "gemini-3.1-pro-preview"),
     ("google",    "gemini-3.6-flash"),    # newest Flash (GA); 3.5-flash kept alongside for the generational read
     ("google",    "gemini-3.5-flash"),
@@ -63,29 +66,29 @@ CONTESTANTS: list[tuple[str, str]] = [
 
 # ── Grader ─────────────────────────────────────────────────────────────────
 GRADER_PROVIDER = "google"
-GRADER_MODEL    = "gemini-3.5-flash"
+GRADER_MODEL    = "gemini-3.1-pro-preview"
 
 # ── The prompt ─────────────────────────────────────────────────────────────
-PROMPT = """You are writing a WoW Classic fishing guide for a specific character: level 60 Human Warrior, Alliance faction, Fishing 300, Cooking 300. The character has unlimited time to fish but cannot die and cannot babysit the game — every recommended spot must be genuinely AFK-safe for extended sessions.
+PROMPT = """You are writing a WoW Classic fishing guide for a specific character: level 60 Human Warrior, Alliance faction, Fishing 300, Cooking 300. The character has unlimited time to fish but cannot die and cannot babysit the game — every recommended spot must be genuinely AFK-safe for extended sessions. That constraint is real and non-negotiable; everything else about the guide is yours to shape.
 
-Your job is not to write a competent guide. Your job is to write the BEST guide this character will ever read. That means:
+Your job is not to write a competent guide. Your job is to write the BEST guide this character will ever read — the one that makes every other guide look lazy by comparison.
 
-1. ROUTE OVER SPOT LIST — Do not give a flat list of zones. Design an actual rotation or decision tree: what to fish Monday morning vs. Saturday evening, what to do when a zone is camped, how to pivot if a market crashes. A guide that ignores the AEC (Auction House Economy Cycle) is a guide that leaves gold on the table.
+There's no template to fill in. You decide the structure, the format, the length, the emphasis, the ordering — whatever makes this genuinely more useful than a wall of text: chapters, tables, decision trees, callout boxes, a single relentless argument, whatever. Surprising or unconventional approaches are welcome and rewarded; we want to see what YOU would build, not proof you can follow instructions. You're also free to decide what matters most for this character and lean into it, even at the expense of dimensions a more conventional guide would cover.
 
-2. COOKING AS A FORCE MULTIPLIER — Identify every recipe at 300 cooking that converts cheap fish into items worth materially more. Give concrete before/after valuations (e.g., "Spotted Yellowtail vendor trash → Grilled Squid sells for X per stack on a typical server"). Show the math. If a fish has no profitable cooking use, say so explicitly and recommend vendoring or another use.
+Things a genuinely excellent guide for this character would probably grapple with, in whatever form and order you think best:
 
-3. GOLD/HOUR WITH HONEST UNCERTAINTY — Give a gold/hour figure for each recommended spot. Do not invent false precision. Format it as a range with stated assumptions (e.g., server population tier, time of day, AH saturation). Explain what collapses the estimate downward.
+- Real routing, not a flat spot list — how to think about when/where to fish, how to adapt when a zone is camped or a market shifts.
+- Cooking as a force multiplier — which 300-cooking recipes turn cheap fish into real money, with concrete numbers, and where cooking just isn't worth it.
+- Honest gold/hour — figures with real assumptions stated, not false precision, and a sense of what breaks the estimate.
+- AFK-safety reasoning — not just "this is safe" but why: patrol paths, respawns, griefing risk, escape routes.
+- Something underrated most guides miss or dismiss, that you'd actually stake a claim on.
+- The ways a player following typical advice quietly underperforms anyway.
 
-4. AFK-SAFETY ANALYSIS — For every spot you recommend, state WHY it is safe: patrol paths, respawn geometry, nearest Alliance flight point, whether a PvP player could grief you while you shower. Do not just say "safe zone" — explain the safety.
+Treat that as inspiration, not a checklist — reorder, merge, cut, or replace any of it if you've got a better read on what makes the guide excellent.
 
-5. ONE CONTRARIAN RECOMMENDATION — Recommend at least one spot or strategy that most guides ignore or actively dismiss, but that you believe is underrated for this specific character. Defend it with specifics.
+Do not hedge everything. Make claims. Be wrong confidently if you must. A guide full of "it depends" is useless.
 
-6. FAILURE MODES — What are the top 3 ways a player following your guide would still underperform? What mistakes does every fishing guide fail to warn about?
-
-You control the structure. Use whatever format — chapters, tables, decision trees, callout boxes — that makes this genuinely more useful than a wall of text. Length should be determined by the content, not by an attempt to seem thorough.
-
-Do not hedge everything. Make claims. Be wrong confidently if you must. A guide full of "it depends" is useless."""
-
+This response will be judged blind, side by side with several other frontier models' answers to this exact same prompt, by a judge who fact-checks every claim against real WoW Classic data. Invented numbers and vague "it varies" claims get caught and cost you — precision you can back up beats precision you can't. The responses that read like everyone else's template lose to the ones that don't; a well-written answer that just recites the standard zone list will be scored as unremarkable no matter how polished the prose is. Distinct thinking, not compliance, is what wins here."""
 MAX_TOKENS_PER_CALL = 8000
 BASE_RESULTS_DIR    = Path("results")
 BODY_SEP            = "\n<!-- BEGIN RESPONSE -->\n"
@@ -115,7 +118,7 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
-TIER_MAX_TOKENS = {"low": 16000, "medium": 32000, "high": 64000, "max": 128000}
+TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
@@ -492,6 +495,12 @@ GRADER_SYSTEM_TEMPLATE = (
     "it as 'unverifiable' rather than calling it incorrect. Pay special attention to "
     "the 'Common LLM Hallucinations' list — these are known errors that look plausible "
     "but are wrong.\n\n"
+    "TRUST THE REFERENCE DATA OVER YOUR OWN INSTINCTS: if a fish, recipe, item, vendor, "
+    "or zone is listed below, treat its existence as certain — even if it is unfamiliar "
+    "to you or sounds made up. Do NOT call something a hallucination just because you "
+    "don't recognize it from your own training. Only flag a hallucination when a claim "
+    "actively CONTRADICTS the reference data below (wrong ingredients, wrong buff, wrong "
+    "zone, etc.) or matches the 'Common LLM Hallucinations' / 'Known Fake Locations' lists.\n\n"
     "{reference_data}"
 )
 
@@ -595,16 +604,67 @@ def _format_reference_data(data: dict) -> str:
     return "\n".join(lines)
 
 
+def load_reference_raw() -> dict:
+    """Parse wow_reference.yaml. Returns {} if the file is missing."""
+    ref_path = Path("wow_reference.yaml")
+    if not ref_path.exists():
+        return {}
+    return yaml.safe_load(ref_path.read_text(encoding="utf-8")) or {}
+
+
 def load_reference_data() -> str:
     """Load wow_reference.yaml and format it for the grader system prompt.
     Returns empty string (gracefully degraded) if file is missing."""
-    ref_path = Path("wow_reference.yaml")
-    if not ref_path.exists():
+    data = load_reference_raw()
+    if not data:
         print("  WARNING: wow_reference.yaml not found — grader will use its own knowledge.",
               file=sys.stderr)
         return ""
-    data = yaml.safe_load(ref_path.read_text(encoding="utf-8"))
     return _format_reference_data(data)
+
+
+_HALLUCINATION_PHRASE_RE = re.compile(
+    r"does(?:n't| not) exist|isn'?t (?:a )?real|is not a real|non-?existent",
+    re.IGNORECASE,
+)
+
+
+def _confirmed_reference_names(data: dict) -> set[str]:
+    """Lowercased names of entries the grader was told are real (verified: true
+    or hand-curated, i.e. not filtered out of the reference prompt)."""
+    names: set[str] = set()
+    for section in ("cooking_recipes", "fish", "zones", "vendors", "items_and_clarifications"):
+        for entry in (data or {}).get(section) or []:
+            if not isinstance(entry, dict) or not entry.get("name"):
+                continue
+            verified = entry.get("verified")
+            if verified is True or "verified" not in entry:
+                names.add(entry["name"].lower())
+    return names
+
+
+def check_grader_contradictions(verdict: str, ref_data: dict) -> list[str]:
+    """Heuristic safety net: the grader is instructed to trust the reference data,
+    but small/fast judge models sometimes fall back on their own (wrong) parametric
+    knowledge and call something a hallucination that is actually a verified entry
+    in wow_reference.yaml. One callout bullet often bundles several distinct claims,
+    so check per-SENTENCE (not per-line) to avoid flagging an unrelated confirmed
+    name that just happens to share a bullet with a real hallucination."""
+    names = [n for n in _confirmed_reference_names(ref_data) if len(n) >= 4]
+    if not names:
+        return []
+    warnings = []
+    for line in verdict.splitlines():
+        for sentence in re.split(r"(?<=[.!?])\s+", line):
+            if not _HALLUCINATION_PHRASE_RE.search(sentence):
+                continue
+            for name in names:
+                if re.search(rf"\b{re.escape(name)}\b", sentence, re.IGNORECASE):
+                    warnings.append(
+                        f"grader claims something doesn't exist, but wow_reference.yaml "
+                        f"has a verified/trusted entry for \"{name}\":\n    > {sentence.strip()}"
+                    )
+    return warnings
 
 GRADER_RUBRIC = """You will judge multiple LLM responses to the SAME user prompt.
 
@@ -666,6 +726,8 @@ def parse_grade_totals(verdict: str) -> dict[str, float]:
                 total_idx = lower.index("total")
             continue
         # Judges sometimes decorate the letter cell (**A**, `A`) — strip it.
+        # Superset of both sides: origin stripped "*_ ", this also strips
+        # backticks, which the Opus 5 verdict used.
         first = cells[0].strip("*`_ ") if cells else ""
         if first and re.fullmatch(r"[A-Z]", first) and total_idx < len(cells):
             m = re.search(r"\d+(?:\.\d+)?", cells[total_idx])
@@ -783,14 +845,34 @@ async def grade_run(run_dir: Path, grader_provider: str = GRADER_PROVIDER, grade
     else:
         raise last_err
 
+    contradictions = check_grader_contradictions(verdict, load_reference_raw())
+    warning_block = ""
+    if contradictions:
+        warning_lines = [
+            "", "---", "",
+            "## ⚠ Possible grader self-contradictions (auto-detected)",
+            "",
+            "The grader was told to trust the reference data, but the checks below "
+            "suggest it may have called something a hallucination that is actually "
+            "a verified entry in `wow_reference.yaml`. Double-check before trusting "
+            "the callout above.",
+            "",
+        ]
+        warning_lines += [f"- {w}" for w in contradictions]
+        warning_block = "\n".join(warning_lines)
+
     key_lines = ["", "---", "", "## Key (revealed after grading)", ""]
     for letter, (label, _body) in zip(letters, entries):
         key_lines.append(f"- **{letter}** → `{label}`")
 
     totals = parse_grade_totals(verdict)
     efficiency = build_efficiency_table(run_dir, letters, entries, totals)
+    # Both sides of the merge contribute here: the HB_GRADE header (who judged,
+    # when, over which bucket) wraps the verdict, and origin's auto-detected
+    # grader-contradiction warning follows it.
     header = _grade_header(run_dir, len(entries), grader_provider, grader_model)
-    return header + verdict + "\n" + "\n".join(key_lines) + "\n" + efficiency
+    return (header + verdict + warning_block + "\n"
+            + "\n".join(key_lines) + "\n" + efficiency)
 
 
 def _grade_header(run_dir: Path, n: int, grader_provider: str, grader_model: str) -> str:
