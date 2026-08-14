@@ -45,27 +45,75 @@ Andreplass, på **en tredel av tiden og en niendedel av tokenbudsjettet** til vi
 
 Det er den typen råd som avslører at modellen har forstått hva oppgaven faktisk handler om, ikke bare hva den spør om. (Se forbeholdet nederst — 3.5 Flash var også dommer i dette kjøret.)
 
-### 🆕 De to nye: Grok 4.6 og Gemini 3.7 Flash
-
-Begge skuffet. **Ingen av dem slo forgjengeren sin på noen meningsfull måte.**
-
-**`grok-4.6`** (34 poeng) landet ett fattig poeng over grok-4.5 — og brukte 419 sekunder på det, det tregeste kjøret i hele bucketen, 55 % tregere enn 4.5. Den skrev samtidig det *korteste* svaret av de to nye. Innholdet er ikke dumt; det contrariane valget er faktisk godt argumentert:
-
-> *"Verdantis has stretches where you can sit behind a tree or on a tiny unnamed pond with zero pathing mobs and zero other players... Defend it by actually sitting there for four hours instead of theory-crafting percentages."*
-
-Men dommeren var ikke imponert: *«Repetitive pathing and generic AEC warnings»*, og felte den på to faktafeil — feil vintersesong for Winter Squid (den sa 21. des–18. mars, fasit er **23. sept–20. mars**) og feil by for kjøpmannen Gikkix (den sa Gadgetzan, fasit er **Steamwheedle Port**). Begge er verifisert mot referansefila.
-
-**`gemini-3.7-flash`** (33 poeng) er den virkelige nedturen: den er **dårligere enn både 3.6 Flash (37) og 3.5 Flash (45)**. Tre generasjoner Flash på rad, jevn nedgang. Den fant på en fisk som ikke finnes — *«Glossy Bay Shark»* i Feralas — og blandet sammen hvilke fisker som blir til hvilke retter. Det contrariane valget var «Feathermoon over Azshara», som dommeren avfeide tørt:
-
-> *"This is completely generic, as almost every basic WoW fishing guide points players to Feathermoon as the default Alliance hub."*
-
-Til forsvar: den brukte 39 sekunder og 8k tokens. Den er billig og rask. Den er bare ikke god på dette.
-
 ### 💀 Bunnen: Gemini 3.1 Pro
 
 27 poeng, og dommerens dom var kort: *«A disaster.»* Den ba spilleren selge Firefin Snapper til vendor som søppel (de er alkymi-reagenser og verdt penger), og fant opp en oppskrift der Loch Frenzy blir til Thistle Tea — en drikk som i virkeligheten lages av Swiftthistle og ikke har noe med fisk å gjøre.
 
-### 🤔 Hva dette *ikke* beviser
+---
+
+## 🆕 Månedens nye modeller: Grok 4.6 og Gemini 3.7 Flash
+
+To ferske modeller slapp denne uka — `grok-4.6` (12. august) og `gemini-3.7-flash` (13. august). Begge ble sluppet rett inn i den eksisterende bucketen, så de svarte på **nøyaktig samme prompt med nøyaktig samme tokenbudsjett** som de 12 andre, og hele feltet ble gradert på nytt samlet. Det er den nærmeste sammenligningen vi kan lage.
+
+Konklusjonen er ubarmhjertig: **ingen av dem er en oppgradering.** Den ene står stille, den andre går bakover.
+
+### Grok 4.6 vs Grok 4.5 — én poeng, på 55 % mer tid
+
+| | Accuracy | Strategy | Creativity | Structure | Fidelity | **Total** | Tid |
+|---|---|---|---|---|---|---|---|
+| `grok-4.5` | 6 | 7 | 6 | 6 | 8 | **33** | 270s |
+| `grok-4.6` 🆕 | **7** | 7 | 6 | 6 | 8 | **34** | **419s** |
+| | +1 | – | – | – | – | **+1** | +55 % |
+
+Se på den tabellen en gang til. Fire av fem akser er **identiske**. Hele generasjonsspranget fra 4.5 til 4.6 er ett enkelt poeng på Accuracy — og for det betalte vi 149 ekstra sekunder. 419 sekunder er det tregeste kjøret i hele bucketen, tregere enn Opus 5 (344s) og Sonnet 5 (391s), til tross for at Grok skrev et av de *korteste* svarene i feltet.
+
+Innholdet er ikke dumt. Det contrariane valget er faktisk det beste argumentet Grok leverer, og det er ekte:
+
+> *"Verdantis has stretches where you can sit behind a tree or on a tiny unnamed pond with zero pathing mobs and zero other players... Defend it by actually sitting there for four hours instead of theory-crafting percentages."*
+
+Men dommeren avfeide det som gjenbruk — *«just a copy-paste of Moonglade/Feralas logic seen in other guides»* — og tok den på to faktafeil, begge verifisert mot referansefila:
+
+- **Winter Squid-sesongen:** Grok sa 21. des–18. mars. Fasit: **23. sept–20. mars.** (Grok 4.5 bommet på det samme, bare litt annerledes — arvet feil.)
+- **Kjøpmannen Gikkix:** Grok plasserte ham i Gadgetzan. Fasit: **Steamwheedle Port, Tanaris.**
+
+Begge Grok-modellene deler også bunnplasseringen på Structure (6 poeng) sammen med Sonnet 5. Det er ikke tilfeldig at dommeren beskrev begge som repetitive.
+
+### Gemini 3.7 Flash vs 3.6 vs 3.5 — tre generasjoner nedover
+
+Dette er den virkelig oppsiktsvekkende grafen i hele kjøringen. Google har sluppet tre Flash-modeller på under to måneder, og på denne oppgaven blir de **jevnt dårligere for hver eneste versjon**:
+
+| | Accuracy | Strategy | Creativity | Structure | Fidelity | **Total** |
+|---|---|---|---|---|---|---|
+| `gemini-3.5-flash` (juli) | 9 | 9 | 9 | 9 | 10 | **45** 🥈 |
+| `gemini-3.6-flash` (21. juli) | 6 | 7 | 8 | 8 | 8 | **37** |
+| `gemini-3.7-flash` 🆕 (13. aug) | 6 | 6 | **5** | 8 | 8 | **33** |
+| | −3 | −3 | **−4** | −1 | −2 | **−12** |
+
+Tolv poeng tapt på tre versjoner. Verst er **Creativity: fra 9 til 5** — nest dårligst i hele feltet, bare slått nedover av Gemini 3.1 Pro. Accuracy falt med 3 allerede ved 3.6 og har ikke kommet tilbake.
+
+3.7 Flash fant på en fisk som ikke finnes — **«Glossy Bay Shark»** i Feralas — og rotet med hvilke fisker som blir til hvilke retter (Whitescale Salmon blir Baked Salmon; Redgill blir Filet of Redgill — den blandet dem). Og det den selv utropte til sitt dristige, contrariane valg fikk denne dommen:
+
+> *"This is completely generic, as almost every basic WoW fishing guide points players to Feathermoon as the default Alliance hub."*
+
+Verdt å merke seg: Google markedsfører 3.7 Flash som et **koding- og agent**-løft, ikke et kreativitetsløft. Denne benchmarken måler det stikk motsatte — fritekst, faktakunnskap og originalitet. Så resultatet er ikke nødvendigvis at 3.7 er en dårlig modell; det er at den er optimalisert bort fra akkurat det HåkonBench belønner. Det er en påminnelse om at «nyere» og «bedre» ikke er samme sak, og at det avhenger helt av hva du måler.
+
+### Hvor de står i feltet
+
+Begge de nye havnet i nedre halvdel: **grok-4.6 på delt 10. plass**, **gemini-3.7-flash på delt 12.** av 14.
+
+Det gjør spesielt vondt for 3.7 Flash når man ser på fart-for-pengene. Den er raskest i feltet sammen med `gpt-5.6-luna` — begge på 39 sekunder — men:
+
+| Modell | Total | Tid | Tokens |
+|---|---|---|---|
+| `gpt-5.6-luna` | **38** | 39s | 19k |
+| `gemini-3.6-flash` | **37** | 55s | 9k |
+| `gemini-3.7-flash` 🆕 | **33** | 39s | **8k** |
+
+`gpt-5.6-luna` gir deg fem poeng mer på nøyaktig samme tid. Og Googles egen forrige modell, 3.6 Flash, gir deg fire poeng mer for omtrent samme tokenpris. **3.7 Flash er billigst i feltet — og det er hele salgsargumentet dens her.**
+
+En siste ting begge Flash-modellene har til felles: de kjørte **null nettsøk**, selv om søkeverktøyet var påslått. De svarte helt fra egen kunnskap på 39 og 55 sekunder, mens Grok 4.6 fyrte av 12 søk og brukte sju minutter. Antall søk bestemmer modellen selv — vi henger bare på verktøyet. At Gemini konsekvent velger å ikke slå opp, mens Grok graver seg ned i et kvarters research og likevel bommer på vendor-byen, sier noe interessant om to helt ulike temperament.
+
+## 🤔 Hva dette *ikke* beviser
 
 HåkonBench er et morsomt eksperiment, ikke vitenskap. De ærlige forbeholdene:
 
