@@ -59,9 +59,11 @@ CONTESTANTS: list[tuple[str, str]] = [
     # claude-fable-5 ($10/$50 per MTok). claude-sonnet-4-6 left out to keep the
     # field to models we've actually run — re-add any of the three as one line.
     ("google",    "gemini-3.1-pro-preview"),
-    ("google",    "gemini-3.6-flash"),    # newest Flash (GA); 3.5-flash kept alongside for the generational read
-    ("google",    "gemini-3.5-flash"),
-    ("xai",       "grok-4.5"),           # released 2026-07-08; same reasoning_effort knob as 4.3
+    ("google",    "gemini-3.7-flash"),    # released 2026-08-13 (GA); thinking_level low/medium/high, MINIMAL rejected
+    ("google",    "gemini-3.6-flash"),
+    ("google",    "gemini-3.5-flash"),    # 3.5/3.6 kept alongside 3.7 for the generational read
+    ("xai",       "grok-4.6"),            # released 2026-08-12; 500K context, reasoning_effort adds 'xhigh'
+    ("xai",       "grok-4.5"),            # released 2026-07-08; same reasoning_effort knob as 4.3
 ]
 
 # ── Grader ─────────────────────────────────────────────────────────────────
@@ -124,7 +126,7 @@ PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
     "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # reasoning.effort ('max' is Sol-only; resolve_effort caps the rest at xhigh)
     "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
-    "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # reasoning_effort
+    "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning_effort ('xhigh' is grok-4.6+; resolve_effort caps older models at high)
 }
 
 
@@ -320,6 +322,9 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
     elif provider == "openai":
         if knob == "max" and "sol" not in model.lower():
             knob = "xhigh"                    # 'max' effort is GPT-5.6 Sol-only
+    elif provider == "xai":
+        if knob == "xhigh" and "grok-4.6" not in model.lower():
+            knob = "high"                     # 'xhigh' arrived with grok-4.6; 4.5 and older cap at high
     return TIER_MAX_TOKENS[effort], knob
 
 

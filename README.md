@@ -1,6 +1,82 @@
 # HåkonBench
 
-Send the same prompt til alle store LLM-leverandører parallelt, og la Claude Sonnet gradere svarene blindt.
+Send den samme prompten til alle store LLM-leverandører parallelt, og la en dommermodell gradere svarene blindt.
+
+Oppgaven er den samme hver gang: **skriv den beste fiskeguiden en level 60 Human Warrior i WoW Classic noensinne kommer til å lese.** Karakteren har ubegrenset tid, men kan ikke dø og kan ikke sitte og passe på skjermen. Alt må være AFK-trygt. Svarene fakstsjekkes mot `wow_reference.yaml`, en kuratert fil med verifiserte Classic-fakta — så modeller som finner på tall og oppskrifter blir tatt.
+
+---
+
+## 📊 Siste resultater — 14. august 2026
+
+**Oppsett:** 14 modeller · `--effort medium` · nettsøk **på** · dommer `google/gemini-3.5-flash` · bucket `pc96c9b__medium__search-on`
+
+Karaktersetting skjer blindt: dommeren ser svarene som «Response A, B, C…» og vet ikke hvem som skrev hva. Maks 50 poeng, fordelt på Accuracy, Strategy, Creativity, Structure og Fidelity.
+
+| # | Modell | Total | Tid | Tokens | Søk |
+|---|---|---|---|---|---|
+| 🥇 | `openai/gpt-5.6-sol` | **49** | 288s | 124k | 13 |
+| 🥈 | `google/gemini-3.5-flash` | **45** | 91s | 14k | 12 |
+| 🥉 | `openai/gpt-5.5` | **44** | 213s | 68k | 8 |
+| 4 | `anthropic/claude-opus-4-8` | 41 | 300s | 70k | 9 |
+| 4 | `anthropic/claude-opus-5` | 41 | 344s | 42k | 2 |
+| 4 | `openai/gpt-5.4-mini` | 41 | 501s | 146k | 24 |
+| 7 | `openai/gpt-5.6-terra` | 39 | 102s | 49k | 4 |
+| 8 | `openai/gpt-5.6-luna` | 38 | **39s** | 19k | 1 |
+| 9 | `google/gemini-3.6-flash` | 37 | 55s | **9k** | 0 |
+| 10 | `anthropic/claude-sonnet-5` | 34 | 391s | 263k | 38 |
+| 10 | `xai/grok-4.6` 🆕 | 34 | 419s | 109k | 12 |
+| 12 | `xai/grok-4.5` | 33 | 270s | 104k | 14 |
+| 12 | `google/gemini-3.7-flash` 🆕 | 33 | **39s** | **8k** | 0 |
+| 14 | `google/gemini-3.1-pro-preview` | 27 | 51s | 5k | 0 |
+
+### 🥇 Vinneren: GPT-5.6 Sol
+
+Sol vant på et grep ingen andre fant. Alle modellene slet med den samme motsetningen — hvordan kan noe være AFK-trygt på en PvP-server? Sol løste det ved å lese spillets *sonereglar* i stedet for kartet:
+
+> *"In Alliance-controlled territory, you are not automatically PvP-flagged. Do not attack Horde, heal flagged players or arrive with a lingering flag... Best strict-safety money spot on a PvP realm."*
+
+Ved å sende spilleren til Westfall-kysten etter Oily Blackmouth får du både høy verdi og garantert trygghet. Dommeren kalte det «a stroke of genius» og ga full pott på både Accuracy, Strategy og Creativity — det eneste svaret i feltet med 10/10 på tre akser.
+
+### 🥈 Overraskelsen: Gemini 3.5 Flash
+
+Andreplass, på **en tredel av tiden og en niendedel av tokenbudsjettet** til vinneren. Den vant på praktiske detaljer ingen andre tenkte på — som at «AFK-fisking» i praksis er en *lyd*-aktivitet:
+
+> *"Slide Music and Ambience to 0. Slide Sound Effects (SFX) to 100. When you hear the distinct 'SPLASH' sound cue in your headphones, right-click."*
+
+Det er den typen råd som avslører at modellen har forstått hva oppgaven faktisk handler om, ikke bare hva den spør om. (Se forbeholdet nederst — 3.5 Flash var også dommer i dette kjøret.)
+
+### 🆕 De to nye: Grok 4.6 og Gemini 3.7 Flash
+
+Begge skuffet. **Ingen av dem slo forgjengeren sin på noen meningsfull måte.**
+
+**`grok-4.6`** (34 poeng) landet ett fattig poeng over grok-4.5 — og brukte 419 sekunder på det, det tregeste kjøret i hele bucketen, 55 % tregere enn 4.5. Den skrev samtidig det *korteste* svaret av de to nye. Innholdet er ikke dumt; det contrariane valget er faktisk godt argumentert:
+
+> *"Verdantis has stretches where you can sit behind a tree or on a tiny unnamed pond with zero pathing mobs and zero other players... Defend it by actually sitting there for four hours instead of theory-crafting percentages."*
+
+Men dommeren var ikke imponert: *«Repetitive pathing and generic AEC warnings»*, og felte den på to faktafeil — feil vintersesong for Winter Squid (den sa 21. des–18. mars, fasit er **23. sept–20. mars**) og feil by for kjøpmannen Gikkix (den sa Gadgetzan, fasit er **Steamwheedle Port**). Begge er verifisert mot referansefila.
+
+**`gemini-3.7-flash`** (33 poeng) er den virkelige nedturen: den er **dårligere enn både 3.6 Flash (37) og 3.5 Flash (45)**. Tre generasjoner Flash på rad, jevn nedgang. Den fant på en fisk som ikke finnes — *«Glossy Bay Shark»* i Feralas — og blandet sammen hvilke fisker som blir til hvilke retter. Det contrariane valget var «Feathermoon over Azshara», som dommeren avfeide tørt:
+
+> *"This is completely generic, as almost every basic WoW fishing guide points players to Feathermoon as the default Alliance hub."*
+
+Til forsvar: den brukte 39 sekunder og 8k tokens. Den er billig og rask. Den er bare ikke god på dette.
+
+### 💀 Bunnen: Gemini 3.1 Pro
+
+27 poeng, og dommerens dom var kort: *«A disaster.»* Den ba spilleren selge Firefin Snapper til vendor som søppel (de er alkymi-reagenser og verdt penger), og fant opp en oppskrift der Loch Frenzy blir til Thistle Tea — en drikk som i virkeligheten lages av Swiftthistle og ikke har noe med fisk å gjøre.
+
+### 🤔 Hva dette *ikke* beviser
+
+HåkonBench er et morsomt eksperiment, ikke vitenskap. De ærlige forbeholdene:
+
+- **Dommeren rangerte seg selv som nummer to.** `gemini-3.5-flash` var både deltaker og dommer. Den ble gradert blindt, men det er verdt å ta med en klype salt. Uavhengig kontroll finnes: `claude-opus-5` graderte de samme 12 svarene i juli og ga det samme svaret **36 poeng og 6. plass**, ikke 45 og 2. plass.
+- **Dommeren avgjør nesten like mye som deltakerne.** Bytt dommermodell, og hele tabellen stokker om. Gamle dommer-verdikt ligger arkivert under `_grades/`, så du kan sammenligne selv.
+- **Karakterene er komparative, ikke absolutte.** Dommeren ser alle svarene samtidig og rangerer dem mot hverandre. Legger du til én modell, kan alle andres poeng flytte seg. Tallene her kan altså ikke sammenlignes direkte med tidligere kjøringer.
+- **Modellene svarte under ulike forhold.** Nettsøk var påslått for alle, men hvor mange søk hver modell faktisk kjørte bestemmer den selv — fra 0 (begge Flash-modellene, som svarte helt fra egen kunnskap) til 38 (Sonnet 5). Det er ikke likt spillefelt.
+- **Én kjøring per modell.** Ingen varians måles. Kjør med `--tag variance-2` om du vil se hvor mye støy det er.
+- **Referansefila er kuratert, ikke komplett.** Når dommeren sier «denne fisken finnes ikke», betyr det strengt tatt «den står ikke i `wow_reference.yaml`». Runneren har en automatisk selvmotsigelses-sjekk som flagger slikt nederst i `_grades.md` — den slo faktisk ut på ett punkt i dette kjøret.
+
+Hele verdiktet med alle faktasjekk-kommentarene ligger i [`results/pc96c9b__medium__search-on/_grades.md`](results/pc96c9b__medium__search-on/_grades.md).
 
 ---
 
@@ -125,12 +201,12 @@ output-token-budsjett **og** oversettes til hver leverandørs navngitte reasonin
 Leverandørene er uenige om navn og tak, så oversettelsen ligger i `PROVIDER_EFFORT`
 i `haakonbench.py`:
 
-| Tier | max_tokens | Anthropic Opus | OpenAI | Gemini 3 | xAI grok-4.3 |
-|------|-----------|----------------|--------|----------|--------------|
+| Tier | max_tokens | Anthropic Opus | OpenAI | Gemini 3 | xAI Grok |
+|------|-----------|----------------|--------|----------|----------|
 | low | 8000 | low | low | low | low |
 | medium | 16000 | medium | medium | medium | medium |
 | high | 32000 | high | high | high | high |
-| max | 64000 | **max** | **xhigh** | high | high |
+| max | 64000 | **max** | **max** (Sol) / xhigh | high | **xhigh** (4.6) / high |
 
 Per-modell-tak for Anthropic: `max` er kun Opus (Sonnet 4.6 kappes til `high`), og
 Haiku 4.5 får ingen knapp (støtter verken effort eller adaptive thinking). Kjøringen
@@ -197,7 +273,11 @@ CONTESTANTS = [
 ]
 ```
 
-Graderen er alltid `claude-sonnet-4-6` (Anthropic). Endre i toppen av `haakonbench.py` om ønskelig.
+Dommeren settes med `GRADER_PROVIDER` / `GRADER_MODEL` i toppen av `haakonbench.py`, og kan overstyres per kjøring:
+
+```bash
+python haakonbench.py --grader-model google/gemini-3.5-flash
+```
 
 ---
 
