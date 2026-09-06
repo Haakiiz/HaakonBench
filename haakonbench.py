@@ -45,8 +45,10 @@ from reference_io import LIST_SECTIONS
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
-    # GPT-5.6 family (launched 2026-07-09): Sol = flagship, Terra = balanced,
-    # Luna = fast/cheap. Undated IDs are the API snapshots.
+    # GPT-6 Astra (2026-09-03) is OpenAI's new frontier model. The GPT-5.6 family
+    # (launched 2026-07-09) stays for the generational read: Sol = flagship,
+    # Terra = balanced, Luna = fast/cheap. Undated IDs are the API snapshots.
+    ("openai",    "gpt-6-astra"),      # released 2026-09-03; $10/$50 per MTok, effort none..max, Responses API
     ("openai",    "gpt-5.6-sol"),
     ("openai",    "gpt-5.6-terra"),
     ("openai",    "gpt-5.6-luna"),
@@ -55,13 +57,15 @@ CONTESTANTS: list[tuple[str, str]] = [
     ("anthropic", "claude-sonnet-5"),
     ("anthropic", "claude-opus-5"),      # verified against /v1/models: adaptive thinking + effort low..max, same surface as 4.8
     ("anthropic", "claude-opus-4-8"),
+    ("anthropic", "claude-fable-5-1"),   # released 2026-08-28; Anthropic's top tier at $10/$50 per MTok — thinking is always on
     # Dropped on request: claude-haiku-4-5 (no effort/adaptive knob) and
-    # claude-fable-5 ($10/$50 per MTok). claude-sonnet-4-6 left out to keep the
-    # field to models we've actually run — re-add any of the three as one line.
+    # claude-fable-5 (superseded by 5.1 at the same price). claude-sonnet-4-6
+    # left out to keep the field to models we've actually run — re-add as one line.
     ("google",    "gemini-3.1-pro-preview"),
+    ("google",    "gemini-3.8-flash"),    # released 2026-09 (GA); thinking_level low/medium/high (default medium), same surface as 3.7
     ("google",    "gemini-3.7-flash"),    # released 2026-08-13 (GA); thinking_level low/medium/high, MINIMAL rejected
     ("google",    "gemini-3.6-flash"),
-    ("google",    "gemini-3.5-flash"),    # 3.5/3.6 kept alongside 3.7 for the generational read
+    ("google",    "gemini-3.5-flash"),    # 3.5/3.6/3.7 kept alongside 3.8 for the generational read
     ("xai",       "grok-4.6"),            # released 2026-08-12; 500K context, reasoning_effort adds 'xhigh'
     ("xai",       "grok-4.5"),            # released 2026-07-08; same reasoning_effort knob as 4.3
 ]
@@ -103,14 +107,15 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 # differ, and some are Opus-only:
 #
 #   anthropic → output_config.effort + adaptive thinking
-#               (low/medium/high/xhigh/max; Sonnet 4.x caps at 'high', Sonnet 5
-#                and Opus take the full range; Haiku 4.5 supports neither effort
-#                nor adaptive thinking → no knob)
-#   openai    → reasoning.effort          (low/medium/high/xhigh; GPT-5.6 Sol
-#                                           adds 'max' — Sol-only, Terra/Luna
-#                                           and gpt-5.5 cap at xhigh)
+#               (low/medium/high/xhigh/max; Sonnet 4.x caps at 'high', Sonnet 5,
+#                Opus and Fable 5.1 take the full range; Haiku 4.5 supports
+#                neither effort nor adaptive thinking → no knob)
+#   openai    → reasoning.effort          (low/medium/high/xhigh; GPT-6 Astra
+#                                           and GPT-5.6 Sol add 'max' — Terra,
+#                                           Luna and gpt-5.5 cap at xhigh)
 #   google    → thinking_level            (low/medium/high; Gemini 3 rejects
-#                                           the old numeric thinking_budget)
+#                                           the old numeric thinking_budget.
+#                                           3.7/3.8 Flash also reject 'minimal')
 #   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
 #
 # PROVIDER_EFFORT is the SINGLE place to edit when a provider adds or renames a
@@ -120,7 +125,11 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
-TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
+TIER_MAX_TOKENS = {"low": 16000, "medium": 32000, "high": 64000, "max": 128000}
+# NOTE: these are the budgets the pc96c9b bucket was answered under. A brief
+# halving (8k/16k/32k/64k) landed in the 2026-08 merge but never produced any
+# committed answers — it would have truncated four of the fourteen existing
+# responses mid-guide (gpt-5.4-mini alone spent 25k output tokens at medium).
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
@@ -311,17 +320,20 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
     """Translate an abstract tier into (max_tokens, provider-specific effort level).
     Returns a named level string, or None to leave the provider default. Applies
     the per-model Anthropic caps (Haiku has no knob; Sonnet 4.x caps at high;
-    Sonnet 5 and Opus take the full range)."""
+    Sonnet 5, Opus and Fable 5.1 take the full range)."""
     knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
     if provider == "anthropic":
         m = model.lower()
         if "haiku" in m:
             knob = None                       # Haiku 4.5: no effort, no adaptive thinking
+        # Fable 5.1 takes the full low..max range and runs adaptive thinking
+        # unconditionally — the `thinking: {type: "adaptive"}` we send is the
+        # only accepted on-mode, so no special case is needed here.
         elif "sonnet-4" in m and knob in ("xhigh", "max"):
             knob = "high"                     # Sonnet 4.x caps at 'high'; Sonnet 5 takes the full range
     elif provider == "openai":
-        if knob == "max" and "sol" not in model.lower():
-            knob = "xhigh"                    # 'max' effort is GPT-5.6 Sol-only
+        if knob == "max" and not any(k in model.lower() for k in ("sol", "gpt-6")):
+            knob = "xhigh"                    # 'max' effort: GPT-6 Astra and 5.6 Sol only
     elif provider == "xai":
         if knob == "xhigh" and "grok-4.6" not in model.lower():
             knob = "high"                     # 'xhigh' arrived with grok-4.6; 4.5 and older cap at high
