@@ -138,6 +138,20 @@ PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning_effort ('xhigh' is grok-4.6+; resolve_effort caps older models at high)
 }
 
+# A tier's token budget is only honest if the model can actually emit that many.
+# Google caps every Gemini 3.x contestant at 65,536 output tokens (confirmed via
+# ListModels: 3.1 Pro, 3.5/3.6/3.7/3.8 Flash all report outputTokenLimit=65536),
+# so the 'max' tier's 128k would overshoot. The API does NOT reject the oversized
+# value — it accepts the request and silently clamps — so the symptom is not a
+# FAILED result but a lie in HB_META: a run recorded as a 128k budget that could
+# never have exceeded 64k, which quietly corrupts any cross-provider efficiency
+# comparison at that tier. Anthropic (128k), OpenAI and xAI all accept 128k, so
+# they need no entry. resolve_effort() applies this; _meta_block() records the
+# clamped number rather than the tier's nominal one.
+PROVIDER_MAX_OUTPUT: dict[str, int] = {
+    "google": 65536,
+}
+
 
 # ── Run identity ("buckets") ───────────────────────────────────────────────
 # A saved answer is reusable if and only if everything that shaped it is
@@ -320,8 +334,10 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
     """Translate an abstract tier into (max_tokens, provider-specific effort level).
     Returns a named level string, or None to leave the provider default. Applies
     the per-model Anthropic caps (Haiku has no knob; Sonnet 4.x caps at high;
-    Sonnet 5, Opus and Fable 5.1 take the full range)."""
+    Sonnet 5, Opus and Fable 5.1 take the full range), and clamps the tier's
+    token budget to what the provider can actually emit (PROVIDER_MAX_OUTPUT)."""
     knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
+    max_tokens = min(TIER_MAX_TOKENS[effort], PROVIDER_MAX_OUTPUT.get(provider, TIER_MAX_TOKENS[effort]))
     if provider == "anthropic":
         m = model.lower()
         if "haiku" in m:
@@ -337,7 +353,7 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
     elif provider == "xai":
         if knob == "xhigh" and "grok-4.6" not in model.lower():
             knob = "high"                     # 'xhigh' arrived with grok-4.6; 4.5 and older cap at high
-    return TIER_MAX_TOKENS[effort], knob
+    return max_tokens, knob
 
 
 async def run_contestant(
@@ -357,8 +373,11 @@ async def run_contestant(
         else:
             response = await client.call(PROMPT)
         usage = client.last_usage
+        # Record the budget this model was actually given, which is the tier's
+        # value clamped by PROVIDER_MAX_OUTPUT — not the tier's nominal number.
+        usage = {**(usage or {}), "max_tokens": max_tokens}
         if client.last_web_searches is not None:
-            usage = {**(usage or {}), "web_searches": client.last_web_searches}
+            usage = {**usage, "web_searches": client.last_web_searches}
         return label, response, time.perf_counter() - t0, None, usage
     except asyncio.TimeoutError:
         return label, "", time.perf_counter() - t0, f"TimeoutError: no response within {timeout:.0f}s", None
@@ -377,7 +396,7 @@ def _meta_block(secs: float, effort: str, usage: dict | None, web_search: bool =
         f"date: {datetime.now().isoformat(timespec='seconds')}",
         f"seconds: {secs:.1f}",
         f"effort: {effort}",
-        f"max_tokens: {TIER_MAX_TOKENS[effort]}",
+        f"max_tokens: {usage.get('max_tokens', TIER_MAX_TOKENS[effort])}",
         f"prompt_sha: {prompt_sha()}",
         f"web_search: {str(web_search).lower()}",
     ]

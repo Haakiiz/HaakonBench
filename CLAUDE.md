@@ -114,12 +114,14 @@ So re-running a config **lands in the same bucket and only calls what's missing*
 
 One abstract CLI knob, **translated per provider** because providers disagree on the level names and ceilings. Every provider that has a knob now uses a **named effort level** (no provider uses a numeric token budget anymore). `TIER_MAX_TOKENS` sets a universal output budget; `PROVIDER_EFFORT` in `haakonbench.py` is the single source of truth, and `resolve_effort()` applies the per-model Anthropic caps. Default is `medium`.
 
+`resolve_effort()` also clamps the tier's token budget to what the provider can actually emit, via **`PROVIDER_MAX_OUTPUT`**. Only Gemini needs an entry: every Gemini 3.x contestant reports `outputTokenLimit=65536`, so the `max` tier's 128k would overshoot. **The Google API does not reject an oversized `max_output_tokens`** — it accepts the request and silently clamps — so the symptom was never a `FAILED` result, it was `HB_META` recording a 128k budget for a run that could never have exceeded 64k, which quietly corrupts cross-provider efficiency comparisons at that tier. Anthropic (128k max output), OpenAI and xAI all accept 128k and need no entry. `HB_META`'s `max_tokens` records the **clamped** value, not the tier's nominal one.
+
 | Tier | max_tokens | Anthropic Opus/Sonnet 5/Fable 5.1 (effort) | OpenAI (reasoning.effort) | Gemini 3.x (thinking_level) | xAI grok-4.3/4.5/4.6 (reasoning_effort) |
 |------|-----------|----------------------------------|---------------------------|-----------------------------|--------------------------------------|
 | low | 16000 | low | low | low | low |
 | medium | 32000 | medium | medium | medium | medium |
 | high | 64000 | high | high | high | high |
-| max | 128000 | **max** | **max** (Astra, Sol) / xhigh (others) | high | **xhigh** (4.6) / high (4.3, 4.5) |
+| max | 128000 (Gemini: **65536**) | **max** | **max** (Astra, Sol) / xhigh (others) | high | **xhigh** (4.6) / high (4.3, 4.5) |
 
 Key per-provider facts (verified against provider docs):
 - **Anthropic** Opus 4.7/4.8, **Opus 5**, **Sonnet 5** and **Fable 5.1** use `output_config: {effort: low/medium/high/xhigh/max}` **plus** `thinking: {type: "adaptive"}` (sent via `extra_body` so older SDKs that don't type `output_config` still forward it). The old numeric `thinking.budget_tokens` / `thinking: {type:"enabled"}` is **removed** and returns 400. Sonnet 5 takes the full range up to `max` (and runs adaptive thinking by default even without the `thinking` param); **Sonnet 4.x** caps at `high`; **Haiku 4.5** supports neither effort nor adaptive thinking (gets no knob). Sonnet 5's model ID is `claude-sonnet-5` — **no date suffix** (dated forms 404). An explicit `timeout` is passed to suppress the SDK's non-streaming guard (which raises for `max_tokens` > ~21k).
@@ -188,6 +190,15 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 - **Change the prompt:** edit the `PROMPT` constant.
 - **Improve grader accuracy:** add entries to `wow_reference.yaml` (the grader reads it on every run) and add corresponding claims to `test_claims.yaml`, then run `python test_grader.py`.
 - **Add a new provider:** implement its branch in `LLMClient._init_client()` and `LLMClient.call()`.
+
+---
+
+## Conventions
+
+- Results are keyed by config bucket; when adding models, add them to the existing bucket rather than creating a new one unless asked.
+- `--regrade` must resolve the bucket from the stored config, not require re-specifying `--web-search`/`--effort`.
+- Verify model IDs against the live provider API before adding them to config; note region availability (Grok has been region-blocked).
+- Wrap grading-phase HTTP calls with retry/backoff for 503s; handle providers that don't support tool-calling config (e.g. Haiku 4.5).
 
 ---
 
