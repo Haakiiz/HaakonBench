@@ -45,8 +45,10 @@ from reference_io import LIST_SECTIONS
 
 # ── Contestants ────────────────────────────────────────────────────────────
 CONTESTANTS: list[tuple[str, str]] = [
-    # GPT-5.6 family (launched 2026-07-09): Sol = flagship, Terra = balanced,
-    # Luna = fast/cheap. Undated IDs are the API snapshots.
+    # GPT-6 Astra (2026-09-03) is OpenAI's new frontier model. The GPT-5.6 family
+    # (launched 2026-07-09) stays for the generational read: Sol = flagship,
+    # Terra = balanced, Luna = fast/cheap. Undated IDs are the API snapshots.
+    ("openai",    "gpt-6-astra"),      # released 2026-09-03; $10/$50 per MTok, effort none..max, Responses API
     ("openai",    "gpt-5.6-sol"),
     ("openai",    "gpt-5.6-terra"),
     ("openai",    "gpt-5.6-luna"),
@@ -55,13 +57,15 @@ CONTESTANTS: list[tuple[str, str]] = [
     ("anthropic", "claude-sonnet-5"),
     ("anthropic", "claude-opus-5"),      # verified against /v1/models: adaptive thinking + effort low..max, same surface as 4.8
     ("anthropic", "claude-opus-4-8"),
+    ("anthropic", "claude-fable-5-1"),   # released 2026-08-28; Anthropic's top tier at $10/$50 per MTok — thinking is always on
     # Dropped on request: claude-haiku-4-5 (no effort/adaptive knob) and
-    # claude-fable-5 ($10/$50 per MTok). claude-sonnet-4-6 left out to keep the
-    # field to models we've actually run — re-add any of the three as one line.
+    # claude-fable-5 (superseded by 5.1 at the same price). claude-sonnet-4-6
+    # left out to keep the field to models we've actually run — re-add as one line.
     ("google",    "gemini-3.1-pro-preview"),
+    ("google",    "gemini-3.8-flash"),    # released 2026-09 (GA); thinking_level low/medium/high (default medium), same surface as 3.7
     ("google",    "gemini-3.7-flash"),    # released 2026-08-13 (GA); thinking_level low/medium/high, MINIMAL rejected
     ("google",    "gemini-3.6-flash"),
-    ("google",    "gemini-3.5-flash"),    # 3.5/3.6 kept alongside 3.7 for the generational read
+    ("google",    "gemini-3.5-flash"),    # 3.5/3.6/3.7 kept alongside 3.8 for the generational read
     ("xai",       "grok-4.6"),            # released 2026-08-12; 500K context, reasoning_effort adds 'xhigh'
     ("xai",       "grok-4.5"),            # released 2026-07-08; same reasoning_effort knob as 4.3
 ]
@@ -103,14 +107,15 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 # differ, and some are Opus-only:
 #
 #   anthropic → output_config.effort + adaptive thinking
-#               (low/medium/high/xhigh/max; Sonnet 4.x caps at 'high', Sonnet 5
-#                and Opus take the full range; Haiku 4.5 supports neither effort
-#                nor adaptive thinking → no knob)
-#   openai    → reasoning.effort          (low/medium/high/xhigh; GPT-5.6 Sol
-#                                           adds 'max' — Sol-only, Terra/Luna
-#                                           and gpt-5.5 cap at xhigh)
+#               (low/medium/high/xhigh/max; Sonnet 4.x caps at 'high', Sonnet 5,
+#                Opus and Fable 5.1 take the full range; Haiku 4.5 supports
+#                neither effort nor adaptive thinking → no knob)
+#   openai    → reasoning.effort          (low/medium/high/xhigh; GPT-6 Astra
+#                                           and GPT-5.6 Sol add 'max' — Terra,
+#                                           Luna and gpt-5.5 cap at xhigh)
 #   google    → thinking_level            (low/medium/high; Gemini 3 rejects
-#                                           the old numeric thinking_budget)
+#                                           the old numeric thinking_budget.
+#                                           3.7/3.8 Flash also reject 'minimal')
 #   xai       → reasoning_effort          (low/medium/high; grok-4.3 supports it)
 #
 # PROVIDER_EFFORT is the SINGLE place to edit when a provider adds or renames a
@@ -120,13 +125,31 @@ META_RE             = re.compile(r"<!-- HB_META\n(.*?)\n-->", re.DOTALL)
 TIERS = ["low", "medium", "high", "max"]
 DEFAULT_EFFORT = "medium"
 
-TIER_MAX_TOKENS = {"low": 8000, "medium": 16000, "high": 32000, "max": 64000}
+TIER_MAX_TOKENS = {"low": 16000, "medium": 32000, "high": 64000, "max": 128000}
+# NOTE: these are the budgets the pc96c9b bucket was answered under. A brief
+# halving (8k/16k/32k/64k) landed in the 2026-08 merge but never produced any
+# committed answers — it would have truncated four of the fourteen existing
+# responses mid-guide (gpt-5.4-mini alone spent 25k output tokens at medium).
 
 PROVIDER_EFFORT: dict[str, dict[str, object]] = {
     "anthropic": {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # output_config.effort
     "openai":    {"low": "low", "medium": "medium", "high": "high", "max": "max"},   # reasoning.effort ('max' is Sol-only; resolve_effort caps the rest at xhigh)
     "google":    {"low": "low", "medium": "medium", "high": "high", "max": "high"},  # thinking_level
     "xai":       {"low": "low", "medium": "medium", "high": "high", "max": "xhigh"}, # reasoning_effort ('xhigh' is grok-4.6+; resolve_effort caps older models at high)
+}
+
+# A tier's token budget is only honest if the model can actually emit that many.
+# Google caps every Gemini 3.x contestant at 65,536 output tokens (confirmed via
+# ListModels: 3.1 Pro, 3.5/3.6/3.7/3.8 Flash all report outputTokenLimit=65536),
+# so the 'max' tier's 128k would overshoot. The API does NOT reject the oversized
+# value — it accepts the request and silently clamps — so the symptom is not a
+# FAILED result but a lie in HB_META: a run recorded as a 128k budget that could
+# never have exceeded 64k, which quietly corrupts any cross-provider efficiency
+# comparison at that tier. Anthropic (128k), OpenAI and xAI all accept 128k, so
+# they need no entry. resolve_effort() applies this; _meta_block() records the
+# clamped number rather than the tier's nominal one.
+PROVIDER_MAX_OUTPUT: dict[str, int] = {
+    "google": 65536,
 }
 
 
@@ -311,21 +334,26 @@ def resolve_effort(provider: str, model: str, effort: str) -> tuple[int, object]
     """Translate an abstract tier into (max_tokens, provider-specific effort level).
     Returns a named level string, or None to leave the provider default. Applies
     the per-model Anthropic caps (Haiku has no knob; Sonnet 4.x caps at high;
-    Sonnet 5 and Opus take the full range)."""
+    Sonnet 5, Opus and Fable 5.1 take the full range), and clamps the tier's
+    token budget to what the provider can actually emit (PROVIDER_MAX_OUTPUT)."""
     knob = PROVIDER_EFFORT.get(provider, {}).get(effort)
+    max_tokens = min(TIER_MAX_TOKENS[effort], PROVIDER_MAX_OUTPUT.get(provider, TIER_MAX_TOKENS[effort]))
     if provider == "anthropic":
         m = model.lower()
         if "haiku" in m:
             knob = None                       # Haiku 4.5: no effort, no adaptive thinking
+        # Fable 5.1 takes the full low..max range and runs adaptive thinking
+        # unconditionally — the `thinking: {type: "adaptive"}` we send is the
+        # only accepted on-mode, so no special case is needed here.
         elif "sonnet-4" in m and knob in ("xhigh", "max"):
             knob = "high"                     # Sonnet 4.x caps at 'high'; Sonnet 5 takes the full range
     elif provider == "openai":
-        if knob == "max" and "sol" not in model.lower():
-            knob = "xhigh"                    # 'max' effort is GPT-5.6 Sol-only
+        if knob == "max" and not any(k in model.lower() for k in ("sol", "gpt-6")):
+            knob = "xhigh"                    # 'max' effort: GPT-6 Astra and 5.6 Sol only
     elif provider == "xai":
         if knob == "xhigh" and "grok-4.6" not in model.lower():
             knob = "high"                     # 'xhigh' arrived with grok-4.6; 4.5 and older cap at high
-    return TIER_MAX_TOKENS[effort], knob
+    return max_tokens, knob
 
 
 async def run_contestant(
@@ -345,8 +373,11 @@ async def run_contestant(
         else:
             response = await client.call(PROMPT)
         usage = client.last_usage
+        # Record the budget this model was actually given, which is the tier's
+        # value clamped by PROVIDER_MAX_OUTPUT — not the tier's nominal number.
+        usage = {**(usage or {}), "max_tokens": max_tokens}
         if client.last_web_searches is not None:
-            usage = {**(usage or {}), "web_searches": client.last_web_searches}
+            usage = {**usage, "web_searches": client.last_web_searches}
         return label, response, time.perf_counter() - t0, None, usage
     except asyncio.TimeoutError:
         return label, "", time.perf_counter() - t0, f"TimeoutError: no response within {timeout:.0f}s", None
@@ -365,7 +396,7 @@ def _meta_block(secs: float, effort: str, usage: dict | None, web_search: bool =
         f"date: {datetime.now().isoformat(timespec='seconds')}",
         f"seconds: {secs:.1f}",
         f"effort: {effort}",
-        f"max_tokens: {TIER_MAX_TOKENS[effort]}",
+        f"max_tokens: {usage.get('max_tokens', TIER_MAX_TOKENS[effort])}",
         f"prompt_sha: {prompt_sha()}",
         f"web_search: {str(web_search).lower()}",
     ]

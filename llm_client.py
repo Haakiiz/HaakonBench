@@ -184,7 +184,7 @@ class LLMClient:
             return text
 
         elif self.provider == "openai":
-            is_reasoning = self.model.startswith(("gpt-5", "o1", "o3", "o4"))
+            is_reasoning = self.model.startswith(("gpt-5", "gpt-6", "o1", "o3", "o4"))
 
             if is_reasoning:
                 # Responses API: max_output_tokens is a SHARED budget for
