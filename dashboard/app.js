@@ -150,7 +150,7 @@ async function renderRun(name) {
       <a class="back" href="#/">← Alle runs</a>
       <div class="page-head">
         <div>
-          <h1 class="mono" style="font-size:20px">${esc(d.name)}</h1>
+          <h1 class="mono">${esc(d.name)}</h1>
           <div class="chips" style="margin-top:10px">${configChips(d.manifest, d)}
             ${d.grader ? `<span class="chip">dommer: ${esc(d.grader)}</span>` : ""}</div>
         </div>
