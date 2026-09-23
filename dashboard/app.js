@@ -239,23 +239,55 @@ function answerItem(a) {
 }
 
 function wireAnswerClicks(root, runName) {
-  root.querySelectorAll("[data-answer]").forEach((el) => (el.onclick = () => openAnswer(runName, el.dataset.answer)));
+  root.querySelectorAll("[data-answer]").forEach((el) => {
+    el.onclick = () => openAnswer(runName, el.dataset.answer);
+    if (el.tagName === "TR") el.tabIndex = 0;   // leaderboard rows: keyboard-operable (Enter/Space below)
+  });
+}
+
+// Enter / Space on the non-button click targets (leaderboard rows, live model cards). Delegated on #view,
+// so it survives every re-render.
+view.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const t = e.target;
+  if (!(t instanceof Element) || !t.matches("tr[data-answer][tabindex], .mcard[data-live-answer][tabindex]")) return;
+  e.preventDefault();
+  t.click();
+});
+
+// A stable selector for a focusable element, so focus can be put back on its re-rendered twin.
+function focusKey(el) {
+  if (!el || el === document.body || !(el instanceof Element)) return null;
+  for (const a of ["data-live-answer", "data-answer", "data-history", "data-tab", "data-nav", "data-regrade"]) {
+    if (el.hasAttribute(a)) return `${el.tagName.toLowerCase()}[${a}="${CSS.escape(el.getAttribute(a))}"]`;
+  }
+  if (el.id) return "#" + CSS.escape(el.id);
+  if (el.matches(".log summary")) return ".log summary";
+  return null;
+}
+function refocus(saved) {
+  if (!saved) return false;
+  let el = saved.el && saved.el.isConnected ? saved.el : null;
+  if (!el && saved.key) el = document.querySelector(saved.key);
+  if (el && typeof el.focus === "function" && !el.closest("[inert]")) { el.focus({ preventScroll: true }); return document.activeElement === el; }
+  return false;
 }
 
 // ── Drawer ───────────────────────────────────────────────────
-let drawerReturnFocus = null;
+let drawerReturnFocus = null;   // { el, key } — key finds the re-rendered node if el was replaced
 // While the drawer is open the page behind it is inert (no focus, no clicks, hidden from AT).
 function setBackgroundInert(on) {
   for (const el of [$(".topbar"), view]) { if (el) el.inert = on; }
 }
 function openDrawer(titleHTML, bodyHTML) {
   const wasOpen = $("#drawer").classList.contains("open");
-  if (!wasOpen) drawerReturnFocus = document.activeElement;
+  if (!wasOpen) { const a = document.activeElement; drawerReturnFocus = { el: a, key: focusKey(a) }; }
   $("#drawer-title").innerHTML = titleHTML;
   $("#drawer-body").innerHTML = bodyHTML;
   $("#drawer-body").scrollTop = 0;
   $("#drawer").classList.add("open");
   $("#drawer").setAttribute("aria-hidden", "false");
+  $("#drawer").inert = false;
   if (!wasOpen) {
     setBackgroundInert(true);
     sfx("open");
@@ -268,11 +300,12 @@ function closeDrawer() {
   if (!wasOpen) return;   // route() calls this on every navigation — do nothing (and steal no focus) when closed
   $("#drawer").classList.remove("open");
   $("#drawer").setAttribute("aria-hidden", "true");
+  $("#drawer").inert = true;   // closed drawer: out of the Tab order and the accessibility tree
   setBackgroundInert(false);
   sfx("close");
   const back = drawerReturnFocus;
   drawerReturnFocus = null;
-  if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
+  if (!refocus(back) && document.activeElement && document.activeElement.closest("#drawer")) document.activeElement.blur();
 }
 document.addEventListener("click", (e) => { if (e.target.closest("[data-close-drawer]")) closeDrawer(); });
 // Escape closes the top-most layer: the modal if one is open, otherwise the drawer.
@@ -694,6 +727,8 @@ function drawLive() {
     : called.length ? (finished.length / called.length) * 100 * (j.params.grade ? 0.9 : 1) + (j.grading && j.grading.state === "done" ? 10 : 0) : (j.active ? 50 : 100);
   const order = { running: 0, queued: 1, done: 2, empty: 3, failed: 3, cancelled: 4, cached: 5 };
   const models = [...j.models].sort((a, b) => (order[a.state] ?? 9) - (order[b.state] ?? 9));
+  const act = document.activeElement;
+  const keepFocus = act && view.contains(act) ? { el: null, key: focusKey(act) } : null;
   const logNearBottom = (() => { const pre = $(".log pre"); return !pre || pre.scrollTop + pre.clientHeight >= pre.scrollHeight - 20; })();
 
   view.innerHTML = `
@@ -731,6 +766,7 @@ function drawLive() {
   view.querySelectorAll("[data-live-answer]").forEach((el) => (el.onclick = () => openAnswer(j.bucket, el.dataset.liveAnswer)));
   view.querySelectorAll("[data-regrade]").forEach((el) => (el.onclick = () => openRegrade(j.bucket)));
   wireAnswerClicks(view, j.bucket);
+  if (keepFocus) refocus(keepFocus);
 }
 
 function modelCard(m, j) {
@@ -752,7 +788,7 @@ function modelCard(m, j) {
   } else if (m.state === "cancelled") {
     body = `<div class="small">Avbrutt — ingenting lagret.</div>`;
   }
-  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}"` : ""}>
+  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}>
     <div class="top">${pdot(m.provider)}<b title="${esc(m.model)}">${esc(m.model)}</b>
       <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
     ${body}

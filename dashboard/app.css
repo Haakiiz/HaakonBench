@@ -717,6 +717,15 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .board tbody tr:hover td:first-child { box-shadow: inset 3px 0 0 var(--signal), inset 0 -1px 0 rgba(255, 255, 255, .045); }
 .board tbody tr:hover .model-cell b { color: #fff; text-shadow: 0 0 10px rgba(255, 194, 26, .35); }
 .board tr:last-child td { border-bottom: 0; box-shadow: none; }
+/* Keyboard focus on a row: amber targeting frame drawn by the cells (outlines on <tr> are unreliable) */
+.board tbody tr:focus-visible { outline: none; box-shadow: none; }
+.board tbody tr:focus-visible td {
+  background: linear-gradient(180deg, rgba(255, 194, 26, .12), rgba(255, 194, 26, .05));
+  box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent);
+}
+.board tbody tr:focus-visible td:first-child { box-shadow: inset 3px 0 0 var(--accent), inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+.board tbody tr:focus-visible td:last-child { box-shadow: inset -3px 0 0 var(--accent), inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+.board tbody tr:focus-visible .model-cell b { color: #fff; text-shadow: 0 0 10px rgba(255, 194, 26, .45); }
 .board tbody tr:last-child:hover td:first-child { box-shadow: inset 3px 0 0 var(--signal); }
 
 /* Rank plate: small stamped steel plate; #1 is a lit amber plate */
@@ -790,7 +799,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
   .board th.dim::after { content: attr(data-short); letter-spacing: .12em; }
   .board .total { min-width: 0; width: 1%; white-space: nowrap; }
 }
-@container (max-width: 640px) {
+@container (max-width: 560px) {
   .board .dim { display: none; }
 }
 
@@ -1222,6 +1231,7 @@ select.input option { background: #16171a; color: #f4ecd8; }
   background: var(--rivets), linear-gradient(90deg, rgba(255, 40, 32, .08), transparent 60%), var(--plate);
   box-shadow: var(--bevel), inset 3px 0 0 var(--signal), var(--arm-glow), var(--drop);
 }
+.mcard.clickable:focus-visible { outline-offset: 3px; box-shadow: var(--bevel), inset 3px 0 0 var(--edge-c), var(--edge), var(--focus); }
 .mcard.running { --edge-c: var(--run); box-shadow: var(--bevel), inset 3px 0 0 var(--edge-c), 0 0 0 1px rgba(255, 174, 46, .45), 0 0 0 2px #000, 0 0 14px rgba(255, 174, 46, .14), var(--drop); }
 .mcard.running::before {
   content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 40%;
@@ -1465,7 +1475,8 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .md table { font-size: 12.5px; }
   .md th { white-space: normal; overflow-wrap: normal; word-break: normal; font-size: 10.5px; letter-spacing: .02em; text-transform: none; }
   .md th, .md td { padding: 5px 6px; }
-  .md td:last-child { min-width: 240px; }
+  /* Only wide comparison tables (6+ columns, e.g. the score table) reserve room for the verdict text */
+  .md table:has(tr > :nth-child(6)) td:last-child { min-width: 240px; }
   /* Selects: fit the full option text in narrow modals */
   select.input { font-size: 13px; padding-left: 9px; padding-right: 30px; }
   .modal { padding: 0 16px 16px; }
