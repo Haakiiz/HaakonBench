@@ -21,6 +21,8 @@ const view = $("#view");
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const md = (t) => DOMPurify.sanitize(marked.parse(t || ""));
 const enc = encodeURIComponent;
+// Sound hook — safe no-op if sound.js failed to load.
+const sfx = (name) => { try { if (window.SFX) window.SFX.play(name); } catch { /* ignore */ } };
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
@@ -34,6 +36,7 @@ function toast(msg, bad = false) {
   t.textContent = msg;
   t.className = "toast" + (bad ? " bad" : "");
   t.hidden = false;
+  if (bad) sfx("error");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => (t.hidden = true), bad ? 7000 : 3500);
 }
@@ -239,15 +242,19 @@ function wireAnswerClicks(root, runName) {
 
 // ── Drawer ───────────────────────────────────────────────────
 function openDrawer(titleHTML, bodyHTML) {
+  const wasOpen = $("#drawer").classList.contains("open");
   $("#drawer-title").innerHTML = titleHTML;
   $("#drawer-body").innerHTML = bodyHTML;
   $("#drawer-body").scrollTop = 0;
   $("#drawer").classList.add("open");
   $("#drawer").setAttribute("aria-hidden", "false");
+  if (!wasOpen) sfx("open");
 }
 function closeDrawer() {
+  const wasOpen = $("#drawer").classList.contains("open");
   $("#drawer").classList.remove("open");
   $("#drawer").setAttribute("aria-hidden", "true");
+  if (wasOpen) sfx("close");
 }
 document.addEventListener("click", (e) => { if (e.target.closest("[data-close-drawer]")) closeDrawer(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); closeModal(); } });
@@ -291,16 +298,18 @@ async function openHistory(run, file, label) {
 
 // ── Modal ────────────────────────────────────────────────────
 function modal(html) {
-  closeModal();
+  const old = $("#modal");
+  if (old) old.remove();
   const bg = document.createElement("div");
   bg.className = "modal-bg";
   bg.id = "modal";
   bg.innerHTML = `<div class="card modal">${html}</div>`;
   bg.addEventListener("click", (e) => { if (e.target === bg) closeModal(); });
   document.body.appendChild(bg);
+  sfx("open");
   return bg;
 }
-function closeModal() { const m = $("#modal"); if (m) m.remove(); }
+function closeModal() { const m = $("#modal"); if (m) { m.remove(); sfx("close"); } }
 
 function confirmModal(title, bodyHTML, okText) {
   return new Promise((resolve) => {
@@ -343,6 +352,7 @@ function openRegrade(run) {
       const { id } = await api("/api/jobs", { method: "POST", body: JSON.stringify({ kind: "regrade", run, grader: readGrader("rg-grader") }) });
       closeModal();
       attachJob(id);
+      sfx("chirp");
       location.hash = "#/live";
     } catch (e) { toast(e.message, true); }
   };
@@ -550,6 +560,7 @@ async function startRun() {
   try {
     const { id } = await api("/api/jobs", { method: "POST", body: JSON.stringify(formPayload()) });
     attachJob(id);
+    sfx("chirp");
     location.hash = "#/live";
   } catch (e) { toast(e.message, true); }
 }
@@ -560,8 +571,10 @@ function attachJob(id) {
   const es = new EventSource(`/api/jobs/${id}/events`);
   S.es = es;
   es.onmessage = (ev) => {
-    const wasActive = S.job && S.job.id === id && S.job.active;
+    const prev = S.job && S.job.id === id ? S.job : null;
+    const wasActive = !!(prev && prev.active);
     S.job = JSON.parse(ev.data);
+    if (prev) jobSfx(prev, S.job);
     S.skew = Date.now() / 1000 - S.job.now;
     updateNav();
     if (currentSection() === "live") drawLive();
@@ -575,6 +588,20 @@ function attachJob(id) {
     }
   };
   es.onerror = () => { if (S.job && !S.job.active) es.close(); };
+}
+
+// Sounds on job state transitions only (never on every SSE tick).
+function jobSfx(a, b) {
+  if (a.active && !b.active) {
+    if (b.status === "done") sfx("done");
+    else if (b.status === "error") sfx("error");
+    return;
+  }
+  const key = (m) => m.label || `${m.provider}/${m.model}`;
+  const was = new Map((a.models || []).map((m) => [key(m), m.state]));
+  const moved = (b.models || []).filter((m) => was.has(key(m)) && was.get(key(m)) !== m.state);
+  if (moved.some((m) => m.state === "failed" || m.state === "empty")) sfx("error");
+  else if (moved.some((m) => m.state === "done")) sfx("chirp");
 }
 
 const currentSection = () => ((location.hash.slice(2) || "").split(/[/?]/)[0] || "runs");

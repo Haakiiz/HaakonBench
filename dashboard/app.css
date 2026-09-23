@@ -130,7 +130,8 @@ h1, h2, h3, h4 { font-family: var(--font-label); font-weight: 700; letter-spacin
 /* Shared caps label recipe (tokens + utility group). Add selectors here instead of re-typing it. */
 :root { --caps-font: var(--font-label); --caps-weight: 700; --caps-tracking: .14em; }
 .caps, .tabs button, .modal h3, .drawer-head h2,
-.form-section > h3, .plan-head h3, .grading-card h3 {
+.form-section > h3, .plan-head h3, .grading-card h3,
+.btn, .link-btn {
   font-family: var(--caps-font); font-weight: var(--caps-weight);
   text-transform: uppercase; letter-spacing: var(--caps-tracking);
 }
@@ -205,7 +206,14 @@ html :focus-visible {
     0 0 0 1px rgba(255, 60, 50, .35), 0 0 14px var(--red-glow);
   text-shadow: 0 1px 0 #3a0003, 0 0 8px rgba(255, 150, 130, .7);
 }
-.nav a:active { transform: translateY(1px); }
+.nav a:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, .6), inset 0 3px 6px rgba(0, 0, 0, .45), inset 0 -1px 0 rgba(255, 255, 255, .08);
+  filter: brightness(.92);
+}
+.nav a.active:active {
+  box-shadow: inset 0 2px 0 rgba(45, 0, 2, .8), inset 0 3px 7px rgba(40, 0, 0, .55), inset 0 -1px 0 rgba(255, 170, 160, .3), 0 0 10px var(--red-glow);
+}
 
 /* Live LED */
 .live-dot {
@@ -325,20 +333,191 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge { font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 3px 8px; border-radius: var(--radius); }
 
+/* ── Command buttons ─────────────────────────────────────────
+   Chunky bevelled plates. Each variant only swaps the custom properties:
+   --fill (face), --deco (overlay layer: screws, hatch), --bv (bevel when up),
+   --bv-in (bevel when pressed), --lift (plate thickness under it), --glow. */
 .btn {
+  --fill: linear-gradient(180deg, #4b5058 0%, #363a41 14%, #2a2d33 58%, #202226 100%);
+  --fill-hi: linear-gradient(180deg, #5a6069 0%, #41464e 14%, #32363c 58%, #26292d 100%);
+  --deco: linear-gradient(transparent, transparent);
+  --bv:
+    inset 0 2px 0 rgba(255, 255, 255, .2), inset 2px 0 0 rgba(255, 255, 255, .08),
+    inset 0 -2px 0 rgba(0, 0, 0, .65), inset -2px 0 0 rgba(0, 0, 0, .5);
+  --bv-in:
+    inset 0 2px 0 rgba(0, 0, 0, .7), inset 2px 0 0 rgba(0, 0, 0, .5),
+    inset 0 -1px 0 rgba(255, 255, 255, .12), inset -1px 0 0 rgba(255, 255, 255, .06),
+    inset 0 4px 8px rgba(0, 0, 0, .45);
+  --lift: 0 2px 0 #000, 0 4px 8px rgba(0, 0, 0, .45);
+  --glow: 0 0 0 transparent;
+  position: relative;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 8px 14px; border-radius: var(--radius); border: 1px solid var(--line);
-  background: var(--panel-2); cursor: pointer; font-weight: 500; text-decoration: none; white-space: nowrap;
+  min-height: 38px; padding: 8px 16px;
+  border: 1px solid #000; border-radius: var(--radius);
+  background: var(--deco), var(--fill);
+  box-shadow: var(--bv), var(--lift), var(--glow);
+  color: #ece6dc; text-shadow: 0 1px 0 #000;
+  font-size: 13px; line-height: 1.2; letter-spacing: .12em;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+  transition: box-shadow .09s, color .09s, filter .09s, transform .05s;
 }
-.btn:hover { background: var(--panel-3); }
-.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
-.btn.primary:hover { filter: brightness(1.08); }
-.btn.danger { color: var(--bad); }
-.btn.big { padding: 12px 18px; font-size: 15px; width: 100%; }
-.btn:disabled { opacity: .45; cursor: not-allowed; filter: none; }
-.icon-btn { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 18px; padding: 6px 8px; border-radius: var(--radius); }
-.icon-btn:hover { background: var(--panel-2); color: var(--text); }
-.link-btn { background: none; border: 0; padding: 0; color: var(--run); cursor: pointer; font-size: 12px; }
+.btn:hover:not(:disabled) {
+  --fill: var(--fill-hi);
+  --glow: 0 0 0 1px rgba(255, 255, 255, .06), 0 0 12px rgba(200, 210, 225, .12);
+  color: #fff;
+}
+.btn:active:not(:disabled) {
+  --bv: var(--bv-in);
+  --lift: 0 0 0 transparent;
+  transform: translateY(2px);
+  filter: brightness(.9);
+}
+.btn:focus-visible { box-shadow: var(--bv), var(--lift), var(--focus); }
+
+/* Primary: blood-red plate, hot top/left edge, burnt bottom/right edge */
+.btn.primary {
+  --fill: var(--plate-red);
+  --fill-hi: linear-gradient(180deg, #f2363c 0%, #c0181f 45%, #7e0c12 100%);
+  --bv:
+    inset 0 2px 0 rgba(255, 196, 186, .6), inset 2px 0 0 rgba(255, 150, 140, .32),
+    inset 0 -2px 0 rgba(45, 0, 2, .8), inset -2px 0 0 rgba(45, 0, 2, .6);
+  --bv-in:
+    inset 0 2px 0 rgba(45, 0, 2, .85), inset 2px 0 0 rgba(45, 0, 2, .6),
+    inset 0 -1px 0 rgba(255, 170, 160, .35), inset -1px 0 0 rgba(255, 150, 140, .2),
+    inset 0 4px 9px rgba(40, 0, 0, .55);
+  --glow: 0 0 10px rgba(255, 40, 32, .28);
+  color: #fff6ec;
+  text-shadow: 0 1px 0 #3a0003, 0 0 8px rgba(255, 175, 155, .55);
+}
+.btn.primary:hover:not(:disabled) {
+  --fill: var(--fill-hi);
+  --glow: 0 0 0 1px rgba(255, 70, 60, .45), 0 0 20px var(--red-glow);
+  color: #fff;
+  text-shadow: 0 1px 0 #3a0003, 0 0 10px rgba(255, 200, 180, .8);
+}
+
+/* Danger ("abort"): black plate, red hazard-hatch end caps, red lamp text */
+.btn.danger {
+  --hatch: repeating-linear-gradient(-45deg, #d0141c 0 4px, #0b0b0c 4px 8px);
+  --deco:
+    var(--hatch) left top / 9px 100% no-repeat,
+    var(--hatch) right top / 9px 100% no-repeat;
+  --fill: linear-gradient(180deg, #2a0b0d 0%, #1a0607 50%, #100304 100%);
+  --fill-hi: linear-gradient(180deg, #3a0e11 0%, #250809 50%, #150405 100%);
+  --bv:
+    inset 0 0 0 1px rgba(255, 59, 48, .38),
+    inset 0 2px 0 rgba(255, 120, 110, .22), inset 0 -2px 0 rgba(0, 0, 0, .7);
+  --bv-in:
+    inset 0 0 0 1px rgba(255, 59, 48, .5),
+    inset 0 2px 0 rgba(0, 0, 0, .8), inset 0 -1px 0 rgba(255, 120, 110, .2),
+    inset 0 4px 8px rgba(0, 0, 0, .6);
+  padding-left: 22px; padding-right: 22px;
+  color: #ff6b60;
+  text-shadow: 0 1px 0 #000, 0 0 8px rgba(255, 60, 48, .55);
+}
+.btn.danger:hover:not(:disabled) {
+  --fill: var(--fill-hi);
+  --glow: 0 0 0 1px rgba(255, 59, 48, .35), 0 0 16px var(--red-glow);
+  color: #ff8d84;
+}
+
+/* Big: the plan panel's launch key. Display face, screw heads either side. */
+.btn.big {
+  width: 100%; min-height: 56px; padding: 14px 34px;
+  font-family: var(--font-display); font-weight: 400; font-size: 17px; letter-spacing: .1em;
+  white-space: normal; text-align: center;
+  --deco:
+    radial-gradient(circle at 12px 50%, var(--rivet)),
+    radial-gradient(circle at calc(100% - 12px) 50%, var(--rivet));
+  --lift: 0 3px 0 #000, 0 6px 12px rgba(0, 0, 0, .5);
+}
+.btn.big:active:not(:disabled) { transform: translateY(3px); }
+
+/* Disabled: dead, unlit plate. No glow, flat bevel, faint cross-hatch, still readable. */
+.btn:disabled {
+  --fill: linear-gradient(180deg, #2c2e32, #222427 60%, #1c1d20);
+  --deco: repeating-linear-gradient(-45deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 7px);
+  --bv: inset 0 1px 0 rgba(255, 255, 255, .06), inset 0 -1px 0 rgba(0, 0, 0, .5);
+  --lift: 0 1px 0 #000;
+  --glow: 0 0 0 transparent;
+  color: #a7a197; text-shadow: 0 1px 0 #000;
+  cursor: not-allowed; transform: none; filter: saturate(.25);
+}
+.btn.primary:disabled {
+  --fill: linear-gradient(180deg, #4a2426, #341719 60%, #291213);
+  color: #cbb5b0;
+}
+.btn.big:disabled {
+  --deco:
+    radial-gradient(circle at 12px 50%, #555a61 0 1.4px, #25272b 2.4px, #000 3px, transparent 3.5px),
+    radial-gradient(circle at calc(100% - 12px) 50%, #555a61 0 1.4px, #25272b 2.4px, #000 3px, transparent 3.5px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 7px);
+}
+.btn.danger:disabled {
+  --deco:
+    repeating-linear-gradient(-45deg, #4a2022 0 4px, #0b0b0c 4px 8px) left top / 9px 100% no-repeat,
+    repeating-linear-gradient(-45deg, #4a2022 0 4px, #0b0b0c 4px 8px) right top / 9px 100% no-repeat;
+  --fill: linear-gradient(180deg, #221314, #170d0e);
+  color: #b39e9b;
+}
+
+/* Icon button (drawer ✕, mute): small square gunmetal plate */
+.icon-btn {
+  --bv:
+    inset 0 2px 0 rgba(255, 255, 255, .18), inset 2px 0 0 rgba(255, 255, 255, .07),
+    inset 0 -2px 0 rgba(0, 0, 0, .65), inset -2px 0 0 rgba(0, 0, 0, .5);
+  --lift: 0 2px 0 #000;
+  display: inline-grid; place-items: center; flex: none;
+  width: 36px; height: 34px; padding: 0;
+  border: 1px solid #000; border-radius: var(--radius);
+  background: linear-gradient(180deg, #4b5058 0%, #363a41 14%, #2a2d33 58%, #202226 100%);
+  box-shadow: var(--bv), var(--lift);
+  color: #ddd7cd; text-shadow: 0 1px 0 #000;
+  font-size: 16px; line-height: 1; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow .09s, color .09s, transform .05s;
+}
+.icon-btn:hover {
+  background: linear-gradient(180deg, #5a6069 0%, #41464e 14%, #32363c 58%, #26292d 100%);
+  color: #fff; box-shadow: var(--bv), var(--lift), 0 0 12px rgba(255, 60, 48, .3);
+}
+.icon-btn:active {
+  --bv:
+    inset 0 2px 0 rgba(0, 0, 0, .7), inset 2px 0 0 rgba(0, 0, 0, .5),
+    inset 0 -1px 0 rgba(255, 255, 255, .12), inset 0 3px 6px rgba(0, 0, 0, .45);
+  --lift: 0 0 0 transparent;
+  transform: translateY(2px);
+}
+.icon-btn:focus-visible { box-shadow: var(--bv), var(--lift), var(--focus); }
+
+/* Mute toggle: speaker glyph; muted = unlit plate with a red cross */
+.icon-btn.mute svg { width: 20px; height: 20px; overflow: visible; }
+.icon-btn.mute svg path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn.mute svg .spk { fill: currentColor; stroke-width: 1.4; }
+.icon-btn.mute .cross { display: none; }
+.icon-btn.mute { color: #efe9df; filter: drop-shadow(0 0 0 transparent); }
+.icon-btn.mute svg { filter: drop-shadow(0 1px 0 #000) drop-shadow(0 0 5px rgba(255, 194, 26, .35)); }
+.icon-btn.mute[aria-pressed="true"] {
+  background: linear-gradient(180deg, #2c2e32, #222427 60%, #1c1d20);
+  color: #9d978d;
+}
+.icon-btn.mute[aria-pressed="true"] svg { filter: drop-shadow(0 1px 0 #000); }
+.icon-btn.mute[aria-pressed="true"] .waves { display: none; }
+.icon-btn.mute[aria-pressed="true"] .cross { display: inline; stroke: var(--red-hi); filter: drop-shadow(0 0 4px var(--red-glow)); }
+
+/* Link button ("alle"/"ingen"): small stencilled switch tag in a recessed slot */
+.link-btn {
+  display: inline-flex; align-items: center;
+  padding: 3px 8px 2px; border: 1px solid #000; border-radius: 2px;
+  background: #0b0c0e; box-shadow: var(--recess);
+  color: #ff5a4e; text-shadow: 0 0 6px rgba(255, 60, 48, .45);
+  font-size: 11px; line-height: 1.3; letter-spacing: .16em;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: color .09s, text-shadow .09s, transform .05s;
+}
+.link-btn:hover { color: #fff; text-shadow: 0 0 8px rgba(255, 80, 64, .9); }
+.link-btn:active { transform: translateY(1px); color: #ffc9c2; box-shadow: inset 0 3px 6px rgba(0, 0, 0, .9), inset 0 0 0 1px rgba(0, 0, 0, .6); }
 
 .pdot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; background: var(--faint); }
 .pdot.anthropic { background: var(--anthropic); }
@@ -381,7 +560,9 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
   background: none; border: 0; padding: 10px 14px; cursor: pointer; color: var(--muted); font-size: 13px;
   border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap;
 }
-.tabs button:hover { color: var(--text); }
+.tabs button:hover { color: var(--text); background: linear-gradient(180deg, transparent 40%, rgba(255, 255, 255, .04)); }
+.tabs button:focus-visible { outline-offset: -3px; box-shadow: inset 0 0 0 4px rgba(255, 194, 26, .18); }
+.tabs button:active { color: #fff; transform: translateY(1px); background: linear-gradient(180deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .1)); }
 .tabs button.active { color: #fff; border-bottom-color: var(--signal); text-shadow: 0 0 10px var(--red-glow); }
 
 /* ── Leaderboard ─────────────────────────────────────────── */
@@ -490,6 +671,10 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 }
 .seg button b { display: block; text-transform: capitalize; }
 .seg button span { font-size: 11px; color: var(--muted); }
+.seg button { transition: border-color .09s, filter .09s, transform .05s; -webkit-tap-highlight-color: transparent; }
+.seg button:hover { border-color: #5a606a; filter: brightness(1.15); }
+.seg button:active { transform: translateY(1px); filter: brightness(.9); box-shadow: inset 0 2px 0 rgba(0, 0, 0, .6), inset 0 4px 8px rgba(0, 0, 0, .45); }
+.seg button.on:active { box-shadow: inset 0 2px 0 rgba(45, 0, 2, .8), inset 0 4px 9px rgba(40, 0, 0, .55), 0 0 10px var(--red-glow); }
 .seg button.on { border-color: var(--signal); background: color-mix(in srgb, var(--red) 22%, var(--panel-2)); box-shadow: 0 0 12px var(--red-glow), inset 0 0 12px rgba(255, 40, 32, .15); }
 
 .toggle-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); cursor: pointer; }
@@ -628,5 +813,8 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   html::after { display: none; }
+  /* Presses still invert the bevel, but nothing jumps */
+  .btn:active:not(:disabled), .btn.big:active:not(:disabled), .icon-btn:active, .link-btn:active,
+  .nav a:active, .tabs button:active, .seg button:active { transform: none !important; }
   .spin { animation: spin 2.4s linear infinite !important; }
 }
