@@ -1,0 +1,119 @@
+# The Ironclad Angler — machine-readable spot database
+# Companion data for README.md. All facts patch 1.12; gold/hour estimates
+# assume a mid-population era server with active raiding guilds.
+
+character_assumptions:
+  level: 60
+  class: Warrior
+  faction: Alliance
+  fishing_skill: 300
+  cooking_skill: 300
+
+time_windows:
+  nightfin: "18:00-06:00 server time (Raw Nightfin Snapper night-only)"
+  stonescale: "00:00-12:00 server time (boosted Stonescale Eel catch rate)"
+  winter_squid_season: "Sep 23 - Mar 20"
+  summer_bass_season: "~Mar 20 - Sep 22"
+  power_hours: "00:00-06:00 (nightfin + stonescale windows overlap)"
+
+spots:
+
+- name: Feathermoon Stronghold dock
+  zone: Feralas
+  territory: alliance_town
+  safety: 5
+  convenience: 5
+  best_window: stonescale
+  catches: [Stonescale Eel, Large Raw Mightfish, Raw Spotted Yellowtail, seasonal squid/bass, clams]
+  cooking_play: "Mightfish Steak (recipe from Vivianna on-site); mail eels raw"
+  gold_per_hour: {raw: [8, 14], cooked: [10, 16]}
+
+- name: Jademir Lake
+  zone: Feralas (far north, no road access)
+  territory: contested_hidden
+  safety: 4
+  convenience: 1
+  best_window: nightfin
+  catches: [Raw Nightfin Snapper, Raw Sunscale Salmon (day), Raw Redgill, Raw Mithril Head Trout]
+  cooking_play: "Nightfin Soup at campfire (bring Refreshing Spring Water)"
+  gold_per_hour: {raw: [9, 15], cooked: [12, 18]}
+  alternative: "Sardor Isle (SW Feralas coast) for the saltwater version"
+
+- name: Lake Kel'Theril
+  zone: Winterspring
+  territory: contested_quiet
+  safety: 4
+  convenience: 3
+  best_window: nightfin
+  catches: [Raw Nightfin Snapper, Raw Redgill]
+  cooking_play: Nightfin Soup
+  gold_per_hour: {raw: [8, 13], cooked: [11, 16]}
+  notes: "Everlook (neutral goblin town) nearby for mailbox/vendors"
+
+- name: Lake Elune'ara
+  zone: Moonglade
+  territory: contested_peaceful
+  safety: 5
+  convenience: 3
+  best_window: nightfin
+  catches: [Raw Nightfin Snapper (night), Raw Sunscale Salmon (day), Raw Redgill]
+  cooking_play: "Nightfin Soup at night, Poached Sunscale Salmon by day"
+  gold_per_hour: {raw: [7, 12], cooked: [10, 14]}
+  notes: "No hostile mobs near the lake; warrior access via Timbermaw tunnel (once)"
+
+- name: Bay of Storms
+  zone: Azshara
+  territory: contested_quiet
+  safety: 3
+  convenience: 2
+  best_window: stonescale
+  catches: [Stonescale Eel, Large Raw Mightfish, Raw Glossy Mightfish, Raw Whitescale Salmon,
+            seasonal squid/bass, Patch of Elemental Water pools (Essence of Water)]
+  cooking_play: "Baked Salmon (275); Cooked Glossy Mightfish; eels stay raw"
+  gold_per_hour: {raw: [10, 18]}
+  notes: "Highest variance — elemental water pools are the jackpot component"
+
+- name: Menethil Harbor dock
+  zone: Wetlands
+  territory: alliance_town
+  safety: 5
+  convenience: 5
+  best_window: any
+  catches: [Oily Blackmouth, Firefin Snapper, clams, Raw Bristle Whisker Catfish]
+  cooking_play: "None — Oily Blackmouth and Firefin are alchemy fish, sell raw"
+  gold_per_hour: {raw: [4, 8]}
+
+- name: Stormwind Canals / Ironforge
+  zone: capital city
+  territory: alliance_city
+  safety: 5
+  convenience: 5
+  best_window: any
+  catches: [Raw Longjaw Mud Snapper, Raw Brilliant Smallfish]
+  gold_per_hour: {raw: [1, 2]}
+  notes: "Baseline only — vendor trash income while waiting on summons"
+
+- name: Barrens oases (Forgotten Pools / Lushwater / Stagnant Oasis)
+  zone: The Barrens
+  territory: horde_dangerous
+  safety: 1
+  convenience: 1
+  best_window: "off-peak server hours only"
+  catches: [Deviate Fish]
+  cooking_play: "Savory Deviate Delight only if you own the rare world-drop recipe; otherwise sell raw"
+  gold_per_hour: {raw: [15, 25]}
+  notes: "Best raw g/h in Classic, priced in risk — Alliance warrior fishes here at 6 AM or not at all"
+
+weekly_event:
+  name: Stranglethorn Fishing Extravaganza
+  when: "Sundays 14:00-16:00"
+  goal: "First to 40 Speckled Tastyfish wins (Arcanite Fishing Pole among prizes)"
+  warning: "STV beach PvP bloodbath — go for the pole, not the g/h"
+
+key_recipes:
+- {product: Nightfin Soup, buff: "+8 mana per 5 sec", skill: 250, source: "Gikkix, Steamwheedle Port, Tanaris"}
+- {product: Grilled Squid, buff: "+10 Agility", skill: 240, source: "Gikkix, Steamwheedle Port, Tanaris"}
+- {product: Mightfish Steak, buff: "+10 Stamina, +10 Spirit", skill: 175, source: "Vivianna, Feathermoon Stronghold"}
+- {product: Baked Salmon, buff: "+12 Stamina, +12 Spirit", skill: 275, source: "Vivianna, Feathermoon Stronghold"}
+- {product: Poached Sunscale Salmon, buff: "+6 health per 5 sec", skill: 250, source: "Gikkix, Steamwheedle Port, Tanaris"}
+- {product: Undermine Clam Chowder, buff: "+8 Stamina, +8 Spirit", skill: 225, source: "Jabbey (Tanaris) / Mrs. Gant (Booty Bay)"}
