@@ -62,6 +62,7 @@
   --drop: 0 3px 0 rgba(0, 0, 0, .55), 0 10px 24px rgba(0, 0, 0, .45);
   --shadow: 0 16px 40px rgba(0, 0, 0, .7);
   --radius: 3px;
+  --bezel: 10px;              /* width of the fixed monitor bezel */
   --focus: 0 0 0 4px rgba(255, 194, 26, .22), 0 0 16px var(--accent-glow);
   color-scheme: dark;
   scrollbar-color: #4a4f57 #0b0b0d;
@@ -90,16 +91,20 @@ body::before {
     radial-gradient(ellipse 90% 420px at 50% 100%, rgba(120, 8, 12, .25), transparent 70%),
     linear-gradient(90deg, rgba(0, 0, 0, .7), transparent 14%, transparent 86%, rgba(0, 0, 0, .7));
 }
-/* Over the content, fixed to the viewport: 10px gunmetal bezel with a red inner line,
-   corner rivets, and faint CRT scanlines. Below drawer/modal (z 50+). */
+/* CRT scanlines over the page content (under drawer/modal/toast) */
 body::after {
   content: ""; position: fixed; inset: 0; z-index: 45; pointer-events: none;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, .10) 0 1px, transparent 1px 3px);
+}
+/* Monitor bezel: 10px gunmetal ring, red inner line, corner rivets. Top layer, over
+   drawer (50), modal (60) and toast (70) so the frame never drops away. */
+html::before {
+  content: ""; position: fixed; inset: 0; z-index: 95; pointer-events: none;
   background:
     radial-gradient(circle at 5px 5px, var(--rivet)),
     radial-gradient(circle at calc(100% - 5px) 5px, var(--rivet)),
     radial-gradient(circle at 5px calc(100% - 5px), var(--rivet)),
-    radial-gradient(circle at calc(100% - 5px) calc(100% - 5px), var(--rivet)),
-    repeating-linear-gradient(180deg, rgba(0, 0, 0, .10) 0 1px, transparent 1px 3px);
+    radial-gradient(circle at calc(100% - 5px) calc(100% - 5px), var(--rivet));
   box-shadow:
     inset 0 0 0 1px #000,
     inset 0 0 0 2px #72777f,
@@ -122,6 +127,15 @@ html::after {
 a { color: inherit; }
 button, input, select { font: inherit; color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-label); font-weight: 700; letter-spacing: .02em; }
+/* Shared caps label recipe (tokens + utility group). Add selectors here instead of re-typing it. */
+:root { --caps-font: var(--font-label); --caps-weight: 700; --caps-tracking: .14em; }
+.caps, .tabs button, .modal h3, .drawer-head h2,
+.form-section > h3, .plan-head h3, .grading-card h3 {
+  font-family: var(--caps-font); font-weight: var(--caps-weight);
+  text-transform: uppercase; letter-spacing: var(--caps-tracking);
+}
+/* Identifiers (model ids, bucket names) inside caps headings stay as written */
+.ident { text-transform: none; letter-spacing: .02em; font-family: var(--mono); font-weight: 400; overflow-wrap: anywhere; }
 .mono { font-family: var(--mono); font-size: .92em; }
 .muted { color: var(--muted); }
 .faint { color: var(--faint); }
@@ -336,7 +350,15 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .runs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
 .run-card { display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; text-decoration: none; transition: border-color .15s, transform .15s; }
 .run-card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); transform: translateY(-1px); }
-.run-card .name { font-family: var(--mono); font-size: 13px; font-weight: 500; word-break: break-all; }
+.run-card .name {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-family: var(--mono); font-size: 14px; font-weight: 400; color: #fff; word-break: break-all;
+  padding-bottom: 9px; border-bottom: 1px solid #000; box-shadow: 0 1px 0 rgba(255, 255, 255, .07);
+}
+.run-card .name::before {
+  content: ""; flex: none; width: 4px; height: 14px; margin-top: 3px;
+  background: var(--signal); box-shadow: 0 0 8px var(--red-glow);
+}
 .winner { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius); background: var(--panel-2); }
 .winner .trophy { color: var(--accent); font-size: 16px; }
 .winner .who { flex: 1; min-width: 0; }
@@ -356,7 +378,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 /* ── Tabs ────────────────────────────────────────────────── */
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 20px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
 .tabs button {
-  background: none; border: 0; padding: 10px 14px; cursor: pointer; color: var(--muted); font-weight: 500;
+  background: none; border: 0; padding: 10px 14px; cursor: pointer; color: var(--muted); font-size: 13px;
   border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap;
 }
 .tabs button:hover { color: var(--text); }
@@ -366,7 +388,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .board { width: 100%; border-collapse: collapse; }
 .board-wrap { overflow-x: auto; }
 .board th {
-  text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+  text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
   font-weight: 600; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap;
 }
 .board td { padding: 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
@@ -450,7 +472,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 }
 .model-toggle.on .box { background: var(--red); border-color: var(--signal); color: #fff; box-shadow: 0 0 8px var(--red-glow); }
 .model-toggle .name { flex: 1; font-family: var(--mono); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; }
-.model-toggle .knob { font-size: 11px; color: var(--faint); }
+.model-toggle .knob { font-size: 12px; color: var(--faint); }
 .model-toggle .x { color: var(--faint); font-size: 12px; padding: 0 4px; }
 .model-toggle .x:hover { color: var(--bad); }
 .add-row { display: flex; gap: 8px; margin-top: 12px; }
@@ -485,12 +507,12 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .plan-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
 .stat { background: #0a0b0d; box-shadow: var(--recess); border-radius: var(--radius); padding: 10px; text-align: center; }
 .stat b { display: block; font-family: var(--font-readout); font-size: 36px; font-weight: 400; line-height: 1; color: var(--accent); text-shadow: 0 0 8px rgba(255, 194, 26, .55); }
-.stat span { font-size: 11px; color: var(--muted); }
+.stat span { font-size: 12px; color: var(--muted); }
 .plan-list { max-height: 260px; overflow: auto; margin-bottom: 14px; }
 .plan-list h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 10px 0 6px; }
 .plan-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 3px 0; }
 .plan-item .name { flex: 1; font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.plan-item .side { color: var(--faint); font-size: 11px; }
+.plan-item .side { color: var(--faint); font-size: 12px; }
 
 /* ── Live ────────────────────────────────────────────────── */
 .live-head { padding: 18px 20px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
@@ -535,26 +557,28 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .drawer { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
 .drawer-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .45); opacity: 0; transition: opacity .2s; }
 .drawer-panel {
-  position: absolute; top: 0; right: 0; bottom: 0; width: min(900px, 100%);
+  position: absolute; top: var(--bezel); right: var(--bezel); bottom: var(--bezel);
+  width: min(900px, calc(100% - 2 * var(--bezel)));
   background: var(--bg); border-left: 1px solid var(--line); box-shadow: var(--shadow);
-  transform: translateX(100%); transition: transform .25s ease; display: flex; flex-direction: column;
+  transform: translateX(calc(100% + var(--bezel) + 20px)); transition: transform .25s ease; display: flex; flex-direction: column;
 }
 .drawer.open { pointer-events: auto; }
 .drawer.open .drawer-backdrop { opacity: 1; }
 .drawer.open .drawer-panel { transform: none; }
 .drawer-head { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
 .drawer-head > div { flex: 1; min-width: 0; }
-.drawer-head h2 { margin: 0 0 6px; font-size: 18px; display: flex; align-items: center; gap: 9px; }
+.drawer-head h2 { margin: 0 0 8px; font-size: 18px; display: flex; align-items: center; gap: 9px; color: #fff; text-shadow: 0 2px 0 #000, 0 0 14px rgba(255, 194, 26, .25); }
+.drawer-head h2 .ident { font-size: 20px; min-width: 0; }
 .drawer-body { padding: 22px 28px 60px; overflow-y: auto; flex: 1; }
 
-.modal-bg { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); display: grid; place-items: center; z-index: 60; padding: 16px; }
+.modal-bg { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); display: grid; place-items: center; z-index: 60; padding: calc(var(--bezel) + 12px); }
 .modal { width: min(460px, 100%); padding: 22px; box-shadow: var(--shadow); }
-.modal h3 { margin: 0 0 6px; }
+.modal h3 { margin: 0 0 8px; font-size: 15px; color: #fff; text-shadow: 0 0 10px rgba(255, 40, 32, .35); }
 .modal .btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
 
 .toast {
-  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 70;
-  background: var(--panel-3); border: 1px solid var(--line); padding: 10px 16px; border-radius: var(--radius); box-shadow: var(--shadow); max-width: min(560px, calc(100% - 32px));
+  position: fixed; bottom: calc(var(--bezel) + 16px); left: 50%; transform: translateX(-50%); z-index: 70;
+  background: var(--panel-3); border: 1px solid var(--line); padding: 10px 16px; border-radius: var(--radius); box-shadow: var(--shadow); max-width: min(560px, calc(100% - 2 * var(--bezel) - 24px));
 }
 .toast.bad { border-color: var(--bad); }
 
@@ -573,16 +597,16 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
   .brand .brand-full { display: none; }
   .brand .brand-short { display: inline; font-size: 15px; letter-spacing: 0; }
   .brand .emblem { width: 28px; height: 28px; }
-  body::after {
+  html::before {
     background:
       radial-gradient(circle at 3.5px 3.5px, var(--rivet)),
-      radial-gradient(circle at calc(100% - 3.5px) 3.5px, var(--rivet)),
-      repeating-linear-gradient(180deg, rgba(0, 0, 0, .10) 0 1px, transparent 1px 3px);
+      radial-gradient(circle at calc(100% - 3.5px) 3.5px, var(--rivet));
     box-shadow:
       inset 0 0 0 1px #000, inset 0 0 0 2px #72777f, inset 0 0 0 5px #2e3137,
       inset 0 0 0 6px #000, inset 0 0 0 7px var(--red),
       inset 0 0 12px 7px rgba(0, 0, 0, .45);
   }
+  :root { --bezel: 7px; }
   .page-head h1.mono { font-size: 22px; overflow-wrap: anywhere; }
   #prompt-chip { display: none; }
   .nav { gap: 2px; padding: 2px; }

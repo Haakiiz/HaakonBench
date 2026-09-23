@@ -253,7 +253,7 @@ document.addEventListener("click", (e) => { if (e.target.closest("[data-close-dr
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); closeModal(); } });
 
 async function openAnswer(run, label) {
-  openDrawer(`<h2>${esc(label)}</h2>`, `<span class="spin"></span>`);
+  openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<span class="spin"></span>`);
   try {
     const a = await api(`/api/runs/${enc(run)}/answers/${enc(label)}`);
     const m = a.meta || {};
@@ -268,24 +268,24 @@ async function openAnswer(run, label) {
       m.date && [String(m.date).slice(0, 16).replace("T", " ")],
     ].filter(Boolean);
     openDrawer(
-      `<h2>${pdot(a.provider)} ${esc(a.model)}</h2><div class="chips">${chips.map(([t]) => `<span class="chip">${esc(t)}</span>`).join("")}</div>`,
+      `<h2>${pdot(a.provider)} <span class="ident">${esc(a.model)}</span></h2><div class="chips">${chips.map(([t]) => `<span class="chip">${esc(t)}</span>`).join("")}</div>`,
       a.status === "ok" ? `<div class="md">${md(a.body)}</div>`
         : `<div class="note bad"><b>${a.status === "empty" ? "Tom respons" : "Feilet"}</b></div><pre class="mono" style="white-space:pre-wrap">${esc(a.error || "")}</pre>`,
     );
   } catch (e) {
-    openDrawer(`<h2>${esc(label)}</h2>`, `<div class="note bad">${esc(e.message)}</div>`);
+    openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<div class="note bad">${esc(e.message)}</div>`);
   }
 }
 
 async function openHistory(run, file, label) {
-  openDrawer(`<h2>${esc(label)}</h2>`, `<span class="spin"></span>`);
+  openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<span class="spin"></span>`);
   try {
     const g = await api(`/api/runs/${enc(run)}/grades/${enc(file)}`);
-    openDrawer(`<h2>⚖ ${esc(label)}</h2><div class="muted" style="font-size:12px">${esc(file)}</div>`,
+    openDrawer(`<h2>⚖ <span class="ident">${esc(label)}</span></h2><div class="muted" style="font-size:12px">${esc(file)}</div>`,
       (g.board && g.board.rows.length ? `<div class="card board-wrap" style="margin-bottom:20px">${boardHTML(g.board)}</div>` : "") +
       `<div class="md">${md(g.verdict)}</div>`);
   } catch (e) {
-    openDrawer(`<h2>${esc(label)}</h2>`, `<div class="note bad">${esc(e.message)}</div>`);
+    openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<div class="note bad">${esc(e.message)}</div>`);
   }
 }
 
