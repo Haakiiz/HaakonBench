@@ -219,6 +219,7 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 - `--regrade` must resolve the bucket from the stored config, not require re-specifying `--web-search`/`--effort`.
 - Verify model IDs against the live provider API before adding them to config; note region availability (Grok has been region-blocked).
 - Wrap grading-phase HTTP calls with retry/backoff for 503s; handle providers that don't support tool-calling config (e.g. Haiku 4.5).
+- **Branches:** `main` is the only long-lived branch. Do work on at most one short-lived feature branch at a time, and delete it (locally and on `origin`) as soon as it's merged.
 
 ---
 
@@ -226,3 +227,5 @@ Different providers count reasoning/thinking tokens differently. If you set `max
 
 Open directly in a browser, or `python -m http.server 8000` → http://localhost:8000.
 CSS variables for the theme (`--gold`, `--alliance-blue`, etc.) are at the top of the `<style>` block.
+
+`fishing-guide/` holds a second, independently written guide ("The Ironclad Angler": `guide.html`, `README.md`, `CHEATSHEET.md`, plus `spots.yaml` — spot data with safety/gold-per-hour scores). It is archived reference material; `index.html` remains the primary guide.
