@@ -15,6 +15,8 @@ const S = {
 const PROVIDER_ORDER = ["anthropic", "openai", "google", "xai"];
 const PROVIDER_NAME = { anthropic: "Anthropic", openai: "OpenAI", google: "Google", xai: "xAI" };
 const DIMS = [["accuracy", "Accuracy"], ["strategy", "Strategy"], ["creativity", "Creativity"], ["structure", "Structure"], ["fidelity", "Fidelity"]];
+// Short stencil codes shown in narrow leaderboards (full name stays in title + screen-reader text)
+const DIM_SHORT = { accuracy: "ACC", strategy: "STR", creativity: "CRE", structure: "STU", fidelity: "FID" };
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const view = $("#view");
@@ -207,7 +209,7 @@ function boardHTML(board) {
   const showSearch = rows.some((r) => r.meta && r.meta.web_searches != null);
   return `<table class="board">
     <thead><tr>
-      <th>#</th><th>Modell</th>${DIMS.map(([, t]) => `<th class="dim">${t}</th>`).join("")}
+      <th>#</th><th>Modell</th>${DIMS.map(([k, t]) => `<th class="dim" title="${t}" data-short="${DIM_SHORT[k]}"><span class="lbl">${t}</span></th>`).join("")}
       <th class="total">Total</th><th class="num">Tid</th><th class="num" title="Output / reasoning / total">Tokens</th>${showSearch ? "<th class=\"num\">Søk</th>" : ""}
     </tr></thead>
     <tbody>${rows.map((r, i) => `
@@ -241,23 +243,40 @@ function wireAnswerClicks(root, runName) {
 }
 
 // ── Drawer ───────────────────────────────────────────────────
+let drawerReturnFocus = null;
+// While the drawer is open the page behind it is inert (no focus, no clicks, hidden from AT).
+function setBackgroundInert(on) {
+  for (const el of [$(".topbar"), view]) { if (el) el.inert = on; }
+}
 function openDrawer(titleHTML, bodyHTML) {
   const wasOpen = $("#drawer").classList.contains("open");
+  if (!wasOpen) drawerReturnFocus = document.activeElement;
   $("#drawer-title").innerHTML = titleHTML;
   $("#drawer-body").innerHTML = bodyHTML;
   $("#drawer-body").scrollTop = 0;
   $("#drawer").classList.add("open");
   $("#drawer").setAttribute("aria-hidden", "false");
-  if (!wasOpen) sfx("open");
+  if (!wasOpen) {
+    setBackgroundInert(true);
+    sfx("open");
+    const x = $(".drawer-head .icon-btn");
+    if (x) x.focus({ preventScroll: true });
+  }
 }
 function closeDrawer() {
   const wasOpen = $("#drawer").classList.contains("open");
+  if (!wasOpen) return;   // route() calls this on every navigation — do nothing (and steal no focus) when closed
   $("#drawer").classList.remove("open");
   $("#drawer").setAttribute("aria-hidden", "true");
-  if (wasOpen) sfx("close");
+  setBackgroundInert(false);
+  sfx("close");
+  const back = drawerReturnFocus;
+  drawerReturnFocus = null;
+  if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
 }
 document.addEventListener("click", (e) => { if (e.target.closest("[data-close-drawer]")) closeDrawer(); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); closeModal(); } });
+// Escape closes the top-most layer: the modal if one is open, otherwise the drawer.
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if ($("#modal")) closeModal(); else closeDrawer(); } });
 
 async function openAnswer(run, label) {
   openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<span class="spin"></span>`);
@@ -308,6 +327,8 @@ function modal(html) {
   bg.innerHTML = `<div class="card modal" role="dialog" aria-modal="true">${html}</div>`;
   const title = bg.querySelector("h3");
   if (title) { title.id = "modal-title"; bg.firstElementChild.setAttribute("aria-labelledby", "modal-title"); }
+  const desc = bg.querySelector(".modal > .muted");
+  if (desc) { desc.id = "modal-desc"; bg.firstElementChild.setAttribute("aria-describedby", "modal-desc"); }
   bg.addEventListener("click", (e) => { if (e.target === bg) closeModal(); });
   document.body.appendChild(bg);
   sfx("open");
@@ -322,16 +343,16 @@ function closeModal() {
   modalReturnFocus = null;
   if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
 }
-// Keep Tab / Shift+Tab inside the open modal.
-function modalFocusables(box) {
+function focusables(box) {
   return [...box.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])")]
     .filter((el) => !el.disabled && !el.hidden && el.getClientRects().length);
 }
+// Keep Tab / Shift+Tab inside the top-most layer: an open modal wins over an open drawer.
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Tab") return;
-  const box = $("#modal .modal");
+  const box = $("#modal .modal") || $(".drawer.open .drawer-panel");
   if (!box) return;
-  const f = modalFocusables(box);
+  const f = focusables(box);
   if (!f.length) { e.preventDefault(); return; }
   const first = f[0], last = f[f.length - 1];
   if (!box.contains(document.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
@@ -353,7 +374,7 @@ function graderSelect(id, value) {
   const opts = S.config.graders.map((g) => `<option value="${esc(g)}" ${g === value ? "selected" : ""}>${esc(g)}${g === S.config.default_grader ? "  (standard)" : ""}</option>`).join("");
   const custom = !S.config.graders.includes(value);
   return `<select class="input" id="${id}">${opts}<option value="__custom" ${custom ? "selected" : ""}>Annen modell…</option></select>
-    <input class="input" id="${id}-custom" placeholder="provider/modell, f.eks. anthropic/claude-opus-5" style="margin-top:8px" ${custom ? `value="${esc(value)}"` : "hidden"}>`;
+    <input class="input" id="${id}-custom" aria-label="Egendefinert dommermodell" placeholder="provider/modell, f.eks. anthropic/claude-opus-5" style="margin-top:8px" ${custom ? `value="${esc(value)}"` : "hidden"}>`;
 }
 function readGrader(id) {
   const v = $("#" + id).value;
@@ -371,7 +392,7 @@ function openRegrade(run) {
   if (S.job && S.job.active) return toast("En run pågår allerede — vent til den er ferdig.", true);
   const m = modal(`<h3>⚖ Grade på nytt</h3>
     <p class="muted" style="margin-top:0">Hele bucketen grades blindt i ett kall. Den forrige dommen blir liggende i historikken.</p>
-    <div class="field"><label>Dommer</label>${graderSelect("rg-grader", S.config.default_grader)}</div>
+    <div class="field"><label for="rg-grader">Dommer</label>${graderSelect("rg-grader", S.config.default_grader)}</div>
     <div class="btns"><button class="btn" data-no>Avbryt</button><button class="btn primary" data-yes>Start grading</button></div>`);
   wireGraderSelect("rg-grader");
   $("#rg-grader").focus();
@@ -462,7 +483,7 @@ function drawForm() {
         </div>`).join("")}
       </div>
       <div class="add-row">
-        <input class="input mono" id="custom-model" placeholder="provider/modell — f.eks. openai/gpt-6-astra">
+        <input class="input mono" id="custom-model" aria-label="Egendefinert modell" placeholder="provider/modell — f.eks. openai/gpt-6-astra">
         <button class="btn" id="add-model">Legg til</button>
       </div>
     </section>
@@ -476,8 +497,8 @@ function drawForm() {
         <div class="toggle-row" data-toggle="refresh"><div class="txt"><b>Ignorer cache</b><span>Kall alle valgte modeller på nytt, selv om de allerede har svart på denne configen.</span></div><span class="switch ${f.refresh ? "on" : ""}"></span></div>
       </div>
       <div class="fields">
-        <div class="field"><label>Tag (valgfri)</label><input class="input" id="tag" value="${esc(f.tag)}" placeholder="f.eks. variance-2 → egen bucket"></div>
-        <div class="field"><label>Timeout per modell (sekunder)</label><input class="input" id="timeout" type="number" min="0" value="${esc(f.timeout)}" placeholder="ingen grense"></div>
+        <div class="field"><label for="tag">Tag (valgfri)</label><input class="input" id="tag" value="${esc(f.tag)}" placeholder="f.eks. variance-2 → egen bucket"></div>
+        <div class="field"><label for="timeout">Timeout per modell (sekunder)</label><input class="input" id="timeout" type="number" min="0" value="${esc(f.timeout)}" placeholder="ingen grense"></div>
       </div>
     </section>
 
@@ -485,7 +506,7 @@ function drawForm() {
       <h3>Jury</h3>
       <p class="hint">Dommeren leser alle svarene i bucketen anonymt (A, B, C…) og faktasjekker mot <code>wow_reference.yaml</code>.</p>
       <div class="toggle-row" data-toggle="grade" style="border-top:0"><div class="txt"><b>Grade etter run</b><span>Av = bare samle inn svar (billig tilkoblingstest).</span></div><span class="switch ${f.grade ? "on" : ""}"></span></div>
-      <div class="field" ${f.grade ? "" : "hidden"}><label>Dommer</label>${graderSelect("grader", f.grader)}</div>
+      <div class="field" ${f.grade ? "" : "hidden"}><label for="grader">Dommer</label>${graderSelect("grader", f.grader)}</div>
     </section>`;
 
   const F = $("#form");

@@ -173,6 +173,10 @@ html :focus-visible {
   box-shadow: 0 0 14px var(--red-glow), 0 6px 14px rgba(0, 0, 0, .6);
 }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
+.topbar > * { min-width: 0; }
+.nav { flex: none; }
+.nav a { white-space: nowrap; }
+.topbar-right { flex: 0 1 auto; }
 .brand .emblem { width: 38px; height: 38px; flex: none; filter: drop-shadow(0 2px 0 #000) drop-shadow(0 0 8px rgba(255, 40, 32, .35)); }
 .brand span {
   font-family: var(--font-display); font-size: 21px; text-transform: uppercase; letter-spacing: .07em;
@@ -737,7 +741,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .model-cell { display: flex; align-items: flex-start; gap: 10px; min-width: 240px; }
 .model-cell .pdot { margin-top: 6px; }
 .model-cell b { font-weight: 600; transition: color .1s; }
-.model-cell .verdict { font-size: 13px; color: var(--muted); margin-top: 2px; max-width: 460px; }
+.model-cell .verdict { font-size: 13px; color: var(--muted); margin-top: 2px; max-width: 320px; }
 .dim { width: 72px; }
 .dim .v { font-family: var(--font-readout); font-size: 20px; line-height: 1; color: #e6dfd4; }
 .dim .v:has(+ .bar.hi) { color: #7df09a; }
@@ -775,13 +779,18 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 
 /* Fit the table to whatever holds it (page, drawer, live card) so Total never needs a scroll:
    drop the telemetry columns first, then the per-dimension columns. */
+.board th.dim .lbl { display: inline; }
 @container (max-width: 1080px) {
   .board .num { display: none; }
-  .board .model-cell { min-width: 180px; }
-  .board th.dim { letter-spacing: .06em; font-size: 11px; }
-  .board th, .board td { padding-left: 9px; padding-right: 9px; }
+  .board .model-cell { min-width: 150px; }
+  .board th, .board td { padding-left: 8px; padding-right: 8px; }
+  .board .dim { width: 54px; }
+  /* Short stencil codes (ACC/STR/…) — full name stays in the title and for screen readers */
+  .board th.dim .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .board th.dim::after { content: attr(data-short); letter-spacing: .12em; }
+  .board .total { min-width: 0; width: 1%; white-space: nowrap; }
 }
-@container (max-width: 760px) {
+@container (max-width: 640px) {
   .board .dim { display: none; }
 }
 
@@ -878,8 +887,15 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .md strong { color: #fff; }
 .md table {
   border-collapse: separate; border-spacing: 0; width: 100%; font-size: 13px; margin: 1.2em 0;
-  display: block; overflow-x: auto;
+  display: block; overflow-x: auto; max-width: 100%;
   border: 1px solid #000; border-radius: 2px; box-shadow: 0 0 0 1px #2c2f34;
+  /* Scroll affordance: shadows at the edges that only show while there is more to scroll */
+  background:
+    linear-gradient(90deg, #1b1d21 40%, rgba(27, 29, 33, 0)) left center / 40px 100% no-repeat local,
+    linear-gradient(270deg, #1b1d21 40%, rgba(27, 29, 33, 0)) right center / 40px 100% no-repeat local,
+    linear-gradient(90deg, rgba(0, 0, 0, .85), rgba(0, 0, 0, 0)) left center / 22px 100% no-repeat scroll,
+    linear-gradient(270deg, rgba(0, 0, 0, .85), rgba(255, 194, 26, .05) 70%, rgba(0, 0, 0, 0)) right center / 22px 100% no-repeat scroll,
+    #1b1d21;
 }
 .md th, .md td { padding: 7px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid #000; border-right: 1px solid rgba(0, 0, 0, .7); }
 .md td { box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .04); }
@@ -1313,6 +1329,7 @@ select.input option { background: #16171a; color: #f4ecd8; }
   padding: 26px 28px 60px; overflow-y: auto; flex: 1;
   background: linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .28));
 }
+.drawer-body:focus-visible { outline-offset: -4px; box-shadow: inset 0 0 0 4px rgba(255, 194, 26, .15); }
 .drawer-body > .spin { margin: 30px auto; display: block; }
 .drawer-body > pre { font-family: var(--mono); font-size: 12.5px; color: #ff9a92; padding: 12px 14px; border-radius: 2px; background: #0a0304; border: 1px solid #000; box-shadow: var(--recess); overflow-x: auto; }
 
@@ -1387,6 +1404,15 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .new-grid { grid-template-columns: 1fr; }
   .plan { position: static; }
 }
+@media (max-width: 900px) {
+  #prompt-chip { display: none; }
+  .topbar { padding: 0 22px; gap: 14px; }
+}
+@media (max-width: 760px) {
+  .brand span { font-size: 18px; letter-spacing: .05em; }
+  .brand { gap: 8px; }
+  .nav a { padding: 7px 11px; }
+}
 @media (max-width: 640px) {
   .topbar { padding: 0 11px; gap: 5px; height: 60px; }
   .topbar { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .018) 0 1px, transparent 1px 4px), var(--plate-raised); }
@@ -1431,6 +1457,15 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .total .v { font-size: 26px; padding: 3px 5px 1px; }
   .total .v small { font-size: 15px; }
 
+  /* Add-model row: input full width, button full width underneath */
+  .add-row { flex-wrap: wrap; }
+  .add-row .input { flex: 1 1 100%; font-size: 11.5px; padding-left: 9px; padding-right: 9px; letter-spacing: 0; }
+  .add-row .btn { width: 100%; }
+  /* Judge verdict tables: wrap caps headers, keep the verdict column readable, scroll the rest */
+  .md table { font-size: 12.5px; }
+  .md th { white-space: normal; overflow-wrap: normal; word-break: normal; font-size: 10.5px; letter-spacing: .02em; text-transform: none; }
+  .md th, .md td { padding: 5px 6px; }
+  .md td:last-child { min-width: 240px; }
   /* Selects: fit the full option text in narrow modals */
   select.input { font-size: 13px; padding-left: 9px; padding-right: 30px; }
   .modal { padding: 0 16px 16px; }
