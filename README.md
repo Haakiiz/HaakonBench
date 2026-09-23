@@ -147,6 +147,27 @@ Du trenger bare nøklene til de leverandørene du faktisk bruker. Kommenter ut r
 
 ---
 
+## 🖥 Dashboard (anbefalt)
+
+Dobbeltklikk `start_dashboard.bat`, eller:
+
+```bash
+python dashboard.py
+```
+
+Nettleseren åpner seg på http://127.0.0.1:8765. Der kan du:
+
+- **Se alle tidligere runs** — leaderboard med alle fem dimensjonene, tid og tokens, dommerens fulle vurdering, hvert svar rendret, og historikk over tidligere dommere.
+- **Starte en ny run** — velg modeller (også egne `provider/modell`), effort, web-søk, tag, timeout og dommer. Planen til høyre viser nøyaktig hva som kalles og hva som gjenbrukes *før* du trykker start.
+- **Følge den live** — hver modell tikker mens den jobber, blir grønn når svaret er lagret, og leaderboarden dukker opp når dommeren er ferdig. Kan avbrytes underveis.
+- **Grade på nytt** med en annen dommer, rett fra en run-side.
+
+Dashboardet bruker nøyaktig de samme funksjonene som kommandolinjen, så buckets og caching oppfører seg likt — du kan fritt blande de to.
+
+**Prøv gratis:** `python dashboard.py --demo` falsker alle API-kall og jobber på en midlertidig kopi av `results/`.
+
+---
+
 ## Kjøre benchmarken
 
 ### Fullt kjør – ny datert mappe

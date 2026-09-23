@@ -30,6 +30,11 @@ XAI_API_KEY=...
 ## Common commands
 
 ```bash
+# Web dashboard (browse runs, start runs, watch them live) — http://127.0.0.1:8765
+python dashboard.py            # or double-click start_dashboard.bat
+python dashboard.py --demo     # fakes every API call on a temp copy of results/ — free
+
+
 # Run the benchmark. Lands in the bucket for this config and only calls the
 # contestants that don't already have a valid answer there.
 python haakonbench.py
@@ -118,6 +123,17 @@ So re-running a config **lands in the same bucket and only calls what's missing*
 
 1. **Run phase** — `CONTESTANTS` minus whatever the bucket already answered drives parallel async API calls via `LLMClient`. Each response is written to `results/{bucket}/{provider}__{model}.md`. The file header carries an `<!-- HB_META ... -->` block recording the date, wall-clock time, effort tier, max_tokens, prompt_sha and token usage (input/output/reasoning/total) so it survives `--regrade`. Because a bucket fills up over time, `date` matters: the efficiency table grows an **Answered** column whenever the answers in a bucket aren't all from the same day.
 2. **Grade phase** — **always runs over the whole bucket, even when nothing was called.** Grading is comparative and blind (responses are anonymised as letters A, B, C…), so one added contestant reshuffles everyone's letters and can move their scores — and it's a single cheap call next to the answers it ranks. The judge uses `GRADER_SYSTEM_TEMPLATE` + `GRADER_RUBRIC` to produce a scored markdown table plus hallucination callouts. Output goes to `_grades.md` (latest) *and* an archived copy under `_grades/{stamp}_{grader}.md`, so re-grading with a different judge doesn't erase the old verdict. Each verdict is stamped with an `HB_GRADE` header (grader, date, response count, bucket config) — scores depend on the grader and on the exact set compared, not just on the answers. The letter→model key is appended, followed by an **Efficiency — raw data** table joining each model's Total score against its time and token counts (sorted by score). The score column is parsed best-effort from the judge's table; if parsing fails it shows `—` but the token/time columns still populate.
+
+### Dashboard (`dashboard.py` + `dashboard/`)
+
+Flask server + vanilla-JS single page (`dashboard/index.html`, `app.js`, `app.css`; marked + DOMPurify from jsDelivr, no build step). It **imports `haakonbench` and drives the same functions as the CLI** (`resolve_run_dir`, `plan_contestants`, `run_contestant`, `save_result`, `grade_run`, `save_grades`), so a dashboard run and a CLI run of the same config land in the same bucket and reuse each other's answers. If you change the run loop in `haakonbench.main()`, mirror it in `Job._execute_run()`.
+
+- **One job at a time** (`JobManager`; a second start returns 409). A job runs `asyncio.run()` in a background thread; the browser follows it over Server-Sent Events (`/api/jobs/<id>/events`), each event a full JSON snapshot of the job.
+- **Plan = dry run.** `POST /api/plan` calls `plan_contestants()` against the would-be bucket without creating it; the UI shows to-call / reused / also-graded before anything is spent.
+- **Cancel** cancels the pending asyncio tasks. Cancelled contestants write nothing, so they count as missing next time; grading is skipped.
+- **`--demo`** swaps `hb.LLMClient` for `DemoLLMClient` (random sleeps, ~12% simulated failures, a correctly formatted verdict table) and points `hb.BASE_RESULTS_DIR` at a temp copy of `results/`. Use it to test UI changes without spending anything.
+- Score rows are parsed by `parse_score_rows()` (all five dimensions + verdict; tolerant of `**A**` letter cells), joined to models via the verdict's `## Key` block.
+- stdout/stderr are wrapped by `_JobTee`, so lines haakonbench prints on the job thread (grader retries etc.) show up in the browser log.
 
 ### Effort tiers (`--effort {low,medium,high,max}`)
 
