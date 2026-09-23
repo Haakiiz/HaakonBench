@@ -208,11 +208,11 @@ function boardHTML(board) {
   return `<table class="board">
     <thead><tr>
       <th>#</th><th>Modell</th>${DIMS.map(([, t]) => `<th class="dim">${t}</th>`).join("")}
-      <th>Total</th><th>Tid</th><th title="Output / reasoning / total">Tokens</th>${showSearch ? "<th>Søk</th>" : ""}
+      <th class="total">Total</th><th class="num">Tid</th><th class="num" title="Output / reasoning / total">Tokens</th>${showSearch ? "<th class=\"num\">Søk</th>" : ""}
     </tr></thead>
     <tbody>${rows.map((r, i) => `
       <tr ${r.label ? `data-answer="${esc(r.label)}"` : ""}>
-        <td class="rank">${i + 1}</td>
+        <td class="rank"><span class="rk">${i + 1}</span></td>
         <td><div class="model-cell">${pdot(r.provider)}<div><b>${esc(r.model)}</b> <span class="faint mono" style="font-size:11px">${esc(r.letter)}</span>
           ${r.verdict ? `<div class="verdict">${esc(r.verdict)}</div>` : ""}</div></div></td>
         ${DIMS.map(([k]) => `<td class="dim"><div class="v">${r[k] ?? "—"}</div><div class="bar ${scoreClass(r[k])}"><i style="width:${(r[k] || 0) * 10}%"></i></div></td>`).join("")}
@@ -297,19 +297,47 @@ async function openHistory(run, file, label) {
 }
 
 // ── Modal ────────────────────────────────────────────────────
+let modalReturnFocus = null;
 function modal(html) {
   const old = $("#modal");
   if (old) old.remove();
+  else modalReturnFocus = document.activeElement;
   const bg = document.createElement("div");
   bg.className = "modal-bg";
   bg.id = "modal";
-  bg.innerHTML = `<div class="card modal">${html}</div>`;
+  bg.innerHTML = `<div class="card modal" role="dialog" aria-modal="true">${html}</div>`;
+  const title = bg.querySelector("h3");
+  if (title) { title.id = "modal-title"; bg.firstElementChild.setAttribute("aria-labelledby", "modal-title"); }
   bg.addEventListener("click", (e) => { if (e.target === bg) closeModal(); });
   document.body.appendChild(bg);
   sfx("open");
   return bg;
 }
-function closeModal() { const m = $("#modal"); if (m) { m.remove(); sfx("close"); } }
+function closeModal() {
+  const m = $("#modal");
+  if (!m) return;
+  m.remove();
+  sfx("close");
+  const back = modalReturnFocus;
+  modalReturnFocus = null;
+  if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
+}
+// Keep Tab / Shift+Tab inside the open modal.
+function modalFocusables(box) {
+  return [...box.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])")]
+    .filter((el) => !el.disabled && !el.hidden && el.getClientRects().length);
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const box = $("#modal .modal");
+  if (!box) return;
+  const f = modalFocusables(box);
+  if (!f.length) { e.preventDefault(); return; }
+  const first = f[0], last = f[f.length - 1];
+  if (!box.contains(document.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+  else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 function confirmModal(title, bodyHTML, okText) {
   return new Promise((resolve) => {
@@ -346,6 +374,7 @@ function openRegrade(run) {
     <div class="field"><label>Dommer</label>${graderSelect("rg-grader", S.config.default_grader)}</div>
     <div class="btns"><button class="btn" data-no>Avbryt</button><button class="btn primary" data-yes>Start grading</button></div>`);
   wireGraderSelect("rg-grader");
+  $("#rg-grader").focus();
   m.querySelector("[data-no]").onclick = closeModal;
   m.querySelector("[data-yes]").onclick = async () => {
     try {
