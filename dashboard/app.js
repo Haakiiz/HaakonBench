@@ -600,8 +600,8 @@ function jobSfx(a, b) {
   const key = (m) => m.label || `${m.provider}/${m.model}`;
   const was = new Map((a.models || []).map((m) => [key(m), m.state]));
   const moved = (b.models || []).filter((m) => was.has(key(m)) && was.get(key(m)) !== m.state);
-  if (moved.some((m) => m.state === "failed" || m.state === "empty")) sfx("error");
-  else if (moved.some((m) => m.state === "done")) sfx("chirp");
+  if (moved.some((m) => m.state === "failed" || m.state === "empty")) sfx("blip");
+  else if (moved.some((m) => m.state === "done")) sfx("tick");
 }
 
 const currentSection = () => ((location.hash.slice(2) || "").split(/[/?]/)[0] || "runs");

@@ -37,8 +37,8 @@
     armed = true;
     if (!muted) ensure();
   }
-  window.addEventListener("pointerdown", arm, true);
-  window.addEventListener("keydown", arm, true);
+  // click/touchend too: iOS Safari only unlocks audio inside those handlers.
+  for (const ev of ["pointerdown", "keydown", "click", "touchend"]) window.addEventListener(ev, arm, true);
 
   // ── Building blocks ──────────────────────────────────────────
   // Envelope: fast attack, exponential decay to silence at t+dur.
@@ -84,10 +84,19 @@
     },
     // Heavy relay thunk: falling low sine body + dull noise knock + contact tick.
     clunk(t) {
-      tone(t, { type: "sine", f0: 150, f1: 48, dur: 0.16, peak: 0.95, attack: 0.002 });
-      tone(t, { type: "triangle", f0: 320, f1: 110, dur: 0.07, peak: 0.35, attack: 0.001 });
+      tone(t, { type: "sine", f0: 190, f1: 85, dur: 0.16, peak: 0.95, attack: 0.002 });
+      tone(t, { type: "triangle", f0: 380, f1: 170, dur: 0.12, peak: 0.3, attack: 0.001 });
       noise(t, { dur: 0.06, peak: 0.5, type: "lowpass", freq: 900, q: 0.9, attack: 0.001 });
       noise(t + 0.004, { dur: 0.02, peak: 0.3, type: "highpass", freq: 2800, attack: 0.001 });
+    },
+    // Soft tick: one model in a live job finished.
+    tick(t) {
+      tone(t, { type: "sine", f0: 1650, f1: 1400, dur: 0.04, peak: 0.15, attack: 0.002 });
+      noise(t, { dur: 0.02, peak: 0.08, type: "highpass", freq: 3500, attack: 0.001 });
+    },
+    // Short low blip: one model in a live job failed.
+    blip(t) {
+      tone(t, { type: "triangle", f0: 180, f1: 140, dur: 0.07, peak: 0.28, attack: 0.003, filter: { type: "lowpass", freq: 900 } });
     },
     // Console beep: short filtered square.
     beep(t) {
@@ -130,21 +139,32 @@
   // Several cues often fire for one action (a delegated click sound and an explicit hook,
   // e.g. clicking an answer → click + drawer open). They are collected for one tick and
   // only the highest-priority cue plays; on a tie the later (more specific) one wins.
-  const PRIORITY = { click: 0, beep: 1, close: 2, open: 3, clunk: 3, chirp: 4, done: 5, error: 5 };
-  let pending = null, timer = 0;
+  // Exception: a heavy press that opens a panel plays both — clunk now, the servo 60 ms later.
+  const PRIORITY = { click: 0, tick: 1, blip: 1, beep: 1, close: 2, open: 3, clunk: 3, chirp: 4, done: 5, error: 5 };
+  let pending = [], timer = 0;
   function flush() {
     timer = 0;
-    const name = pending;
-    pending = null;
-    if (!name || muted) return;
+    const cues = pending;
+    pending = [];
+    if (!cues.length || muted) return;
     const c = ensure();
     if (!c) return;
-    SFX.last = name;                  // handy for debugging / tests
-    try { SOUNDS[name](c.currentTime + 0.005); } catch { /* never let audio break the UI */ }
+    let seq;
+    if (cues.includes("clunk") && cues.includes("open")) seq = [["clunk", 0], ["open", 0.06]];
+    else {
+      let best = cues[0];
+      for (const n of cues) if (PRIORITY[n] >= PRIORITY[best]) best = n;
+      seq = [[best, 0]];
+    }
+    SFX.last = seq.map(([n]) => n).join("+");   // handy for debugging / tests
+    const t0 = c.currentTime + 0.005;
+    for (const [n, dt] of seq) {
+      try { SOUNDS[n](t0 + dt); } catch { /* never let audio break the UI */ }
+    }
   }
   function play(name) {
     if (!armed || muted || !AC || !SOUNDS[name]) return;
-    if (!pending || PRIORITY[name] >= PRIORITY[pending]) pending = name;
+    pending.push(name);
     if (!timer) timer = setTimeout(flush, 0);
   }
 
@@ -159,7 +179,7 @@
     muted = !!b;
     SFX.muted = muted;
     try { localStorage.setItem(KEY, muted ? "1" : "0"); } catch { /* storage blocked */ }
-    if (muted) { pending = null; }
+    if (muted) { pending = []; }
     if (ctx && master) {
       // Ramp rather than jump: also silences anything that is still ringing.
       const now = ctx.currentTime;
