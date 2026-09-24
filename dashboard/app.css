@@ -1022,7 +1022,7 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
 .model-row .model-toggle { flex: 1; min-width: 0; margin: 0; }
 .model-row .x {
   flex: none; display: grid; place-items: center; width: 30px; height: 30px; padding: 0;
-  font: inherit; font-size: 12px; line-height: 1; color: var(--faint); cursor: pointer;
+  font: inherit; font-size: 12px; line-height: 1; color: var(--muted); cursor: pointer;
   background: none; border: 1px solid transparent; border-radius: 2px;
   -webkit-tap-highlight-color: transparent; transition: color .1s, background .1s;
 }
@@ -1277,7 +1277,7 @@ select.input option { background: #16171a; color: #f4ecd8; }
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 34%; z-index: -1; pointer-events: none;
   background:
     linear-gradient(90deg, transparent, var(--run) 75%, #fff0c8) left top / 100% 3px no-repeat,
-    linear-gradient(90deg, transparent, rgba(255, 174, 46, .045) 55%, rgba(255, 174, 46, .13) 96%, rgba(255, 226, 160, .5) 99.5%, transparent);
+    linear-gradient(90deg, transparent, rgba(255, 174, 46, .045) 55%, rgba(255, 174, 46, .13) 96%, rgba(255, 226, 160, .28) 99.5%, transparent);
   transform: translateX(-100%);
   animation: scan 2.4s cubic-bezier(.45, .05, .55, .95) infinite;
   animation-delay: var(--ph, 0s);

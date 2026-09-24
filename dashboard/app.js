@@ -155,7 +155,8 @@ if (Boot.el) {
     // A click outside the command bar lands on content the boot screen still hides: dismiss only, don't activate.
     // (preventDefault on pointerdown doesn't cancel the click, so the matching click is swallowed too.)
     window.addEventListener("pointerdown", (e) => {
-      if (document.getElementById("boot") && e.target instanceof Element && !e.target.closest(".topbar")) {   // still on screen (incl. its exit)
+      const b = document.getElementById("boot");
+      if (b && !b.classList.contains("off") && e.target instanceof Element && !e.target.closest(".topbar")) {   // still covering the page (not yet fading out)
         e.preventDefault();
         const eat = (ev) => { ev.preventDefault(); ev.stopPropagation(); };
         window.addEventListener("click", eat, { capture: true, once: true });
