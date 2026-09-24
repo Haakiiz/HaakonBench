@@ -1017,8 +1017,17 @@ h2.section::after { content: ""; flex: 1; height: 1px; background: linear-gradie
   background: #0a0b0d; border: 1px solid #000; box-shadow: inset 0 1px 2px rgba(0, 0, 0, .8);
 }
 .model-toggle:not(.on) .knob { color: var(--faint); }
-.model-toggle .x { color: var(--faint); font-size: 12px; padding: 0 4px; }
-.model-toggle .x:hover { color: var(--bad); text-shadow: 0 0 6px var(--red-glow); }
+/* Custom model row: toggle + a sibling remove button */
+.model-row { display: flex; align-items: center; gap: 2px; margin: 2px 0; }
+.model-row .model-toggle { flex: 1; min-width: 0; margin: 0; }
+.model-row .x {
+  flex: none; display: grid; place-items: center; width: 30px; height: 30px; padding: 0;
+  font: inherit; font-size: 12px; line-height: 1; color: var(--faint); cursor: pointer;
+  background: none; border: 1px solid transparent; border-radius: 2px;
+  -webkit-tap-highlight-color: transparent; transition: color .1s, background .1s;
+}
+.model-row .x:hover { color: var(--bad); text-shadow: 0 0 6px var(--red-glow); background: rgba(255, 40, 32, .08); border-color: #000; }
+.model-row .x:active { transform: translateY(1px); }
 .add-row { display: flex; gap: 8px; margin-top: 12px; }
 
 .input, select.input {
@@ -1098,13 +1107,18 @@ select.input option { background: #16171a; color: #f4ecd8; }
 
 .toggle-row {
   display: flex; align-items: center; gap: 12px; padding: 11px 8px; margin: 0 -8px; cursor: pointer; border-radius: 2px;
-  border-top: 1px solid #000; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+  width: calc(100% + 16px); text-align: left; font: inherit; color: inherit; background: none;   /* <button> reset */
+  border: 0; border-top: 1px solid #000; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
   transition: background .1s;
+  -webkit-tap-highlight-color: transparent;
 }
+/* Keyboard focus: amber frame on the row + the lever's slot lights up */
+.toggle-row:focus-visible { outline-offset: -2px; box-shadow: none; background: linear-gradient(90deg, rgba(255, 194, 26, .08), transparent 70%); }
+.toggle-row:focus-visible .switch { box-shadow: var(--recess), 0 0 0 2px var(--accent), 0 0 10px var(--accent-glow); }
 .toggle-row:first-of-type { border-top: 0; box-shadow: none; }
 .toggle-row:hover { background: linear-gradient(90deg, rgba(255, 40, 32, .07), transparent 70%); }
 .toggle-row:hover .switch:not(.on) { box-shadow: var(--recess), 0 0 0 1px rgba(255, 59, 48, .35); }
-.toggle-row .txt { flex: 1; }
+.toggle-row .txt { flex: 1; display: block; }
 .toggle-row .txt b { display: block; font-weight: 600; color: #fff; }
 .toggle-row .txt span { font-size: 12.5px; color: var(--muted); }
 /* Switch: toggle lever in a recessed slot */
@@ -1258,9 +1272,9 @@ select.input option { background: #16171a; color: #f4ecd8; }
 .mcard.running { --edge-c: var(--run); box-shadow: var(--bevel), inset 3px 0 0 var(--edge-c), 0 0 0 1px rgba(255, 174, 46, .45), 0 0 0 2px #000, 0 0 14px rgba(255, 174, 46, .14), var(--drop); }
 /* Running: a scan beam sweeps the card left → right (under the text), bright cap along the top edge.
    Phase-locked via --ph so the SSE re-render doesn't restart it. */
-.mcard.running > * { position: relative; z-index: 1; }
+.mcard.running { isolation: isolate; }   /* the beam's z-index:-1 stays inside the card, under all its text */
 .mcard.running::before {
-  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 34%; z-index: 0; pointer-events: none;
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 34%; z-index: -1; pointer-events: none;
   background:
     linear-gradient(90deg, transparent, var(--run) 75%, #fff0c8) left top / 100% 3px no-repeat,
     linear-gradient(90deg, transparent, rgba(255, 174, 46, .045) 55%, rgba(255, 174, 46, .13) 96%, rgba(255, 226, 160, .5) 99.5%, transparent);
@@ -1628,6 +1642,16 @@ select.input option { background: #16171a; color: #f4ecd8; }
   #prompt-chip { display: none; }
   .topbar { padding: 0 22px; gap: 14px; }
 }
+/* Judge verdict tables up to ~1000px: caps headers may wrap (whole words), and wide comparison tables
+   (6+ columns, e.g. the score table) keep the one-line verdict readable — the rest scrolls sideways. */
+@media (max-width: 1000px) {
+  .md th { white-space: normal; overflow-wrap: normal; word-break: normal; font-size: 10.5px; letter-spacing: .02em; text-transform: none; }
+  .md th, .md td { padding-left: 6px; padding-right: 6px; }
+  .md table:has(tr > :nth-child(6)) td:last-child { min-width: 220px; }
+}
+/* The drawer is ≤900px wide at every viewport, so the archived verdicts it shows get the same treatment */
+.drawer-body .md th { white-space: normal; overflow-wrap: normal; word-break: normal; font-size: 10.5px; letter-spacing: .02em; }
+.drawer-body .md table:has(tr > :nth-child(6)) td:last-child { min-width: 220px; }
 @media (max-width: 760px) {
   .brand span { font-size: 18px; letter-spacing: .05em; }
   .brand { gap: 8px; }
@@ -1681,12 +1705,10 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .add-row { flex-wrap: wrap; }
   .add-row .input { flex: 1 1 100%; font-size: 11.5px; padding-left: 9px; padding-right: 9px; letter-spacing: 0; }
   .add-row .btn { width: 100%; }
-  /* Judge verdict tables: wrap caps headers, keep the verdict column readable, scroll the rest */
+  /* Judge verdict tables: smaller type and cells on phones (wrapping + verdict width: see the 1000px block) */
   .md table { font-size: 12.5px; }
-  .md th { white-space: normal; overflow-wrap: normal; word-break: normal; font-size: 10.5px; letter-spacing: .02em; text-transform: none; }
+  .md th { font-size: 10.5px; letter-spacing: .02em; text-transform: none; }
   .md th, .md td { padding: 5px 6px; }
-  /* Only wide comparison tables (6+ columns, e.g. the score table) reserve room for the verdict text */
-  .md table:has(tr > :nth-child(6)) td:last-child { min-width: 240px; }
   /* Selects: fit the full option text in narrow modals */
   select.input { font-size: 13px; padding-left: 9px; padding-right: 30px; }
   .modal { padding: 0 16px 16px; }

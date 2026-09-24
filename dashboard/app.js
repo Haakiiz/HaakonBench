@@ -152,7 +152,17 @@ if (Boot.el) {
     // Skippable: any click / key dismisses it. The overlay is pointer-events:none and both listeners are
     // passive capture listeners, so the click or key still reaches its real target. Hard cap 1.5 s.
     const skip = () => bootDone(true);
-    window.addEventListener("pointerdown", skip, { capture: true, once: true });
+    // A click outside the command bar lands on content the boot screen still hides: dismiss only, don't activate.
+    // (preventDefault on pointerdown doesn't cancel the click, so the matching click is swallowed too.)
+    window.addEventListener("pointerdown", (e) => {
+      if (document.getElementById("boot") && e.target instanceof Element && !e.target.closest(".topbar")) {   // still on screen (incl. its exit)
+        e.preventDefault();
+        const eat = (ev) => { ev.preventDefault(); ev.stopPropagation(); };
+        window.addEventListener("click", eat, { capture: true, once: true });
+        setTimeout(() => window.removeEventListener("click", eat, { capture: true }), 600);
+      }
+      skip();
+    }, { capture: true, once: true });
     window.addEventListener("keydown", skip, { capture: true, once: true });
     setTimeout(skip, 1500);
   }
@@ -343,7 +353,8 @@ view.addEventListener("keydown", (e) => {
 // A stable selector for a focusable element, so focus can be put back on its re-rendered twin.
 function focusKey(el) {
   if (!el || el === document.body || !(el instanceof Element)) return null;
-  for (const a of ["data-live-answer", "data-answer", "data-history", "data-tab", "data-nav", "data-regrade"]) {
+  for (const a of ["data-live-answer", "data-answer", "data-history", "data-tab", "data-nav", "data-regrade",
+    "data-spec", "data-effort", "data-toggle", "data-all", "data-remove"]) {
     if (el.hasAttribute(a)) return `${el.tagName.toLowerCase()}[${a}="${CSS.escape(el.getAttribute(a))}"]`;
   }
   if (el.id) return "#" + CSS.escape(el.id);
@@ -437,7 +448,7 @@ async function openHistory(run, file, label) {
 let modalReturnFocus = null;
 function modal(html) {
   const old = $("#modal");
-  if (old) old.remove();
+  if (old) { const cb = old.onModalClose; old.onModalClose = null; old.remove(); if (cb) cb(); }
   else modalReturnFocus = document.activeElement;
   document.querySelectorAll(".modal-bg.closing").forEach((n) => n.remove());   // a dialog still powering off
   const bg = document.createElement("div");
@@ -464,6 +475,9 @@ function closeModal() {
   m.classList.add("closing");
   if (reduceMotion()) m.remove(); else setTimeout(() => m.remove(), 170);
   sfx("close");
+  const cb = m.onModalClose;   // e.g. confirmModal resolving false on Escape / backdrop
+  m.onModalClose = null;
+  if (cb) cb();
   const back = modalReturnFocus;
   modalReturnFocus = null;
   if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
@@ -489,8 +503,9 @@ function confirmModal(title, bodyHTML, okText) {
   return new Promise((resolve) => {
     const m = modal(`<h3>${esc(title)}</h3><div class="muted">${bodyHTML}</div>
       <div class="btns"><button class="btn" data-no>Avbryt</button><button class="btn primary" data-yes>${esc(okText)}</button></div>`);
-    m.querySelector("[data-no]").onclick = () => { closeModal(); resolve(false); };
-    m.querySelector("[data-yes]").onclick = () => { closeModal(); resolve(true); };
+    m.onModalClose = () => resolve(false);            // Avbryt, Escape, backdrop click, or replaced by another modal
+    m.querySelector("[data-no]").onclick = () => closeModal();
+    m.querySelector("[data-yes]").onclick = () => { resolve(true); closeModal(); };
     m.querySelector("[data-yes]").focus();
   });
 }
@@ -587,6 +602,9 @@ function allModels() {
 
 function drawForm() {
   const f = S.form, c = S.config;
+  // The form is re-rendered on every change: put focus back on the twin of the control that had it.
+  const act = document.activeElement, host = $("#form");
+  const keep = act && host && host.contains(act) ? { el: null, key: focusKey(act) } : null;
   const models = allModels();
   const groups = PROVIDER_ORDER.map((p) => [p, models.filter((m) => m.provider === p)]).filter(([, l]) => l.length);
   $("#form").innerHTML = `
@@ -598,13 +616,15 @@ function drawForm() {
           <div class="prov-head">${pdot(p)} ${esc(PROVIDER_NAME[p])}
             ${c.providers[p] && !c.providers[p].key ? `<span class="nokey">mangler API-nøkkel</span>` : ""}
             <button class="link-btn" data-all="${p}">${list.every((m) => f.selected.has(m.spec)) ? "ingen" : "alle"}</button></div>
-          ${list.map((m) => `
-            <button class="model-toggle ${f.selected.has(m.spec) ? "on" : ""}" data-spec="${esc(m.spec)}">
-              <span class="box">${f.selected.has(m.spec) ? "✓" : ""}</span>
+          ${list.map((m) => {
+            const toggle = `<button type="button" class="model-toggle ${f.selected.has(m.spec) ? "on" : ""}" data-spec="${esc(m.spec)}" aria-pressed="${f.selected.has(m.spec)}">
+              <span class="box" aria-hidden="true">${f.selected.has(m.spec) ? "✓" : ""}</span>
               <span class="name" title="${esc(m.model)}">${esc(m.model)}</span>
               ${m.knobs[f.effort] ? `<span class="knob" title="Effort-nivå sendt til denne modellen">${esc(m.knobs[f.effort])}</span>` : ""}
-              ${m.custom ? `<span class="x" data-remove="${esc(m.spec)}" title="Fjern">✕</span>` : ""}
-            </button>`).join("")}
+            </button>`;
+            // Custom rows: the remove control is a sibling button (a button can't hold another button)
+            return m.custom ? `<div class="model-row">${toggle}<button type="button" class="x" data-remove="${esc(m.spec)}" aria-label="Fjern" title="Fjern">✕</button></div>` : toggle;
+          }).join("")}
         </div>`).join("")}
       </div>
       <div class="add-row">
@@ -616,10 +636,10 @@ function drawForm() {
     <section class="card form-section">
       <h3>Effort</h3>
       <p class="hint">Oversettes til hver leverandørs eget nivå (se tallet ved hver modell). Setter også token-budsjettet.</p>
-      <div class="seg">${c.tiers.map((t) => `<button data-effort="${t.name}" class="${f.effort === t.name ? "on" : ""}"><b>${t.name}</b><span>${fmtTok(t.max_tokens)} tokens</span></button>`).join("")}</div>
+      <div class="seg">${c.tiers.map((t) => `<button type="button" data-effort="${t.name}" class="${f.effort === t.name ? "on" : ""}" aria-pressed="${f.effort === t.name}"><b>${t.name}</b><span>${fmtTok(t.max_tokens)} tokens</span></button>`).join("")}</div>
       <div style="margin-top:14px">
-        <div class="toggle-row" data-toggle="web_search"><div class="txt"><b>Web-søk</b><span>Slå på hver leverandørs server-side søk. Av = kun egen kunnskap.</span></div><span class="switch ${f.web_search ? "on" : ""}"></span></div>
-        <div class="toggle-row" data-toggle="refresh"><div class="txt"><b>Ignorer cache</b><span>Kall alle valgte modeller på nytt, selv om de allerede har svart på denne configen.</span></div><span class="switch ${f.refresh ? "on" : ""}"></span></div>
+        <button type="button" class="toggle-row" data-toggle="web_search" role="switch" aria-checked="${!!f.web_search}"><span class="txt"><b>Web-søk</b><span>Slå på hver leverandørs server-side søk. Av = kun egen kunnskap.</span></span><span class="switch ${f.web_search ? "on" : ""}" aria-hidden="true"></span></button>
+        <button type="button" class="toggle-row" data-toggle="refresh" role="switch" aria-checked="${!!f.refresh}"><span class="txt"><b>Ignorer cache</b><span>Kall alle valgte modeller på nytt, selv om de allerede har svart på denne configen.</span></span><span class="switch ${f.refresh ? "on" : ""}" aria-hidden="true"></span></button>
       </div>
       <div class="fields">
         <div class="field"><label for="tag">Tag (valgfri)</label><input class="input" id="tag" value="${esc(f.tag)}" placeholder="f.eks. variance-2 → egen bucket"></div>
@@ -630,20 +650,21 @@ function drawForm() {
     <section class="card form-section">
       <h3>Jury</h3>
       <p class="hint">Dommeren leser alle svarene i bucketen anonymt (A, B, C…) og faktasjekker mot <code>wow_reference.yaml</code>.</p>
-      <div class="toggle-row" data-toggle="grade" style="border-top:0"><div class="txt"><b>Grade etter run</b><span>Av = bare samle inn svar (billig tilkoblingstest).</span></div><span class="switch ${f.grade ? "on" : ""}"></span></div>
+      <button type="button" class="toggle-row" data-toggle="grade" role="switch" aria-checked="${!!f.grade}" style="border-top:0"><span class="txt"><b>Grade etter run</b><span>Av = bare samle inn svar (billig tilkoblingstest).</span></span><span class="switch ${f.grade ? "on" : ""}" aria-hidden="true"></span></button>
       <div class="field" ${f.grade ? "" : "hidden"}><label for="grader">Dommer</label>${graderSelect("grader", f.grader)}</div>
     </section>`;
 
   const F = $("#form");
-  F.querySelectorAll("[data-spec]").forEach((b) => (b.onclick = (e) => {
-    if (e.target.closest("[data-remove]")) {
-      const spec = e.target.closest("[data-remove]").dataset.remove;
-      f.custom = f.custom.filter((s) => s !== spec);
-      f.selected.delete(spec);
-    } else {
-      f.selected.has(b.dataset.spec) ? f.selected.delete(b.dataset.spec) : f.selected.add(b.dataset.spec);
-    }
+  F.querySelectorAll("[data-spec]").forEach((b) => (b.onclick = () => {
+    f.selected.has(b.dataset.spec) ? f.selected.delete(b.dataset.spec) : f.selected.add(b.dataset.spec);
     drawForm(); refreshPlan();
+  }));
+  F.querySelectorAll("[data-remove]").forEach((b) => (b.onclick = () => {
+    const spec = b.dataset.remove, had = document.activeElement === b;
+    f.custom = f.custom.filter((s) => s !== spec);
+    f.selected.delete(spec);
+    drawForm(); refreshPlan();
+    if (had) $("#custom-model").focus({ preventScroll: true });   // its row is gone: land on the add field
   }));
   F.querySelectorAll("[data-all]").forEach((b) => (b.onclick = () => {
     const list = allModels().filter((m) => m.provider === b.dataset.all);
@@ -666,6 +687,7 @@ function drawForm() {
   $("#add-model").onclick = add;
   $("#custom-model").onkeydown = (e) => { if (e.key === "Enter") add(); };
   if (f.grade) wireGraderSelect("grader", () => { f.grader = readGrader("grader"); drawPlan(); });
+  if (keep) refocus(keep);
 }
 
 function formPayload() {
