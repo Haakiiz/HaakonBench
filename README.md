@@ -4,6 +4,15 @@ Send den samme prompten til alle store LLM-leverandører parallelt, og la en dom
 
 Oppgaven er den samme hver gang: **skriv den beste fiskeguiden en level 60 Human Warrior i WoW Classic noensinne kommer til å lese.** Karakteren har ubegrenset tid, men kan ikke dø og kan ikke sitte og passe på skjermen. Alt må være AFK-trygt. Svarene fakstsjekkes mot `wow_reference.yaml`, en kuratert fil med verifiserte Classic-fakta — så modeller som finner på tall og oppskrifter blir tatt.
 
+<p align="center">
+  <img src="docs/screenshots/leaderboard.jpg" alt="HåkonBench-dashboardet: leaderboard med poeng per dimensjon, tid og tokens for hver modell" width="100%">
+</p>
+
+<p align="center">
+  <b>Et kommandosenter for LLM-er.</b> Start runs, følg dem live og les dommerens dom — i et dashboard inspirert av sene 90-talls strategispill.<br>
+  <a href="#-dashboard-anbefalt">Se flere skjermbilder ↓</a> · Prøv gratis: <code>python dashboard.py --demo</code>
+</p>
+
 ---
 
 ## 📊 Siste resultater — 14. august 2026
@@ -155,16 +164,48 @@ Dobbeltklikk `start_dashboard.bat`, eller:
 python dashboard.py
 ```
 
-Nettleseren åpner seg på http://127.0.0.1:8765. Der kan du:
+Nettleseren åpner seg på http://127.0.0.1:8765.
 
-- **Se alle tidligere runs** — leaderboard med alle fem dimensjonene, tid og tokens, dommerens fulle vurdering, hvert svar rendret, og historikk over tidligere dommere.
-- **Starte en ny run** — velg modeller (også egne `provider/modell`), effort, web-søk, tag, timeout og dommer. Planen til høyre viser nøyaktig hva som kalles og hva som gjenbrukes *før* du trykker start.
-- **Følge den live** — hver modell tikker mens den jobber, blir grønn når svaret er lagret, og leaderboarden dukker opp når dommeren er ferdig. Kan avbrytes underveis.
-- **Grade på nytt** med en annen dommer, rett fra en run-side.
+> 💡 **Prøv gratis først:** `python dashboard.py --demo` falsker alle API-kall og jobber på en midlertidig kopi av `results/`. Du kan trykke på alt uten at det koster en krone.
 
-Dashboardet bruker nøyaktig de samme funksjonene som kommandolinjen, så buckets og caching oppfører seg likt — du kan fritt blande de to.
+### Alle runs på ett sted
 
-**Prøv gratis:** `python dashboard.py --demo` falsker alle API-kall og jobber på en midlertidig kopi av `results/`.
+Hver run er et eget kort med vinneren og poengsummen. Gule tall er poeng av 50.
+
+<img src="docs/screenshots/runs.jpg" alt="Oversikt over alle runs, med vinner og poeng per run" width="100%">
+
+### Start en ny run — og se prisen før du trykker
+
+Velg modeller (også egne `provider/modell`), effort, web-søk, tag, timeout og dommer. **Planen til høyre er en gratis prøvekjøring:** den viser nøyaktig hvor mange betalte API-kall som vil skje, og hvilke svar som gjenbrukes fordi de allerede finnes.
+
+<img src="docs/screenshots/new-run.jpg" alt="Ny run-skjemaet med modellvalg og planpanelet som viser antall API-kall" width="100%">
+
+### Følg den live
+
+Hver modell får sitt eget kort som tikker mens den jobber. Det lyser grønt når svaret er lagret og rødt hvis noe feiler. Når alle har svart, grader dommeren hele bucketen, og leaderboarden dukker opp. Du kan avbryte underveis.
+
+<img src="docs/screenshots/live.jpg" alt="Live-visning av en run som pågår, med ett kort per modell" width="100%">
+
+<sub>Skjermbildet er tatt i `--demo`-modus, så svarene er falske.</sub>
+
+### Les svarene og dommen
+
+Klikk på en modell for å lese hele svaret. Fanen «Dommerens vurdering» viser dommerens fulle tabell, begrunnelser og faktasjekk. Under «Historikk» ligger tidligere dommer, og **⚖ Grade på nytt** lar deg bytte dommer rett fra run-siden.
+
+| Et svar | Dommerens vurdering |
+|---|---|
+| <img src="docs/screenshots/answer.jpg" alt="Et modellsvar åpnet i sidepanelet"> | <img src="docs/screenshots/verdict.jpg" alt="Dommerens karaktertabell med én linje begrunnelse per svar"> |
+
+### Funker på mobil også
+
+<img src="docs/screenshots/mobile.jpg" alt="Dashboardet på mobil: runs-lista, leaderboard og live-visning" width="100%">
+
+### Godt å vite
+
+- **Lyd:** knapper og hendelser har små syntetiske lydeffekter, som klikk, «klonk» og radar-pip. Ingenting spiller før du har klikket første gang, og høyttalerknappen oppe til høyre slår lyden av. Valget huskes til neste gang.
+- **Tastatur:** alt kan brukes uten mus. Tab flytter mellom knapper, Enter eller mellomrom trykker, og Escape lukker vinduer.
+- **Rolig modus:** har du slått på «reduser bevegelse» i operativsystemet, skrus alle animasjoner av.
+- **Samme motor som kommandolinjen:** dashboardet bruker nøyaktig de samme funksjonene som `haakonbench.py`. Buckets og caching oppfører seg derfor likt, og du kan fritt blande de to.
 
 ---
 
@@ -355,6 +396,9 @@ python haakonbench.py --grader-model google/gemini-3.5-flash
 | Fil | Hva den gjør |
 |---|---|
 | `haakonbench.py` | Benchmark-runner + grader |
+| `dashboard.py` | Web-dashboardet (Flask-server) — start med `python dashboard.py` |
+| `dashboard/` | Selve nettsiden: `index.html`, `app.js`, `app.css` og `sound.js` (lydeffektene) |
+| `docs/screenshots/` | Skjermbildene i denne README-en |
 | `llm_client.py` | Unified async-klient for alle 4 leverandører |
 | `config.yaml` | Standard provider/modell for `LLMClient` (ikke graderen) |
 | `requirements.txt` | Python-avhengigheter |
