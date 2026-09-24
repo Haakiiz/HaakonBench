@@ -25,6 +25,10 @@ const md = (t) => DOMPurify.sanitize(marked.parse(t || ""));
 const enc = encodeURIComponent;
 // Sound hook — safe no-op if sound.js failed to load.
 const sfx = (name) => { try { if (window.SFX) window.SFX.play(name); } catch { /* ignore */ } };
+const reduceMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+// Phase-locked animation delay for looping effects on elements that SSE re-renders every event:
+// a fresh node joins the loop where the old one was instead of restarting it (no stutter).
+const phase = (ms) => `-${(Date.now() % ms) / 1000}s`;
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
@@ -37,10 +41,16 @@ function toast(msg, bad = false) {
   const t = $("#toast");
   t.textContent = msg;
   t.className = "toast" + (bad ? " bad" : "");
+  clearTimeout(toast._h);
+  if (!t.hidden) { t.style.animation = "none"; void t.offsetWidth; t.style.animation = ""; }   // replay the slide-in
   t.hidden = false;
   if (bad) sfx("error");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => (t.hidden = true), bad ? 7000 : 3500);
+  toast._t = setTimeout(() => {
+    if (reduceMotion()) { t.hidden = true; return; }
+    t.classList.add("out");                       // slide back down, then hide
+    toast._h = setTimeout(() => { t.hidden = true; t.classList.remove("out"); }, 200);
+  }, bad ? 7000 : 3500);
 }
 
 // ── Formatting ───────────────────────────────────────────────
@@ -75,6 +85,7 @@ function route() {
   document.querySelectorAll("[data-nav]").forEach((a) =>
     a.classList.toggle("active", a.dataset.nav === (section === "run" ? "runs" : section)));
   closeDrawer();
+  screenSwap();
   if (section === "run" && parts[1]) return renderRun(decodeURIComponent(parts[1]));
   if (section === "new") return renderNew(params);
   if (section === "live") return renderLive();
@@ -83,11 +94,70 @@ function route() {
 window.addEventListener("hashchange", route);
 
 function loading(msg = "Laster…") {
-  view.innerHTML = `<div class="empty"><span class="spin"></span><p>${esc(msg)}</p></div>`;
+  view.innerHTML = `<div class="empty loading"><span class="spin" aria-hidden="true"></span><p>${esc(msg)}</p></div>`;
 }
 function failView(e) {
-  view.innerHTML = `<div class="empty"><h3>Noe gikk galt</h3><p>${esc(e.message || e)}</p><a class="btn" href="#/">Til runs</a></div>`;
+  view.innerHTML = `<div class="empty fail"><h3>Noe gikk galt</h3><p>${esc(e.message || e)}</p><a class="btn" href="#/">Til runs</a></div>`;
 }
+
+// ── Screen swap + boot screen (decorative; skipped under reduced motion) ──
+// On a route change the #swap-veil blanks the old screen at once, then a scan beam sweeps down and
+// reveals the new one as soon as it has rendered (or after 260 ms, revealing the loading screen).
+// Only route() arms it — SSE re-renders and tab redraws never replay it.
+const Swap = { pending: false, hold: 0, done: 0, first: true };
+const isLoadingView = () => !!view.querySelector(":scope > .empty.loading");
+function screenSwap() {
+  if (Swap.first) { Swap.first = false; return; }   // first route: the boot screen does the reveal
+  const v = $("#swap-veil");
+  if (!v || reduceMotion()) return;
+  clearTimeout(Swap.done);
+  v.classList.remove("sweep");
+  view.classList.remove("entering");
+  v.classList.add("hold");
+  Swap.pending = true;
+  clearTimeout(Swap.hold);
+  Swap.hold = setTimeout(sweep, 260);
+}
+function sweep() {
+  const v = $("#swap-veil");
+  clearTimeout(Swap.hold);
+  Swap.pending = false;
+  v.classList.remove("hold");
+  void v.offsetWidth;
+  v.classList.add("sweep");
+  view.classList.add("entering");
+  clearTimeout(Swap.done);
+  Swap.done = setTimeout(() => { v.classList.remove("sweep"); view.classList.remove("entering"); }, 480);
+}
+const Boot = { el: $("#boot") };
+function bootDone(now) {
+  const b = Boot.el;
+  if (!b) return;
+  Boot.el = null;
+  // Keep the decorative lines up for at least ~340 ms after navigation start, never longer:
+  // total cost is ≤ ~560 ms even on an instant server, and 0 extra when /api/config is slow.
+  const wait = now ? 0 : Math.max(0, 340 - performance.now());
+  setTimeout(() => {
+    b.classList.add("off");
+    view.classList.add("entering");
+    setTimeout(() => { b.remove(); view.classList.remove("entering"); }, 300);
+  }, wait);
+}
+if (Boot.el) {
+  if (reduceMotion()) { Boot.el.remove(); Boot.el = null; }
+  else {
+    // Skippable: any click / key dismisses it (the key still reaches the page). Hard cap 1.5 s.
+    const skip = () => bootDone(true);
+    Boot.el.addEventListener("pointerdown", skip);
+    window.addEventListener("keydown", skip, { capture: true, once: true });
+    setTimeout(skip, 1500);
+  }
+}
+new MutationObserver(() => {
+  if (isLoadingView() || !view.firstElementChild) return;
+  if (Swap.pending) sweep();
+  if (Boot.el) bootDone(false);
+}).observe(view, { childList: true });
 
 // ── Runs list ────────────────────────────────────────────────
 async function renderRuns() {
@@ -104,7 +174,7 @@ async function renderRuns() {
     </div>
     ${buckets.length ? `<div class="runs-grid">${buckets.map(runCard).join("")}</div>` :
       `<div class="card empty"><h3>Ingen runs ennå</h3><p>Start din første run.</p><a class="btn primary" href="#/new">Ny run</a></div>`}
-    ${legacy.length ? `<h2 class="section">Eldre runs · før config-buckets</h2><div class="runs-grid">${legacy.map(runCard).join("")}</div>` : ""}`;
+    ${legacy.length ? `<h2 class="section">Eldre runs · før config-buckets</h2><div class="runs-grid legacy">${legacy.map(runCard).join("")}</div>` : ""}`;
 }
 
 function configChips(m, r = {}) {
@@ -168,7 +238,14 @@ async function renderRun(name) {
       ${d.ungraded.length ? `<div class="note warn" style="margin:-8px 0 16px"><b>${d.ungraded.length} svar er ikke med i siste grading:</b> ${d.ungraded.map((l) => `<code>${esc(l)}</code>`).join(", ")}. Grade på nytt for å få dem med i sammenligningen.</div>` : ""}
       <div class="tabs">${tabs.map(([k, t]) => `<button data-tab="${k}" class="${S.runTab === k ? "active" : ""}">${esc(t)}</button>`).join("")}</div>
       <div id="tab-body">${tabBody(d)}</div>`;
-    view.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => { S.runTab = b.dataset.tab; draw(); }));
+    view.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => {
+      const hadFocus = document.activeElement === b;
+      S.runTab = b.dataset.tab;
+      draw();
+      const tb = $("#tab-body");
+      if (tb) tb.classList.add("tab-in");   // fresh node each click → the fade plays once per switch
+      if (hadFocus) refocus({ key: focusKey(b) });
+    }));
     $("#regrade-btn").onclick = () => openRegrade(d.name);
     wireAnswerClicks(view, d.name);
     view.querySelectorAll("[data-history]").forEach((el) => (el.onclick = () => openHistory(d.name, el.dataset.history, el.dataset.label)));
@@ -241,7 +318,11 @@ function answerItem(a) {
 function wireAnswerClicks(root, runName) {
   root.querySelectorAll("[data-answer]").forEach((el) => {
     el.onclick = () => openAnswer(runName, el.dataset.answer);
-    if (el.tagName === "TR") el.tabIndex = 0;   // leaderboard rows: keyboard-operable (Enter/Space below)
+    if (el.tagName === "TR") {   // leaderboard rows: keyboard-operable (Enter/Space below)
+      el.tabIndex = 0;
+      const name = el.querySelector(".model-cell b");
+      if (name) el.setAttribute("aria-label", `Åpne svar: ${name.textContent}`);
+    }
   });
 }
 
@@ -370,7 +451,12 @@ function modal(html) {
 function closeModal() {
   const m = $("#modal");
   if (!m) return;
-  m.remove();
+  // CRT power-off: the dying dialog loses its id (so it no longer counts as "the modal"),
+  // goes inert, collapses to a line and is removed.
+  m.removeAttribute("id");
+  m.inert = true;
+  m.classList.add("closing");
+  if (reduceMotion()) m.remove(); else setTimeout(() => m.remove(), 170);
   sfx("close");
   const back = modalReturnFocus;
   modalReturnFocus = null;
@@ -734,7 +820,7 @@ function drawLive() {
   view.innerHTML = `
     <div class="card live-head">
       <div>
-        <div class="live-status ${j.status}"><span class="ind"></span>${STATUS_TXT[j.status] || j.status}${j.kind === "regrade" ? " · regrade" : ""}</div>
+        <div class="live-status ${j.status}"><span class="ind" style="--ph:${phase(1400)}"></span>${STATUS_TXT[j.status] || j.status}${j.kind === "regrade" ? " · regrade" : ""}</div>
         <div class="live-meta">${j.bucket ? `<a href="#/run/${enc(j.bucket)}" class="mono">${esc(j.bucket)}</a>` : "…"}
           ${j.kind === "run" ? ` · effort ${esc(j.params.effort)} · web-søk ${j.params.web_search ? "på" : "av"}${j.params.timeout ? ` · timeout ${j.params.timeout}s` : ""}` : ""}</div>
       </div>
@@ -743,7 +829,7 @@ function drawLive() {
         <span class="elapsed tick" data-since="${j.started}" ${j.finished ? `data-until="${j.finished}"` : ""}>${fmtDur((j.finished || serverNow()) - j.started)}</span>
         ${j.active ? `<button class="btn danger" id="cancel" ${j.cancel_requested ? "disabled" : ""}>${j.cancel_requested ? "Avbryter…" : "■ Avbryt"}</button>` : ""}
       </div>
-      <div class="progress"><i style="width:${Math.min(100, pct)}%"></i></div>
+      <div class="progress ${j.active ? "active" : ""}" style="--ph:${phase(2000)}"><i style="width:${Math.min(100, pct)}%"></i></div>
     </div>
 
     ${j.error ? `<div class="note bad" style="margin:0 0 16px"><b>Feil:</b> ${esc(j.error)}</div>` : ""}
@@ -755,6 +841,14 @@ function drawLive() {
     <details class="log" ${S.logOpen ? "open" : ""}><summary>Logg (${j.logs.length})</summary>
       <pre>${esc(j.logs.map((l) => `${new Date(l.t * 1000).toLocaleTimeString("nb-NO")}  ${l.msg}`).join("\n")) || "—"}</pre></details>`;
 
+  // Gauge: the bar is a fresh node every event, so glide it from where the last one stood.
+  const bar = $(".progress > i"), target = Math.min(100, pct);
+  if (bar && S.gauge && S.gauge.id === j.id && S.gauge.pct !== target && !reduceMotion()) {
+    bar.style.width = S.gauge.pct + "%";
+    void bar.offsetWidth;
+    bar.style.width = target + "%";
+  }
+  S.gauge = { id: j.id, pct: target };
   const pre = $(".log pre");
   if (pre && logNearBottom) pre.scrollTop = pre.scrollHeight;
   $(".log").addEventListener("toggle", (e) => (S.logOpen = e.target.open));
@@ -788,9 +882,9 @@ function modelCard(m, j) {
   } else if (m.state === "cancelled") {
     body = `<div class="small">Avbrutt — ingenting lagret.</div>`;
   }
-  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}>
+  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}${m.state === "running" ? ` style="--ph:${phase(2400)}"` : ""}>
     <div class="top">${pdot(m.provider)}<b title="${esc(m.model)}">${esc(m.model)}</b>
-      <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
+      <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px;--ph:${phase(1400)}"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
     ${body}
   </div>`;
 }
@@ -806,7 +900,7 @@ function gradingCard(j) {
     right = `<span class="status queued">Venter</span>`;
     body = j.active ? `<p class="muted" style="margin:10px 0 0">Starter når alle modellene har svart. Hele bucketen grades blindt i ett kall.</p>` : "";
   } else if (g.state === "running") {
-    right = `<span class="status running"><span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px"></span> Grader ${g.count} svar</span>
+    right = `<span class="status running"><span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px;--ph:${phase(1400)}"></span> Grader ${g.count} svar</span>
       <span class="elapsed tick" style="font-size:15px" data-since="${g.started}">${fmtDur(serverNow() - g.started)}</span>`;
     body = `<p class="muted" style="margin:10px 0 0">Dommeren leser alle svarene og faktasjekker mot referansedataene. Dette tar gjerne 1–4 minutter.</p>`;
   } else if (g.state === "done") {
@@ -834,10 +928,11 @@ setInterval(() => {
 
 // ── Boot ─────────────────────────────────────────────────────
 (async function boot() {
+  loading();
   try {
     S.config = await api("/api/config");
   } catch (e) {
-    view.innerHTML = `<div class="empty"><h3>Får ikke kontakt med serveren</h3><p>${esc(e.message)}</p><p>Kjør <code>python dashboard.py</code>.</p></div>`;
+    view.innerHTML = `<div class="empty fail"><h3>Får ikke kontakt med serveren</h3><p>${esc(e.message)}</p><p>Kjør <code>python dashboard.py</code>.</p></div>`;
     return;
   }
   $("#demo-badge").hidden = !S.config.demo;

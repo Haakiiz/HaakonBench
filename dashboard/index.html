@@ -59,6 +59,27 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <!-- Decorative only: the scan beam that repaints the screen on route changes, and the boot screen
+       shown once per tab session while /api/config loads. Both aria-hidden, never focusable. -->
+  <div class="swap-veil" id="swap-veil" aria-hidden="true"></div>
+  <div class="boot" id="boot" aria-hidden="true">
+    <div class="boot-screen">
+      <div class="boot-title">HÅKONBENCH · KOMMANDOKONSOLL</div>
+      <div class="boot-line" style="--d:0">&gt; INITIALISERER SYSTEM <span class="boot-dots"></span> <b>OK</b></div>
+      <div class="boot-line" style="--d:1">&gt; KOBLER TIL SERVER <span class="boot-dots"></span> <b>OK</b></div>
+      <div class="boot-line" style="--d:2">&gt; HENTER KONFIGURASJON <span class="boot-dots"></span> <span class="boot-cursor"></span></div>
+      <div class="boot-bar"><i></i></div>
+    </div>
+  </div>
+  <script>
+    // Boot screen: once per tab session, never under reduced motion. Runs before first paint of the overlay.
+    (function () {
+      var b = document.getElementById("boot"), skip = false;
+      try { skip = sessionStorage.getItem("hb.booted") === "1"; sessionStorage.setItem("hb.booted", "1"); } catch (e) { /* storage blocked */ }
+      if (skip || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) b.remove();
+    })();
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
   <script src="/static/sound.js"></script>
