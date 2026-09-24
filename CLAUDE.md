@@ -126,13 +126,14 @@ So re-running a config **lands in the same bucket and only calls what's missing*
 
 ### Dashboard (`dashboard.py` + `dashboard/`)
 
-Flask server + vanilla-JS single page (`dashboard/index.html`, `app.js`, `app.css`; marked + DOMPurify from jsDelivr, no build step). It **imports `haakonbench` and drives the same functions as the CLI** (`resolve_run_dir`, `plan_contestants`, `run_contestant`, `save_result`, `grade_run`, `save_grades`), so a dashboard run and a CLI run of the same config land in the same bucket and reuse each other's answers. If you change the run loop in `haakonbench.main()`, mirror it in `Job._execute_run()`.
+Flask server + vanilla-JS single page (`dashboard/index.html`, `app.js`, `app.css`, `sound.js`; marked + DOMPurify from jsDelivr, no build step). It **imports `haakonbench` and drives the same functions as the CLI** (`resolve_run_dir`, `plan_contestants`, `run_contestant`, `save_result`, `grade_run`, `save_grades`), so a dashboard run and a CLI run of the same config land in the same bucket and reuse each other's answers. If you change the run loop in `haakonbench.main()`, mirror it in `Job._execute_run()`.
 
 - **One job at a time** (`JobManager`; a second start returns 409). A job runs `asyncio.run()` in a background thread; the browser follows it over Server-Sent Events (`/api/jobs/<id>/events`), each event a full JSON snapshot of the job.
 - **Plan = dry run.** `POST /api/plan` calls `plan_contestants()` against the would-be bucket without creating it; the UI shows to-call / reused / also-graded before anything is spent.
 - **Cancel** cancels the pending asyncio tasks. Cancelled contestants write nothing, so they count as missing next time; grading is skipped.
 - **`--demo`** swaps `hb.LLMClient` for `DemoLLMClient` (random sleeps, ~12% simulated failures, a correctly formatted verdict table) and points `hb.BASE_RESULTS_DIR` at a temp copy of `results/`. Use it to test UI changes without spending anything.
 - Score rows are parsed by `parse_score_rows()` (all five dimensions + verdict; tolerant of `**A**` letter cells), joined to models via the verdict's `## Key` block.
+- **Look & feel:** a late-90s RTS command-menu theme (dark-only; blood-red/gunmetal tokens on `:root` in `app.css`, Google Fonts only). `sound.js` synthesizes all UI sounds with the Web Audio API (no audio files); nothing plays before the first click/keypress, and the top-bar mute button saves to `localStorage` (`hb.muted`). Hooks in `app.js` call `window.SFX && SFX.play(...)`, so the app still works if `sound.js` fails to load. Everything animated is switched off under `prefers-reduced-motion`.
 - stdout/stderr are wrapped by `_JobTee`, so lines haakonbench prints on the job thread (grader retries etc.) show up in the browser log.
 
 ### Effort tiers (`--effort {low,medium,high,max}`)

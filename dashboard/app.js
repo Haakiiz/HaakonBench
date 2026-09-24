@@ -15,12 +15,22 @@ const S = {
 const PROVIDER_ORDER = ["anthropic", "openai", "google", "xai"];
 const PROVIDER_NAME = { anthropic: "Anthropic", openai: "OpenAI", google: "Google", xai: "xAI" };
 const DIMS = [["accuracy", "Accuracy"], ["strategy", "Strategy"], ["creativity", "Creativity"], ["structure", "Structure"], ["fidelity", "Fidelity"]];
+// Short stencil codes shown in narrow leaderboards (full name stays in title + screen-reader text)
+const DIM_SHORT = { accuracy: "ACC", strategy: "STR", creativity: "CRE", structure: "STU", fidelity: "FID" };
 
 const $ = (sel, el = document) => el.querySelector(sel);
 const view = $("#view");
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const md = (t) => DOMPurify.sanitize(marked.parse(t || ""));
 const enc = encodeURIComponent;
+// Sound hook — safe no-op if sound.js failed to load.
+const sfx = (name) => { try { if (window.SFX) window.SFX.play(name); } catch { /* ignore */ } };
+const reduceMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+// Phase-locked animation delay for looping effects on elements that SSE re-renders every event:
+// a fresh node joins the loop where the old one was instead of restarting it (no stutter).
+// `key` adds a stable per-item offset (e.g. the model label) so sibling loops don't run in lockstep.
+const hashMs = (k, ms) => { let h = 0; for (const c of String(k)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % ms; };
+const phase = (ms, key = "") => `-${((Date.now() + (key ? hashMs(key, ms) : 0)) % ms) / 1000}s`;
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
@@ -32,10 +42,18 @@ async function api(path, opts = {}) {
 function toast(msg, bad = false) {
   const t = $("#toast");
   t.textContent = msg;
-  t.className = "toast" + (bad ? " bad" : "");
+  t.className = "toast" + (bad ? " bad" : "");   // drops .show/.out …
+  clearTimeout(toast._h);
   t.hidden = false;
+  void t.offsetWidth;                             // … so re-adding .show replays the slide-in and the LED blinks
+  t.classList.add("show");
+  if (bad) sfx("error");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => (t.hidden = true), bad ? 7000 : 3500);
+  toast._t = setTimeout(() => {
+    if (reduceMotion()) { t.hidden = true; return; }
+    t.classList.add("out");                       // slide back down, then hide
+    toast._h = setTimeout(() => { t.hidden = true; t.classList.remove("out"); }, 200);
+  }, bad ? 7000 : 3500);
 }
 
 // ── Formatting ───────────────────────────────────────────────
@@ -70,6 +88,7 @@ function route() {
   document.querySelectorAll("[data-nav]").forEach((a) =>
     a.classList.toggle("active", a.dataset.nav === (section === "run" ? "runs" : section)));
   closeDrawer();
+  screenSwap();
   if (section === "run" && parts[1]) return renderRun(decodeURIComponent(parts[1]));
   if (section === "new") return renderNew(params);
   if (section === "live") return renderLive();
@@ -78,11 +97,82 @@ function route() {
 window.addEventListener("hashchange", route);
 
 function loading(msg = "Laster…") {
-  view.innerHTML = `<div class="empty"><span class="spin"></span><p>${esc(msg)}</p></div>`;
+  view.innerHTML = `<div class="empty loading"><span class="spin" aria-hidden="true"></span><p>${esc(msg)}</p></div>`;
 }
 function failView(e) {
-  view.innerHTML = `<div class="empty"><h3>Noe gikk galt</h3><p>${esc(e.message || e)}</p><a class="btn" href="#/">Til runs</a></div>`;
+  view.innerHTML = `<div class="empty fail"><h3>Noe gikk galt</h3><p>${esc(e.message || e)}</p><a class="btn" href="#/">Til runs</a></div>`;
 }
+
+// ── Screen swap + boot screen (decorative; skipped under reduced motion) ──
+// On a route change the #swap-veil blanks the old screen at once, then a scan beam sweeps down and
+// reveals the new one as soon as it has rendered (or after 260 ms, revealing the loading screen).
+// Only route() arms it — SSE re-renders and tab redraws never replay it.
+const Swap = { pending: false, hold: 0, done: 0, first: true };
+const isLoadingView = () => !!view.querySelector(":scope > .empty.loading");
+function screenSwap() {
+  if (Swap.first) { Swap.first = false; return; }   // first route: the boot screen does the reveal
+  const v = $("#swap-veil");
+  if (!v || reduceMotion()) return;
+  clearTimeout(Swap.done);
+  v.classList.remove("sweep");
+  view.classList.remove("entering");
+  v.classList.add("hold");
+  Swap.pending = true;
+  clearTimeout(Swap.hold);
+  Swap.hold = setTimeout(sweep, 60);
+}
+function sweep() {
+  const v = $("#swap-veil");
+  clearTimeout(Swap.hold);
+  Swap.pending = false;
+  v.classList.remove("hold");
+  void v.offsetWidth;
+  v.classList.add("sweep");
+  view.classList.add("entering");
+  clearTimeout(Swap.done);
+  Swap.done = setTimeout(() => { v.classList.remove("sweep"); view.classList.remove("entering"); }, 320);
+}
+const Boot = { el: $("#boot") };
+function bootDone(now) {
+  const b = Boot.el;
+  if (!b) return;
+  Boot.el = null;
+  // Keep the decorative lines up for at least ~340 ms after navigation start, never longer:
+  // total cost is ≤ ~560 ms even on an instant server, and 0 extra when /api/config is slow.
+  const wait = now ? 0 : Math.max(0, 340 - performance.now());
+  setTimeout(() => {
+    b.classList.add("off");
+    view.classList.add("entering");
+    setTimeout(() => { b.remove(); view.classList.remove("entering"); }, 300);
+  }, wait);
+}
+if (Boot.el) {
+  if (reduceMotion()) { Boot.el.remove(); Boot.el = null; }
+  else {
+    // Skippable: any click / key dismisses it. The overlay is pointer-events:none and both listeners are
+    // passive capture listeners, so the click or key still reaches its real target. Hard cap 1.5 s.
+    const skip = () => bootDone(true);
+    // A click outside the command bar lands on content the boot screen still hides: dismiss only, don't activate.
+    // (preventDefault on pointerdown doesn't cancel the click, so the matching click is swallowed too.)
+    window.addEventListener("pointerdown", (e) => {
+      const b = document.getElementById("boot");
+      if (b && !b.classList.contains("off") && e.target instanceof Element && !e.target.closest(".topbar")) {   // still covering the page (not yet fading out)
+        e.preventDefault();
+        const eat = (ev) => { ev.preventDefault(); ev.stopPropagation(); };
+        window.addEventListener("click", eat, { capture: true, once: true });
+        setTimeout(() => window.removeEventListener("click", eat, { capture: true }), 600);
+      }
+      skip();
+    }, { capture: true, once: true });
+    window.addEventListener("keydown", skip, { capture: true, once: true });
+    setTimeout(skip, 1500);
+  }
+}
+new MutationObserver(() => {
+  if (isLoadingView() || !view.firstElementChild) return;
+  if (Swap.pending) sweep();
+  if (Boot.el) bootDone(false);
+}).observe(view, { childList: true });
 
 // ── Runs list ────────────────────────────────────────────────
 async function renderRuns() {
@@ -99,7 +189,7 @@ async function renderRuns() {
     </div>
     ${buckets.length ? `<div class="runs-grid">${buckets.map(runCard).join("")}</div>` :
       `<div class="card empty"><h3>Ingen runs ennå</h3><p>Start din første run.</p><a class="btn primary" href="#/new">Ny run</a></div>`}
-    ${legacy.length ? `<h2 class="section">Eldre runs · før config-buckets</h2><div class="runs-grid">${legacy.map(runCard).join("")}</div>` : ""}`;
+    ${legacy.length ? `<h2 class="section">Eldre runs · før config-buckets</h2><div class="runs-grid legacy">${legacy.map(runCard).join("")}</div>` : ""}`;
 }
 
 function configChips(m, r = {}) {
@@ -150,7 +240,7 @@ async function renderRun(name) {
       <a class="back" href="#/">← Alle runs</a>
       <div class="page-head">
         <div>
-          <h1 class="mono" style="font-size:20px">${esc(d.name)}</h1>
+          <h1 class="mono">${esc(d.name)}</h1>
           <div class="chips" style="margin-top:10px">${configChips(d.manifest, d)}
             ${d.grader ? `<span class="chip">dommer: ${esc(d.grader)}</span>` : ""}</div>
         </div>
@@ -163,7 +253,14 @@ async function renderRun(name) {
       ${d.ungraded.length ? `<div class="note warn" style="margin:-8px 0 16px"><b>${d.ungraded.length} svar er ikke med i siste grading:</b> ${d.ungraded.map((l) => `<code>${esc(l)}</code>`).join(", ")}. Grade på nytt for å få dem med i sammenligningen.</div>` : ""}
       <div class="tabs">${tabs.map(([k, t]) => `<button data-tab="${k}" class="${S.runTab === k ? "active" : ""}">${esc(t)}</button>`).join("")}</div>
       <div id="tab-body">${tabBody(d)}</div>`;
-    view.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => { S.runTab = b.dataset.tab; draw(); }));
+    view.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => {
+      const hadFocus = document.activeElement === b;
+      S.runTab = b.dataset.tab;
+      draw();
+      const tb = $("#tab-body");
+      if (tb) tb.classList.add("tab-in");   // fresh node each click → the fade plays once per switch
+      if (hadFocus) refocus({ key: focusKey(b) });
+    }));
     $("#regrade-btn").onclick = () => openRegrade(d.name);
     wireAnswerClicks(view, d.name);
     view.querySelectorAll("[data-history]").forEach((el) => (el.onclick = () => openHistory(d.name, el.dataset.history, el.dataset.label)));
@@ -204,12 +301,12 @@ function boardHTML(board) {
   const showSearch = rows.some((r) => r.meta && r.meta.web_searches != null);
   return `<table class="board">
     <thead><tr>
-      <th>#</th><th>Modell</th>${DIMS.map(([, t]) => `<th class="dim">${t}</th>`).join("")}
-      <th>Total</th><th>Tid</th><th title="Output / reasoning / total">Tokens</th>${showSearch ? "<th>Søk</th>" : ""}
+      <th>#</th><th>Modell</th>${DIMS.map(([k, t]) => `<th class="dim" title="${t}" data-short="${DIM_SHORT[k]}"><span class="lbl">${t}</span></th>`).join("")}
+      <th class="total">Total</th><th class="num">Tid</th><th class="num" title="Output / reasoning / total">Tokens</th>${showSearch ? "<th class=\"num\">Søk</th>" : ""}
     </tr></thead>
     <tbody>${rows.map((r, i) => `
       <tr ${r.label ? `data-answer="${esc(r.label)}"` : ""}>
-        <td class="rank">${i + 1}</td>
+        <td class="rank"><span class="rk">${i + 1}</span></td>
         <td><div class="model-cell">${pdot(r.provider)}<div><b>${esc(r.model)}</b> <span class="faint mono" style="font-size:11px">${esc(r.letter)}</span>
           ${r.verdict ? `<div class="verdict">${esc(r.verdict)}</div>` : ""}</div></div></td>
         ${DIMS.map(([k]) => `<td class="dim"><div class="v">${r[k] ?? "—"}</div><div class="bar ${scoreClass(r[k])}"><i style="width:${(r[k] || 0) * 10}%"></i></div></td>`).join("")}
@@ -234,26 +331,85 @@ function answerItem(a) {
 }
 
 function wireAnswerClicks(root, runName) {
-  root.querySelectorAll("[data-answer]").forEach((el) => (el.onclick = () => openAnswer(runName, el.dataset.answer)));
+  root.querySelectorAll("[data-answer]").forEach((el) => {
+    el.onclick = () => openAnswer(runName, el.dataset.answer);
+    if (el.tagName === "TR") {   // leaderboard rows: keyboard-operable (Enter/Space below)
+      el.tabIndex = 0;
+      const name = el.querySelector(".model-cell b");
+      if (name) el.setAttribute("aria-label", `Åpne svar: ${name.textContent}`);
+    }
+  });
+}
+
+// Enter / Space on the non-button click targets (leaderboard rows, live model cards). Delegated on #view,
+// so it survives every re-render.
+view.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const t = e.target;
+  if (!(t instanceof Element) || !t.matches("tr[data-answer][tabindex], .mcard[data-live-answer][tabindex]")) return;
+  e.preventDefault();
+  t.click();
+});
+
+// A stable selector for a focusable element, so focus can be put back on its re-rendered twin.
+function focusKey(el) {
+  if (!el || el === document.body || !(el instanceof Element)) return null;
+  for (const a of ["data-live-answer", "data-answer", "data-history", "data-tab", "data-nav", "data-regrade",
+    "data-spec", "data-effort", "data-toggle", "data-all", "data-remove"]) {
+    if (el.hasAttribute(a)) return `${el.tagName.toLowerCase()}[${a}="${CSS.escape(el.getAttribute(a))}"]`;
+  }
+  if (el.id) return "#" + CSS.escape(el.id);
+  if (el.matches(".log summary")) return ".log summary";
+  return null;
+}
+function refocus(saved) {
+  if (!saved) return false;
+  let el = saved.el && saved.el.isConnected ? saved.el : null;
+  if (!el && saved.key) el = document.querySelector(saved.key);
+  if (el && typeof el.focus === "function" && !el.closest("[inert]")) { el.focus({ preventScroll: true }); return document.activeElement === el; }
+  return false;
 }
 
 // ── Drawer ───────────────────────────────────────────────────
+let drawerReturnFocus = null;   // { el, key } — key finds the re-rendered node if el was replaced
+// While the drawer is open the page behind it is inert (no focus, no clicks, hidden from AT).
+function setBackgroundInert(on) {
+  for (const el of [$(".topbar"), view]) { if (el) el.inert = on; }
+}
 function openDrawer(titleHTML, bodyHTML) {
+  const wasOpen = $("#drawer").classList.contains("open");
+  if (!wasOpen) { const a = document.activeElement; drawerReturnFocus = { el: a, key: focusKey(a) }; }
   $("#drawer-title").innerHTML = titleHTML;
   $("#drawer-body").innerHTML = bodyHTML;
   $("#drawer-body").scrollTop = 0;
   $("#drawer").classList.add("open");
   $("#drawer").setAttribute("aria-hidden", "false");
+  $("#drawer").inert = false;
+  if (!wasOpen) {
+    setBackgroundInert(true);
+    sfx("open");
+    const x = $(".drawer-head .icon-btn");
+    if (x) x.focus({ preventScroll: true });
+  }
 }
 function closeDrawer() {
+  const wasOpen = $("#drawer").classList.contains("open");
+  if (!wasOpen) return;   // route() calls this on every navigation — do nothing (and steal no focus) when closed
   $("#drawer").classList.remove("open");
   $("#drawer").setAttribute("aria-hidden", "true");
+  $("#drawer").inert = true;   // closed drawer: out of the Tab order and the accessibility tree
+  setBackgroundInert(false);
+  sfx("close");
+  const back = drawerReturnFocus;
+  drawerReturnFocus = null;
+  if (!refocus(back) && document.activeElement && document.activeElement.closest("#drawer")) document.activeElement.blur();
 }
 document.addEventListener("click", (e) => { if (e.target.closest("[data-close-drawer]")) closeDrawer(); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeDrawer(); closeModal(); } });
+// Escape closes the top-most layer: the modal if one is open, otherwise the drawer.
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if ($("#modal")) closeModal(); else closeDrawer(); } });
 
 async function openAnswer(run, label) {
-  openDrawer(`<h2>${esc(label)}</h2>`, `<span class="spin"></span>`);
+  openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<span class="spin"></span>`);
   try {
     const a = await api(`/api/runs/${enc(run)}/answers/${enc(label)}`);
     const m = a.meta || {};
@@ -268,46 +424,89 @@ async function openAnswer(run, label) {
       m.date && [String(m.date).slice(0, 16).replace("T", " ")],
     ].filter(Boolean);
     openDrawer(
-      `<h2>${pdot(a.provider)} ${esc(a.model)}</h2><div class="chips">${chips.map(([t]) => `<span class="chip">${esc(t)}</span>`).join("")}</div>`,
+      `<h2>${pdot(a.provider)} <span class="ident">${esc(a.model)}</span></h2><div class="chips">${chips.map(([t]) => `<span class="chip">${esc(t)}</span>`).join("")}</div>`,
       a.status === "ok" ? `<div class="md">${md(a.body)}</div>`
         : `<div class="note bad"><b>${a.status === "empty" ? "Tom respons" : "Feilet"}</b></div><pre class="mono" style="white-space:pre-wrap">${esc(a.error || "")}</pre>`,
     );
   } catch (e) {
-    openDrawer(`<h2>${esc(label)}</h2>`, `<div class="note bad">${esc(e.message)}</div>`);
+    openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<div class="note bad">${esc(e.message)}</div>`);
   }
 }
 
 async function openHistory(run, file, label) {
-  openDrawer(`<h2>${esc(label)}</h2>`, `<span class="spin"></span>`);
+  openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<span class="spin"></span>`);
   try {
     const g = await api(`/api/runs/${enc(run)}/grades/${enc(file)}`);
-    openDrawer(`<h2>⚖ ${esc(label)}</h2><div class="muted" style="font-size:12px">${esc(file)}</div>`,
+    openDrawer(`<h2>⚖ <span class="ident">${esc(label)}</span></h2><div class="muted" style="font-size:12px">${esc(file)}</div>`,
       (g.board && g.board.rows.length ? `<div class="card board-wrap" style="margin-bottom:20px">${boardHTML(g.board)}</div>` : "") +
       `<div class="md">${md(g.verdict)}</div>`);
   } catch (e) {
-    openDrawer(`<h2>${esc(label)}</h2>`, `<div class="note bad">${esc(e.message)}</div>`);
+    openDrawer(`<h2><span class="ident">${esc(label)}</span></h2>`, `<div class="note bad">${esc(e.message)}</div>`);
   }
 }
 
 // ── Modal ────────────────────────────────────────────────────
+let modalReturnFocus = null;
 function modal(html) {
-  closeModal();
+  const old = $("#modal");
+  if (old) { const cb = old.onModalClose; old.onModalClose = null; old.remove(); if (cb) cb(); }
+  else modalReturnFocus = document.activeElement;
+  document.querySelectorAll(".modal-bg.closing").forEach((n) => n.remove());   // a dialog still powering off
   const bg = document.createElement("div");
   bg.className = "modal-bg";
   bg.id = "modal";
-  bg.innerHTML = `<div class="card modal">${html}</div>`;
+  bg.innerHTML = `<div class="card modal" role="dialog" aria-modal="true">${html}</div>`;
+  const title = bg.querySelector("h3");
+  if (title) { title.id = "modal-title"; bg.firstElementChild.setAttribute("aria-labelledby", "modal-title"); }
+  const desc = bg.querySelector(".modal > .muted");
+  if (desc) { desc.id = "modal-desc"; bg.firstElementChild.setAttribute("aria-describedby", "modal-desc"); }
   bg.addEventListener("click", (e) => { if (e.target === bg) closeModal(); });
   document.body.appendChild(bg);
+  sfx("open");
   return bg;
 }
-function closeModal() { const m = $("#modal"); if (m) m.remove(); }
+function closeModal() {
+  const m = $("#modal");
+  if (!m) return;
+  // CRT power-off: the dying dialog loses its id (so it no longer counts as "the modal"),
+  // goes inert, collapses to a line and is removed.
+  m.removeAttribute("id");
+  m.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));   // #rg-grader etc. belong to the next dialog
+  m.inert = true;
+  m.classList.add("closing");
+  if (reduceMotion()) m.remove(); else setTimeout(() => m.remove(), 170);
+  sfx("close");
+  const cb = m.onModalClose;   // e.g. confirmModal resolving false on Escape / backdrop
+  m.onModalClose = null;
+  if (cb) cb();
+  const back = modalReturnFocus;
+  modalReturnFocus = null;
+  if (back && back.isConnected && typeof back.focus === "function") back.focus({ preventScroll: true });
+}
+function focusables(box) {
+  return [...box.querySelectorAll("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])")]
+    .filter((el) => !el.disabled && !el.hidden && el.getClientRects().length);
+}
+// Keep Tab / Shift+Tab inside the top-most layer: an open modal wins over an open drawer.
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const box = $("#modal .modal") || $(".drawer.open .drawer-panel");
+  if (!box) return;
+  const f = focusables(box);
+  if (!f.length) { e.preventDefault(); return; }
+  const first = f[0], last = f[f.length - 1];
+  if (!box.contains(document.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+  else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 function confirmModal(title, bodyHTML, okText) {
   return new Promise((resolve) => {
     const m = modal(`<h3>${esc(title)}</h3><div class="muted">${bodyHTML}</div>
       <div class="btns"><button class="btn" data-no>Avbryt</button><button class="btn primary" data-yes>${esc(okText)}</button></div>`);
-    m.querySelector("[data-no]").onclick = () => { closeModal(); resolve(false); };
-    m.querySelector("[data-yes]").onclick = () => { closeModal(); resolve(true); };
+    m.onModalClose = () => resolve(false);            // Avbryt, Escape, backdrop click, or replaced by another modal
+    m.querySelector("[data-no]").onclick = () => closeModal();
+    m.querySelector("[data-yes]").onclick = () => { resolve(true); closeModal(); };
     m.querySelector("[data-yes]").focus();
   });
 }
@@ -316,7 +515,7 @@ function graderSelect(id, value) {
   const opts = S.config.graders.map((g) => `<option value="${esc(g)}" ${g === value ? "selected" : ""}>${esc(g)}${g === S.config.default_grader ? "  (standard)" : ""}</option>`).join("");
   const custom = !S.config.graders.includes(value);
   return `<select class="input" id="${id}">${opts}<option value="__custom" ${custom ? "selected" : ""}>Annen modell…</option></select>
-    <input class="input" id="${id}-custom" placeholder="provider/modell, f.eks. anthropic/claude-opus-5" style="margin-top:8px" ${custom ? `value="${esc(value)}"` : "hidden"}>`;
+    <input class="input" id="${id}-custom" aria-label="Egendefinert dommermodell" placeholder="provider/modell, f.eks. anthropic/claude-opus-5" style="margin-top:8px" ${custom ? `value="${esc(value)}"` : "hidden"}>`;
 }
 function readGrader(id) {
   const v = $("#" + id).value;
@@ -334,15 +533,17 @@ function openRegrade(run) {
   if (S.job && S.job.active) return toast("En run pågår allerede — vent til den er ferdig.", true);
   const m = modal(`<h3>⚖ Grade på nytt</h3>
     <p class="muted" style="margin-top:0">Hele bucketen grades blindt i ett kall. Den forrige dommen blir liggende i historikken.</p>
-    <div class="field"><label>Dommer</label>${graderSelect("rg-grader", S.config.default_grader)}</div>
+    <div class="field"><label for="rg-grader">Dommer</label>${graderSelect("rg-grader", S.config.default_grader)}</div>
     <div class="btns"><button class="btn" data-no>Avbryt</button><button class="btn primary" data-yes>Start grading</button></div>`);
   wireGraderSelect("rg-grader");
+  $("#rg-grader").focus();
   m.querySelector("[data-no]").onclick = closeModal;
   m.querySelector("[data-yes]").onclick = async () => {
     try {
       const { id } = await api("/api/jobs", { method: "POST", body: JSON.stringify({ kind: "regrade", run, grader: readGrader("rg-grader") }) });
       closeModal();
       attachJob(id);
+      sfx("chirp");
       location.hash = "#/live";
     } catch (e) { toast(e.message, true); }
   };
@@ -402,6 +603,9 @@ function allModels() {
 
 function drawForm() {
   const f = S.form, c = S.config;
+  // The form is re-rendered on every change: put focus back on the twin of the control that had it.
+  const act = document.activeElement, host = $("#form");
+  const keep = act && host && host.contains(act) ? { el: null, key: focusKey(act) } : null;
   const models = allModels();
   const groups = PROVIDER_ORDER.map((p) => [p, models.filter((m) => m.provider === p)]).filter(([, l]) => l.length);
   $("#form").innerHTML = `
@@ -413,17 +617,19 @@ function drawForm() {
           <div class="prov-head">${pdot(p)} ${esc(PROVIDER_NAME[p])}
             ${c.providers[p] && !c.providers[p].key ? `<span class="nokey">mangler API-nøkkel</span>` : ""}
             <button class="link-btn" data-all="${p}">${list.every((m) => f.selected.has(m.spec)) ? "ingen" : "alle"}</button></div>
-          ${list.map((m) => `
-            <button class="model-toggle ${f.selected.has(m.spec) ? "on" : ""}" data-spec="${esc(m.spec)}">
-              <span class="box">${f.selected.has(m.spec) ? "✓" : ""}</span>
+          ${list.map((m) => {
+            const toggle = `<button type="button" class="model-toggle ${f.selected.has(m.spec) ? "on" : ""}" data-spec="${esc(m.spec)}" aria-pressed="${f.selected.has(m.spec)}">
+              <span class="box" aria-hidden="true">${f.selected.has(m.spec) ? "✓" : ""}</span>
               <span class="name" title="${esc(m.model)}">${esc(m.model)}</span>
               ${m.knobs[f.effort] ? `<span class="knob" title="Effort-nivå sendt til denne modellen">${esc(m.knobs[f.effort])}</span>` : ""}
-              ${m.custom ? `<span class="x" data-remove="${esc(m.spec)}" title="Fjern">✕</span>` : ""}
-            </button>`).join("")}
+            </button>`;
+            // Custom rows: the remove control is a sibling button (a button can't hold another button)
+            return m.custom ? `<div class="model-row">${toggle}<button type="button" class="x" data-remove="${esc(m.spec)}" aria-label="Fjern" title="Fjern">✕</button></div>` : toggle;
+          }).join("")}
         </div>`).join("")}
       </div>
       <div class="add-row">
-        <input class="input mono" id="custom-model" placeholder="provider/modell — f.eks. openai/gpt-6-astra">
+        <input class="input mono" id="custom-model" aria-label="Egendefinert modell" placeholder="provider/modell — f.eks. openai/gpt-6-astra">
         <button class="btn" id="add-model">Legg til</button>
       </div>
     </section>
@@ -431,34 +637,35 @@ function drawForm() {
     <section class="card form-section">
       <h3>Effort</h3>
       <p class="hint">Oversettes til hver leverandørs eget nivå (se tallet ved hver modell). Setter også token-budsjettet.</p>
-      <div class="seg">${c.tiers.map((t) => `<button data-effort="${t.name}" class="${f.effort === t.name ? "on" : ""}"><b>${t.name}</b><span>${fmtTok(t.max_tokens)} tokens</span></button>`).join("")}</div>
+      <div class="seg">${c.tiers.map((t) => `<button type="button" data-effort="${t.name}" class="${f.effort === t.name ? "on" : ""}" aria-pressed="${f.effort === t.name}"><b>${t.name}</b><span>${fmtTok(t.max_tokens)} tokens</span></button>`).join("")}</div>
       <div style="margin-top:14px">
-        <div class="toggle-row" data-toggle="web_search"><div class="txt"><b>Web-søk</b><span>Slå på hver leverandørs server-side søk. Av = kun egen kunnskap.</span></div><span class="switch ${f.web_search ? "on" : ""}"></span></div>
-        <div class="toggle-row" data-toggle="refresh"><div class="txt"><b>Ignorer cache</b><span>Kall alle valgte modeller på nytt, selv om de allerede har svart på denne configen.</span></div><span class="switch ${f.refresh ? "on" : ""}"></span></div>
+        <button type="button" class="toggle-row" data-toggle="web_search" role="switch" aria-checked="${!!f.web_search}"><span class="txt"><b>Web-søk</b><span>Slå på hver leverandørs server-side søk. Av = kun egen kunnskap.</span></span><span class="switch ${f.web_search ? "on" : ""}" aria-hidden="true"></span></button>
+        <button type="button" class="toggle-row" data-toggle="refresh" role="switch" aria-checked="${!!f.refresh}"><span class="txt"><b>Ignorer cache</b><span>Kall alle valgte modeller på nytt, selv om de allerede har svart på denne configen.</span></span><span class="switch ${f.refresh ? "on" : ""}" aria-hidden="true"></span></button>
       </div>
       <div class="fields">
-        <div class="field"><label>Tag (valgfri)</label><input class="input" id="tag" value="${esc(f.tag)}" placeholder="f.eks. variance-2 → egen bucket"></div>
-        <div class="field"><label>Timeout per modell (sekunder)</label><input class="input" id="timeout" type="number" min="0" value="${esc(f.timeout)}" placeholder="ingen grense"></div>
+        <div class="field"><label for="tag">Tag (valgfri)</label><input class="input" id="tag" value="${esc(f.tag)}" placeholder="f.eks. variance-2 → egen bucket"></div>
+        <div class="field"><label for="timeout">Timeout per modell (sekunder)</label><input class="input" id="timeout" type="number" min="0" value="${esc(f.timeout)}" placeholder="ingen grense"></div>
       </div>
     </section>
 
     <section class="card form-section">
       <h3>Jury</h3>
       <p class="hint">Dommeren leser alle svarene i bucketen anonymt (A, B, C…) og faktasjekker mot <code>wow_reference.yaml</code>.</p>
-      <div class="toggle-row" data-toggle="grade" style="border-top:0"><div class="txt"><b>Grade etter run</b><span>Av = bare samle inn svar (billig tilkoblingstest).</span></div><span class="switch ${f.grade ? "on" : ""}"></span></div>
-      <div class="field" ${f.grade ? "" : "hidden"}><label>Dommer</label>${graderSelect("grader", f.grader)}</div>
+      <button type="button" class="toggle-row" data-toggle="grade" role="switch" aria-checked="${!!f.grade}" style="border-top:0"><span class="txt"><b>Grade etter run</b><span>Av = bare samle inn svar (billig tilkoblingstest).</span></span><span class="switch ${f.grade ? "on" : ""}" aria-hidden="true"></span></button>
+      <div class="field" ${f.grade ? "" : "hidden"}><label for="grader">Dommer</label>${graderSelect("grader", f.grader)}</div>
     </section>`;
 
   const F = $("#form");
-  F.querySelectorAll("[data-spec]").forEach((b) => (b.onclick = (e) => {
-    if (e.target.closest("[data-remove]")) {
-      const spec = e.target.closest("[data-remove]").dataset.remove;
-      f.custom = f.custom.filter((s) => s !== spec);
-      f.selected.delete(spec);
-    } else {
-      f.selected.has(b.dataset.spec) ? f.selected.delete(b.dataset.spec) : f.selected.add(b.dataset.spec);
-    }
+  F.querySelectorAll("[data-spec]").forEach((b) => (b.onclick = () => {
+    f.selected.has(b.dataset.spec) ? f.selected.delete(b.dataset.spec) : f.selected.add(b.dataset.spec);
     drawForm(); refreshPlan();
+  }));
+  F.querySelectorAll("[data-remove]").forEach((b) => (b.onclick = () => {
+    const spec = b.dataset.remove, had = document.activeElement === b;
+    f.custom = f.custom.filter((s) => s !== spec);
+    f.selected.delete(spec);
+    drawForm(); refreshPlan();
+    if (had) $("#custom-model").focus({ preventScroll: true });   // its row is gone: land on the add field
   }));
   F.querySelectorAll("[data-all]").forEach((b) => (b.onclick = () => {
     const list = allModels().filter((m) => m.provider === b.dataset.all);
@@ -481,6 +688,7 @@ function drawForm() {
   $("#add-model").onclick = add;
   $("#custom-model").onkeydown = (e) => { if (e.key === "Enter") add(); };
   if (f.grade) wireGraderSelect("grader", () => { f.grader = readGrader("grader"); drawPlan(); });
+  if (keep) refocus(keep);
 }
 
 function formPayload() {
@@ -550,6 +758,7 @@ async function startRun() {
   try {
     const { id } = await api("/api/jobs", { method: "POST", body: JSON.stringify(formPayload()) });
     attachJob(id);
+    sfx("chirp");
     location.hash = "#/live";
   } catch (e) { toast(e.message, true); }
 }
@@ -560,8 +769,10 @@ function attachJob(id) {
   const es = new EventSource(`/api/jobs/${id}/events`);
   S.es = es;
   es.onmessage = (ev) => {
-    const wasActive = S.job && S.job.id === id && S.job.active;
+    const prev = S.job && S.job.id === id ? S.job : null;
+    const wasActive = !!(prev && prev.active);
     S.job = JSON.parse(ev.data);
+    if (prev) jobSfx(prev, S.job);
     S.skew = Date.now() / 1000 - S.job.now;
     updateNav();
     if (currentSection() === "live") drawLive();
@@ -575,6 +786,20 @@ function attachJob(id) {
     }
   };
   es.onerror = () => { if (S.job && !S.job.active) es.close(); };
+}
+
+// Sounds on job state transitions only (never on every SSE tick).
+function jobSfx(a, b) {
+  if (a.active && !b.active) {
+    if (b.status === "done") sfx("done");
+    else if (b.status === "error") sfx("error");
+    return;
+  }
+  const key = (m) => m.label || `${m.provider}/${m.model}`;
+  const was = new Map((a.models || []).map((m) => [key(m), m.state]));
+  const moved = (b.models || []).filter((m) => was.has(key(m)) && was.get(key(m)) !== m.state);
+  if (moved.some((m) => m.state === "failed" || m.state === "empty")) sfx("blip");
+  else if (moved.some((m) => m.state === "done")) sfx("tick");
 }
 
 const currentSection = () => ((location.hash.slice(2) || "").split(/[/?]/)[0] || "runs");
@@ -617,12 +842,14 @@ function drawLive() {
     : called.length ? (finished.length / called.length) * 100 * (j.params.grade ? 0.9 : 1) + (j.grading && j.grading.state === "done" ? 10 : 0) : (j.active ? 50 : 100);
   const order = { running: 0, queued: 1, done: 2, empty: 3, failed: 3, cancelled: 4, cached: 5 };
   const models = [...j.models].sort((a, b) => (order[a.state] ?? 9) - (order[b.state] ?? 9));
+  const act = document.activeElement;
+  const keepFocus = act && view.contains(act) ? { el: null, key: focusKey(act) } : null;
   const logNearBottom = (() => { const pre = $(".log pre"); return !pre || pre.scrollTop + pre.clientHeight >= pre.scrollHeight - 20; })();
 
   view.innerHTML = `
     <div class="card live-head">
       <div>
-        <div class="live-status ${j.status}"><span class="ind"></span>${STATUS_TXT[j.status] || j.status}${j.kind === "regrade" ? " · regrade" : ""}</div>
+        <div class="live-status ${j.status}"><span class="ind" style="--ph:${phase(1400)}"></span>${STATUS_TXT[j.status] || j.status}${j.kind === "regrade" ? " · regrade" : ""}</div>
         <div class="live-meta">${j.bucket ? `<a href="#/run/${enc(j.bucket)}" class="mono">${esc(j.bucket)}</a>` : "…"}
           ${j.kind === "run" ? ` · effort ${esc(j.params.effort)} · web-søk ${j.params.web_search ? "på" : "av"}${j.params.timeout ? ` · timeout ${j.params.timeout}s` : ""}` : ""}</div>
       </div>
@@ -631,7 +858,7 @@ function drawLive() {
         <span class="elapsed tick" data-since="${j.started}" ${j.finished ? `data-until="${j.finished}"` : ""}>${fmtDur((j.finished || serverNow()) - j.started)}</span>
         ${j.active ? `<button class="btn danger" id="cancel" ${j.cancel_requested ? "disabled" : ""}>${j.cancel_requested ? "Avbryter…" : "■ Avbryt"}</button>` : ""}
       </div>
-      <div class="progress"><i style="width:${Math.min(100, pct)}%"></i></div>
+      <div class="progress ${j.active ? "active" : ""}" style="--ph:${phase(2000)}"><i style="width:${Math.min(100, pct)}%"></i></div>
     </div>
 
     ${j.error ? `<div class="note bad" style="margin:0 0 16px"><b>Feil:</b> ${esc(j.error)}</div>` : ""}
@@ -643,6 +870,14 @@ function drawLive() {
     <details class="log" ${S.logOpen ? "open" : ""}><summary>Logg (${j.logs.length})</summary>
       <pre>${esc(j.logs.map((l) => `${new Date(l.t * 1000).toLocaleTimeString("nb-NO")}  ${l.msg}`).join("\n")) || "—"}</pre></details>`;
 
+  // Gauge: the bar is a fresh node every event, so glide it from where the last one stood.
+  const bar = $(".progress > i"), target = Math.min(100, pct);
+  if (bar && S.gauge && S.gauge.id === j.id && S.gauge.pct !== target && !reduceMotion()) {
+    bar.style.width = S.gauge.pct + "%";
+    void bar.offsetWidth;
+    bar.style.width = target + "%";
+  }
+  S.gauge = { id: j.id, pct: target };
   const pre = $(".log pre");
   if (pre && logNearBottom) pre.scrollTop = pre.scrollHeight;
   $(".log").addEventListener("toggle", (e) => (S.logOpen = e.target.open));
@@ -654,6 +889,7 @@ function drawLive() {
   view.querySelectorAll("[data-live-answer]").forEach((el) => (el.onclick = () => openAnswer(j.bucket, el.dataset.liveAnswer)));
   view.querySelectorAll("[data-regrade]").forEach((el) => (el.onclick = () => openRegrade(j.bucket)));
   wireAnswerClicks(view, j.bucket);
+  if (keepFocus) refocus(keepFocus);
 }
 
 function modelCard(m, j) {
@@ -675,9 +911,9 @@ function modelCard(m, j) {
   } else if (m.state === "cancelled") {
     body = `<div class="small">Avbrutt — ingenting lagret.</div>`;
   }
-  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}"` : ""}>
+  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}${m.state === "running" ? ` style="--ph:${phase(2400, m.label || m.model)}"` : ""}>
     <div class="top">${pdot(m.provider)}<b title="${esc(m.model)}">${esc(m.model)}</b>
-      <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
+      <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px;--ph:${phase(1400)}"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
     ${body}
   </div>`;
 }
@@ -693,7 +929,7 @@ function gradingCard(j) {
     right = `<span class="status queued">Venter</span>`;
     body = j.active ? `<p class="muted" style="margin:10px 0 0">Starter når alle modellene har svart. Hele bucketen grades blindt i ett kall.</p>` : "";
   } else if (g.state === "running") {
-    right = `<span class="status running"><span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px"></span> Grader ${g.count} svar</span>
+    right = `<span class="status running"><span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px;--ph:${phase(1400)}"></span> Grader ${g.count} svar</span>
       <span class="elapsed tick" style="font-size:15px" data-since="${g.started}">${fmtDur(serverNow() - g.started)}</span>`;
     body = `<p class="muted" style="margin:10px 0 0">Dommeren leser alle svarene og faktasjekker mot referansedataene. Dette tar gjerne 1–4 minutter.</p>`;
   } else if (g.state === "done") {
@@ -721,10 +957,11 @@ setInterval(() => {
 
 // ── Boot ─────────────────────────────────────────────────────
 (async function boot() {
+  loading();
   try {
     S.config = await api("/api/config");
   } catch (e) {
-    view.innerHTML = `<div class="empty"><h3>Får ikke kontakt med serveren</h3><p>${esc(e.message)}</p><p>Kjør <code>python dashboard.py</code>.</p></div>`;
+    view.innerHTML = `<div class="empty fail"><h3>Får ikke kontakt med serveren</h3><p>${esc(e.message)}</p><p>Kjør <code>python dashboard.py</code>.</p></div>`;
     return;
   }
   $("#demo-badge").hidden = !S.config.demo;
