@@ -28,7 +28,9 @@ const sfx = (name) => { try { if (window.SFX) window.SFX.play(name); } catch { /
 const reduceMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 // Phase-locked animation delay for looping effects on elements that SSE re-renders every event:
 // a fresh node joins the loop where the old one was instead of restarting it (no stutter).
-const phase = (ms) => `-${(Date.now() % ms) / 1000}s`;
+// `key` adds a stable per-item offset (e.g. the model label) so sibling loops don't run in lockstep.
+const hashMs = (k, ms) => { let h = 0; for (const c of String(k)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % ms; };
+const phase = (ms, key = "") => `-${((Date.now() + (key ? hashMs(key, ms) : 0)) % ms) / 1000}s`;
 
 async function api(path, opts = {}) {
   const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
@@ -40,10 +42,11 @@ async function api(path, opts = {}) {
 function toast(msg, bad = false) {
   const t = $("#toast");
   t.textContent = msg;
-  t.className = "toast" + (bad ? " bad" : "");
+  t.className = "toast" + (bad ? " bad" : "");   // drops .show/.out …
   clearTimeout(toast._h);
-  if (!t.hidden) { t.style.animation = "none"; void t.offsetWidth; t.style.animation = ""; }   // replay the slide-in
   t.hidden = false;
+  void t.offsetWidth;                             // … so re-adding .show replays the slide-in and the LED blinks
+  t.classList.add("show");
   if (bad) sfx("error");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => {
@@ -116,7 +119,7 @@ function screenSwap() {
   v.classList.add("hold");
   Swap.pending = true;
   clearTimeout(Swap.hold);
-  Swap.hold = setTimeout(sweep, 260);
+  Swap.hold = setTimeout(sweep, 60);
 }
 function sweep() {
   const v = $("#swap-veil");
@@ -127,7 +130,7 @@ function sweep() {
   v.classList.add("sweep");
   view.classList.add("entering");
   clearTimeout(Swap.done);
-  Swap.done = setTimeout(() => { v.classList.remove("sweep"); view.classList.remove("entering"); }, 480);
+  Swap.done = setTimeout(() => { v.classList.remove("sweep"); view.classList.remove("entering"); }, 320);
 }
 const Boot = { el: $("#boot") };
 function bootDone(now) {
@@ -146,9 +149,10 @@ function bootDone(now) {
 if (Boot.el) {
   if (reduceMotion()) { Boot.el.remove(); Boot.el = null; }
   else {
-    // Skippable: any click / key dismisses it (the key still reaches the page). Hard cap 1.5 s.
+    // Skippable: any click / key dismisses it. The overlay is pointer-events:none and both listeners are
+    // passive capture listeners, so the click or key still reaches its real target. Hard cap 1.5 s.
     const skip = () => bootDone(true);
-    Boot.el.addEventListener("pointerdown", skip);
+    window.addEventListener("pointerdown", skip, { capture: true, once: true });
     window.addEventListener("keydown", skip, { capture: true, once: true });
     setTimeout(skip, 1500);
   }
@@ -435,6 +439,7 @@ function modal(html) {
   const old = $("#modal");
   if (old) old.remove();
   else modalReturnFocus = document.activeElement;
+  document.querySelectorAll(".modal-bg.closing").forEach((n) => n.remove());   // a dialog still powering off
   const bg = document.createElement("div");
   bg.className = "modal-bg";
   bg.id = "modal";
@@ -454,6 +459,7 @@ function closeModal() {
   // CRT power-off: the dying dialog loses its id (so it no longer counts as "the modal"),
   // goes inert, collapses to a line and is removed.
   m.removeAttribute("id");
+  m.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));   // #rg-grader etc. belong to the next dialog
   m.inert = true;
   m.classList.add("closing");
   if (reduceMotion()) m.remove(); else setTimeout(() => m.remove(), 170);
@@ -882,7 +888,7 @@ function modelCard(m, j) {
   } else if (m.state === "cancelled") {
     body = `<div class="small">Avbrutt — ingenting lagret.</div>`;
   }
-  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}${m.state === "running" ? ` style="--ph:${phase(2400)}"` : ""}>
+  return `<div class="card mcard ${m.state} ${clickable ? "clickable" : ""}" ${clickable ? `data-live-answer="${esc(m.label)}" tabindex="0" role="button"` : ""}${m.state === "running" ? ` style="--ph:${phase(2400, m.label || m.model)}"` : ""}>
     <div class="top">${pdot(m.provider)}<b title="${esc(m.model)}">${esc(m.model)}</b>
       <span class="status ${m.state}">${m.state === "running" ? `<span class="spin" style="width:9px;height:9px;border-width:1.5px;vertical-align:-1px;--ph:${phase(1400)}"></span> ` : ""}${STATE_TXT[m.state] || m.state}</span></div>
     ${body}

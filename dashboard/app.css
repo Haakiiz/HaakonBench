@@ -1419,8 +1419,8 @@ select.input option { background: #16171a; color: #f4ecd8; }
   content: ""; flex: none; width: 10px; height: 10px; margin-left: 4px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fff 0 14%, var(--lamp) 50%, color-mix(in srgb, var(--lamp) 40%, #000) 100%);
   box-shadow: 0 0 0 1.5px #000, 0 0 8px 1px var(--lamp);
-  animation: led-blink .5s .22s 3;   /* three hard LED blinks (2 Hz) once the strip has landed */
 }
+.toast.show::before { animation: led-blink .5s .22s 3; }   /* three hard LED blinks (2 Hz) once the strip has landed */
 @keyframes led-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: .25; box-shadow: 0 0 0 1.5px #000; } }
 .toast.bad { --lamp: var(--red-hi); color: #ffd9d4; }
 
@@ -1448,9 +1448,9 @@ select.input option { background: #16171a; color: #f4ecd8; }
     repeating-linear-gradient(180deg, rgba(0, 0, 0, .35) 0 1px, transparent 1px 3px),
     radial-gradient(ellipse 90% 70% at 50% 40%, #16070a, #060607 75%);
 }
-.swap-veil { z-index: 19; visibility: hidden; }
+.swap-veil { z-index: 19; visibility: hidden; will-change: transform; }   /* layer kept warm: no raster on route */
 .swap-veil.hold, .swap-veil.sweep { visibility: visible; }
-.swap-veil.sweep, .boot.off { animation: veil-sweep .26s cubic-bezier(.5, .05, .6, 1) forwards; }
+.swap-veil.sweep, .boot.off { animation: veil-sweep .16s cubic-bezier(.15, .7, .3, 1) forwards; }   /* fast start: the header area clears first */
 @keyframes veil-sweep { from { transform: translateY(0); } 99.9% { visibility: visible; } to { transform: translateY(100%); visibility: hidden; } }
 /* The beam: hot line on the leading edge + a red phosphor afterglow trailing above it */
 .swap-veil::before, .boot::before {
@@ -1464,15 +1464,14 @@ select.input option { background: #16171a; color: #f4ecd8; }
     repeating-linear-gradient(180deg, rgba(0, 0, 0, .3) 0 1px, transparent 1px 3px),
     linear-gradient(180deg, transparent, rgba(255, 60, 48, .16));
 }
-/* New screen "warms up": brief phosphor over-brightness, and the heading underline draws itself */
-.view.entering { animation: phosphor .34s ease-out; }
-@keyframes phosphor { from { filter: brightness(1.55) saturate(.75); } to { filter: none; } }
-.view.entering .page-head::after { animation: underline .42s cubic-bezier(.3, .7, .3, 1); transform-origin: left; }
+/* The heading underline draws itself behind the beam. (No whole-view fade: promoting a tall #view to
+   its own layer cost a 50–60 ms frame, which is most of the wipe budget.) */
+.view.entering .page-head::after { animation: underline .3s cubic-bezier(.3, .7, .3, 1); transform-origin: left; }
 @keyframes underline { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Boot screen: first load only, over everything but the bezel; any click/key skips it */
 .boot {
-  z-index: 90; pointer-events: auto; display: grid; place-items: center; padding: 28px 22px;
+  z-index: 90; pointer-events: none; display: grid; place-items: center; padding: 28px 22px;
 }
 .boot.off { pointer-events: none; }
 .boot-screen {
@@ -1547,14 +1546,14 @@ select.input option { background: #16171a; color: #f4ecd8; }
 }
 
 /* Toast: rises from the bottom rail; slides back down on hide */
-.toast { animation: toast-in .22s cubic-bezier(.2, .8, .3, 1.15); }
+.toast.show { animation: toast-in .22s cubic-bezier(.2, .8, .3, 1.15); }
 .toast.out { animation: toast-out .2s ease-in forwards; }
 @keyframes toast-in { from { transform: translate(-50%, calc(100% + 30px)); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
 @keyframes toast-out { to { transform: translate(-50%, calc(100% + 30px)); opacity: 0; } }
 
 /* Loading screen: a radar scope (static rings + crosshair, rotating beam, fading blip) and a
    blinking terminal cursor after the text */
-.empty.loading { padding: 70px 20px; }
+.empty.loading { padding: 70px 20px; animation: fade-in .15s .15s both; }   /* no flash on fast loads */
 .empty.loading .spin {
   position: relative; width: 72px; height: 72px; margin-bottom: 12px; overflow: hidden;
   animation: none;
@@ -1625,7 +1624,7 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .plan { position: static; }
 }
 @media (max-width: 900px) {
-  .tabs button { flex: 1 1 auto; }   /* wrapped tabs fill each row like a button bank */
+  .tabs button { flex: 1 1 30%; }   /* wrapped tabs: balanced 3 + 2 rows, no stretched orphan */
   #prompt-chip { display: none; }
   .topbar { padding: 0 22px; gap: 14px; }
 }
@@ -1666,7 +1665,7 @@ select.input option { background: #16171a; color: #f4ecd8; }
   .seg { grid-template-columns: repeat(2, 1fr); }
   .drawer-head { padding: 14px 14px 14px 18px; }
   .drawer-body { padding: 20px 16px 50px; }
-  .tabs button { padding: 8px 11px; font-size: 12px; letter-spacing: .1em; }
+  .tabs button { padding: 8px 11px; font-size: 12px; letter-spacing: .1em; flex-basis: auto; }   /* 2 + 3 rows */
 
   /* Board: drop the per-dimension and telemetry columns, keep rank · model · Total */
   .board .num { display: none; }
